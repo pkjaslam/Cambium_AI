@@ -166,3 +166,14 @@ counts fixed (COMPARISON/FAQ/GETTING_STARTED/ROLES). Built BY Cambium; see cambi
   cambium_agents, cambium_doctor, cambium_grade, cambium_validate to any MCP client.
 - pyproject (uvx entry `cambium-mcp`), README with Claude config snippets. tests/test_mcp.py (skips if SDK absent).
 - TESTED: 6 tools register; plan/provision/agents/doctor/validate all return correctly. README/ADR updated.
+
+## 3.10.0 - UX + transparency + one vocabulary
+- Fresh "Living Layer" visual identity (evergreen + emerald + lime): logos, lifecycle, org-chart, social, demo.gif.
+- templates/GATE_SUMMARY.md — one standard gate one-pager (Decision · Options · Risks · Evidence · Recommendation · APPROVE/REVISE/REJECT); mandated by the Orchestrator + OUTPUT_CONTRACT.
+- USE_CAMBIUM.md — plain-language beginner guide (no jargon).
+- tools/run_trace.py — shows the workflow as text / Mermaid / SVG + a LIVE status board (✓ done · ▶ now · ○ waiting), standardized to the 11 councils; wired into the Orchestrator and dashboard.html.
+- Toolsmith design stack (brand-guidelines, canvas-design, theme-factory, ui-ux-pro-max…) so design tasks reuse real skills, not stats packages.
+- Consistency sweep (Verification council): human role unified to Director (was President); "Provost"→Orchestrator; council names unified; "GATE" reserved for the canonical 8 (others are Checkpoints); plugin 3.8.0→3.9.0.
+- Tests now 26; doctor --grade A.
+d 3.8.0→3.9.0.
+- Tests now 26 (tests/test_run_trace.py + tests/test_toolsmith_design.py added); doctor Grade A confirmed.

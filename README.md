@@ -65,6 +65,11 @@ Then just **say what you need** — one sentence at a time:
 | `project approved` → `run lab` | development → verification → synthesis | **G4** accept results? |
 | `progress report` / `make deck` | Reporting → report + slides | **G5/G6** release? |
 | `conduct check <gate>` | Research-Conduct-Officer → GO / CONDITIONS / STOP | — |
+| `run_trace <request>` | turns any request into a workflow + live status board labelled by council | — |
+
+> **New to Cambium?** Start with [`USE_CAMBIUM.md`](USE_CAMBIUM.md) — a plain-language beginner guide that walks you through your first run step by step.
+
+> When Cambium runs, it shows a **workflow view and live status board** labelled by council so you can see exactly which councils are active and what each is doing in real time.
 
 ---
 
@@ -121,7 +126,7 @@ CI **fails the build** on an open **P0**, an un-evidenced "Code-verified" claim,
 
 - **Evidence validator** — [`governance/validate.py`](governance/validate.py) blocks fake claims at the ledger.
 - **Self-grade** — `python3 tools/doctor.py --grade` scores the institute A–F across roster, governance, tooling, tests, and decisions, plus a security scan. **Currently A.**
-- **Tests + CI** — an **18-test** pytest suite (`tests/`) plus `tools/consistency_check.py`, run on every push by a **GitHub Action**.
+- **Tests + CI** — a **26-test** pytest suite (`tests/`) plus `tools/consistency_check.py`, run on every push by a **GitHub Action**.
 - **Policy + ledger** — [`AI_GOVERNANCE.md`](AI_GOVERNANCE.md) + [`RESEARCH_CONDUCT.md`](RESEARCH_CONDUCT.md) + a recorded human-approval ledger ([`governance/GATES.md`](governance/GATES.md)) + decision records ([`DECISIONS.md`](DECISIONS.md)).
 
 *Human-in-the-loop is enforced by the architecture — not just by convention.*
@@ -176,7 +181,7 @@ Planned: more shared tools as least-privilege MCP servers (web search, code run,
 
 ## 🤝 Contributing
 
-Issues and PRs welcome. CI runs the evidence validator, consistency check, and the 18-test suite on every push — keep the grade at **A**. Start with [`GETTING_STARTED.md`](GETTING_STARTED.md), then [`INSTITUTE.md`](INSTITUTE.md) and [`DECISIONS.md`](DECISIONS.md) for the *why*.
+Issues and PRs welcome. CI runs the evidence validator, consistency check, and the 26-test suite on every push — keep the grade at **A**. Start with [`GETTING_STARTED.md`](GETTING_STARTED.md), then [`INSTITUTE.md`](INSTITUTE.md) and [`DECISIONS.md`](DECISIONS.md) for the *why*.
 
 ## 📑 Citation
 

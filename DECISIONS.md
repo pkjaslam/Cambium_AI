@@ -73,3 +73,9 @@ Append a new entry for every meaningful architectural/governance decision. Templ
 - Context: Verification sweep found 11 namings/version inconsistencies that consistency_check (counts-only) misses.
 - Decision (applied): human role unified to **Director** (was President); Orchestrator council label unified (was "Provost"); council display names unified to the bare README set (Pre-Award, Partnerships, Reporting, Support); run_trace reserves "GATE" for the canonical 8 (G0–G6+G3a) and labels task-specific approvals "Checkpoint"; INSTITUTE.md stage table gains the G0 row; plugin manifests bumped 3.8.0→3.9.0; dashboard hero/literals moved off old navy hex to green tokens.
 - Consequences: chat, GitHub, dashboard, charter, agents now use identical terms. check_agents OK · consistency OK · doctor healthy · 26 tests pass · counts 46·11·8.
+
+## ADR-012: Support council runs automatically at close-out
+- Date: 2026-06 · Status: Accepted (Director approved) · Decider: Director
+- Context: across this session the housekeeping (CHANGELOG, README freshness, hygiene) was done by the orchestrator by hand; the Support council never ran its part, so docs drifted (stale "18-test", missing new tools).
+- Decision: the Orchestrator now treats Support close-out as part of "done" — after any accepted change, Record-Keeper logs the CHANGELOG, Outreach refreshes user-facing docs, Integrity-Officer verifies numbers, Janitor checks hygiene. The human should not have to remember it.
+- Consequences: docs stay in sync automatically; this session's drift fixed (README 18→26-test + new tools/guide; CHANGELOG 3.10.0). 26 tests, doctor healthy.
