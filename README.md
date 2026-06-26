@@ -1,6 +1,9 @@
 <div align="center">
 
-<img src="assets/logo.svg" alt="Cambium" width="460">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg">
+  <img src="assets/logo.svg" alt="Cambium" width="460">
+</picture>
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Made with Claude](https://img.shields.io/badge/made%20with-Claude-blueviolet?logo=anthropic)](https://claude.ai)
@@ -9,8 +12,11 @@
 [![CI: evidence-checked](https://img.shields.io/badge/CI-evidence--checked-46c46a)](.github/workflows/validate.yml)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen)](https://github.com/IFC-UIDAHO/Cambium_AI/pulls)
 
-# 🌲 Cambium
+<h1 align="center">Cambium</h1>
+
 ### A research institution you run with one sentence — from RFP to verified results, with a human in the loop at every gate.
+
+<img src="assets/demo.gif" alt="Cambium in motion" width="760">
 
 **34 specialized agents · 9 councils · tiered models · governed by an enforced AI-use policy.**
 
