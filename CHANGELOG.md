@@ -38,3 +38,12 @@
   FAQ.md, ROADMAP.md, CITATION.cff (citable software).
 - Field-agnostic proof: examples/demo-humanities + examples/demo-public-health (non-STEM).
 - tools/new_project.py scaffolder. Test artifacts moved to tools/test_fixtures/; projects/REGISTRY.md reset.
+
+## 2.0.0 - Deeper research capability (v2)
+- Roster 34 -> 39 (all doers/referees): lab-statistics, exec-iteration, research-engineer, referee, idea-tournament.
+- Adopted (verified) mechanisms: novelty gate (AI Scientist), Elo idea tournament + reflect/evolve
+  (AI Co-Scientist), scored self-refinement + tree-search experiment loop (Agent Lab / AI Scientist),
+  venue-rubric referee (AI Scientist), cross-project institutional memory (AutoGen).
+- New triggers: run tournament, iterate experiment, referee, run verification debate.
+- Upgraded record-keeper (institutional memory), scout-prior-art (novelty gate), ideation (feeds tournament).
+- See CAMBIUM_V2.md.

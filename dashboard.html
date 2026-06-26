@@ -8,7 +8,7 @@
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(1200px 600px at 70% -10%,#16203c 0,var(--bg) 60%);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.5}
 .wrap{max-width:1180px;margin:0 auto;padding:28px 22px 70px}
 .hero{display:flex;align-items:center;gap:20px;flex-wrap:wrap;border:1px solid var(--line);background:linear-gradient(120deg,#13203f,#0e1530);border-radius:18px;padding:22px 26px;margin-bottom:22px}
-.seal{width:74px;height:74px;border-radius:50%;flex:0 0 auto;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#2a3766,#0d1430);border:2px solid var(--gold);font-size:30px;box-shadow:0 0 0 4px #0b1020,0 0 24px #e7b84b40}
+.seal{width:74px;height:74px;border-radius:50%;flex:0 0 auto;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#13402f,#0a241b);border:2px solid var(--gold);font-size:30px;box-shadow:0 0 0 4px #0b1020,0 0 24px #e7b84b40}
 h1{margin:0;font-size:28px}h1 span{color:var(--gold)}.tag{color:var(--mut);font-size:14px;margin-top:4px}
 .pres{margin-left:auto;text-align:right}.pres b{display:block;color:var(--gold)}.pres small{color:var(--mut)}
 .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:24px}
@@ -40,13 +40,13 @@ code{background:#0a0f1f;border:1px solid var(--line);padding:2px 8px;border-radi
 
 <div class="hero">
   <div class="seal">🌲</div>
-  <div><h1><span>Cam</span>bium <span style="font-size:13px;color:var(--mut);font-weight:400">v1.4</span></h1>
-  <div class="tag">Run your lab's whole research lifecycle on 34 AI agents · any field · any stage &nbsp; <a href="demo/tour.html" style="color:var(--gold);text-decoration:none">▶ 60-sec tour</a></div></div>
+  <div><h1><span>Cam</span>bium <span style="font-size:13px;color:var(--mut);font-weight:400">v2.0</span></h1>
+  <div class="tag">Run your lab's whole research lifecycle on 39 AI agents · any field · any stage &nbsp; <a href="demo/tour.html" style="color:var(--gold);text-decoration:none">▶ 60-sec tour</a></div></div>
   <div class="pres"><b>You = Director (PI)</b><small>Your team are the approvers · human-in-the-loop per sector · see ROLES.md</small></div>
 </div>
 
 <div class="stats">
-  <div class="stat"><div class="n">34</div><div class="l">Agents</div></div>
+  <div class="stat"><div class="n">39</div><div class="l">Agents</div></div>
   <div class="stat"><div class="n">9</div><div class="l">Councils</div></div>
   <div class="stat"><div class="n" style="color:var(--gold)">6</div><div class="l">Human gates</div></div>
   <div class="stat"><div class="n" style="color:var(--gold)">Smart-Tier</div><div class="l">Model profile</div></div>
@@ -55,9 +55,9 @@ code{background:#0a0f1f;border:1px solid var(--line);padding:2px 8px;border-radi
 
 <h2>Start where you are — three doors</h2>
 <div class="flow">
-  <div class="step" style="border-color:var(--preaward)"><div class="k" style="color:var(--preaward)">DOOR A</div><div class="t">From scratch (RFP)</div><div class="d"><code>read rfp</code> → <code>brainstorm</code> → <code>find collaborators</code> → <code>draft proposal</code>. Gates G1–G3.</div></div>
+  <div class="step" style="border-color:var(--preaward)"><div class="k" style="color:var(--preaward)">DOOR A</div><div class="t">From scratch (RFP)</div><div class="d"><code>read rfp</code> → <code>brainstorm</code> → <code>run tournament</code> → <code>draft proposal</code>. Gates G1–G3.</div></div>
   <div class="arrow">→</div>
-  <div class="step" style="border-color:var(--exec)"><div class="k" style="color:var(--exec)">DOOR B</div><div class="t">Mid-project</div><div class="d"><code>project approved</code> → <code>run lab</code>: build → verify (runs your code) → synthesize → revise. Gate G4.</div></div>
+  <div class="step" style="border-color:var(--exec)"><div class="k" style="color:var(--exec)">DOOR B</div><div class="t">Mid-project</div><div class="d"><code>project approved</code> → <code>run lab</code> / <code>iterate experiment</code> → verify → <code>referee</code>. Gate G4.</div></div>
   <div class="arrow">→</div>
   <div class="step" style="border-color:var(--reporting)"><div class="k" style="color:var(--reporting)">DOOR C</div><div class="t">Reporting / writing</div><div class="d"><code>progress report</code> / <code>annual report</code> / <code>make deck</code>. Gates G5/G6.</div></div>
 </div>
@@ -78,55 +78,59 @@ code{background:#0a0f1f;border:1px solid var(--line);padding:2px 8px;border-radi
 <tr><th>Say…</th><th>What runs</th></tr>
 <tr><td><code>new project: &lt;name&gt;</code></td><td>open + register a project folder</td></tr>
 <tr><td><code>read rfp &lt;file/link&gt;</code></td><td>RFP-Analyst → brief → <b style="color:var(--gold)">G1</b></td></tr>
-<tr><td><code>brainstorm</code></td><td>Ideation + Faculty → ranked ideas → <b style="color:var(--gold)">G2</b></td></tr>
-<tr><td><code>convene faculty &lt;fields&gt;</code></td><td>summon discipline experts</td></tr>
+<tr><td><code>brainstorm</code> → <code>run tournament</code></td><td>Ideation + Elo idea-tournament + faculty → ranked slate → <b style="color:var(--gold)">G2</b></td></tr>
 <tr><td><code>find collaborators &lt;cats&gt;</code></td><td>Collaborator-Scout → verified candidates (you contact)</td></tr>
-<tr><td><code>draft proposal</code></td><td>PI + Proposal-Writer → full draft → <b style="color:var(--gold)">G3</b></td></tr>
+<tr><td><code>draft proposal</code> → <code>referee</code></td><td>PI + Proposal-Writer → draft; Referee scores it → <b style="color:var(--gold)">G3</b></td></tr>
 <tr><td><code>project approved</code> → <code>run lab</code></td><td>Development engine (build → verify → synthesize → revise)</td></tr>
+<tr><td><code>iterate experiment</code></td><td>Exec-Iteration: budget-aware diagnose→tune→re-run tree-search</td></tr>
 <tr><td><code>progress / annual report</code> · <code>make deck</code></td><td>Reporting Office → <b style="color:var(--gold)">G5/G6</b></td></tr>
 </table>
 
-<h2>Model profile — Smart-Tier (best result per token)</h2>
+<h2>Model profile — Smart-Tier</h2>
 <table>
 <tr><th>Tier</th><th>Agents</th><th>Why</th></tr>
-<tr><td><span class="badge b-opus">Opus</span></td><td>Lab-Theory + the 3 audit boards (Rigor, Methodology, Evidence)</td><td>the critical path — where flaws hide and the contribution is forged</td></tr>
-<tr><td><span class="badge b-sonnet">Sonnet</span></td><td>Scouts, other Labs, Execution, Reporting, Support, Pre-Award, Partnerships</td><td>web breadth, code-running, drafting — sufficient and cheaper</td></tr>
-<tr><td><span class="badge b-inherit">Inherit</span></td><td>Orchestrator, Document Office</td><td>synthesis + final prose run on your main model</td></tr>
+<tr><td><span class="badge b-opus">Opus</span></td><td>Lab-Theory, Lab-Statistics, the audit boards + Referee</td><td>the critical path — theorems, statistics, and adversarial review</td></tr>
+<tr><td><span class="badge b-sonnet">Sonnet</span></td><td>Scouts, other Labs/Execution, Reporting, Support, Pre-Award, Partnerships</td><td>breadth, code-running, drafting — sufficient and cheaper</td></tr>
+<tr><td><span class="badge b-inherit">Inherit</span></td><td>Orchestrator, Document Office</td><td>synthesis + final prose on your main model</td></tr>
 </table>
-<p style="color:var(--mut);font-size:12.5px">Switch anytime: <code>make everything opus</code> · <code>go lean</code>. Set the default in <code>config.yml</code>.</p>
 
-<div class="foot">Cambium · created by M. Jaslam (University of Idaho · Intermountain Forestry Cooperative) · MIT · <code>.claude/agents/</code> · <code>INSTITUTE.md</code> · <code>GETTING_STARTED.md</code> · <code>OUTPUT_CONTRACT.md</code> · <code>FACULTY_ROSTER.md</code><br><b style="color:var(--gold)">Human-in-the-loop at every gate.</b></div>
+<div class="foot">Cambium v2.0 · created by M. Jaslam (University of Idaho · Intermountain Forestry Cooperative) · MIT · 39 agents / 9 councils<br><b style="color:var(--gold)">Human-in-the-loop at every gate.</b> · INSTITUTE.md · CAMBIUM_V2.md · AI_GOVERNANCE.md</div>
 </div>
 <script>
 const A=[
-{id:"00",nm:"Orchestrator",c:"orch",col:"--orch",m:"inherit",role:"Provost",d:"<b>Job:</b> decomposes the goal, dispatches specialists & faculty, merges everything into one ranked decision, runs the ledger & leaderboard, and stops at every human gate."},
+{id:"00",nm:"Orchestrator",c:"orch",col:"--orch",m:"inherit",role:"Provost",d:"<b>Job:</b> decomposes the goal, dispatches specialists & faculty, merges into one ranked decision, runs the ledger & leaderboard, stops at every human gate."},
 {id:"13",nm:"Document-Office",c:"orch",col:"--orch",m:"inherit",role:"Writer",d:"<b>Job:</b> the only agent that writes the final deliverable — from verified findings only, after you approve."},
-{id:"24",nm:"RFP-Analyst",c:"preaward",col:"--preaward",m:"sonnet",role:"Intake",d:"<b>Job:</b> reads any RFP/call/brief and extracts requirements, criteria, budget, deadlines. <b>Gate G1.</b>"},
-{id:"26",nm:"Ideation-Facilitator",c:"preaward",col:"--preaward",m:"sonnet",role:"Brainstorm",d:"<b>Job:</b> diverge to 8–15 ideas, converge & rank against the criteria, recommend top 3. <b>Gate G2.</b>"},
-{id:"25",nm:"Principal-Investigator",c:"preaward",col:"--preaward",m:"opus",role:"PI",d:"<b>Job:</b> owns the vision — picks the winning idea, writes the Specific Aims, maps them to the criteria, convenes faculty."},
-{id:"27",nm:"Proposal-Writer",c:"preaward",col:"--preaward",m:"opus",role:"Grants writer",d:"<b>Job:</b> writes the full proposal draft, flagging every assumption for you. <b>Gate G3.</b>"},
-{id:"31",nm:"Collaborator-Scout",c:"partner",col:"--partner",m:"sonnet",role:"Partner finder",d:"<b>Job:</b> finds <b>real</b> verified candidate collaborators by category, scored to each aim. Never fabricates a name."},
+{id:"24",nm:"RFP-Analyst",c:"preaward",col:"--preaward",m:"sonnet",role:"Intake",d:"<b>Job:</b> reads any RFP/call and extracts requirements, criteria, budget, deadlines. <b>Gate G1.</b>"},
+{id:"26",nm:"Ideation-Facilitator",c:"preaward",col:"--preaward",m:"sonnet",role:"Brainstorm",d:"<b>Job:</b> diverge to 8–15 ideas; feeds the Idea-Tournament for ranking. <b>Gate G2.</b>"},
+{id:"38",nm:"Idea-Tournament",c:"preaward",col:"--preaward",m:"sonnet",role:"Elo ranking",d:"<b>Job (v2):</b> Elo pairwise hypothesis ranking + reflect/evolve rounds (replaces noisy 0–10 scores). <i>← AI Co-Scientist.</i>"},
+{id:"25",nm:"Principal-Investigator",c:"preaward",col:"--preaward",m:"opus",role:"PI",d:"<b>Job:</b> owns the vision — picks the winning idea, writes the Specific Aims, maps to criteria, convenes faculty."},
+{id:"27",nm:"Proposal-Writer",c:"preaward",col:"--preaward",m:"opus",role:"Grants writer",d:"<b>Job:</b> writes the full proposal draft, flagging every assumption. <b>Gate G3.</b>"},
+{id:"31",nm:"Collaborator-Scout",c:"partner",col:"--partner",m:"sonnet",role:"Partner finder",d:"<b>Job:</b> finds <b>real</b> verified candidate collaborators by category. Never fabricates a name."},
 {id:"32",nm:"Partnership-Liaison",c:"partner",col:"--partner",m:"sonnet",role:"Outreach",d:"<b>Job:</b> drafts invite emails, briefs, agendas; tracks the pipeline. <b>Drafts only — you send.</b>"},
 {id:"33",nm:"Program-Manager",c:"partner",col:"--partner",m:"sonnet",role:"PM",d:"<b>Job:</b> post-award — work-breakdown across PIs/students/staff, milestone & monthly-meeting calendar, deliverables register."},
-{id:"28",nm:"Faculty-Expert",c:"faculty",col:"--faculty",m:"opus",role:"Consultant (any field)",d:"<b>Job:</b> summoned <b>by discipline</b> — statistics, math, CS, ML, AI, economics, or your field. Gives the strongest peer-review objection + the fix. <b>Extensible.</b>"},
-{id:"01",nm:"Scout-Prior-Art",c:"scout",col:"--scout",m:"sonnet",role:"Lit scout",d:"<b>Job:</b> finds the nearest prior work and measures novelty distance. Verifies sources; never fabricates."},
+{id:"28",nm:"Faculty-Expert",c:"faculty",col:"--faculty",m:"opus",role:"Consultant (any field)",d:"<b>Job:</b> summoned <b>by discipline</b> — statistics, math, CS, ML, AI, economics, or your field. Strongest peer-review objection + the fix. <b>Extensible.</b>"},
+{id:"01",nm:"Scout-Prior-Art",c:"scout",col:"--scout",m:"sonnet",role:"Lit scout",d:"<b>Job:</b> nearest prior work + <b>novelty score gate</b> before G2 (v2). Verifies sources; never fabricates."},
 {id:"02",nm:"Scout-Methods",c:"scout",col:"--scout",m:"sonnet",role:"Methods scout",d:"<b>Job:</b> surveys candidate methods/tools and their failure modes."},
 {id:"03",nm:"Scout-Landscape",c:"scout",col:"--scout",m:"sonnet",role:"Landscape scout",d:"<b>Job:</b> maps competitors, data, and funder priorities."},
-{id:"04",nm:"Lab-Theory",c:"lab",col:"--lab",m:"opus",role:"Theory lab",d:"<b>Job:</b> sharpens the single load-bearing theoretical claim and tests identifiability."},
+{id:"04",nm:"Lab-Theory",c:"lab",col:"--lab",m:"opus",role:"Theory lab",d:"<b>Job:</b> sharpens the single load-bearing theorem and tests identifiability."},
 {id:"05",nm:"Lab-Methods",c:"lab",col:"--lab",m:"sonnet",role:"Build lab",d:"<b>Job:</b> designs the core method/system and the minimal design that keeps the win."},
 {id:"06",nm:"Lab-Domain",c:"lab",col:"--lab",m:"sonnet",role:"Domain lab",d:"<b>Job:</b> translates the technical work into your field's decisions; parameterized by domain."},
-{id:"07",nm:"Verify-Rigor",c:"verify",col:"--verify",m:"opus",role:"Rigor board",d:"<b>Job:</b> tries to break the logic/proofs; runs the check scripts; separates fatal from repairable."},
-{id:"08",nm:"Verify-Methodology",c:"verify",col:"--verify",m:"opus",role:"Method board",d:"<b>Job:</b> audits validity & uncertainty — what each estimate covers, assumptions, credibility. Runs code."},
-{id:"09",nm:"Verify-Evidence",c:"verify",col:"--verify",m:"opus",role:"Evidence board",d:"<b>Job:</b> hunts leakage & unfair baselines and <b>reproduces every number</b> from the code."},
+{id:"34",nm:"Lab-Statistics",c:"lab",col:"--lab",m:"opus",role:"Stats doer",d:"<b>Job (v2):</b> actually DOES the statistics — fits models, CIs, power, multiplicity, diagnostics, uncertainty."},
+{id:"07",nm:"Verify-Rigor",c:"verify",col:"--verify",m:"opus",role:"Rigor board",d:"<b>Job:</b> tries to break the logic/proofs; runs the check scripts; fatal vs repairable."},
+{id:"08",nm:"Verify-Methodology",c:"verify",col:"--verify",m:"opus",role:"Method board",d:"<b>Job:</b> audits validity & uncertainty — what each estimate covers, assumptions. Runs code."},
+{id:"09",nm:"Verify-Evidence",c:"verify",col:"--verify",m:"opus",role:"Evidence board",d:"<b>Job:</b> hunts leakage & unfair baselines and <b>reproduces every number</b>."},
 {id:"10",nm:"Verify-Domain",c:"verify",col:"--verify",m:"sonnet",role:"Domain board",d:"<b>Job:</b> checks units, data credibility, and real decision utility in your field."},
+{id:"37",nm:"Referee",c:"verify",col:"--verify",m:"opus",role:"Venue reviewer",d:"<b>Job (v2):</b> scores the deliverable vs a venue rubric — accept/major/minor/reject + reject-probability. <i>← AI Scientist.</i>"},
 {id:"11",nm:"Exec-Experiments",c:"exec",col:"--exec",m:"sonnet",role:"Experiments",d:"<b>Job:</b> runs the stress tests and the fair comparison; saves result tables."},
 {id:"12",nm:"Exec-Ablation",c:"exec",col:"--exec",m:"sonnet",role:"Ablation",d:"<b>Job:</b> removes each component to measure what it's worth; recommends cuts."},
+{id:"35",nm:"Exec-Iteration",c:"exec",col:"--exec",m:"sonnet",role:"Experiment loop",d:"<b>Job (v2):</b> budget-aware diagnose→tune→re-run loop with branch/prune tree-search (not single-shot). <i>← Agent Lab / AI Scientist.</i>"},
+{id:"36",nm:"Research-Engineer",c:"exec",col:"--exec",m:"sonnet",role:"Repro engineer",d:"<b>Job (v2):</b> clean, tested, reproducible experiment code — pinned envs, seeds, Makefiles, one-command repro."},
 {id:"29",nm:"Reporting-Officer",c:"reporting",col:"--reporting",m:"sonnet",role:"Reports",d:"<b>Job:</b> progress/semi-annual/annual reports — milestones plan-vs-actual, verified results, risks. <b>Gate G5/G6.</b>"},
-{id:"30",nm:"Deck-Builder",c:"reporting",col:"--reporting",m:"sonnet",role:"Decks",d:"<b>Job:</b> turns a report/proposal into a clean PPT/HTML deck. Skills: pptx, ckmslides."},
-{id:"14",nm:"Record-Keeper",c:"support",col:"--support",m:"sonnet",role:"Archivist",d:"<b>Job:</b> keeps the ledger, run history, and decision log — the institute's memory."},
+{id:"30",nm:"Deck-Builder",c:"reporting",col:"--reporting",m:"sonnet",role:"Decks",d:"<b>Job:</b> turns a report/proposal into a clean PPT/HTML deck."},
+{id:"14",nm:"Record-Keeper",c:"support",col:"--support",m:"sonnet",role:"Archivist",d:"<b>Job:</b> the ledger, run history, decision log — and (v2) <b>cross-project institutional memory</b>. <i>← AutoGen.</i>"},
 {id:"15",nm:"Librarian",c:"support",col:"--support",m:"sonnet",role:"Citations",d:"<b>Job:</b> builds & verifies the bibliography; never fabricates a citation."},
 {id:"16",nm:"Janitor",c:"support",col:"--support",m:"haiku",role:"Cleaner",d:"<b>Job:</b> repo hygiene — proposes a cleanup plan; never deletes without approval."},
-{id:"17",nm:"Teaching-Asst",c:"support",col:"--support",m:"sonnet",role:"TA",d:"<b>Job:</b> onboarding notes, plain-language explainers, quizzes. Skill: learn."},
+{id:"17",nm:"Teaching-Asst",c:"support",col:"--support",m:"sonnet",role:"TA",d:"<b>Job:</b> onboarding notes, plain-language explainers, quizzes."},
 {id:"18",nm:"Research-Asst",c:"support",col:"--support",m:"sonnet",role:"RA",d:"<b>Job:</b> the flexible hands — fetch/summarize, wrangle data, quick scripts."},
 {id:"19",nm:"Office-Manager",c:"support",col:"--support",m:"haiku",role:"Secretary",d:"<b>Job:</b> status digests, meeting agendas/minutes, open-actions; can schedule recurring runs."},
 {id:"20",nm:"Data-Steward",c:"support",col:"--support",m:"sonnet",role:"Data guardian",d:"<b>Job:</b> dataset inventory, schema, units, provenance, PII checks; flags weak data."},

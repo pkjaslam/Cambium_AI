@@ -28,3 +28,14 @@ No unresolved P0 and reject-probability <=15%.
 Verification runs code (findings are evidence, not opinion) · one contract + one ledger make many
 agents mergeable · specialize -> verify -> synthesize -> (gated) write keeps unverified claims out of
 the deliverable · resumable + single-writer + lane discipline means re-runs cost only what changed.
+
+## v2 loops & triggers (deeper research)
+| Say | Runs |
+|---|---|
+| `run tournament` | Idea-Tournament: Elo pairwise ranking + faculty judging + evolve rounds -> ranked slate (before G2) |
+| `iterate experiment` | exec-iteration: budget-aware diagnose->tune->re-run with branch/prune tree-search |
+| `referee` / `referee for <venue>` | Referee scores the deliverable vs the venue rubric (accept/major/minor/reject) before G3/G6 |
+| `run verification debate` | two verify boards argue opposing sides of a contested claim; a third judges |
+Novelty gate: `01-scout-prior-art` returns a novelty score + nearest prior art automatically before G2;
+a near-duplicate idea is flagged for the President. Institutional memory: `14-record-keeper` recalls
+relevant prior projects before dispatch.
