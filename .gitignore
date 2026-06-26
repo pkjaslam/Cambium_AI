@@ -8,3 +8,6 @@ governance/provenance.json
 app/runs/
 app/.auth.json
 app/runs/
+
+# local self-improvement scratch (scan notes); durable decisions go to DECISIONS.md
+cambium_imp/
