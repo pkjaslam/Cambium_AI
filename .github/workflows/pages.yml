@@ -7,34 +7,30 @@ on:
 
 permissions:
   contents: read
-  pages:    write
+  pages: write
   id-token: write
 
-# Only one deployment at a time; don't cancel an in-progress run.
 concurrency:
   group: pages
   cancel-in-progress: false
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url:  ${{ steps.deploy.outputs.page_url }}
-
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      - name: Setup Pages
+      - name: Configure Pages (auto-enable)
         uses: actions/configure-pages@v5
-
-      # Serve the repo root — index.html is the entry point.
-      - name: Upload Pages artifact
+        with:
+          enablement: true
+      - name: Upload site artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: .
-
-      - name: Deploy to GitHub Pages
-        id:   deploy
+      - name: Deploy to Pages
+        id: deployment
         uses: actions/deploy-pages@v4
