@@ -5,7 +5,7 @@
 ## Install (once)
 
 1. **Template:** clone or “Use this template”, then copy `.claude/agents/` into your project root.
-   (Or install the plugin — see `plugin/`.)
+   (Or install the plugin — see `INSTALL.md`.)
 2. Copy `config.example.yml` → `config.yml` and set your lab name + default model profile.
 3. Open `dashboard.html` to see the org chart and command list.
 4. Create your project: say **`new project: <name>`** → it scaffolds `projects/<slug>/` from

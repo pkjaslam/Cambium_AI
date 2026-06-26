@@ -188,3 +188,22 @@ counts fixed (COMPARISON/FAQ/GETTING_STARTED/ROLES). Built BY Cambium; see cambi
 - Added root `.claude-plugin/marketplace.json` + `.claude-plugin/plugin.json` (source "./", agents=.claude/agents).
   `/plugin marketplace add https://github.com/IFC-UIDAHO/Cambium_AI.git` + `/plugin install cambium-institute` now work.
 - README: use the full HTTPS URL (short form can resolve to SSH and fail host-key checks); run the two commands separately.
+
+## 3.10.3 - Make install actually work (lessons from real installs)
+- Removed the redundant `plugin/` folder: the repo had TWO plugin.json (root + plugin/), which broke Cowork
+  repackaging with "Zip must contain exactly one plugin.json. Found 2." Now exactly one manifest at root.
+- Agents auto-discovered from `agents/` (no manifest `agents` field — the array/string forms were rejected).
+- New INSTALL.md: tested steps for Cowork (Add-marketplace-from-repository AND /create-cowork-plugin), Claude Code
+  (HTTPS URL, separate lines, user scope to avoid system32 EPERM), and the honest update story (manual Sync/Update;
+  auto-sync is Team/Enterprise + private repo only). README quickstart points to it.
+
+## 3.10.4 - Keep plugin agents/ auto-synced
+- tools/sync_plugin_agents.py mirrors .claude/agents/ -> agents/ (the plugin's auto-discovery copy).
+- Wired into push_cambium.bat (runs before git add), so the installable plugin never drifts from the roster.
+- tests/test_plugin_sync.py fails CI if agents/ and .claude/agents/ ever diverge.
+
+## 3.10.5 - Install docs: lead with the reliable path + document Claude-app quirks
+- INSTALL.md now leads Cowork users with /create-cowork-plugin (bypasses the flaky "Add marketplace" menu),
+  and a Troubleshooting table maps real Claude-app bugs (Personal-marketplace "+" only shows Anthropic catalog
+  until a plugin is added once; installs lost on restart #40600; Windows empty marketplace #28853) to fixes.
+- README quickstart updated to match. These are app quirks, not Cambium bugs.

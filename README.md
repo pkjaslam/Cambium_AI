@@ -47,14 +47,15 @@ That gap is where projects go wrong: an autonomous pipeline overstates a result,
 
 ## ⚡ 60-second quickstart
 
-**A — Plugin (recommended).** In **Claude Code** (terminal), use the full **HTTPS** URL (the `owner/repo` short form can resolve to SSH and fail on host-key checks):
-```
-/plugin marketplace add https://github.com/IFC-UIDAHO/Cambium_AI.git
-/plugin install cambium-institute
-```
-In **Claude Desktop / Cowork** (no terminal): run `/create-cowork-plugin`, paste this repo URL, choose **Repackage for Cowork → Full working bundle**, and **Install** the `.plugin` file it produces. (Or connect a `git clone` of this repo as your project folder; `git pull` to update.)
+**Install it — directly from this repo (full steps + gotchas in [`INSTALL.md`](INSTALL.md)):**
 
-**B — Template.** Click **"Use this template"** on GitHub (or clone), then copy `.claude/agents/` into your project and open `dashboard.html` to see the org.
+- **Claude Desktop / Cowork** (no terminal) — *easiest:* type **`/create-cowork-plugin`** in chat, paste `https://github.com/IFC-UIDAHO/Cambium_AI`, choose **Full working bundle**, and press **Install** on the card. *(For an updatable copy: Customize → Plugins → Personal plugins → “+” → Add marketplace → from a repository → the repo `.git` URL. If that “+” only shows Anthropic’s catalog, do the `/create-cowork-plugin` step once first — see [`INSTALL.md`](INSTALL.md).)*
+- **Claude Code** (terminal): run these on **separate lines** (full HTTPS URL; pick **user scope**), then `/reload-plugins`:
+  ```
+  /plugin marketplace add https://github.com/IFC-UIDAHO/Cambium_AI.git
+  /plugin install cambium-institute
+  ```
+- **Template instead:** click **“Use this template”** on GitHub, or `git clone` and connect the folder to your project (`git pull` to update).
 
 Then just **say what you need** — one sentence at a time:
 
