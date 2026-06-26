@@ -9,7 +9,7 @@ import imageio.v2 as imageio
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 N = json.load(open(os.path.join(ROOT,"agent_cards.json")))["count"]
 COUNCILS = 11; GATES = 8
-W,H = 760,422; BG=(11,16,32); GOLD=(231,184,75); INK=(232,237,247); MUT=(159,176,208); GREEN=(70,196,106)
+W,H = 760,422; BG=(7,35,26); GOLD=(22,192,121); INK=(244,247,242); MUT=(138,161,151); GREEN=(183,243,106)
 FB="/usr/share/fonts/truetype/dejavu/"
 def f(sz,bold=True): 
     try: return ImageFont.truetype(FB+("DejaVuSans-Bold.ttf" if bold else "DejaVuSans.ttf"), sz)

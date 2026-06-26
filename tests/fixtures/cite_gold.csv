@@ -1,0 +1,21 @@
+id,claim,source,label
+G01,The estimator is unbiased under random sampling,Under random sampling the estimator is shown to be unbiased,supported
+G02,Throughput increased by 40 percent after caching,Adding the cache increased throughput by 40 percent in benchmarks,supported
+G03,The method converges for convex objectives,For convex objectives the method is proven to converge,supported
+G04,Accuracy improves with larger training sets,Larger training sets yielded consistently higher accuracy,supported
+G05,The protocol guarantees reproducible results,Results were reproducible across all three protocol runs,supported
+G06,Latency is reduced under the new scheduler,The new scheduler reduced observed latency in every trial,supported
+G07,The treatment reduced mortality in the cohort,The treatment reduced mortality across the studied cohort,supported
+G08,The model generalizes to unseen domains,On unseen domains the model retained strong generalization,supported
+G09,The index speeds up nearest-neighbor queries,Nearest-neighbor queries ran faster once the index was built,supported
+G10,The algorithm runs in linear time,The algorithm was analyzed to run in linear time,supported
+G11,The estimator is unbiased under random sampling,Under random sampling the estimator is biased and not consistent,unsupported
+G12,Throughput increased by 40 percent after caching,Caching did not increase throughput in the benchmarks,unsupported
+G13,The method converges for convex objectives,For convex objectives the method fails to converge,unsupported
+G14,Accuracy improves with larger training sets,Larger training sets never improved accuracy in the study,unsupported
+G15,The protocol guarantees reproducible results,Results were not reproducible across the protocol runs,unsupported
+G16,The treatment reduced mortality in the cohort,The treatment did not reduce mortality in the cohort,unsupported
+G17,The scheduler reduces latency,Photosynthesis converts sunlight into chemical energy in plants,uncertain
+G18,The dataset contains one million labeled images,The quarterly revenue report covers three business regions,uncertain
+G19,The compiler optimizes tail calls,The museum exhibit featured nineteenth century landscape paintings,uncertain
+G20,The sensor measures ambient humidity,A balanced diet includes a variety of fruits and vegetables,uncertain

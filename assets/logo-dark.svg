@@ -1,15 +1,43 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 220" width="720" height="220" role="img" aria-label="Cambium logo">
-  <defs><radialGradient id="w2" cx="42%" cy="38%" r="70%"><stop offset="0%" stop-color="#13402f"/><stop offset="100%" stop-color="#0a241b"/></radialGradient></defs>
-  <g transform="translate(10,10)">
-    <rect width="200" height="200" rx="38" fill="url(#w2)"/>
-    <g fill="none" stroke="#cfd6e0" stroke-opacity="0.55" transform="translate(100,100) scale(0.83)">
-      <circle r="30" stroke-width="2.4"/><circle r="46" stroke-width="2.4"/><circle r="62" stroke-width="2.4"/><circle r="78" stroke-width="2.4"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 220" width="720" height="220" role="img" aria-label="Cambium logo (dark)"
+     font-family="Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">
+  <defs>
+    <radialGradient id="ld-bg" cx="40%" cy="34%" r="78%">
+      <stop offset="0%" stop-color="#0E3326"/>
+      <stop offset="100%" stop-color="#07231A"/>
+    </radialGradient>
+    <radialGradient id="ld-node" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#EAFFC9"/>
+      <stop offset="45%" stop-color="#B7F36A"/>
+      <stop offset="100%" stop-color="#B7F36A" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- evergreen field -->
+  <rect x="0" y="0" width="720" height="220" rx="0" fill="#07231A"/>
+
+  <!-- mark -->
+  <g transform="translate(20,10)">
+    <rect x="0" y="0" width="200" height="200" rx="42" fill="url(#ld-bg)"/>
+    <rect x="0.5" y="0.5" width="199" height="199" rx="41.5" fill="none" stroke="#1F4D3B" stroke-width="1"/>
+    <g fill="none" stroke="#16C079" stroke-linecap="round">
+      <circle cx="100" cy="100" r="22" stroke-width="2"   opacity="0.55"/>
+      <circle cx="100" cy="100" r="36" stroke-width="1.8" opacity="0.7"/>
+      <circle cx="100" cy="100" r="50" stroke-width="1.6" opacity="0.85"/>
+      <circle cx="100" cy="100" r="64" stroke-width="1.5"/>
     </g>
-    <circle cx="100" cy="100" r="76" fill="none" stroke="#e7b84b" stroke-width="7"/>
-    <circle cx="100" cy="100" r="83" fill="none" stroke="#2b1c10" stroke-width="5"/>
-    <circle cx="100" cy="100" r="5" fill="#e7b84b"/>
-    <path d="M100 100 V48 M100 64 C90 59 84 54 80 46 M100 64 C110 59 116 54 120 46" fill="none" stroke="#7fe0a8" stroke-width="4.4" stroke-linecap="round"/>
+    <line x1="100" y1="100" x2="145.25" y2="54.75" stroke="#16C079" stroke-width="1.6" stroke-linecap="round" opacity="0.9"/>
+    <circle cx="100" cy="100" r="4.5" fill="#16C079"/>
+    <circle cx="145.25" cy="54.75" r="16" fill="url(#ld-node)"/>
+    <circle cx="145.25" cy="54.75" r="6.5" fill="#B7F36A"/>
+    <circle cx="145.25" cy="54.75" r="2.6" fill="#052015"/>
   </g>
-  <text x="238" y="118" font-family="Georgia,'Times New Roman',serif" font-size="78" font-weight="700" fill="#f3f6fb">Cambium</text>
-  <text x="240" y="158" font-family="Helvetica,Arial,sans-serif" font-size="22" letter-spacing="3" fill="#9fb0d0">RESEARCH THAT GROWS</text>
+
+  <!-- wordmark + tagline -->
+  <g transform="translate(260,0)">
+    <text x="0" y="118" fill="#F4F7F2" font-size="78" font-weight="700"
+          letter-spacing="-2.5">Cambium</text>
+    <circle cx="346" cy="100" r="8" fill="#B7F36A"/>
+    <text x="2" y="156" fill="#8AA197" font-size="21" font-weight="500"
+          letter-spacing="0.3">Research institution, one sentence</text>
+  </g>
 </svg>

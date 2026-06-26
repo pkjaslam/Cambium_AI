@@ -1,108 +1,108 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="980" height="818" font-family="DejaVu Sans, Arial, sans-serif">
-<rect width="980" height="818" fill="#0b1020"/>
-<text x="490" y="38" text-anchor="middle" font-size="22" font-weight="700" fill="#e7b84b">Cambium — 46 agents · 11 councils</text>
-<text x="22" y="70" font-size="13" font-weight="700" fill="#caa1ff">Orchestration (2)</text>
-<rect x="22" y="82" width="150" height="26" rx="6" fill="#caa1ff22" stroke="#caa1ff66"/>
-<text x="30" y="99" font-size="11" fill="#e8edf7">orchestrator</text>
-<rect x="182" y="82" width="150" height="26" rx="6" fill="#caa1ff22" stroke="#caa1ff66"/>
-<text x="190" y="99" font-size="11" fill="#e8edf7">document-office</text>
-<text x="22" y="126" font-size="13" font-weight="700" fill="#4ec5e0">Pre-Award (8)</text>
-<rect x="22" y="138" width="150" height="26" rx="6" fill="#4ec5e022" stroke="#4ec5e066"/>
-<text x="30" y="155" font-size="11" fill="#e8edf7">rfp-analyst</text>
-<rect x="182" y="138" width="150" height="26" rx="6" fill="#4ec5e022" stroke="#4ec5e066"/>
-<text x="190" y="155" font-size="11" fill="#e8edf7">rfp-radar</text>
-<rect x="342" y="138" width="150" height="26" rx="6" fill="#4ec5e022" stroke="#4ec5e066"/>
-<text x="350" y="155" font-size="11" fill="#e8edf7">ideation-facilitator</text>
-<rect x="502" y="138" width="150" height="26" rx="6" fill="#4ec5e022" stroke="#4ec5e066"/>
-<text x="510" y="155" font-size="11" fill="#e8edf7">idea-tournament</text>
-<rect x="662" y="138" width="150" height="26" rx="6" fill="#4ec5e022" stroke="#4ec5e066"/>
-<text x="670" y="155" font-size="11" fill="#e8edf7">principal-investigator</text>
-<rect x="22" y="172" width="150" height="26" rx="6" fill="#4ec5e022" stroke="#4ec5e066"/>
-<text x="30" y="189" font-size="11" fill="#e8edf7">proposal-writer</text>
-<rect x="182" y="172" width="150" height="26" rx="6" fill="#4ec5e022" stroke="#4ec5e066"/>
-<text x="190" y="189" font-size="11" fill="#e8edf7">budget-officer</text>
-<rect x="342" y="172" width="150" height="26" rx="6" fill="#4ec5e022" stroke="#4ec5e066"/>
-<text x="350" y="189" font-size="11" fill="#e8edf7">grants-compliance</text>
-<text x="22" y="216" font-size="13" font-weight="700" fill="#5ee0a8">Partnerships (4)</text>
-<rect x="22" y="228" width="150" height="26" rx="6" fill="#5ee0a822" stroke="#5ee0a866"/>
-<text x="30" y="245" font-size="11" fill="#e8edf7">collaborator-scout</text>
-<rect x="182" y="228" width="150" height="26" rx="6" fill="#5ee0a822" stroke="#5ee0a866"/>
-<text x="190" y="245" font-size="11" fill="#e8edf7">partnership-liaison</text>
-<rect x="342" y="228" width="150" height="26" rx="6" fill="#5ee0a822" stroke="#5ee0a866"/>
-<text x="350" y="245" font-size="11" fill="#e8edf7">program-manager</text>
-<rect x="502" y="228" width="150" height="26" rx="6" fill="#5ee0a822" stroke="#5ee0a866"/>
-<text x="510" y="245" font-size="11" fill="#e8edf7">convener</text>
-<text x="22" y="272" font-size="13" font-weight="700" fill="#ff7eb6">Faculty (1)</text>
-<rect x="22" y="284" width="150" height="26" rx="6" fill="#ff7eb622" stroke="#ff7eb666"/>
-<text x="30" y="301" font-size="11" fill="#e8edf7">faculty-expert</text>
-<text x="22" y="328" font-size="13" font-weight="700" fill="#23b4a8">Scouts (3)</text>
-<rect x="22" y="340" width="150" height="26" rx="6" fill="#23b4a822" stroke="#23b4a866"/>
-<text x="30" y="357" font-size="11" fill="#e8edf7">scout-prior-art</text>
-<rect x="182" y="340" width="150" height="26" rx="6" fill="#23b4a822" stroke="#23b4a866"/>
-<text x="190" y="357" font-size="11" fill="#e8edf7">scout-methods</text>
-<rect x="342" y="340" width="150" height="26" rx="6" fill="#23b4a822" stroke="#23b4a866"/>
-<text x="350" y="357" font-size="11" fill="#e8edf7">scout-landscape</text>
-<text x="22" y="384" font-size="13" font-weight="700" fill="#4f8cff">Labs (4)</text>
-<rect x="22" y="396" width="150" height="26" rx="6" fill="#4f8cff22" stroke="#4f8cff66"/>
-<text x="30" y="413" font-size="11" fill="#e8edf7">lab-theory</text>
-<rect x="182" y="396" width="150" height="26" rx="6" fill="#4f8cff22" stroke="#4f8cff66"/>
-<text x="190" y="413" font-size="11" fill="#e8edf7">lab-methods</text>
-<rect x="342" y="396" width="150" height="26" rx="6" fill="#4f8cff22" stroke="#4f8cff66"/>
-<text x="350" y="413" font-size="11" fill="#e8edf7">lab-domain</text>
-<rect x="502" y="396" width="150" height="26" rx="6" fill="#4f8cff22" stroke="#4f8cff66"/>
-<text x="510" y="413" font-size="11" fill="#e8edf7">lab-statistics</text>
-<text x="22" y="440" font-size="13" font-weight="700" fill="#e5534b">Verification (5)</text>
-<rect x="22" y="452" width="150" height="26" rx="6" fill="#e5534b22" stroke="#e5534b66"/>
-<text x="30" y="469" font-size="11" fill="#e8edf7">verify-rigor</text>
-<rect x="182" y="452" width="150" height="26" rx="6" fill="#e5534b22" stroke="#e5534b66"/>
-<text x="190" y="469" font-size="11" fill="#e8edf7">verify-methodology</text>
-<rect x="342" y="452" width="150" height="26" rx="6" fill="#e5534b22" stroke="#e5534b66"/>
-<text x="350" y="469" font-size="11" fill="#e8edf7">verify-evidence</text>
-<rect x="502" y="452" width="150" height="26" rx="6" fill="#e5534b22" stroke="#e5534b66"/>
-<text x="510" y="469" font-size="11" fill="#e8edf7">verify-domain</text>
-<rect x="662" y="452" width="150" height="26" rx="6" fill="#e5534b22" stroke="#e5534b66"/>
-<text x="670" y="469" font-size="11" fill="#e8edf7">referee</text>
-<text x="22" y="496" font-size="13" font-weight="700" fill="#46c46a">Execution (4)</text>
-<rect x="22" y="508" width="150" height="26" rx="6" fill="#46c46a22" stroke="#46c46a66"/>
-<text x="30" y="525" font-size="11" fill="#e8edf7">exec-experiments</text>
-<rect x="182" y="508" width="150" height="26" rx="6" fill="#46c46a22" stroke="#46c46a66"/>
-<text x="190" y="525" font-size="11" fill="#e8edf7">exec-ablation</text>
-<rect x="342" y="508" width="150" height="26" rx="6" fill="#46c46a22" stroke="#46c46a66"/>
-<text x="350" y="525" font-size="11" fill="#e8edf7">exec-iteration</text>
-<rect x="502" y="508" width="150" height="26" rx="6" fill="#46c46a22" stroke="#46c46a66"/>
-<text x="510" y="525" font-size="11" fill="#e8edf7">research-engineer</text>
-<text x="22" y="552" font-size="13" font-weight="700" fill="#b9a04a">Reporting (2)</text>
-<rect x="22" y="564" width="150" height="26" rx="6" fill="#b9a04a22" stroke="#b9a04a66"/>
-<text x="30" y="581" font-size="11" fill="#e8edf7">reporting-officer</text>
-<rect x="182" y="564" width="150" height="26" rx="6" fill="#b9a04a22" stroke="#b9a04a66"/>
-<text x="190" y="581" font-size="11" fill="#e8edf7">deck-builder</text>
-<text x="22" y="608" font-size="13" font-weight="700" fill="#d59257">Support (12)</text>
-<rect x="22" y="620" width="150" height="26" rx="6" fill="#d5925722" stroke="#d5925766"/>
-<text x="30" y="637" font-size="11" fill="#e8edf7">record-keeper</text>
-<rect x="182" y="620" width="150" height="26" rx="6" fill="#d5925722" stroke="#d5925766"/>
-<text x="190" y="637" font-size="11" fill="#e8edf7">librarian</text>
-<rect x="342" y="620" width="150" height="26" rx="6" fill="#d5925722" stroke="#d5925766"/>
-<text x="350" y="637" font-size="11" fill="#e8edf7">janitor</text>
-<rect x="502" y="620" width="150" height="26" rx="6" fill="#d5925722" stroke="#d5925766"/>
-<text x="510" y="637" font-size="11" fill="#e8edf7">teaching-asst (?)</text>
-<rect x="662" y="620" width="150" height="26" rx="6" fill="#d5925722" stroke="#d5925766"/>
-<text x="670" y="637" font-size="11" fill="#e8edf7">research-asst (?)</text>
-<rect x="22" y="654" width="150" height="26" rx="6" fill="#d5925722" stroke="#d5925766"/>
-<text x="30" y="671" font-size="11" fill="#e8edf7">office-manager</text>
-<rect x="182" y="654" width="150" height="26" rx="6" fill="#d5925722" stroke="#d5925766"/>
-<text x="190" y="671" font-size="11" fill="#e8edf7">data-steward</text>
-<rect x="342" y="654" width="150" height="26" rx="6" fill="#d5925722" stroke="#d5925766"/>
-<text x="350" y="671" font-size="11" fill="#e8edf7">integrity-officer</text>
-<rect x="502" y="654" width="150" height="26" rx="6" fill="#d5925722" stroke="#d5925766"/>
-<text x="510" y="671" font-size="11" fill="#e8edf7">figures</text>
-<rect x="662" y="654" width="150" height="26" rx="6" fill="#d5925722" stroke="#d5925766"/>
-<text x="670" y="671" font-size="11" fill="#e8edf7">outreach</text>
-<rect x="22" y="688" width="150" height="26" rx="6" fill="#d5925722" stroke="#d5925766"/>
-<text x="30" y="705" font-size="11" fill="#e8edf7">feedback-router</text>
-<rect x="182" y="688" width="150" height="26" rx="6" fill="#d5925722" stroke="#d5925766"/>
-<text x="190" y="705" font-size="11" fill="#e8edf7">toolsmith</text>
-<text x="22" y="732" font-size="13" font-weight="700" fill="#9b8cff">Governance (1)</text>
-<rect x="22" y="744" width="150" height="26" rx="6" fill="#9b8cff22" stroke="#9b8cff66"/>
-<text x="30" y="761" font-size="11" fill="#e8edf7">research-conduct-officer</text>
-<text x="490" y="808" text-anchor="middle" font-size="10" fill="#9ca3af">Cambium · 11 councils · 46 agents · field-agnostic · human-in-the-loop at every gate</text>
+<rect width="980" height="818" fill="#07231A"/>
+<text x="490" y="38" text-anchor="middle" font-size="22" font-weight="700" fill="#16C079">Cambium — 46 agents · 11 councils</text>
+<text x="22" y="70" font-size="13" font-weight="700" fill="#7C5CFF">Orchestration (2)</text>
+<rect x="22" y="82" width="150" height="26" rx="6" fill="#7C5CFF22" stroke="#7C5CFF66"/>
+<text x="30" y="99" font-size="11" fill="#F4F7F2">orchestrator</text>
+<rect x="182" y="82" width="150" height="26" rx="6" fill="#7C5CFF22" stroke="#7C5CFF66"/>
+<text x="190" y="99" font-size="11" fill="#F4F7F2">document-office</text>
+<text x="22" y="126" font-size="13" font-weight="700" fill="#2BB8C4">Pre-Award (8)</text>
+<rect x="22" y="138" width="150" height="26" rx="6" fill="#2BB8C422" stroke="#2BB8C466"/>
+<text x="30" y="155" font-size="11" fill="#F4F7F2">rfp-analyst</text>
+<rect x="182" y="138" width="150" height="26" rx="6" fill="#2BB8C422" stroke="#2BB8C466"/>
+<text x="190" y="155" font-size="11" fill="#F4F7F2">rfp-radar</text>
+<rect x="342" y="138" width="150" height="26" rx="6" fill="#2BB8C422" stroke="#2BB8C466"/>
+<text x="350" y="155" font-size="11" fill="#F4F7F2">ideation-facilitator</text>
+<rect x="502" y="138" width="150" height="26" rx="6" fill="#2BB8C422" stroke="#2BB8C466"/>
+<text x="510" y="155" font-size="11" fill="#F4F7F2">idea-tournament</text>
+<rect x="662" y="138" width="150" height="26" rx="6" fill="#2BB8C422" stroke="#2BB8C466"/>
+<text x="670" y="155" font-size="11" fill="#F4F7F2">principal-investigator</text>
+<rect x="22" y="172" width="150" height="26" rx="6" fill="#2BB8C422" stroke="#2BB8C466"/>
+<text x="30" y="189" font-size="11" fill="#F4F7F2">proposal-writer</text>
+<rect x="182" y="172" width="150" height="26" rx="6" fill="#2BB8C422" stroke="#2BB8C466"/>
+<text x="190" y="189" font-size="11" fill="#F4F7F2">budget-officer</text>
+<rect x="342" y="172" width="150" height="26" rx="6" fill="#2BB8C422" stroke="#2BB8C466"/>
+<text x="350" y="189" font-size="11" fill="#F4F7F2">grants-compliance</text>
+<text x="22" y="216" font-size="13" font-weight="700" fill="#37C97E">Partnerships (4)</text>
+<rect x="22" y="228" width="150" height="26" rx="6" fill="#37C97E22" stroke="#37C97E66"/>
+<text x="30" y="245" font-size="11" fill="#F4F7F2">collaborator-scout</text>
+<rect x="182" y="228" width="150" height="26" rx="6" fill="#37C97E22" stroke="#37C97E66"/>
+<text x="190" y="245" font-size="11" fill="#F4F7F2">partnership-liaison</text>
+<rect x="342" y="228" width="150" height="26" rx="6" fill="#37C97E22" stroke="#37C97E66"/>
+<text x="350" y="245" font-size="11" fill="#F4F7F2">program-manager</text>
+<rect x="502" y="228" width="150" height="26" rx="6" fill="#37C97E22" stroke="#37C97E66"/>
+<text x="510" y="245" font-size="11" fill="#F4F7F2">convener</text>
+<text x="22" y="272" font-size="13" font-weight="700" fill="#FF7AA8">Faculty (1)</text>
+<rect x="22" y="284" width="150" height="26" rx="6" fill="#FF7AA822" stroke="#FF7AA866"/>
+<text x="30" y="301" font-size="11" fill="#F4F7F2">faculty-expert</text>
+<text x="22" y="328" font-size="13" font-weight="700" fill="#19C0A6">Scouts (3)</text>
+<rect x="22" y="340" width="150" height="26" rx="6" fill="#19C0A622" stroke="#19C0A666"/>
+<text x="30" y="357" font-size="11" fill="#F4F7F2">scout-prior-art</text>
+<rect x="182" y="340" width="150" height="26" rx="6" fill="#19C0A622" stroke="#19C0A666"/>
+<text x="190" y="357" font-size="11" fill="#F4F7F2">scout-methods</text>
+<rect x="342" y="340" width="150" height="26" rx="6" fill="#19C0A622" stroke="#19C0A666"/>
+<text x="350" y="357" font-size="11" fill="#F4F7F2">scout-landscape</text>
+<text x="22" y="384" font-size="13" font-weight="700" fill="#3D8BFF">Labs (4)</text>
+<rect x="22" y="396" width="150" height="26" rx="6" fill="#3D8BFF22" stroke="#3D8BFF66"/>
+<text x="30" y="413" font-size="11" fill="#F4F7F2">lab-theory</text>
+<rect x="182" y="396" width="150" height="26" rx="6" fill="#3D8BFF22" stroke="#3D8BFF66"/>
+<text x="190" y="413" font-size="11" fill="#F4F7F2">lab-methods</text>
+<rect x="342" y="396" width="150" height="26" rx="6" fill="#3D8BFF22" stroke="#3D8BFF66"/>
+<text x="350" y="413" font-size="11" fill="#F4F7F2">lab-domain</text>
+<rect x="502" y="396" width="150" height="26" rx="6" fill="#3D8BFF22" stroke="#3D8BFF66"/>
+<text x="510" y="413" font-size="11" fill="#F4F7F2">lab-statistics</text>
+<text x="22" y="440" font-size="13" font-weight="700" fill="#FF6B5E">Verification (5)</text>
+<rect x="22" y="452" width="150" height="26" rx="6" fill="#FF6B5E22" stroke="#FF6B5E66"/>
+<text x="30" y="469" font-size="11" fill="#F4F7F2">verify-rigor</text>
+<rect x="182" y="452" width="150" height="26" rx="6" fill="#FF6B5E22" stroke="#FF6B5E66"/>
+<text x="190" y="469" font-size="11" fill="#F4F7F2">verify-methodology</text>
+<rect x="342" y="452" width="150" height="26" rx="6" fill="#FF6B5E22" stroke="#FF6B5E66"/>
+<text x="350" y="469" font-size="11" fill="#F4F7F2">verify-evidence</text>
+<rect x="502" y="452" width="150" height="26" rx="6" fill="#FF6B5E22" stroke="#FF6B5E66"/>
+<text x="510" y="469" font-size="11" fill="#F4F7F2">verify-domain</text>
+<rect x="662" y="452" width="150" height="26" rx="6" fill="#FF6B5E22" stroke="#FF6B5E66"/>
+<text x="670" y="469" font-size="11" fill="#F4F7F2">referee</text>
+<text x="22" y="496" font-size="13" font-weight="700" fill="#16C079">Execution (4)</text>
+<rect x="22" y="508" width="150" height="26" rx="6" fill="#16C07922" stroke="#16C07966"/>
+<text x="30" y="525" font-size="11" fill="#F4F7F2">exec-experiments</text>
+<rect x="182" y="508" width="150" height="26" rx="6" fill="#16C07922" stroke="#16C07966"/>
+<text x="190" y="525" font-size="11" fill="#F4F7F2">exec-ablation</text>
+<rect x="342" y="508" width="150" height="26" rx="6" fill="#16C07922" stroke="#16C07966"/>
+<text x="350" y="525" font-size="11" fill="#F4F7F2">exec-iteration</text>
+<rect x="502" y="508" width="150" height="26" rx="6" fill="#16C07922" stroke="#16C07966"/>
+<text x="510" y="525" font-size="11" fill="#F4F7F2">research-engineer</text>
+<text x="22" y="552" font-size="13" font-weight="700" fill="#E0B24A">Reporting (2)</text>
+<rect x="22" y="564" width="150" height="26" rx="6" fill="#E0B24A22" stroke="#E0B24A66"/>
+<text x="30" y="581" font-size="11" fill="#F4F7F2">reporting-officer</text>
+<rect x="182" y="564" width="150" height="26" rx="6" fill="#E0B24A22" stroke="#E0B24A66"/>
+<text x="190" y="581" font-size="11" fill="#F4F7F2">deck-builder</text>
+<text x="22" y="608" font-size="13" font-weight="700" fill="#E08A4A">Support (12)</text>
+<rect x="22" y="620" width="150" height="26" rx="6" fill="#E08A4A22" stroke="#E08A4A66"/>
+<text x="30" y="637" font-size="11" fill="#F4F7F2">record-keeper</text>
+<rect x="182" y="620" width="150" height="26" rx="6" fill="#E08A4A22" stroke="#E08A4A66"/>
+<text x="190" y="637" font-size="11" fill="#F4F7F2">librarian</text>
+<rect x="342" y="620" width="150" height="26" rx="6" fill="#E08A4A22" stroke="#E08A4A66"/>
+<text x="350" y="637" font-size="11" fill="#F4F7F2">janitor</text>
+<rect x="502" y="620" width="150" height="26" rx="6" fill="#E08A4A22" stroke="#E08A4A66"/>
+<text x="510" y="637" font-size="11" fill="#F4F7F2">teaching-asst (?)</text>
+<rect x="662" y="620" width="150" height="26" rx="6" fill="#E08A4A22" stroke="#E08A4A66"/>
+<text x="670" y="637" font-size="11" fill="#F4F7F2">research-asst (?)</text>
+<rect x="22" y="654" width="150" height="26" rx="6" fill="#E08A4A22" stroke="#E08A4A66"/>
+<text x="30" y="671" font-size="11" fill="#F4F7F2">office-manager</text>
+<rect x="182" y="654" width="150" height="26" rx="6" fill="#E08A4A22" stroke="#E08A4A66"/>
+<text x="190" y="671" font-size="11" fill="#F4F7F2">data-steward</text>
+<rect x="342" y="654" width="150" height="26" rx="6" fill="#E08A4A22" stroke="#E08A4A66"/>
+<text x="350" y="671" font-size="11" fill="#F4F7F2">integrity-officer</text>
+<rect x="502" y="654" width="150" height="26" rx="6" fill="#E08A4A22" stroke="#E08A4A66"/>
+<text x="510" y="671" font-size="11" fill="#F4F7F2">figures</text>
+<rect x="662" y="654" width="150" height="26" rx="6" fill="#E08A4A22" stroke="#E08A4A66"/>
+<text x="670" y="671" font-size="11" fill="#F4F7F2">outreach</text>
+<rect x="22" y="688" width="150" height="26" rx="6" fill="#E08A4A22" stroke="#E08A4A66"/>
+<text x="30" y="705" font-size="11" fill="#F4F7F2">feedback-router</text>
+<rect x="182" y="688" width="150" height="26" rx="6" fill="#E08A4A22" stroke="#E08A4A66"/>
+<text x="190" y="705" font-size="11" fill="#F4F7F2">toolsmith</text>
+<text x="22" y="732" font-size="13" font-weight="700" fill="#9B8CFF">Governance (1)</text>
+<rect x="22" y="744" width="150" height="26" rx="6" fill="#9B8CFF22" stroke="#9B8CFF66"/>
+<text x="30" y="761" font-size="11" fill="#F4F7F2">research-conduct-officer</text>
+<text x="490" y="808" text-anchor="middle" font-size="10" fill="#8AA197">Cambium · 11 councils · 46 agents · field-agnostic · human-in-the-loop at every gate</text>
 </svg>

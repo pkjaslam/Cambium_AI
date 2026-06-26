@@ -10,11 +10,11 @@
 ### A research institution you run with one sentence — from RFP to verified results, with a human in the loop at every gate.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Agents](https://img.shields.io/badge/agents-46-4f8cff)](INSTITUTE.md)
-[![AI policy](https://img.shields.io/badge/AI%20policy-governed-e5534b)](AI_GOVERNANCE.md)
-[![CI](https://img.shields.io/badge/CI-evidence--checked-46c46a)](.github/workflows/validate.yml)
-[![Self-grade](https://img.shields.io/badge/doctor%20--grade-A-46c46a)](tools/doctor.py)
-[![MCP](https://img.shields.io/badge/MCP-ready-8a63d2)](MCP_INTEGRATION.md)
+[![Agents](https://img.shields.io/badge/agents-46-16C079)](INSTITUTE.md)
+[![AI policy](https://img.shields.io/badge/AI%20policy-governed-0E8E5B)](AI_GOVERNANCE.md)
+[![CI](https://img.shields.io/badge/CI-evidence--checked-16C079)](.github/workflows/validate.yml)
+[![Self-grade](https://img.shields.io/badge/doctor%20--grade-A-16C079)](tools/doctor.py)
+[![MCP](https://img.shields.io/badge/MCP-ready-0E8E5B)](MCP_INTEGRATION.md)
 
 **46 specialized agents · 11 councils · 8 human gates · governed, evidence-checked, self-grading.**
 

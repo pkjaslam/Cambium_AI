@@ -1,23 +1,39 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240" role="img" aria-label="Cambium mark">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="Cambium mark">
   <defs>
-    <radialGradient id="wood" cx="42%" cy="38%" r="70%">
-      <stop offset="0%" stop-color="#13402f"/><stop offset="100%" stop-color="#0a241b"/>
+    <radialGradient id="cm-bg" cx="40%" cy="34%" r="78%">
+      <stop offset="0%" stop-color="#0E3326"/>
+      <stop offset="100%" stop-color="#07231A"/>
+    </radialGradient>
+    <radialGradient id="cm-node" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#EAFFC9"/>
+      <stop offset="45%" stop-color="#B7F36A"/>
+      <stop offset="100%" stop-color="#B7F36A" stop-opacity="0"/>
     </radialGradient>
   </defs>
-  <rect width="240" height="240" rx="44" fill="url(#wood)"/>
-  <!-- growth rings (silver) -->
-  <g fill="none" stroke="#cfd6e0" stroke-opacity="0.55">
-    <circle cx="120" cy="120" r="30" stroke-width="2"/>
-    <circle cx="120" cy="120" r="46" stroke-width="2"/>
-    <circle cx="120" cy="120" r="62" stroke-width="2"/>
-    <circle cx="120" cy="120" r="78" stroke-width="2"/>
+
+  <!-- substrate -->
+  <rect x="4" y="4" width="192" height="192" rx="42" fill="url(#cm-bg)"/>
+  <rect x="4.5" y="4.5" width="191" height="191" rx="41.5" fill="none" stroke="#1F4D3B" stroke-width="1"/>
+
+  <!-- concentric growth rings -->
+  <g fill="none" stroke="#16C079" stroke-linecap="round">
+    <circle cx="100" cy="100" r="22"  stroke-width="2"   opacity="0.55"/>
+    <circle cx="100" cy="100" r="36"  stroke-width="1.8" opacity="0.7"/>
+    <circle cx="100" cy="100" r="50"  stroke-width="1.6" opacity="0.85"/>
+    <circle cx="100" cy="100" r="64"  stroke-width="1.5"/>
   </g>
-  <!-- the CAMBIUM ring (gold, the living growth layer) -->
-  <circle cx="120" cy="120" r="92" fill="none" stroke="#e7b84b" stroke-width="8"/>
-  <!-- bark edge -->
-  <circle cx="120" cy="120" r="100" fill="none" stroke="#2b1c10" stroke-width="6"/>
-  <!-- pith + a sprout -->
-  <circle cx="120" cy="120" r="6" fill="#e7b84b"/>
-  <path d="M120 120 C120 96 120 74 120 56 M120 76 C108 70 100 64 96 54 M120 76 C132 70 140 64 144 54"
-        fill="none" stroke="#7fe0a8" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- emerald-deep faint underlay ring for depth -->
+  <circle cx="100" cy="100" r="64" fill="none" stroke="#0E8E5B" stroke-width="1.5" opacity="0.35"/>
+
+  <!-- radial spoke from center to active node (up-right, -45deg) -->
+  <line x1="100" y1="100" x2="145.25" y2="54.75" stroke="#16C079" stroke-width="1.6" stroke-linecap="round" opacity="0.9"/>
+
+  <!-- center dot -->
+  <circle cx="100" cy="100" r="4.5" fill="#16C079"/>
+
+  <!-- active growth node on outer ring (r=64 at -45deg) -->
+  <circle cx="145.25" cy="54.75" r="16" fill="url(#cm-node)"/>
+  <circle cx="145.25" cy="54.75" r="6.5" fill="#B7F36A"/>
+  <circle cx="145.25" cy="54.75" r="2.6" fill="#052015"/>
 </svg>
