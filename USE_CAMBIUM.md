@@ -39,6 +39,24 @@ anything is finalized. If you ever just get an answer with no checkpoint, say:
 | **Ledger** | the running record of what was found and what you approved |
 | **Director / PI** | you — the person who decides |
 
+## Solo vs the Cambium way (you choose, every time)
+Cambium does **not** take over on its own. For each real task you decide how it runs:
+
+- **Solo** — plain Claude does it directly: fast, no councils, no gate. Good for drafts and quick looks.
+- **Cambium way** — the Orchestrator runs the needed councils and **stops at a gate card** for your
+  approve / revise / reject. Good for evaluations, decisions, anything you'll trust or submit.
+
+Three ways to pick:
+1. **Let it ask you.** On a substantial task (evaluate, analyze, research, write a proposal…), Cambium
+   pops up a quick **Solo / Cambium-way** choice — just tap one.
+2. **Type a command.** `/cambium <what you want>` runs it the Cambium way; `/solo <what you want>` runs
+   it plain. Use these when you already know which you want.
+3. **Set it once.** Say *"from now on, always the Cambium way"* (or *"stay solo"*) and it sticks for the
+   session until you change it.
+
+If you ever get a plain answer with no council named and no gate card, say:
+**"run this the Cambium way, with the councils and a gate."**
+
 ## The one rule that never changes
 Cambium never sends, submits, publishes, or finalizes anything without your approval at a gate.
 If you're ever unsure, you can always say **"stop"** or **"explain that simpler."**

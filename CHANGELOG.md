@@ -207,3 +207,18 @@ counts fixed (COMPARISON/FAQ/GETTING_STARTED/ROLES). Built BY Cambium; see cambi
   and a Troubleshooting table maps real Claude-app bugs (Personal-marketplace "+" only shows Anthropic catalog
   until a plugin is added once; installs lost on restart #40600; Windows empty marketplace #28853) to fixes.
 - README quickstart updated to match. These are app quirks, not Cambium bugs.
+
+## 3.11.0 - Mode picker: Solo vs the Cambium way (per-request choice)
+- Cambium never took over automatically and never asked "solo or Cambium?"; whether the councils ran
+  depended entirely on how the user phrased the request, which confused new users.
+- Added a developer-side mode picker so every install gets the choice, with no per-project CLAUDE.md edits:
+  - `skills/cambium-mode/SKILL.md` — at the start of any substantial task (evaluate / analyze / research /
+    brainstorm / design a study / write a proposal-report-paper / check results) it offers **Solo** (plain,
+    fast, no gates) vs the **Cambium way** (Orchestrator + only the needed councils, stopping at a one-page
+    gate card for APPROVE / REVISE / REJECT), then runs the chosen mode. Skips the question for trivial chat
+    and quick lookups; honors "always Cambium"/"stay solo" for the session.
+  - `commands/cambium.md` (`/cambium <task>`) and `commands/solo.md` (`/solo <task>`) — explicit manual
+    override so the user can pick the mode per request without waiting to be asked.
+- Version skipped 3.9.0 → 3.11.0 to clear the CHANGELOG's earlier 3.10.x headings (manifest had lagged at
+  3.9.0 while the log ran ahead) so the marketplace version is unambiguously newest and the Cowork update
+  button activates. Counts unchanged: 46 agents · 11 councils · 8 gates.
