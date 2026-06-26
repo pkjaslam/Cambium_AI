@@ -13,7 +13,12 @@ Writes governance/provenance.json but NEVER clobbers a good manifest with an
 empty one (a no-arg run on an empty ledger preserves the last manifest).    [F2]
 
 Usage:  python3 governance/validate.py [path/to/findings_ledger.csv]
-Optional columns honored if present: citation_status, repro.
+Optional columns honored if present: citation_status, citation_support,
+repro, fallacy_check.
+  - fallacy_check (ADR-008, advisory): a flagged interpretation fallacy
+    (Simpson's, survivorship, p-hacking, ...) surfaces as a WARNING only,
+    never a blocker. Absent column / clean value = back-compat no-op. See
+    templates/INTERPRETATION_FALLACY_CHECKLIST.md.
 """
 import csv, sys, json, os, datetime
 
@@ -38,6 +43,7 @@ def main():
         stt  = (r.get("status") or "").strip().lower()
         cit  = (r.get("citation_status") or "").strip().lower()
         csup = (r.get("citation_support") or "").strip().lower()   # ADR-007 advisory
+        fchk = (r.get("fallacy_check") or "").strip().lower()       # ADR-008 advisory
         repro= (r.get("repro") or "").strip().lower()
         for a in (r.get("agents") or "").split(","):
             if a.strip(): agents.add(a.strip())
@@ -55,6 +61,11 @@ def main():
                             "the claim; verify-evidence should review (advisory, not a blocker)" % r.get("id"))
         elif csup in ("partial", "anchorless"):
             problems.append("  citation_support ADVISORY (ADR-007): %s - '%s'; confirm the locator" % (r.get("id"), csup))
+        if fchk and fchk not in ("clean", "ok", "none", "na", "pass", "n/a"):
+            problems.append("  INTERPRETATION-FALLACY ADVISORY (ADR-008): %s - '%s' flagged; "
+                            "lab-statistics/verify-rigor should review "
+                            "(advisory, not a blocker; see templates/INTERPRETATION_FALLACY_CHECKLIST.md)"
+                            % (r.get("id"), fchk))
         if repro == "missing":
             problems.append("  REPRODUCIBILITY CHECKLIST MISSING: %s (see templates/REPRODUCIBILITY_CHECKLIST.md)" % r.get("id"))
         if sev == "P0" and stt in ("", "open"):

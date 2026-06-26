@@ -77,3 +77,25 @@ def test_validate_passes_clean():
 def test_validate_blocks_unresolved_citation():
     p=_ledger([["F1","x","a","P2","Asserted","see Smith 2024","closed","unresolved","na"]])
     assert run("governance/validate.py", p).returncode == 1; os.remove(p)
+
+# ---- ADR-008: fallacy_check is advisory (warns, never blocks) ----
+def _ledger_fallacy(rows):
+    fd, path = tempfile.mkstemp(suffix=".csv"); os.close(fd)
+    with open(path,"w",newline="") as f:
+        w=csv.writer(f); w.writerow(["id","issue","agents","severity","claim_tier","evidence","status","citation_status","repro","fallacy_check"])
+        for r in rows: w.writerow(r)
+    return path
+
+def test_validate_fallacy_flag_is_advisory_not_blocker():
+    p=_ledger_fallacy([["F1","x","a","P2","Code-verified","$ python check.py -> ok","closed","resolved","done","simpsons-paradox"]])
+    res=run("governance/validate.py", p)
+    assert res.returncode == 0
+    assert "INTERPRETATION-FALLACY ADVISORY" in res.stdout
+    os.remove(p)
+
+def test_validate_fallacy_clean_is_silent():
+    p=_ledger_fallacy([["F1","x","a","P2","Code-verified","$ python check.py -> ok","closed","resolved","done","clean"]])
+    res=run("governance/validate.py", p)
+    assert res.returncode == 0
+    assert "INTERPRETATION-FALLACY ADVISORY" not in res.stdout
+    os.remove(p)
