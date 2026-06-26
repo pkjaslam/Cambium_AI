@@ -5,7 +5,7 @@ Canonical truth:
   AGENTS   = live count of .claude/agents/*.md (with frontmatter)
   COUNCILS = 11   GATES = 8
 Scans docs/site/assets for "<n> agents", "<n> councils", "<word|n> gates" and FAILS on any
-mismatch. History files (CHANGELOG, CAMBIUM_V2/V3) and the private cambium_imp are skipped.
+mismatch. History files (CHANGELOG) and the private cambium_imp are skipped.
 Run in CI so stale counts can never ship again.
 
 Usage: python3 tools/consistency_check.py
@@ -15,7 +15,7 @@ import os, re, glob, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 COUNCILS, GATES = 11, 8
 GATE_WORDS = {"six":6,"seven":7,"eight":8,"nine":9}
-SKIP = ("CHANGELOG","CAMBIUM_V2","CAMBIUM_V3","cambium_imp",".git/")
+SKIP = ("CHANGELOG","cambium_imp",".git/")
 EXTS = ("*.md","*.html","*.svg","*.cff","*.yml","*.yaml","*.json")
 
 def n_agents():

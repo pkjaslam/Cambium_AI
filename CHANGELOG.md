@@ -46,7 +46,6 @@
   venue-rubric referee (AI Scientist), cross-project institutional memory (AutoGen).
 - New triggers: run tournament, iterate experiment, referee, run verification debate.
 - Upgraded record-keeper (institutional memory), scout-prior-art (novelty gate), ideation (feeds tournament).
-- See CAMBIUM_V2.md.
 
 ## 3.0.0 - Full research lifecycle (v3)
 - Roster 39 -> 45: rfp-radar, convener, budget-officer, grants-compliance, feedback-router, research-conduct-officer.
@@ -58,7 +57,6 @@
 - Templates: USER_PROFILE, IDEA_INBOX, COLLAB_WORKSPACE, POST_AWARD_PLAN.
 - New triggers: watch rfps, rfp in <file>, add idea, convene team, build budget, compliance check,
   assign work, route feedback, conduct check <gate>.
-- See CAMBIUM_V3.md.
 
 ## 3.1.0 - Self-improvement run (Project 005: Cambium improves Cambium)
 P0: v3 scaffolder now creates all v3 write-targets + copies templates (new_project.py); unified RFP
