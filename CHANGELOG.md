@@ -164,7 +164,7 @@ counts fixed (COMPARISON/FAQ/GETTING_STARTED/ROLES). Built BY Cambium; see cambi
   multi-account continuity. Fixed stale plugin manifest counts (34/9 -> 46/11) + version 3.8.0.
 
 ## 3.9.0 - Cambium MCP server (built BY Cambium: Toolsmith provisioned, then built + verified)
-- mcp/ : Python MCP server (official `mcp` SDK / FastMCP, stdio) exposing cambium_plan, cambium_provision,
+- mcp_server/ : Python MCP server (official `mcp` SDK / FastMCP, stdio) exposing cambium_plan, cambium_provision,
   cambium_agents, cambium_doctor, cambium_grade, cambium_validate to any MCP client.
 - pyproject (uvx entry `cambium-mcp`), README with Claude config snippets. tests/test_mcp.py (skips if SDK absent).
 - TESTED: 6 tools register; plan/provision/agents/doctor/validate all return correctly. README/ADR updated.

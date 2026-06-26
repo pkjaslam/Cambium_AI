@@ -31,7 +31,7 @@ the work; you approve at every gate.
 
 - ✅ **It is** a *plugin / template* — a bundle of Claude Code **subagents** + commands + governance + tools.
 - ❌ **It is not** a single "skill" (a skill is one capability; Cambium is a whole agent *organization*).
-- ✅ **It can also be an MCP server** — `mcp/` exposes its tools (plan, provision, validate, doctor, grade) to any MCP client (Claude Desktop/Code, Cursor) via `python -m cambium_mcp.server` or `uvx cambium-mcp`.
+- ✅ **It can also be an MCP server** — `mcp_server/` exposes its tools (plan, provision, validate, doctor, grade) to any MCP client (Claude Desktop/Code, Cursor) via `python -m cambium_mcp.server` or `uvx cambium-mcp`.
 - 🔗 **It runs on** Claude Code, and *complements* agent-harness systems (ECC, ruflo) — Cambium is the
   research-institution **domain layer** that can sit on top of a harness, not replace it.
 

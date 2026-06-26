@@ -35,7 +35,7 @@ Append a new entry for every meaningful architectural/governance decision. Templ
 ## ADR-006: Ship an MCP server (alongside the plugin)
 - Date: 2026-06 · Status: Accepted · Decider: Director
 - Context: Cambium was plugin/template only; users asked to also expose it like the many `npx`/MCP tools they see.
-- Decision: add `mcp/` — a Python MCP server (official `mcp` SDK / FastMCP, stdio) exposing cambium_plan,
+- Decision: add `mcp_server/` — a Python MCP server (official `mcp` SDK / FastMCP, stdio) exposing cambium_plan,
   provision, agents, doctor, grade, validate. Installable via `python -m cambium_mcp.server` or `uvx cambium-mcp`.
 - Consequences: Cambium is now usable FROM other AI apps (Claude Desktop/Code, Cursor), not just as a plugin.
   Stays the research-institution domain layer; the MCP is a thin wrapper over existing tools.

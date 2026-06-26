@@ -1,7 +1,8 @@
 import os, sys, asyncio, pytest
-pytest.importorskip("mcp")
+# Skip unless the real MCP SDK is importable (a bare local 'mcp' dir must NOT satisfy this).
+pytest.importorskip("mcp.server.fastmcp")
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.insert(0, os.path.join(ROOT, "mcp"))
+sys.path.insert(0, os.path.join(ROOT, "mcp_server"))
 from cambium_mcp import server as S
 
 def test_tools_registered():
