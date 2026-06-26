@@ -1,0 +1,232 @@
+<svg viewBox="0 0 960 820" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif">
+  <!-- Light background for GitHub README compatibility (white README, legible at ~900px width) -->
+  <defs>
+    <style>
+      .title   { font-size:17px; font-weight:700; fill:#111; }
+      .sub     { font-size:11px; fill:#555; }
+      .ctitle  { font-size:10px; font-weight:800; letter-spacing:.8px; text-transform:uppercase; }
+      .agent   { font-size:9.5px; fill:#222; }
+      .agentid { font-size:8px; fill:#888; font-family:ui-monospace,monospace; }
+      .boxlbl  { font-size:12px; font-weight:700; fill:#fff; }
+      .boxsub  { font-size:9.5px; fill:rgba(255,255,255,.82); }
+      .connline { stroke:#bbb; stroke-width:1.5; fill:none; }
+    </style>
+  </defs>
+
+  <!-- Page background -->
+  <rect width="960" height="820" fill="#f8f9fc" rx="10"/>
+
+  <!-- Header bar -->
+  <rect x="0" y="0" width="960" height="46" fill="#111827" rx="10"/>
+  <rect x="0" y="36" width="960" height="10" fill="#111827"/>
+  <text x="480" y="28" text-anchor="middle" font-size="15" font-weight="700" fill="#fff">Cambium — Organizational Chart</text>
+  <text x="480" y="42" text-anchor="middle" font-size="9" fill="#9ca3af">President/Director · Orchestrator · 9 Councils · 34 Agents</text>
+
+  <!-- ══════════════════════════════════════════════
+       TOP ROW: President/Director
+  ══════════════════════════════════════════════ -->
+  <!-- President box -->
+  <rect x="360" y="60" width="240" height="50" rx="8" fill="#1f2937" stroke="#e7b84b" stroke-width="2"/>
+  <text x="480" y="81" text-anchor="middle" font-size="13" font-weight="800" fill="#e7b84b">President / Director</text>
+  <text x="480" y="97" text-anchor="middle" font-size="10" fill="#d1d5db">Human-in-the-loop · Approves all gates</text>
+
+  <!-- Connector: President → Orchestrator -->
+  <line x1="480" y1="110" x2="480" y2="130" class="connline"/>
+
+  <!-- ══════════════════════════════════════════════
+       ORCHESTRATION COUNCIL  (#caa1ff)
+  ══════════════════════════════════════════════ -->
+  <rect x="340" y="130" width="280" height="62" rx="7" fill="#7c3aed" stroke="#caa1ff" stroke-width="1.5"/>
+  <text x="480" y="149" text-anchor="middle" class="boxlbl">Orchestration</text>
+  <text x="480" y="163" text-anchor="middle" class="boxsub">#00 Orchestrator · Provost</text>
+  <text x="480" y="178" text-anchor="middle" class="boxsub">#13 Document-Office · Writer</text>
+
+  <!-- Fan-out connector line: Orchestrator → councils row -->
+  <line x1="480" y1="192" x2="480" y2="210" class="connline"/>
+  <!-- Horizontal bus -->
+  <line x1="52" y1="210" x2="908" y2="210" class="connline"/>
+
+  <!-- ══════════════════════════════════════════════
+       NINE COUNCILS — positioned in two rows
+       Row 1 (y=210→310): Pre-Award | Faculty | Scouts | Labs | Partnerships
+       Row 2 (y=310→410): Verification | Execution | Reporting | Support Staff
+  ══════════════════════════════════════════════ -->
+
+  <!-- ─── PRE-AWARD  (#4ec5e0) ─── x=20 -->
+  <line x1="100" y1="210" x2="100" y2="230" class="connline"/>
+  <rect x="20" y="230" width="160" height="130" rx="7" fill="#fff" stroke="#4ec5e0" stroke-width="2"/>
+  <rect x="20" y="230" width="160" height="24" rx="7" fill="#4ec5e0"/>
+  <rect x="20" y="244" width="160" height="10" fill="#4ec5e0"/>
+  <text x="100" y="246" text-anchor="middle" class="ctitle" fill="#fff">Pre-Award Office</text>
+  <text x="30" y="270" class="agent">#24 RFP-Analyst</text>
+  <text x="30" y="282" class="agent">#26 Ideation-Facilitator</text>
+  <text x="30" y="294" class="agent">#25 Principal-Investigator</text>
+  <text x="30" y="306" class="agent">#27 Proposal-Writer</text>
+  <text x="30" y="324" class="agentid">G1 · G2 · G3</text>
+  <text x="30" y="336" class="agentid">4 agents</text>
+  <text x="30" y="350" class="agentid">preaward</text>
+
+  <!-- ─── FACULTY  (#ff7eb6) ─── x=200 -->
+  <line x1="290" y1="210" x2="290" y2="230" class="connline"/>
+  <rect x="210" y="230" width="160" height="130" rx="7" fill="#fff" stroke="#ff7eb6" stroke-width="2"/>
+  <rect x="210" y="230" width="160" height="24" rx="7" fill="#ff7eb6"/>
+  <rect x="210" y="244" width="160" height="10" fill="#ff7eb6"/>
+  <text x="290" y="246" text-anchor="middle" class="ctitle" fill="#fff">Faculty</text>
+  <text x="220" y="270" class="agent">#28 Faculty-Expert</text>
+  <text x="220" y="286" class="agentid">Parameterized by discipline:</text>
+  <text x="220" y="298" class="agentid">statistics · math · CS · ML</text>
+  <text x="220" y="310" class="agentid">AI · economics · domain</text>
+  <text x="220" y="328" class="agentid">Spawned per discipline</text>
+  <text x="220" y="340" class="agentid">on demand · 1 agent</text>
+
+  <!-- ─── SCOUTS  (#23b4a8) ─── x=390 -->
+  <line x1="480" y1="210" x2="480" y2="230" class="connline"/>
+  <rect x="400" y="230" width="160" height="130" rx="7" fill="#fff" stroke="#23b4a8" stroke-width="2"/>
+  <rect x="400" y="230" width="160" height="24" rx="7" fill="#23b4a8"/>
+  <rect x="400" y="244" width="160" height="10" fill="#23b4a8"/>
+  <text x="480" y="246" text-anchor="middle" class="ctitle" fill="#fff">Scouts</text>
+  <text x="410" y="270" class="agent">#01 Scout-Prior-Art</text>
+  <text x="410" y="282" class="agent">#02 Scout-Methods</text>
+  <text x="410" y="294" class="agent">#03 Scout-Landscape</text>
+  <text x="410" y="314" class="agentid">Literature · Methods</text>
+  <text x="410" y="326" class="agentid">Landscape · 3 agents</text>
+
+  <!-- ─── LABS  (#4f8cff) ─── x=580 -->
+  <line x1="670" y1="210" x2="670" y2="230" class="connline"/>
+  <rect x="590" y="230" width="160" height="130" rx="7" fill="#fff" stroke="#4f8cff" stroke-width="2"/>
+  <rect x="590" y="230" width="160" height="24" rx="7" fill="#4f8cff"/>
+  <rect x="590" y="244" width="160" height="10" fill="#4f8cff"/>
+  <text x="670" y="246" text-anchor="middle" class="ctitle" fill="#fff">Labs</text>
+  <text x="600" y="270" class="agent">#04 Lab-Theory</text>
+  <text x="600" y="282" class="agent">#05 Lab-Methods</text>
+  <text x="600" y="294" class="agent">#06 Lab-Domain</text>
+  <text x="600" y="314" class="agentid">Theory · Methods</text>
+  <text x="600" y="326" class="agentid">Domain · 3 agents</text>
+
+  <!-- ─── PARTNERSHIPS  (#5ee0a8) ─── x=770 -->
+  <line x1="860" y1="210" x2="860" y2="230" class="connline"/>
+  <rect x="780" y="230" width="160" height="130" rx="7" fill="#fff" stroke="#5ee0a8" stroke-width="2"/>
+  <rect x="780" y="230" width="160" height="24" rx="7" fill="#5ee0a8"/>
+  <rect x="780" y="244" width="160" height="10" fill="#5ee0a8"/>
+  <text x="860" y="246" text-anchor="middle" class="ctitle" fill="#1a1a1a">Partnerships</text>
+  <text x="790" y="270" class="agent">#31 Collaborator-Scout</text>
+  <text x="790" y="282" class="agent">#32 Partnership-Liaison</text>
+  <text x="790" y="294" class="agent">#33 Program-Manager</text>
+  <text x="790" y="314" class="agentid">Scout · Liaison</text>
+  <text x="790" y="326" class="agentid">PM · 3 agents · G3a</text>
+
+  <!-- ══════════════════════════════════════════════
+       Second horizontal bus at y=390
+  ══════════════════════════════════════════════ -->
+  <line x1="52" y1="390" x2="908" y2="390" class="connline"/>
+  <line x1="480" y1="360" x2="480" y2="390" class="connline"/>
+
+  <!-- ─── VERIFICATION  (#e5534b) ─── x=20 -->
+  <line x1="115" y1="390" x2="115" y2="415" class="connline"/>
+  <rect x="20" y="415" width="190" height="152" rx="7" fill="#fff" stroke="#e5534b" stroke-width="2"/>
+  <rect x="20" y="415" width="190" height="24" rx="7" fill="#e5534b"/>
+  <rect x="20" y="429" width="190" height="10" fill="#e5534b"/>
+  <text x="115" y="431" text-anchor="middle" class="ctitle" fill="#fff">Verification</text>
+  <text x="30" y="455" class="agent">#07 Verify-Rigor</text>
+  <text x="30" y="468" class="agent">#08 Verify-Methodology</text>
+  <text x="30" y="481" class="agent">#09 Verify-Evidence</text>
+  <text x="30" y="494" class="agent">#10 Verify-Domain</text>
+  <text x="30" y="514" class="agentid">Rigor · Method · Evidence</text>
+  <text x="30" y="526" class="agentid">Domain · Gate G4</text>
+  <text x="30" y="538" class="agentid">4 agents · runs code</text>
+  <text x="30" y="555" class="agentid">independent board</text>
+
+  <!-- ─── EXECUTION  (#46c46a) ─── x=230 -->
+  <line x1="320" y1="390" x2="320" y2="415" class="connline"/>
+  <rect x="230" y="415" width="175" height="152" rx="7" fill="#fff" stroke="#46c46a" stroke-width="2"/>
+  <rect x="230" y="415" width="175" height="24" rx="7" fill="#46c46a"/>
+  <rect x="230" y="429" width="175" height="10" fill="#46c46a"/>
+  <text x="317" y="431" text-anchor="middle" class="ctitle" fill="#fff">Execution</text>
+  <text x="240" y="455" class="agent">#11 Exec-Experiments</text>
+  <text x="240" y="468" class="agent">#12 Exec-Ablation</text>
+  <text x="240" y="490" class="agentid">Runs stress tests</text>
+  <text x="240" y="502" class="agentid">Fair comparisons</text>
+  <text x="240" y="514" class="agentid">Ablation studies</text>
+  <text x="240" y="530" class="agentid">2 agents</text>
+
+  <!-- ─── REPORTING  (#b9a04a) ─── x=425 -->
+  <line x1="510" y1="390" x2="510" y2="415" class="connline"/>
+  <rect x="425" y="415" width="175" height="152" rx="7" fill="#fff" stroke="#b9a04a" stroke-width="2"/>
+  <rect x="425" y="415" width="175" height="24" rx="7" fill="#b9a04a"/>
+  <rect x="425" y="429" width="175" height="10" fill="#b9a04a"/>
+  <text x="512" y="431" text-anchor="middle" class="ctitle" fill="#fff">Reporting Office</text>
+  <text x="435" y="455" class="agent">#29 Reporting-Officer</text>
+  <text x="435" y="468" class="agent">#30 Deck-Builder</text>
+  <text x="435" y="490" class="agentid">Progress · Semi-annual</text>
+  <text x="435" y="502" class="agentid">Annual reports · Decks</text>
+  <text x="435" y="514" class="agentid">Gate G5 · G6</text>
+  <text x="435" y="530" class="agentid">2 agents</text>
+
+  <!-- ─── SUPPORT STAFF  (#d59257) ─── x=620, extra height for 10 agents -->
+  <line x1="760" y1="390" x2="760" y2="415" class="connline"/>
+  <rect x="620" y="415" width="320" height="200" rx="7" fill="#fff" stroke="#d59257" stroke-width="2"/>
+  <rect x="620" y="415" width="320" height="24" rx="7" fill="#d59257"/>
+  <rect x="620" y="429" width="320" height="10" fill="#d59257"/>
+  <text x="780" y="431" text-anchor="middle" class="ctitle" fill="#fff">Support Staff</text>
+  <!-- Two-column agent list -->
+  <text x="630" y="455" class="agent">#14 Record-Keeper</text>
+  <text x="630" y="468" class="agent">#15 Librarian</text>
+  <text x="630" y="481" class="agent">#16 Janitor</text>
+  <text x="630" y="494" class="agent">#17 Teaching-Asst</text>
+  <text x="630" y="507" class="agent">#18 Research-Asst</text>
+  <text x="790" y="455" class="agent">#19 Office-Manager</text>
+  <text x="790" y="468" class="agent">#20 Data-Steward</text>
+  <text x="790" y="481" class="agent">#21 Integrity-Officer</text>
+  <text x="790" y="494" class="agent">#22 Figures</text>
+  <text x="790" y="507" class="agent">#23 Outreach</text>
+  <text x="630" y="530" class="agentid">Archivist · Citations · Cleaner · TA · RA</text>
+  <text x="630" y="543" class="agentid">Secretary · Data · Integrity · Viz · Outreach</text>
+  <text x="630" y="560" class="agentid">10 agents</text>
+
+  <!-- ══════════════════════════════════════════════
+       LEGEND at bottom
+  ══════════════════════════════════════════════ -->
+  <rect x="20" y="638" width="920" height="158" rx="8" fill="#fff" stroke="#e5e7eb" stroke-width="1"/>
+  <text x="40" y="657" font-size="10" font-weight="700" fill="#374151" letter-spacing=".6px">COUNCIL LEGEND</text>
+
+  <!-- Legend swatches row 1 -->
+  <rect x="40"  y="666" width="12" height="12" rx="2" fill="#caa1ff"/>
+  <text x="57"  y="676" class="agentid" fill="#333">Orchestration (2)</text>
+  <rect x="170" y="666" width="12" height="12" rx="2" fill="#4ec5e0"/>
+  <text x="187" y="676" class="agentid" fill="#333">Pre-Award (4)</text>
+  <rect x="300" y="666" width="12" height="12" rx="2" fill="#ff7eb6"/>
+  <text x="317" y="676" class="agentid" fill="#333">Faculty (1+)</text>
+  <rect x="420" y="666" width="12" height="12" rx="2" fill="#23b4a8"/>
+  <text x="437" y="676" class="agentid" fill="#333">Scouts (3)</text>
+  <rect x="530" y="666" width="12" height="12" rx="2" fill="#4f8cff"/>
+  <text x="547" y="676" class="agentid" fill="#333">Labs (3)</text>
+  <rect x="620" y="666" width="12" height="12" rx="2" fill="#5ee0a8"/>
+  <text x="637" y="676" class="agentid" fill="#333">Partnerships (3)</text>
+  <rect x="750" y="666" width="12" height="12" rx="2" fill="#e5534b"/>
+  <text x="767" y="676" class="agentid" fill="#333">Verification (4)</text>
+
+  <!-- Legend swatches row 2 -->
+  <rect x="40"  y="690" width="12" height="12" rx="2" fill="#46c46a"/>
+  <text x="57"  y="700" class="agentid" fill="#333">Execution (2)</text>
+  <rect x="170" y="690" width="12" height="12" rx="2" fill="#b9a04a"/>
+  <text x="187" y="700" class="agentid" fill="#333">Reporting (2)</text>
+  <rect x="300" y="690" width="12" height="12" rx="2" fill="#d59257"/>
+  <text x="317" y="700" class="agentid" fill="#333">Support Staff (10)</text>
+
+  <!-- Gate note -->
+  <text x="40" y="724" font-size="9.5" fill="#555">Human gates (President approves):</text>
+  <rect x="40" y="730" width="10" height="10" fill="#e7b84b" rx="1"/>
+  <text x="55" y="739" class="agentid" fill="#333">G1 pursue RFP?</text>
+  <rect x="160" y="730" width="10" height="10" fill="#e7b84b" rx="1"/>
+  <text x="175" y="739" class="agentid" fill="#333">G2 which idea?</text>
+  <rect x="280" y="730" width="10" height="10" fill="#e7b84b" rx="1"/>
+  <text x="295" y="739" class="agentid" fill="#333">G3a collaborators?</text>
+  <rect x="410" y="730" width="10" height="10" fill="#e7b84b" rx="1"/>
+  <text x="425" y="739" class="agentid" fill="#333">G3 submit proposal?</text>
+  <rect x="560" y="730" width="10" height="10" fill="#e7b84b" rx="1"/>
+  <text x="575" y="739" class="agentid" fill="#333">G4 apply fixes?</text>
+  <rect x="680" y="730" width="10" height="10" fill="#e7b84b" rx="1"/>
+  <text x="695" y="739" class="agentid" fill="#333">G5/G6 release?</text>
+
+  <text x="480" y="780" text-anchor="middle" font-size="9" fill="#9ca3af">Cambium · 9 councils · 34 agents · field-agnostic · human-in-the-loop at every gate</text>
+</svg>
