@@ -208,13 +208,14 @@ counts fixed (COMPARISON/FAQ/GETTING_STARTED/ROLES). Built BY Cambium; see cambi
   until a plugin is added once; installs lost on restart #40600; Windows empty marketplace #28853) to fixes.
 - README quickstart updated to match. These are app quirks, not Cambium bugs.
 
-## 3.11.0 - Mode picker: Solo vs the Cambium way (per-request choice)
-- Cambium never took over automatically and never asked "solo or Cambium?"; whether the councils ran
-  depended entirely on how the user phrased the request, which confused new users.
-- Added a developer-side mode picker so every install gets the choice, with no per-project CLAUDE.md edits:
-  - `skills/cambium-mode/SKILL.md` — at the start of any substantial task (evaluate / analyze / research /
-    brainstorm / design a study / write a proposal-report-paper / check results) it offers **Solo** (plain,
-    fast, no gates) vs the **Cambium way** (Orchestrator + only the needed councils, stopping at a one-page
+## 3.11.1 - Council-labelled live agent cards
+- Orchestrator now writes every sub-agent dispatch as "<Council> · <Role>" (e.g. "Verification · Referee",
+  "Labs · Statistics"). Cowork's native "Running N agents" cards show that label verbatim, so the live UI now
+  speaks the same council vocabulary as the run_trace status board — the two views finally agree.
+- Clarified (docs/answers): the native "Running N agents" widget is Cowork's own and cannot be restyled by a
+  plugin; the run_trace board (plan up front + ✓/▶/○ across all councils + gates) is the complementary map;
+  dashboard.html is a static org reference, not a live run monitor.
+ncils, stopping at a one-page
     gate card for APPROVE / REVISE / REJECT), then runs the chosen mode. Skips the question for trivial chat
     and quick lookups; honors "always Cambium"/"stay solo" for the session.
   - `commands/cambium.md` (`/cambium <task>`) and `commands/solo.md` (`/solo <task>`) — explicit manual
