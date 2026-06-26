@@ -4,7 +4,7 @@
 results and reports - with the President (you) approving at every gate. Field-agnostic: domain
 expertise lives in the parameterized Faculty and your project config.*
 
-## The lifecycle (two halves, six gates)
+## The lifecycle (two halves, eight gates)
 ```
   PRE-AWARD                                   |  POST-AWARD (after sponsor approval)
   RFP > G1 > Ideate > G2 > Aims+Faculty       |  Develop > Verify > G4 > Revise > Report > G5/G6
@@ -12,7 +12,7 @@ expertise lives in the parameterized Faculty and your project config.*
 ```
 | Stage | Lead | Output | Gate (President decides) |
 |---|---|---|---|
-| 1 RFP intake | RFP-Analyst | 01_rfp_brief.md | **G1** pursue? |
+| 1 RFP intake | RFP-Analyst | 00_rfp_brief.md | **G1** pursue? |
 | 2 Ideation | Ideation-Facilitator + Faculty | 02_idea_slate.md | **G2** which idea? |
 | 3 Aims + faculty review | PI + Faculty | 03_aims.md, faculty/* | (internal) |
 | 3b Collaborators | Collaborator-Scout + Liaison | partners/* | **G3a** who to contact (you send) |
@@ -23,7 +23,7 @@ expertise lives in the parameterized Faculty and your project config.*
 
 Post-award development runs the **Development Playbook** (`DEVELOPMENT_PLAYBOOK.md`).
 
-## The 10 councils (45 workers)
+## The 11 councils (45 workers)
 President (you) · Provost/Orchestration (00, 13) · Pre-Award (24-27) · Partnerships (31-33) ·
 Faculty (28, parameterized) · Scouts (01-03) · Labs (04-06) · Verification (07-10) · Execution (11-12) ·
 Support Staff (14-23) · Reporting (29-30). See `.claude/agents/` and `dashboard.html`.

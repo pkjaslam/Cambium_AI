@@ -10,9 +10,9 @@ date-released: "2026-06-25"
 license: MIT
 abstract: >-
   A portable Claude project that acts as a full research institution:
-  34 specialized agents across 9 councils spanning the complete lifecycle
+  45 specialized agents across 11 councils spanning the complete lifecycle
   from RFP intake and grant-proposal drafting through code-verified
-  results to reports and decks. Human-in-the-loop at 6 mandatory gates;
+  results to reports and decks. Human-in-the-loop at 8 mandatory gates;
   governed by an explicit, CI-enforced AI-use policy (authorship,
   IRB, FERPA, dual-use, data sovereignty). Field-agnostic via
   parameterized faculty configuration.

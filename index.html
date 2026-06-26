@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cambium — From RFP to Verified Results</title>
-<meta name="description" content="A portable Claude project that acts as your entire research org: 34 specialized agents across 9 councils, with human-in-the-loop at every gate.">
+<meta name="description" content="A portable Claude project that acts as your entire research org: 45 specialized agents across 11 councils, with human-in-the-loop at every gate.">
 <style>
 /* ── Design tokens (match dashboard.html exactly) ── */
 :root {
@@ -593,7 +593,7 @@ footer {
       <span class="gold">from RFP to verified results</span>
     </h1>
     <p class="hero-sub reveal">
-      34 specialized agents across 9 councils handle grant intake, brainstorming, proposal writing,
+      45 specialized agents across 11 councils handle grant intake, brainstorming, proposal writing,
       development, adversarial verification, and reporting. Every claim carries an evidence tier.
       Every gate requires your explicit approval. Nothing is published without you.
     </p>
@@ -602,7 +602,7 @@ footer {
     <div class="badge-row reveal">
       <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
       <a href="https://claude.ai"><img src="https://img.shields.io/badge/made%20with-Claude-blueviolet?logo=anthropic" alt="Made with Claude"></a>
-      <a href="INSTITUTE.md"><img src="https://img.shields.io/badge/agents-34-4f8cff" alt="34 Agents"></a>
+      <a href="INSTITUTE.md"><img src="https://img.shields.io/badge/agents-45-4f8cff" alt="45 Agents"></a>
       <a href="AI_GOVERNANCE.md"><img src="https://img.shields.io/badge/AI%20policy-governed-e5534b" alt="Governed"></a>
       <a href=".github/workflows/validate.yml"><img src="https://img.shields.io/badge/CI-evidence--checked-46c46a" alt="CI: evidence-checked"></a>
       <a href="https://github.com/IFC-UIDAHO/Cambium_AI/pulls"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen" alt="PRs Welcome"></a>
@@ -646,7 +646,7 @@ footer {
       </div>
       <div class="what-card reveal">
         <div class="wc-icon">📋</div>
-        <div class="wc-title">One output contract, 34 agents</div>
+        <div class="wc-title">One output contract, 45 agents</div>
         <div class="wc-text">Every agent emits the same five fields with a <strong>severity</strong> (P0/P1/P2) and a <strong>claim tier</strong> (Proved / Code-verified / Asserted / Open). Conflicts resolve by rule: <em>whoever ran the code wins</em>.</div>
       </div>
       <div class="what-card reveal">
@@ -669,7 +669,7 @@ footer {
     <p class="section-label reveal">The lifecycle</p>
     <h2 class="section-title reveal">RFP → Proposal → Develop → Verify → Report</h2>
     <p class="section-lead reveal">
-      Two halves, six gates. At every <span class="gold">◆ gate</span> the institute stops and
+      Two halves, eight gates. At every <span class="gold">◆ gate</span> the institute stops and
       presents you with the decision, options, and risks. Nothing proceeds without your explicit approval.
     </p>
     <div class="lc-wrap reveal">
@@ -729,7 +729,7 @@ footer {
 <section id="councils">
   <div class="wrap">
     <p class="section-label reveal">The organization</p>
-    <h2 class="section-title reveal"><span class="gold">9 councils</span>, 34 agents — all answering to you</h2>
+    <h2 class="section-title reveal"><span class="gold">11 councils</span>, 45 agents — all answering to you</h2>
     <p class="section-lead reveal">
       Smart-Tier models: Opus only on the critical reasoning path; Sonnet everywhere it's sufficient;
       your own model for synthesis and final prose.
@@ -739,52 +739,61 @@ footer {
       <div class="council-card reveal" style="--c-clr:var(--orch)">
         <div class="c-name" style="color:var(--orch)">Orchestration</div>
         <div class="c-count">2 agents · inherit (your model)</div>
-        <div class="c-desc">Orchestrator dispatches, synthesizes; Document Office is the only writer — gated on your approval.</div>
+        <div class="c-desc">Orchestrator dispatches & synthesizes; Document Office is the only writer — gated on your approval.</div>
       </div>
       <div class="council-card reveal" style="--c-clr:var(--preaward)">
         <div class="c-name" style="color:var(--preaward)">Pre-Award Office</div>
-        <div class="c-count">4 agents · Sonnet + Opus</div>
-        <div class="c-desc">RFP-Analyst → Ideation-Facilitator → Principal-Investigator → Proposal-Writer. Wins the project.</div>
+        <div class="c-count">8 agents · Sonnet + Opus</div>
+        <div class="c-desc">RFP-Radar + RFP-Analyst (intake & fit), Ideation + Idea-Tournament (Elo-ranked ideas), PI, Proposal-Writer, Budget-Officer, Grants-Compliance. Wins the project.</div>
       </div>
       <div class="council-card reveal" style="--c-clr:var(--partner)">
         <div class="c-name" style="color:var(--partner)">Partnerships Office</div>
-        <div class="c-count">3 agents · Sonnet</div>
-        <div class="c-desc">Collaborator-Scout, Partnership-Liaison, Program-Manager. Finds verified collaborators; drafts outreach; manages post-award milestones.</div>
+        <div class="c-count">4 agents · Sonnet</div>
+        <div class="c-desc">Collaborator-Scout, Partnership-Liaison, Program-Manager, Convener. Finds verified collaborators; drafts outreach; runs the shared pre-award room.</div>
       </div>
       <div class="council-card reveal" style="--c-clr:var(--faculty)">
         <div class="c-name" style="color:var(--faculty)">Faculty</div>
         <div class="c-count">1 parameterized agent · Opus</div>
-        <div class="c-desc">Summoned per discipline: statistics, math, CS, ML, AI, economics, or your field. Gives the strongest peer-review objection + the fix. Unlimited fields.</div>
+        <div class="c-desc">Summoned per discipline — statistics, math, CS, ML, economics, or your field. Strongest peer-review objection + the fix. Unlimited fields.</div>
       </div>
       <div class="council-card reveal" style="--c-clr:var(--scout)">
         <div class="c-name" style="color:var(--scout)">Scouts</div>
         <div class="c-count">3 agents · Sonnet</div>
-        <div class="c-desc">Prior-Art, Methods, and Landscape scouts. Web breadth — verify citations, never invent them.</div>
+        <div class="c-desc">Prior-Art (novelty gate), Methods, Landscape. Two modes: quick scan / deep research. Verify citations, never invent them.</div>
       </div>
       <div class="council-card reveal" style="--c-clr:var(--lab)">
         <div class="c-name" style="color:var(--lab)">Labs</div>
-        <div class="c-count">3 agents · Opus + Sonnet</div>
-        <div class="c-desc">Theory (Opus), ML/Methods, Domain — build the core methods and load-bearing theorems.</div>
+        <div class="c-count">4 agents · Opus + Sonnet</div>
+        <div class="c-desc">Theory (Opus), Methods, Domain, and Statistics (the stats doer — fits models, CIs, power, diagnostics).</div>
       </div>
       <div class="council-card reveal" style="--c-clr:var(--verify)">
         <div class="c-name" style="color:var(--verify)">Verification</div>
-        <div class="c-count">4 agents · Opus + Sonnet</div>
-        <div class="c-desc">Three adversarial Opus boards (Rigor, Methodology, Evidence) run the code. They do not opine — they reproduce. Code-verified beats asserted.</div>
+        <div class="c-count">5 agents · Opus + Sonnet</div>
+        <div class="c-desc">Rigor, Methodology, Evidence boards run the code; Domain board checks utility; Referee scores vs a venue rubric. Code-verified beats asserted.</div>
       </div>
       <div class="council-card reveal" style="--c-clr:var(--exec)">
         <div class="c-name" style="color:var(--exec)">Execution</div>
-        <div class="c-count">2 agents · Sonnet</div>
-        <div class="c-desc">Experiments and Ablation labs run stress tests, measure what each component is worth, flag redundancy.</div>
+        <div class="c-count">4 agents · Sonnet</div>
+        <div class="c-desc">Experiments, Ablation, Iteration (budget-aware diagnose→tune→re-run tree-search), and Research-Engineer (reproducible code).</div>
       </div>
       <div class="council-card reveal" style="--c-clr:var(--reporting)">
         <div class="c-name" style="color:var(--reporting)">Reporting Office</div>
         <div class="c-count">2 agents · Sonnet</div>
         <div class="c-desc">Progress / annual reports and slide decks from verified content only. You release at G5/G6.</div>
       </div>
+      <div class="council-card reveal" style="--c-clr:var(--support)">
+        <div class="c-name" style="color:var(--support)">Support Staff</div>
+        <div class="c-count">11 agents · Sonnet + Haiku</div>
+        <div class="c-desc">Record-Keeper (institutional memory), Librarian (citation-resolution gate), Feedback-Router, Data-Steward, Integrity-Officer, Figures, RA, TA, Office-Manager, Outreach, Janitor.</div>
+      </div>
+      <div class="council-card reveal" style="--c-clr:#9b8cff">
+        <div class="c-name" style="color:#9b8cff">Governance</div>
+        <div class="c-count">1 agent · Opus</div>
+        <div class="c-desc">Research-Conduct-Officer runs the responsible-research checklist at EVERY gate — IRB/IACUC, COI, FERPA, data sovereignty, dual-use, reproducibility → GO / CONDITIONS / STOP.</div>
+      </div>
     </div>
     <p class="reveal" style="margin-top:18px;font-size:13.5px;color:var(--mut)">
-      Plus <strong>Support Staff</strong> (10 agents): Record-Keeper, Librarian, Teaching-Assistant, Research-Assistant, Figures, Outreach, Integrity-Officer, Data-Steward, Office-Manager, Janitor.
-      Full roster in <a href="dashboard.html" style="color:var(--gold)">dashboard.html</a> and <a href="FACULTY_ROSTER.md" style="color:var(--gold)">FACULTY_ROSTER.md</a>.
+      Full interactive roster in <a href="dashboard.html" style="color:var(--gold)">dashboard.html</a> · charter in <a href="INSTITUTE.md" style="color:var(--gold)">INSTITUTE.md</a>.
     </p>
   </div>
 </section>
@@ -895,7 +904,7 @@ footer {
     <p class="section-label reveal">Install</p>
     <h2 class="section-title reveal">Two ways to get started</h2>
     <p class="section-lead reveal">
-      Both paths give you the same 34 agents. Pick the one that fits your workflow.
+      Both paths give you the same 45 agents. Pick the one that fits your workflow.
     </p>
     <div class="install-grid stagger">
       <div class="install-box reveal">

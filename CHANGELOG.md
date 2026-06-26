@@ -81,3 +81,19 @@ counts fixed (COMPARISON/FAQ/GETTING_STARTED/ROLES). Built BY Cambium; see cambi
 - config.example.yml: model_router block (anthropic ON; google + openai_compatible scaffolded OFF).
 - tools/model_router.py: agent -> tier -> concrete model from active provider; stdlib fallback to Claude.
   TESTED: 45 agents -> 12 opus / 31 sonnet / 2 haiku. Add free/other models later via config (no code change).
+
+## 3.2.2 - Repo-wide consistency cleanup + enforcement
+- Fixed every stale count across the repo: 34/39 -> 45 agents, 9/10 -> 11 councils (Governance added),
+  "six gates" -> 8, in index.html, demo/tour.html, plugin/README, ROADMAP, CITATION, dashboard, README,
+  INSTITUTE; rebuilt index.html council grid (all 11 councils, correct per-council counts).
+- Regenerated assets from the live roster: assets/org-chart.svg (tools/gen_org_chart.py),
+  assets/demo.gif (tools/gen_demo_gif.py), assets/social-preview.svg+png. Counts now generated, not hand-typed.
+- NEW tools/consistency_check.py (canonical 45/11/8 from the live roster) wired into CI: the build now
+  FAILS on any future count drift. Self-cleaning by construction.
+
+## 3.3.0 - Auto-runner engine (specs -> running workers)
+- tools/cambium_run.py + phases.yml: orchestrator that runs agents CONCURRENTLY within a phase
+  (each call = one session), sequentially across phases, stopping at every human gate.
+- Dry-run prints the parallel execution plan + model per agent (via the router); --live executes via
+  the Anthropic API with a thread pool (needs ANTHROPIC_API_KEY). I/O-bound: concurrency, not cores.
+- AUTORUN.md documents both execution paths + limits.

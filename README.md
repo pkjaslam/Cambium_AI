@@ -18,7 +18,7 @@
 
 <img src="assets/demo.gif" alt="Cambium in motion" width="760">
 
-**45 specialized agents · 10 councils · the full research lifecycle · governed at every gate.**
+**45 specialized agents · 11 councils · the full research lifecycle · governed at every gate.**
 
 *Cambium is the thin living layer just under a tree's bark — the place where new growth actually forms.
 This Cambium is the layer where your research grows: a portable Claude project that acts as your entire
@@ -67,7 +67,7 @@ at **any stage** of a project.
 
 ![Research lifecycle with human gates](assets/lifecycle.svg)
 
-![Org chart — agents across 9 councils](assets/org-chart.svg)
+![Org chart — agents across 11 councils](assets/org-chart.svg)
 
 *Diagrams render natively on GitHub (no JS). Interactive version: [`dashboard.html`](dashboard.html) · 60-second tour: [`demo/tour.html`](demo/tour.html) · live site: [`index.html`](index.html).*
 
@@ -75,7 +75,7 @@ at **any stage** of a project.
 
 | System | Scope | Human gates | Evidence contract | Governance policy |
 |---|---|---|---|---|
-| **Cambium** | **RFP → proposal → development → verified results → reports** | **6 mandatory; nothing ships without you** | **Claim-tier contract; CI fails on un-evidenced claim** | **Shipped & enforced** |
+| **Cambium** | **RFP → proposal → development → verified results → reports** | **8 mandatory; nothing ships without you** | **Claim-tier contract; CI fails on un-evidenced claim** | **Shipped & enforced** |
 | Sakana AI Scientist | Idea → ML paper | None (autonomous) | ML experiments; no cross-agent contract | None |
 | Google AI Co-Scientist | Hypothesis generation | Review step; no formal gates | Elo-ranked ideation; no code verification | None |
 | Agent Laboratory | Lit → experiments → report (ML) | Co-pilot checkpoints (informal) | Runs ML code; no unified contract | None |
@@ -103,10 +103,10 @@ The only system that spans the **full pre-award and post-award lifecycle** under
 ```
 (See [`plugin/`](plugin/) for the manifest and `marketplace.json`.)
 
-## The 9 councils
+## The 11 councils
 
 Office of the Director (you) · Provost/Orchestration · **Pre-Award Office** · **Partnerships Office** ·
-**Faculty** · Scouts · Labs · Verification · Execution · Support Staff · **Reporting Office**.
+**Faculty** · Scouts · Labs · Verification · Execution · Support Staff · **Reporting Office** · **Governance**.
 Full charter: [`INSTITUTE.md`](INSTITUTE.md). Roster: [`.claude/agents/`](.claude/agents).
 
 ## Commands
@@ -148,11 +148,4 @@ the Verification boards stay independent. Approvals are recorded in `governance/
 ## More
 
 [`LIFECYCLE_V3.md`](LIFECYCLE_V3.md) (end-to-end map) · [`RESEARCH_CONDUCT.md`](RESEARCH_CONDUCT.md) (responsible-research standard) · [`CAMBIUM_V3.md`](CAMBIUM_V3.md) ·
-[`COMPARISON.md`](COMPARISON.md) (vs other systems) · [`FAQ.md`](FAQ.md) · [`ROADMAP.md`](ROADMAP.md) ·
-[`CITATION.cff`](CITATION.cff) (cite this) · [`index.html`](index.html) (landing site).
-
-Scaffold a new project: `python3 tools/new_project.py "My Project"`.
-
-## License
-
-MIT — see [`LICENSE`](LICENSE). Created by M. Jaslam (University of Idaho · Intermountain Forestry Cooperative). Use it, fork it, rename it, build your own institute.
+[`COMPARISON.md`](COMPARISON.md) (vs other systems) · [`FAQ.md`](FAQ.md) · [`ROADMAP.md`](ROA

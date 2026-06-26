@@ -9,10 +9,10 @@
 ## Current version: 1.4
 
 **What works today:**
-- 34 specialized agents across 9 councils (full charter in [`INSTITUTE.md`](INSTITUTE.md))
+- 45 specialized agents across 11 councils (full charter in [`INSTITUTE.md`](INSTITUTE.md))
 - Full pre-award lifecycle: RFP intake, ideation, aims/faculty review, collaborator sourcing, proposal drafting
 - Full post-award lifecycle: lab development, verification (code-run), synthesis, reporting, decks
-- 6 mandatory human-approval gates with recorded ledger (`governance/GATES.md`)
+- 8 mandatory human-approval gates with recorded ledger (`governance/GATES.md`)
 - Unified 5-field output contract (severity + claim tier) across all agents
 - `governance/validate.py` — fails the build on open P0 or un-evidenced claim
 - `AI_GOVERNANCE.md` — explicit, enforced governance policy (authorship, IRB, FERPA, dual-use, data sovereignty)

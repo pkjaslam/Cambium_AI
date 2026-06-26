@@ -39,6 +39,13 @@ jobs:
       - name: Check agent frontmatter
         run: python3 tools/check_agents.py
 
+      # ── Step 1b: Consistency — stated counts must match the live roster ────
+      # Fails (RED) if any doc/site/asset says a stale "<n> agents", "<n> councils",
+      # or "<word> gates" that contradicts the canonical 45 / 11 / 8. Keeps the repo
+      # from drifting as the roster changes.
+      - name: Consistency check (counts)
+        run: python3 tools/consistency_check.py
+
       # ── Step 2: Evidence / P0 gate against the CI ledger ──────────────────
       # tools/ci_ledger.csv is the repo's canonical "passing" ledger.
       # CI goes RED if any row has: open P0 · missing evidence · invalid claim tier.
