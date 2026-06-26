@@ -46,6 +46,8 @@ Cambium does **not** take over on its own. For each real task you decide how it 
 - **Cambium way** — the Orchestrator runs the needed councils and **stops at a gate card** for your
   approve / revise / reject. Good for evaluations, decisions, anything you'll trust or submit.
 
+**The smart default:** quick questions and tiny edits just run **Solo** (no interruption). For anything **substantial** — evaluate, analyze, research, write a proposal/report, check results — Cambium **asks you once** which way, then remembers your pick for the session.
+
 Three ways to pick:
 1. **Let it ask you.** On a substantial task (evaluate, analyze, research, write a proposal…), Cambium
    pops up a quick **Solo / Cambium-way** choice — just tap one.

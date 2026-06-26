@@ -223,3 +223,11 @@ ncils, stopping at a one-page
 - Version skipped 3.9.0 → 3.11.0 to clear the CHANGELOG's earlier 3.10.x headings (manifest had lagged at
   3.9.0 while the log ran ahead) so the marketplace version is unambiguously newest and the Cowork update
   button activates. Counts unchanged: 46 agents · 11 councils · 8 gates.
+
+## 3.11.2 - Smart-default mode picker (Solo vs the Cambium way)
+- cambium-mode skill rewritten to a SMART DEFAULT: trivial edits/lookups run Solo silently (no
+  question); substantial tasks (evaluate, analyze, research, write, verify…) trigger a one-time
+  Solo/Cambium-way choice that is then remembered for the session.
+- Encodes the decision rule, session-memory, and an honest note that /solo and /cambium are the only
+  100%-deterministic controls. USE_CAMBIUM.md documents the default so behavior is predictable even
+  when the soft trigger doesn't fire.

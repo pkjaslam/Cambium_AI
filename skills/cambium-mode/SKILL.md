@@ -1,47 +1,52 @@
 ---
 name: cambium-mode
-description: Ask the user how to run a substantial task — Solo (plain, fast, no gates) or the Cambium way (Orchestrator + councils + a human approval gate) — BEFORE starting. Use at the start of any non-trivial request such as evaluate, review, analyze, research, brainstorm, design a study, write a proposal/report/paper, or check results. Do NOT use for quick chat, simple factual lookups, or tiny one-step edits.
+description: Smart default for HOW to run a task — Solo (plain, fast, no gates) or the Cambium way (Orchestrator + councils + a human approval gate). Trivial edits and quick lookups run Solo silently with NO question. For any SUBSTANTIAL task — evaluate, review, analyze, research, brainstorm, design a study, write a proposal/report/paper, build a budget, check or reproduce results, prepare a deck — ask the user which way BEFORE starting, then remember their choice for the rest of the session. Do NOT ask for casual chat, simple factual questions, or tiny one-step edits.
 ---
 
-# Cambium mode picker
+# Cambium mode — smart default
 
-Cambium does not take over automatically and never asks "solo or Cambium?" on its own.
-This skill adds that choice: before any substantial task, offer the user the two ways to work,
-then run the one they pick.
+Cambium does not take over automatically. This skill decides, per task, whether to run **Solo** or
+**the Cambium way**, using a smart default so the user is only asked when it actually matters.
 
-## When to trigger
-Trigger at the **start** of a substantial request — anything that would take multiple steps or
-produce a real deliverable: *evaluate / review / assess, analyze, research a topic, brainstorm or
-rank ideas, design a study or experiment, write a proposal / report / paper / draft, build a budget,
-check or reproduce results, prepare a deck.*
+## The decision rule (follow every time a new task arrives)
 
-Do **not** trigger for: casual conversation, a quick factual question, a one-line lookup, or a
-trivial single-step edit. When in doubt for a borderline case, ask briefly rather than assume.
+1. **Is a mode already set for this session?** If the user earlier said "always Cambium" / "stay solo,"
+   or just answered the choice, **run that mode and do NOT ask again.** Slash commands `/cambium <task>`
+   and `/solo <task>` also count as the answer — run that mode, no question.
 
-## What to do
-1. **Offer the choice and wait.** Present two options (in Cowork, render them as a quick
-   pick using the question/choice UI; otherwise ask in one short line):
+2. **Is the task TRIVIAL?** A quick factual question, a one-line lookup, casual chat, or a tiny
+   single-step edit → **just do it Solo, silently. Ask nothing.** This is the "smart" part: no friction
+   on small things.
 
-   - **Solo** — plain Claude handles it directly. Fast, conversational, no councils, no gate.
-     Best for drafts, quick looks, and low-stakes work.
-   - **Cambium way** — run the institute. The **Orchestrator** dispatches only the councils the
-     task needs (Scouts for prior work, Labs to build, **Verification** to audit, Execution to run
-     experiments, Support to package), and **stops at a one-page gate card**
-     (*decision · options · risks · recommendation · APPROVE / REVISE / REJECT*) before anything is
-     finalized. Best for decisions, evaluations, anything that must be trustworthy or submitted.
+3. **Is the task SUBSTANTIAL?** Multiple steps or a real deliverable — *evaluate / review / assess,
+   analyze, research a topic, brainstorm or rank ideas, design a study or experiment, write a
+   proposal / report / paper / draft, build a budget, check or reproduce results, prepare a deck* →
+   **ask the choice once, BEFORE starting**, then remember it for the session.
 
-2. **Honor the answer.**
-   - **Solo** → just do the task directly. Don't invoke councils or gates.
-   - **Cambium way** → hand off to the Orchestrator workflow: name each council as you use it,
-     keep the findings ledger, and present the gate card for the user's APPROVE / REVISE / REJECT
-     before delivering. Never finalize, submit, or publish without that approval.
+When a borderline case is genuinely unclear, ask briefly rather than guess.
 
-3. **Remember the choice for the session if asked.** If the user says something like "always
-   Cambium" or "stay solo from now on," skip the question for the rest of the session and run that
-   mode by default until they change it.
+## Asking the choice (only for substantial tasks)
 
-## Notes
-- The user is always the decider ("the Director"). This skill only surfaces the choice — it does
-  not pick for them.
-- Equivalent manual triggers exist as slash commands: `/solo <task>` and `/cambium <task>`. If the
-  user used one of those, do not ask again — just run that mode.
+Offer two options and wait (in Cowork, render as a quick pick; otherwise one short line):
+
+- **Solo** — plain Claude handles it directly. Fast, conversational, no councils, no gate.
+  Best for drafts, quick looks, low-stakes work.
+- **Cambium way** — run the institute. The **Orchestrator** dispatches only the councils the task
+  needs (Scouts for prior work, Labs to build, **Verification** to audit, Execution to run experiments,
+  **Support** to record + check + tidy at close-out), and **stops at a one-page gate card**
+  (*decision · options · risks · recommendation · APPROVE / REVISE / REJECT*) before anything is
+  finalized. Best for decisions, evaluations, anything that must be trustworthy or submitted.
+
+## Honoring the answer
+- **Solo** → do the task directly. No councils, no gate.
+- **Cambium way** → hand to the Orchestrator: label each dispatch "<Council> · <Role>", keep the
+  findings ledger, run Support close-out, and present the gate card for APPROVE / REVISE / REJECT.
+  Never finalize, submit, or publish without that approval.
+- **Remember it.** Once chosen (or set with "always Cambium" / "stay solo"), skip the question for the
+  rest of the session and run that mode by default until the user changes it.
+
+## The honest guarantee
+The only 100%-deterministic control is the user typing **`/solo`** or **`/cambium`**. This skill makes
+the *default* behave well — silent Solo on trivial work, a one-time ask on substantial work — but if it
+ever runs something without asking and the user wanted the other mode, they can just say
+**"run this the Cambium way"** or **"/solo"** and it switches immediately. The user is always the Director.
