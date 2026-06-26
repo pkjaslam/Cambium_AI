@@ -7,7 +7,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Made with Claude](https://img.shields.io/badge/made%20with-Claude-blueviolet?logo=anthropic)](https://claude.ai)
-[![Agents](https://img.shields.io/badge/agents-39-4f8cff)](INSTITUTE.md)
+[![Agents](https://img.shields.io/badge/agents-45-4f8cff)](INSTITUTE.md)
 [![Governed](https://img.shields.io/badge/AI%20policy-governed-e5534b)](AI_GOVERNANCE.md)
 [![CI: evidence-checked](https://img.shields.io/badge/CI-evidence--checked-46c46a)](.github/workflows/validate.yml)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen)](https://github.com/IFC-UIDAHO/Cambium_AI/pulls)
@@ -18,7 +18,7 @@
 
 <img src="assets/demo.gif" alt="Cambium in motion" width="760">
 
-**39 specialized agents · 9 councils · tiered models · governed by an enforced AI-use policy.**
+**45 specialized agents · 10 councils · the full research lifecycle · governed at every gate.**
 
 *Cambium is the thin living layer just under a tree's bark — the place where new growth actually forms.
 This Cambium is the layer where your research grows: a portable Claude project that acts as your entire
@@ -50,7 +50,7 @@ at **any stage** of a project.
 - **Verification runs code.** The audit boards don't opine — they execute your scripts and reproduce
   the numbers. That's what catches leakage, unfair baselines, and mis-stated claims.
 - **One output contract, one ledger.** Every agent emits the same five fields with a **severity**
-  (P0/P1/P2) and a **claim tier** (Proved / Code-verified / Asserted / Open). 39 agents merge into one
+  (P0/P1/P2) and a **claim tier** (Proved / Code-verified / Asserted / Open). 45 agents merge into one
   decision because they all speak the same format. Conflicts resolve by: *whoever ran the code wins.*
 - **Smart-Tier models.** Opus only where deep adversarial reasoning pays (theory + the audit boards);
   Sonnet where it's sufficient; your main model for synthesis and final writing. Best result per token.
@@ -147,6 +147,7 @@ the Verification boards stay independent. Approvals are recorded in `governance/
 
 ## More
 
+[`LIFECYCLE_V3.md`](LIFECYCLE_V3.md) (end-to-end map) · [`RESEARCH_CONDUCT.md`](RESEARCH_CONDUCT.md) (responsible-research standard) · [`CAMBIUM_V3.md`](CAMBIUM_V3.md) ·
 [`COMPARISON.md`](COMPARISON.md) (vs other systems) · [`FAQ.md`](FAQ.md) · [`ROADMAP.md`](ROADMAP.md) ·
 [`CITATION.cff`](CITATION.cff) (cite this) · [`index.html`](index.html) (landing site).
 

@@ -23,7 +23,7 @@ expertise lives in the parameterized Faculty and your project config.*
 
 Post-award development runs the **Development Playbook** (`DEVELOPMENT_PLAYBOOK.md`).
 
-## The 9 councils (39 workers)
+## The 10 councils (45 workers)
 President (you) · Provost/Orchestration (00, 13) · Pre-Award (24-27) · Partnerships (31-33) ·
 Faculty (28, parameterized) · Scouts (01-03) · Labs (04-06) · Verification (07-10) · Execution (11-12) ·
 Support Staff (14-23) · Reporting (29-30). See `.claude/agents/` and `dashboard.html`.

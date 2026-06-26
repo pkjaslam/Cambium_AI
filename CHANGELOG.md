@@ -47,3 +47,15 @@
 - New triggers: run tournament, iterate experiment, referee, run verification debate.
 - Upgraded record-keeper (institutional memory), scout-prior-art (novelty gate), ideation (feeds tournament).
 - See CAMBIUM_V2.md.
+
+## 3.0.0 - Full research lifecycle (v3)
+- Roster 39 -> 45: rfp-radar, convener, budget-officer, grants-compliance, feedback-router, research-conduct-officer.
+- End-to-end lifecycle (LIFECYCLE_V3.md): RFP radar -> idea inbox -> brainstorm/tournament -> team + pre-award
+  (budget, biosketch, DMP, forms) -> award mobilize (assignments, scoped agent access, alerts) -> execute ->
+  reports/meetings/scheduling -> feedback router. New gate G0 (Know the PI).
+- Responsible-research governance at EVERY gate (RESEARCH_CONDUCT.md): IRB/IACUC, COI, FERPA, data
+  sovereignty, dual-use, reproducibility - GO / CONDITIONS / STOP, alongside evidence + AI-use governance.
+- Templates: USER_PROFILE, IDEA_INBOX, COLLAB_WORKSPACE, POST_AWARD_PLAN.
+- New triggers: watch rfps, rfp in <file>, add idea, convene team, build budget, compliance check,
+  assign work, route feedback, conduct check <gate>.
+- See CAMBIUM_V3.md.
