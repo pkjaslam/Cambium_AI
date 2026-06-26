@@ -37,6 +37,7 @@ def main():
         ev   = (r.get("evidence") or "").strip()
         stt  = (r.get("status") or "").strip().lower()
         cit  = (r.get("citation_status") or "").strip().lower()
+        csup = (r.get("citation_support") or "").strip().lower()   # ADR-007 advisory
         repro= (r.get("repro") or "").strip().lower()
         for a in (r.get("agents") or "").split(","):
             if a.strip(): agents.add(a.strip())
@@ -49,6 +50,11 @@ def main():
             blockers.append("  CODE-VERIFIED WITHOUT A COMMAND: %s - cite the run, or it is only Asserted" % r.get("id"))
         if cit == "unresolved":
             blockers.append("  UNRESOLVED CITATION: %s - librarian must resolve every reference" % r.get("id"))
+        if csup == "unsupported":
+            problems.append("  citation_support ADVISORY (ADR-007): %s - cited source may not support "
+                            "the claim; verify-evidence should review (advisory, not a blocker)" % r.get("id"))
+        elif csup in ("partial", "anchorless"):
+            problems.append("  citation_support ADVISORY (ADR-007): %s - '%s'; confirm the locator" % (r.get("id"), csup))
         if repro == "missing":
             problems.append("  REPRODUCIBILITY CHECKLIST MISSING: %s (see templates/REPRODUCIBILITY_CHECKLIST.md)" % r.get("id"))
         if sev == "P0" and stt in ("", "open"):

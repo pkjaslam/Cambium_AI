@@ -20,3 +20,8 @@ approve, edit, or decline. Approved installs are recorded (date, versions, appro
 ## Sources the Toolsmith may use
 npm / PyPI · shadcn/ui · 21st.dev · Magic MCP · the MCP connector registry · Cambium skills ·
 open datasets · free/open APIs. Always web-verify currency before recommending.
+
+## Approved provisioning records
+| date | tool | version | approver | scope / notes |
+| --- | --- | --- | --- | --- |
+| 2026-06-26 | SemanticCite (optional) | pin at install | Director (ADR-007) | Optional claim<->source verifier for `tools/cite_check.py`. MIT, arXiv 2511.16198. Prefer the local-Ollama path (no API key, no data leaves the box). NOT yet installed on the host -- the shim runs in advisory no-op mode until `pip install semanticcite` (or a configured `OLLAMA_HOST`) is present. Install is performed on the human's machine, not in the agent sandbox. |
