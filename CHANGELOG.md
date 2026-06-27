@@ -433,3 +433,18 @@ real dispatched agents, gate G2 approved). Adopted the genuinely-missing ideas; 
 - Cleaned the older run-board artifacts (landscape-review, enforcement-governance) to show their own real
   findings instead of carried-over state.
 - Verified: consistency exit 0 · doctor --grade A · 106 tests pass / 1 skipped.
+
+## 1.00.3 - 2026-06-27 — World-class comprehensive README
+- Full README rebuild from a deep discovery pass (research-assistant capability catalog, scout-landscape
+  positioning, teaching-assistant how-to-use, outreach architecture — ~14k words of file-cited ground truth).
+  The old README surfaced ~⅓ of the system; the new 400-line / 16-section README reflects the TRUE current
+  Cambium: full 46-agent/11-council roster, 8 gates with approvers + separation of duties, the 21 skills,
+  21 tools, 6 MCP tools, 13 templates, 5 examples, governance corpus, model routing (12/32/2), pause/resume,
+  the guarded auto-loop, and the A/B harness — scannable via tables + <details>, with a how-to-use story +
+  trigger reference and 6 standout pillars.
+- Verified: Referee ACCEPT (9/9 across hero/completeness/scannability/usability/voice/structure; all nav
+  anchors + asset/doc links checked). Integrity PASS-WITH-FIXES, all applied: hedged the "only open system"
+  superlative at point of assertion; 14→13 templates; full claude-haiku-4-5-20251001 id; honestly relabeled
+  the two pre-award example slices (dropped "proven"). A/B result kept Open; corpus = guidance not cert.
+- Assets: assets/org-chart.svg regenerated from the live roster (46/11). All assets current.
+- Green: consistency exit 0 · doctor --grade A (100%) · 113 tests pass / 1 skipped.

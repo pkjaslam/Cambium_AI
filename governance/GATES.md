@@ -36,3 +36,5 @@ Separation of duties: the author of a deliverable is not its sole approver; G3 a
 | G-repair | 2026-06-26 | Director (Jaslam) | APPROVE | Repaired corrupted .git metadata (HEAD/index/reflog) from backups; data intact, fsck clean. Commit blocked in-sandbox by an unremovable stale index.lock (mount forbids deletes) — finish natively on Windows. |
 
 | G-readme | 2026-06-26 | Director (Jaslam) | APPROVE | Ship world-class README rewrite (Referee 9.3/10 top-1| G-landing | 2026-06-26 | Director (Jaslam) | APPROVE | Ship index.html landing overhaul (canonical counts, modern badges, Eight gates, Proving-it box); doctor A, HTML integrity 100%. |
+| G-outline | 2026-06-26 | Director (Jaslam) | APPROVE | Write the full 16-section world-class README to the approved architecture; then assets pass + verify. |
+| G-ship | 2026-06-27 | Director (Jaslam) | APPROVE | Ship the world-class comprehensive README (400 lines, 16 sections; Referee accept 9s, Integrity PASS-WITH-FIXES all applied) + regenerated org-chart. |
