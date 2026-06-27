@@ -448,3 +448,17 @@ real dispatched agents, gate G2 approved). Adopted the genuinely-missing ideas; 
   the two pre-award example slices (dropped "proven"). A/B result kept Open; corpus = guidance not cert.
 - Assets: assets/org-chart.svg regenerated from the live roster (46/11). All assets current.
 - Green: consistency exit 0 · doctor --grade A (100%) · 113 tests pass / 1 skipped.
+
+## 1.00.4 - 2026-06-27 — Brand asset redesign (logos, social card, favicon)
+- Recreated the full brand-identity asset set at premium quality, rasterized SVG→PNG with cairosvg and the
+  Inter typeface, from one reproducible source (`tools/gen_brand_assets.py`) — the repo's "regenerate from
+  source" philosophy. Refined the "Living Layer" growth-ring mark (precise concentric emerald rings,
+  layered lime active-node glow, radial spoke, faint org-satellite nodes, gradient tile + top sheen):
+  - `logo-mark.svg` + `logo-mark.png` (512) + `logo-mark@2x.png` (1024) — the app-icon mark
+  - `logo.svg` (light) + `logo-dark.svg` (dark) — wordmark lockups (Inter ExtraBold "Cambium." + lime dot + tracked subtitle), viewBox sized so nothing clips
+  - `social-preview.svg` + `social-preview.png` (1280×640) — GitHub social card with a subtle org-constellation background, measured to fit (no text overflow)
+  - `favicon.svg` + `favicon.png` (180) — new
+- Wired `favicon` + Open Graph / Twitter-card meta (`og:image` → social card) into `index.html`.
+- Brand tokens unchanged (BRAND.md "Living Layer" palette). All SVGs validate; PNG dimensions confirmed.
+- Green: consistency exit 0 · doctor --grade A (100%, HTML integrity intact) · 113 tests pass.
+- Action: re-upload the new `assets/social-preview.png` in GitHub Settings → Social preview (replaces the old card).

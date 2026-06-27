@@ -25,3 +25,6 @@ evals/enforcement_study/results.csv
 evals/**/__pycache__/
 .git/*.corrupt-bak
 archive/handoffs/
+
+# throwaway asset previews
+projects/*/preview/

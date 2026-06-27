@@ -1,39 +1,32 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200" role="img" aria-label="Cambium mark">
-  <defs>
-    <radialGradient id="cm-bg" cx="40%" cy="34%" r="78%">
-      <stop offset="0%" stop-color="#0E3326"/>
-      <stop offset="100%" stop-color="#07231A"/>
-    </radialGradient>
-    <radialGradient id="cm-node" cx="50%" cy="50%" r="50%">
-      <stop offset="0%" stop-color="#EAFFC9"/>
-      <stop offset="45%" stop-color="#B7F36A"/>
-      <stop offset="100%" stop-color="#B7F36A" stop-opacity="0"/>
-    </radialGradient>
-  </defs>
-
-  <!-- substrate -->
-  <rect x="4" y="4" width="192" height="192" rx="42" fill="url(#cm-bg)"/>
-  <rect x="4.5" y="4.5" width="191" height="191" rx="41.5" fill="none" stroke="#1F4D3B" stroke-width="1"/>
-
-  <!-- concentric growth rings -->
-  <g fill="none" stroke="#16C079" stroke-linecap="round">
-    <circle cx="100" cy="100" r="22"  stroke-width="2"   opacity="0.55"/>
-    <circle cx="100" cy="100" r="36"  stroke-width="1.8" opacity="0.7"/>
-    <circle cx="100" cy="100" r="50"  stroke-width="1.6" opacity="0.85"/>
-    <circle cx="100" cy="100" r="64"  stroke-width="1.5"/>
-  </g>
-
-  <!-- emerald-deep faint underlay ring for depth -->
-  <circle cx="100" cy="100" r="64" fill="none" stroke="#0E8E5B" stroke-width="1.5" opacity="0.35"/>
-
-  <!-- radial spoke from center to active node (up-right, -45deg) -->
-  <line x1="100" y1="100" x2="145.25" y2="54.75" stroke="#16C079" stroke-width="1.6" stroke-linecap="round" opacity="0.9"/>
-
-  <!-- center dot -->
-  <circle cx="100" cy="100" r="4.5" fill="#16C079"/>
-
-  <!-- active growth node on outer ring (r=64 at -45deg) -->
-  <circle cx="145.25" cy="54.75" r="16" fill="url(#cm-node)"/>
-  <circle cx="145.25" cy="54.75" r="6.5" fill="#B7F36A"/>
-  <circle cx="145.25" cy="54.75" r="2.6" fill="#052015"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><defs>
+  <radialGradient id="tile" cx="38%" cy="30%" r="85%">
+    <stop offset="0%" stop-color="#15402F"/><stop offset="55%" stop-color="#0E3326"/><stop offset="100%" stop-color="#07231A"/>
+  </radialGradient>
+  <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+    <stop offset="0%" stop-color="#B7F36A" stop-opacity="0.95"/><stop offset="35%" stop-color="#B7F36A" stop-opacity="0.45"/><stop offset="100%" stop-color="#B7F36A" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient id="spoke" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0%" stop-color="#16C079" stop-opacity="0.5"/><stop offset="100%" stop-color="#B7F36A" stop-opacity="0.95"/>
+  </linearGradient>
+  <linearGradient id="sheen" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.10"/><stop offset="22%" stop-color="#FFFFFF" stop-opacity="0"/>
+  </linearGradient>
+</defs>
+  <rect x="12.0" y="12.0" width="176.0" height="176.0" rx="45.0" fill="url(#tile)" stroke="#1F4D3B" stroke-width="1.2"/>
+  <rect x="12.0" y="12.0" width="176.0" height="176.0" rx="45.0" fill="url(#sheen)"/>
+  <circle cx="100.0" cy="100.0" r="21.60" fill="none" stroke="#16C079" stroke-width="1.21" opacity="0.30"/>
+<circle cx="100.0" cy="100.0" r="31.68" fill="none" stroke="#16C079" stroke-width="1.16" opacity="0.42"/>
+<circle cx="100.0" cy="100.0" r="41.76" fill="none" stroke="#16C079" stroke-width="1.12" opacity="0.55"/>
+<circle cx="100.0" cy="100.0" r="51.84" fill="none" stroke="#16C079" stroke-width="1.07" opacity="0.67"/>
+<circle cx="100.0" cy="100.0" r="61.92" fill="none" stroke="#16C079" stroke-width="1.03" opacity="0.80"/>
+<circle cx="100.0" cy="100.0" r="72.00" fill="none" stroke="#16C079" stroke-width="0.98" opacity="0.92"/>
+<circle cx="57.6" cy="80.2" r="1.30" fill="#16C079" opacity="0.5"/>
+<circle cx="139.8" cy="52.6" r="1.30" fill="#16C079" opacity="0.42"/>
+<circle cx="72.6" cy="115.8" r="1.30" fill="#16C079" opacity="0.55"/>
+<line x1="100.0" y1="100.0" x2="138.1" y2="148.8" stroke="url(#spoke)" stroke-width="1.27" stroke-linecap="round"/>
+<circle cx="138.1" cy="148.8" r="14.4" fill="url(#glow)"/>
+<circle cx="138.1" cy="148.8" r="5.2" fill="#B7F36A"/>
+<circle cx="136.7" cy="147.4" r="1.9" fill="#EAFFC9"/>
+<circle cx="100.0" cy="100.0" r="3.6" fill="#16C079"/>
+<circle cx="100.0" cy="100.0" r="1.6" fill="#B7F36A"/>
 </svg>
