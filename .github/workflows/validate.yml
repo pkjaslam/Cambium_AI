@@ -41,7 +41,7 @@ jobs:
 
       - name: Framework tests (pytest)
         run: |
-          pip install pytest
+          pip install pytest pyyaml
           python3 -m pytest tests/ -q
 
       - name: Cambium doctor (full health — counts, HTML integrity, parses, derived sync)
