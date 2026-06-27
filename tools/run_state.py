@@ -23,7 +23,7 @@ Typical loop the Orchestrator runs each phase:
   python3 tools/run_state.py sync --phase 2          # lifts each agent's Decision line into the board
   python3 tools/run_trace.py --board "<request>"     # auto-reads run_state.json
 """
-import sys, os, json, glob, re
+import sys, os, json, glob, re, time
 
 ROOT = os.getcwd()
 DEFAULT = os.path.join("agent_outputs", "run_state.json")
@@ -76,9 +76,13 @@ def cmd_sync(st, args):
     ph = _opt(args, "--phase")
     if ph is not None:
         st["phase"] = int(ph)
-    n = 0
+    started = st.get("started_at")
+    n = skipped = 0
     for p in sorted(glob.glob(os.path.join(src, "*.md"))):
         if os.path.basename(p) in SKIP:
+            continue
+        if started and os.path.getmtime(p) < started - 1:   # stale file from an earlier run — ignore
+            skipped += 1
             continue
         try:
             line = _decision_line(open(p, encoding="utf-8").read())
@@ -87,7 +91,8 @@ def cmd_sync(st, args):
         if line:
             st["findings"][_agent_from_file(p)] = line
             n += 1
-    print(f"[run_state] synced {n} finding(s) from {src}/")
+    print(f"[run_state] synced {n} finding(s) from {src}/"
+          + (f" (ignored {skipped} stale file(s) from earlier runs)" if skipped else ""))
     return st
 
 
@@ -100,7 +105,10 @@ def main():
     st = load(path)
 
     if cmd == "reset":
-        st = {"phase": None, "note": None, "findings": {}, "leaderboard": [], "gate": None, "loop_position": None}
+        # Fresh per-run state. `started_at` lets `sync` ignore stale agent_outputs/*.md left by
+        # earlier runs (this is what kept cross-run findings leaking onto the board).
+        st = {"phase": None, "note": _opt(a, "--note"), "findings": {}, "leaderboard": [], "gate": None,
+              "loop_position": None, "started_at": time.time()}
     elif cmd == "phase":
         st["phase"] = int(a[1])
         note = _opt(a, "--note")

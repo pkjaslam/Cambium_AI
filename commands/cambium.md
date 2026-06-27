@@ -11,7 +11,7 @@ Hand off to the **Orchestrator** and present the run as the four acts in **PRESE
 first; it is the contract). The Cambium way must never look generic — the Director always sees which
 **named agents** are working, on what, and where the gates are.
 
-**Act I — Opening (before any work).** Show the plan first. Run
+**Act I — Opening (before any work).** **First reset the run state so no findings leak from a previous run:** `python3 tools/run_state.py reset --note "$ARGUMENTS"`. Then show the plan. Run
 `python3 tools/run_trace.py --board "$ARGUMENTS"` for the branded roster board (works in any client). In
 Cowork this is automatic: build the live dashboard with
 `python3 tools/run_trace.py --html --out <project>/run_board.html "$ARGUMENTS"` and **publish it as an

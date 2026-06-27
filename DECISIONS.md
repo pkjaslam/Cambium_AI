@@ -260,3 +260,65 @@ k-only; no third-party content copied; nothing installed; counts stay 46·11·8)
   the corpus cannot silently rot. Owner duty: the PI must re-verify each funder entry quarterly or CI fails.
   Result honesty is load-bearing — do NOT report the demo fixtures as a finding. consistency exit 0 ·
   doctor GRADE A · pytest 104 pass · funder_freshness OK · run_study --demo OK.
+
+## ADR-027: Run-board state is reset per run (no cross-run findings leak)
+- Date: 2026-06-26 · Status: Accepted (Director approved) · Decider: Director (Jaslam)
+- Context: the live run board pulls from a single `agent_outputs/run_state.json`. Across several runs in one
+  session it was never reset, so `sync` (which lifts findings from every `agent_outputs/*.md`) re-surfaced
+  earlier runs' findings and left later template phases marked TODO — the board misrepresented a finished run.
+  The working mount cannot delete the stale files, so simple cleanup wasn't possible mid-session.
+- Decision: `run_state.py reset` stamps `started_at`; `sync` skips files older than it; the Cambium-way
+  contract resets state at the start of Act I. Guarded by `tests/test_run_state.py`.
+- Consequences: each run's board reflects only that run. Boards are a per-run view, not a cumulative log;
+  durable history stays in CHANGELOG/DECISIONS/GATES. Counts unchanged 46·11·8.
+
+## ADR-028: Advisory citation-URL liveness check (urlhealth ADAPT) — ACCEPTED (implemented)
+- Date: 2026-06-27 · Status: **Accepted** (Director approved 2026-06-27, Jaslam) — implemented · Decider: Director (Jaslam)
+- Numbering note: drafted in `cambium_imp/skill-scan/2026-06-27-0506.md` as "ADR-027" off a stale working-mount
+  read; the canonical log already had ADR-027 (run-board reset), so this is recorded as **ADR-028**.
+- Context: self-improvement scan of "Detecting and Correcting Reference Hallucinations in Commercial LLMs and
+  Deep Research Agents" (https://arxiv.org/abs/2604.03173, Rao et al., Apr 2026) and its open-source tool
+  `urlhealth`. The paper measures that 3–13% of citation URLs are hallucinated (no Wayback record, likely never
+  existed) and 5–18% are non-resolving, with deep-research agents at 10.7% hallucinated vs 4.8% for
+  search-augmented models. Grounding (read-only): `toolsmith.py "citation URL liveness checking …"` surfaced
+  only generic libs + arxiv/semantic-scholar API; `task_router.py "check every citation URL … is not a
+  hallucinated reference"` routes to librarian + verify-evidence + integrity-officer but none holds a
+  URL-resolution check; `grep -riE "wayback|url.?liveness|non.?resolv|link.?rot|urlhealth"` = 0 hits. Cambium's
+  citation stack (SemanticCite/cite_check, ADR-007; `librarian`) verifies DOI/Crossref/BibTeX/dedup — the
+  *identity* of a reference — but never tests whether the cited URL **resolves**, even though README/CI already
+  *claim* to fail on "an unresolved citation". Real, named gap.
+- Decision (ACCEPTED & IMPLEMENTED 2026-06-27): add an additive, advisory, offline-safe URL-liveness check
+  mirroring the ADR-007 `citation_support` / ADR-008 `fallacy_check` pattern.
+- Implemented this run: (1) **`tools/url_health.py`** — import-guarded shim classifying each citation URL
+  `live` / `stale-archived` / `hallucinated` / `unchecked`; **OFFLINE by default (no network in the CI path →
+  all 'unchecked', deterministic)**; network probing is opt-in via `CAMBIUM_URL_NET=1` / `--net` (prefers the
+  `urlhealth` package, else a stdlib liveness + Wayback-availability fallback; any error degrades to
+  'unchecked'; always exits 0). Writes `governance/url_audit.json`; optional non-destructive
+  `<ledger>.urlcheck.csv` sidecar via `--sidecar`. (2) **`governance/validate.py`** — honors an optional
+  `url_status` column as an **ADVISORY WARNING only, never a blocker**; `hallucinated`/`stale-archived` →
+  warning, `live`/`unchecked`/absent → silent (back-compat no-op). (3) **`tests/test_url_health.py`** — offline
+  determinism, audit-json written, graceful-on-missing-ledger, and advisory-not-blocker / clean-is-silent for
+  the validator column.
+- Deviations from the proposal (recorded honestly): (a) the optional one-line references on the `librarian`
+  and `integrity-officer` agent cards were **NOT added** — `.claude/agents/` is a protected path in this
+  session and edits were blocked; agent counts are unchanged (46·11·8) regardless, and the cards can get the
+  cosmetic line later. (b) `urlhealth` + Wayback API were NOT installed (provisioning recorded only, per
+  TOOL_POLICY.md). (c) Claim discipline kept: the paper's 3–13% figures are cited as external measurement, not
+  as a Cambium result.
+- Verification (this run): `python3 -m py_compile` OK on url_health.py + the rewritten validate.py + the test;
+  validator behavior matrix confirmed (hallucinated/stale → WARNING + exit 0; live/unchecked/absent → silent +
+  exit 0); url_health offline run = all 'unchecked', audit-json + sidecar correct, missing-ledger graceful,
+  `extract_urls` ordered+de-duplicated; `consistency_check.py` exit 0 (46·11·8). NOTE: in THIS sandbox the bash
+  mount served a stale, truncated copy of the in-place-edited `validate.py`, so `doctor.py` reported a false
+  `'{' was never closed (line 90)` + the dependent ledger check — the authoritative Windows file is complete
+  and valid (verified end-to-end via Read; py_compile passes on a faithful copy). `pytest` is unavailable in
+  the sandbox (install prohibited) so the new tests were validated by logic-equivalent runs. Re-run
+  `doctor.py` + `pytest -q` on Windows before publishing to confirm green.
+- Alternatives weighed & rejected this run: **DeepVerifier** (https://arxiv.org/abs/2601.15808) — SKIP,
+  duplicates referee + verify-* boards + exec-iteration + the fallacy checklist; **AI-Supervisor**
+  (https://arxiv.org/abs/2603.24402) — SKIP, duplicates Orchestrator + record-keeper + ledger + run_trace and
+  its "autonomous supervision" framing conflicts with the human-gate doctrine (ADR-001/ADR-003).
+- Consequences: Cambium now tests the *resolvability* of references, not just their identity, closing the gap
+  between README/CI policy and shipped capability — additive, back-compat, offline-safe. Constraint: keep it
+  advisory (never a build blocker without a separate decision), keep counts 46·11·8, never enable network
+  probing in CI by default. Detail: `cambium_imp/skill-scan/2026-06-27-0506.md`.

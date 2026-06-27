@@ -14,11 +14,15 @@ empty one (a no-arg run on an empty ledger preserves the last manifest).    [F2]
 
 Usage:  python3 governance/validate.py [path/to/findings_ledger.csv]
 Optional columns honored if present: citation_status, citation_support,
-repro, fallacy_check.
+repro, fallacy_check, url_status.
   - fallacy_check (ADR-008, advisory): a flagged interpretation fallacy
     (Simpson's, survivorship, p-hacking, ...) surfaces as a WARNING only,
     never a blocker. Absent column / clean value = back-compat no-op. See
     templates/INTERPRETATION_FALLACY_CHECKLIST.md.
+  - url_status (ADR-027, advisory): a cited URL classified by
+    tools/url_health.py as 'hallucinated' (no live page, no Wayback record)
+    or 'stale-archived' (dead but archived) surfaces as a WARNING only,
+    never a blocker. 'live' / 'unchecked' / absent column = back-compat no-op.
 """
 import csv, sys, json, os, datetime
 
@@ -44,6 +48,7 @@ def main():
         cit  = (r.get("citation_status") or "").strip().lower()
         csup = (r.get("citation_support") or "").strip().lower()   # ADR-007 advisory
         fchk = (r.get("fallacy_check") or "").strip().lower()       # ADR-008 advisory
+        ustat= (r.get("url_status") or "").strip().lower()          # ADR-027 advisory
         repro= (r.get("repro") or "").strip().lower()
         for a in (r.get("agents") or "").split(","):
             if a.strip(): agents.add(a.strip())
@@ -66,6 +71,13 @@ def main():
                             "lab-statistics/verify-rigor should review "
                             "(advisory, not a blocker; see templates/INTERPRETATION_FALLACY_CHECKLIST.md)"
                             % (r.get("id"), fchk))
+        if ustat == "hallucinated":
+            problems.append("  URL-LIVENESS ADVISORY (ADR-027): %s - cited URL looks HALLUCINATED "
+                            "(no live page, no Wayback record); librarian/integrity-officer should replace it "
+                            "(advisory, not a blocker; run tools/url_health.py)" % r.get("id"))
+        elif ustat in ("stale-archived", "stale", "archived"):
+            problems.append("  URL-LIVENESS ADVISORY (ADR-027): %s - cited URL is dead but archived; "
+                            "prefer a Wayback/permalink (advisory, not a blocker)" % r.get("id"))
         if repro == "missing":
             problems.append("  REPRODUCIBILITY CHECKLIST MISSING: %s (see templates/REPRODUCIBILITY_CHECKLIST.md)" % r.get("id"))
         if sev == "P0" and stt in ("", "open"):

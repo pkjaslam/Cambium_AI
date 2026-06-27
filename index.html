@@ -600,14 +600,12 @@ footer {
 
     <!-- Badges -->
     <div class="badge-row reveal">
-      <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
-      <a href="https://claude.ai"><img src="https://img.shields.io/badge/made%20with-Claude-blueviolet?logo=anthropic" alt="Made with Claude"></a>
-      <a href="INSTITUTE.md"><img src="https://img.shields.io/badge/agents-46-4f8cff" alt="46 Agents"></a>
-      <a href="AI_GOVERNANCE.md"><img src="https://img.shields.io/badge/AI%20policy-governed-e5534b" alt="Governed"></a>
-      <a href=".github/workflows/validate.yml"><img src="https://img.shields.io/badge/CI-evidence--checked-46c46a" alt="CI: evidence-checked"></a>
-      <a href="tools/doctor.py"><img src="https://img.shields.io/badge/doctor%20--grade-A-46c46a" alt="Self-grade A"></a>
-      <a href="MCP_INTEGRATION.md"><img src="https://img.shields.io/badge/MCP-ready-8a63d2" alt="MCP ready"></a>
-      <a href="https://github.com/IFC-UIDAHO/Cambium_AI/pulls"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen" alt="PRs Welcome"></a>
+      <a href="https://github.com/IFC-UIDAHO/Cambium_AI/actions/workflows/validate.yml"><img src="https://img.shields.io/github/actions/workflow/status/IFC-UIDAHO/Cambium_AI/validate.yml?style=flat-square&label=CI&color=16C079" alt="CI"></a>
+      <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-1.00.0-16C079?style=flat-square" alt="Version 1.00.0"></a>
+      <a href="INSTITUTE.md"><img src="https://img.shields.io/badge/agents-46-16C079?style=flat-square" alt="46 agents"></a>
+      <a href="governance/GATES.md"><img src="https://img.shields.io/badge/human_gates-8-0E8E5B?style=flat-square" alt="8 human gates"></a>
+      <a href="MCP_INTEGRATION.md"><img src="https://img.shields.io/badge/MCP-ready-0E8E5B?style=flat-square" alt="MCP ready"></a>
+      <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square" alt="License: MIT"></a>
     </div>
 
     <!-- CTAs -->
@@ -618,9 +616,9 @@ footer {
 
     <!-- Stat strip -->
     <div class="stat-strip stagger reveal">
-      <div class="stat-item"><div class="sn">34</div><div class="sl">Agents</div></div>
-      <div class="stat-item"><div class="sn">9</div><div class="sl">Councils</div></div>
-      <div class="stat-item"><div class="sn" style="color:var(--gold)">6</div><div class="sl">Human gates</div></div>
+      <div class="stat-item"><div class="sn">46</div><div class="sl">Agents</div></div>
+      <div class="stat-item"><div class="sn">11</div><div class="sl">Councils</div></div>
+      <div class="stat-item"><div class="sn" style="color:var(--gold)">8</div><div class="sl">Human gates</div></div>
       <div class="stat-item"><div class="sn" style="color:var(--exec)">Smart-Tier</div><div class="sl">Model profile</div></div>
       <div class="stat-item"><div class="sn" style="color:var(--verify)">CI</div><div class="sl">Evidence-checked</div></div>
     </div>
@@ -823,8 +821,9 @@ footer {
         </p>
       </div>
       <div class="gov-box reveal">
-        <h3>Six human gates — non-negotiable</h3>
+        <h3>Eight human gates — non-negotiable</h3>
         <ul class="gate-list">
+          <li><span class="gate-num">G0</span><span>Know the PI &amp; mandate <span class="mut">(Director)</span></span></li>
           <li><span class="gate-num">G1</span><span>Pursue this RFP? <span class="mut">(Director)</span></span></li>
           <li><span class="gate-num">G2</span><span>Which idea advances? <span class="mut">(Director + Co-PIs)</span></span></li>
           <li><span class="gate-num">G3a</span><span>Who do we contact? <span class="mut">(Director sends)</span></span></li>
@@ -856,6 +855,14 @@ footer {
           <li>Dual-use &amp; export controls — Integrity Officer flags, work stops</li>
         </ul>
         <p style="font-size:12.5px;margin-top:12px"><a href="AI_GOVERNANCE.md" style="color:var(--gold)">Read the full governance policy →</a></p>
+      </div>
+      <div class="gov-box reveal">
+        <h3>Proving it — not just claiming it</h3>
+        <ul class="principle-list">
+          <li><strong>Enforcement A/B harness</strong> (<code>evals/enforcement_study/</code>) — measures enforced-gates vs soft-prompt on seeded defects. <em>Result stays Open until real runs land — no premature "beats prompting" claim.</em></li>
+          <li><strong>Per-funder governance corpus</strong> (<code>governance/funders/</code>) — NIH + NSF AI rules mapped to gates, dated and guarded by a hard-failing freshness check. Guidance, not certification.</li>
+          <li><strong>Self-grade A</strong> (graded 2026-06-26) — <code>doctor --grade</code> across roster, governance, tooling &amp; tests; 104 tests pass / 1 skipped on every push.</li>
+        </ul>
       </div>
     </div>
   </div>

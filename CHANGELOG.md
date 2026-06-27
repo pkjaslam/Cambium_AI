@@ -407,3 +407,29 @@ real dispatched agents, gate G2 approved). Adopted the genuinely-missing ideas; 
 - Tests: +68 (enforcement_study + funder_freshness). Verified: consistency_check exit 0 · doctor --grade A
   (100%) · pytest 104 passed / 1 skipped · funder_freshness OK · run_study --demo OK. Gates G-build + G-ship
   Director-pre-approved (AUTO) this run; logged in governance/GATES.md. Manifests bumped 3.17.1 → 3.18.0.
+
+## 1.00.1 - 2026-06-26 — World-class README + landing-page overhaul
+- **README rewrite** to a top-1% standard (Referee 9.3/10, Integrity PASS-WITH-FIXES): live GitHub-Actions
+  CI badge, flat-square badge row, version badge, nav-anchor bar, demo.gif above all prose, GitHub Alerts
+  ([!IMPORTANT]/[!TIP]/[!WARNING]/[!NOTE]), a new "Proving the claim" section surfacing the enforcement A/B
+  harness (result Open — no overclaim) and the NIH/NSF governance corpus, GIF static-fallback, dated
+  self-grade, COMPARISON hedge on the superlative, and the stale "26-test" → "104 passed / 1 skipped" fix.
+- **Landing page (index.html) overhaul**: fixed a stale hero stat strip (34/9/6 → canonical 46/11/8) and a
+  stale "Six human gates" → "Eight" (added G0); modernized the badge row (flat-square, live CI, version
+  1.00.0); added a "Proving it — not just claiming it" governance box (enforcement harness + funder corpus,
+  claim-tiered, dated grade, 104 tests). Recovered + rebuilt the file after a mount write-truncation;
+  HTML integrity restored.
+- Both audited by the Verification council; claims kept at/below their evidence tier (no "beats prompting").
+- Verified: consistency exit 0 · doctor --grade A (100%, HTML integrity 100%) · 104 tests pass / 1 skipped.
+
+## 1.00.2 - 2026-06-26 — Per-run state reset (board hygiene fix)
+- **Root-cause fix for stale run boards.** Reusing one `agent_outputs/run_state.json` across runs leaked a
+  previous run's phase/findings onto the next board (e.g. a README run's board showing a git-fix run's
+  "## ADR-025 / 36 tests" findings). Fix: `tools/run_state.py reset` now stamps a `started_at` timestamp,
+  and `sync` ignores any `agent_outputs/*.md` older than it — so stale prior-run files can't repopulate the
+  board (important here because the working mount can't delete those files). The Cambium-way contract
+  (`commands/cambium.md`, `PRESENTATION.md`) now calls `run_state.py reset` as the first action of Act I.
+- Regression tests: `tests/test_run_state.py` (reset stamps started_at + clears; sync ignores stale files).
+- Cleaned the older run-board artifacts (landscape-review, enforcement-governance) to show their own real
+  findings instead of carried-over state.
+- Verified: consistency exit 0 · doctor --grade A · 106 tests pass / 1 skipped.

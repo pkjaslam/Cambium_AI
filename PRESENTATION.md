@@ -30,6 +30,7 @@ All boards are produced by `tools/run_trace.py` so the vocabulary never drifts. 
 Transparency before action. The moment the Cambium way starts, show the plan so the Director sees the
 whole institute that is about to mobilize.
 
+0. **Reset run state (first, always):** `python3 tools/run_state.py reset --note "<request>"` — clears any prior run's phase/findings/gate and stamps a fresh `started_at`, so `sync` ignores stale `agent_outputs/*.md` left by earlier runs. Skipping this is what leaks a previous run's findings onto the new board.
 1. **Text board (always):** `python3 tools/run_trace.py --board "<request>"` — branded header +
    council-grouped roster + the gate rail. This renders in ANY client and is the non-negotiable baseline.
 2. **In Cowork / visual clients (also):**

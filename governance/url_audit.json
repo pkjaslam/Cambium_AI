@@ -1,0 +1,14 @@
+{
+  "generated": "2026-06-27T05:34:00",
+  "ledger": "agent_outputs/findings_ledger.csv",
+  "network_checked": false,
+  "n_urls": 0,
+  "counts": {
+    "live": 0,
+    "stale-archived": 0,
+    "hallucinated": 0,
+    "unchecked": 0
+  },
+  "urls": [],
+  "note": "Advisory URL-liveness audit (ADR-027). OFFLINE default = all 'unchecked'. Set CAMBIUM_URL_NET=1 (or --net) to probe. Never a release blocker."
+}
