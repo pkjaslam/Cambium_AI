@@ -1,36 +1,95 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 200"><defs>
-  <radialGradient id="tile" cx="38%" cy="30%" r="85%">
-    <stop offset="0%" stop-color="#15402F"/><stop offset="55%" stop-color="#0E3326"/><stop offset="100%" stop-color="#07231A"/>
-  </radialGradient>
-  <radialGradient id="glow" cx="50%" cy="50%" r="50%">
-    <stop offset="0%" stop-color="#B7F36A" stop-opacity="0.95"/><stop offset="35%" stop-color="#B7F36A" stop-opacity="0.45"/><stop offset="100%" stop-color="#B7F36A" stop-opacity="0"/>
-  </radialGradient>
-  <linearGradient id="spoke" x1="0" y1="0" x2="1" y2="0">
-    <stop offset="0%" stop-color="#16C079" stop-opacity="0.5"/><stop offset="100%" stop-color="#B7F36A" stop-opacity="0.95"/>
-  </linearGradient>
-  <linearGradient id="sheen" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.10"/><stop offset="22%" stop-color="#FFFFFF" stop-opacity="0"/>
-  </linearGradient>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 580"><defs>
+ <radialGradient id="disc" cx="42%" cy="40%" r="60%"><stop offset="0%" stop-color="#19C0A6" stop-opacity="0.25"/><stop offset="60%" stop-color="#0E3326" stop-opacity="0.9"/><stop offset="100%" stop-color="#0B2E22"/></radialGradient>
+ <radialGradient id="blip" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#F6D88A" stop-opacity="0.95"/><stop offset="35%" stop-color="#E0B24A" stop-opacity="0.5"/><stop offset="100%" stop-color="#E0B24A" stop-opacity="0"/></radialGradient>
+ <linearGradient id="arc" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#16C079"/><stop offset="100%" stop-color="#E0B24A"/></linearGradient>
+ <linearGradient id="arc2" x1="1" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#E0B24A"/><stop offset="100%" stop-color="#16C079"/></linearGradient>
 </defs>
-  <g>
-    <rect x="40" y="22.0" width="156" height="156" rx="26" fill="url(#tile)" stroke="#1F4D3B" stroke-width="1.2"/>
-    <rect x="40" y="22.0" width="156" height="156" rx="26" fill="url(#sheen)"/>
-    <circle cx="118" cy="100.0" r="21.00" fill="none" stroke="#16C079" stroke-width="1.18" opacity="0.30"/>
-<circle cx="118" cy="100.0" r="30.80" fill="none" stroke="#16C079" stroke-width="1.13" opacity="0.42"/>
-<circle cx="118" cy="100.0" r="40.60" fill="none" stroke="#16C079" stroke-width="1.09" opacity="0.55"/>
-<circle cx="118" cy="100.0" r="50.40" fill="none" stroke="#16C079" stroke-width="1.04" opacity="0.67"/>
-<circle cx="118" cy="100.0" r="60.20" fill="none" stroke="#16C079" stroke-width="1.00" opacity="0.80"/>
-<circle cx="118" cy="100.0" r="70.00" fill="none" stroke="#16C079" stroke-width="0.95" opacity="0.92"/>
-<circle cx="76.8" cy="80.8" r="1.26" fill="#16C079" opacity="0.5"/>
-<circle cx="156.7" cy="53.9" r="1.26" fill="#16C079" opacity="0.42"/>
-<circle cx="91.3" cy="115.4" r="1.26" fill="#16C079" opacity="0.55"/>
-<line x1="118" y1="100.0" x2="155.1" y2="147.4" stroke="url(#spoke)" stroke-width="1.23" stroke-linecap="round"/>
-<circle cx="155.1" cy="147.4" r="14.0" fill="url(#glow)"/>
-<circle cx="155.1" cy="147.4" r="5.0" fill="#B7F36A"/>
-<circle cx="153.7" cy="146.0" r="1.8" fill="#EAFFC9"/>
-<circle cx="118" cy="100.0" r="3.5" fill="#16C079"/>
-<circle cx="118" cy="100.0" r="1.5" fill="#B7F36A"/>
-  </g>
-  <text x="232" y="98.0" font-family="Inter, 'DejaVu Sans', sans-serif" font-weight="800" font-size="80" letter-spacing="-3" fill="#0C1611">Cambium<tspan fill="#B7F36A">.</tspan></text>
-  <text x="236" y="144.0" font-family="Inter, 'DejaVu Sans', sans-serif" font-weight="500" font-size="23" letter-spacing="1.5" fill="#8AA197">RESEARCH INSTITUTION · ONE SENTENCE</text>
+ <g>
+<circle cx="512.00" cy="236.00" r="172.00" fill="url(#disc)"/>
+<circle cx="512.00" cy="236.00" r="12.04" fill="none" stroke="#0b2e22" stroke-width="2.06" opacity="0.85"/>
+<circle cx="512.00" cy="236.00" r="19.58" fill="none" stroke="#0c3b2e" stroke-width="3.06" opacity="0.85"/>
+<circle cx="512.00" cy="236.00" r="27.11" fill="none" stroke="#0d493b" stroke-width="2.60" opacity="0.85"/>
+<circle cx="512.00" cy="236.00" r="34.65" fill="none" stroke="#0f5747" stroke-width="1.35" opacity="0.85"/>
+<circle cx="512.00" cy="236.00" r="42.18" fill="none" stroke="#106554" stroke-width="1.15" opacity="0.85"/>
+<circle cx="512.00" cy="236.00" r="49.72" fill="none" stroke="#117360" stroke-width="2.29" opacity="0.85"/>
+<circle cx="512.00" cy="236.00" r="57.25" fill="none" stroke="#13816d" stroke-width="3.09" opacity="0.85"/>
+<circle cx="512.00" cy="236.00" r="64.79" fill="none" stroke="#148f7a" stroke-width="2.39" opacity="0.85"/>
+<circle cx="512.00" cy="236.00" r="72.32" fill="none" stroke="#159d86" stroke-width="1.21" opacity="0.85"/>
+<circle cx="512.00" cy="236.00" r="79.86" fill="none" stroke="#17ab93" stroke-width="1.28" opacity="0.85"/>
+<circle cx="512.00" cy="236.00" r="87.39" fill="none" stroke="#18b99f" stroke-width="2.50" opacity="0.85"/>
+<circle cx="512.00" cy="236.00" r="94.93" fill="none" stroke="#2ebe9c" stroke-width="3.08" opacity="0.85"/>
+<circle cx="512.00" cy="236.00" r="102.46" fill="none" stroke="#59bb88" stroke-width="2.18" opacity="0.85"/>
+<circle cx="512.00" cy="236.00" r="110.00" fill="none" stroke="#84b874" stroke-width="1.11" opacity="0.85"/>
+<circle cx="512.00" cy="236.00" r="117.53" fill="none" stroke="#afb560" stroke-width="1.44" opacity="0.85"/>
+<circle cx="512.00" cy="236.00" r="125.07" fill="none" stroke="#dab24c" stroke-width="2.69" opacity="0.85"/>
+<circle cx="512.00" cy="236.00" r="132.60" fill="none" stroke="#c2a543" stroke-width="3.02" opacity="0.9"/>
+<circle cx="512.00" cy="236.00" r="140.14" fill="none" stroke="#a1973c" stroke-width="1.95" opacity="0.9"/>
+<circle cx="512.00" cy="236.00" r="147.67" fill="none" stroke="#7f8835" stroke-width="1.05" opacity="0.9"/>
+<circle cx="512.00" cy="236.00" r="155.21" fill="none" stroke="#5e7a2e" stroke-width="1.63" opacity="0.9"/>
+<circle cx="512.00" cy="236.00" r="162.74" fill="none" stroke="#3c6c27" stroke-width="2.85" opacity="0.9"/>
+<circle cx="512.00" cy="236.00" r="170.28" fill="none" stroke="#1b5e20" stroke-width="2.92" opacity="0.9"/>
+<line x1="600.09" y1="150.41" x2="593.86" y2="175.08" stroke="#E0B24A" stroke-width="2.06" opacity="0.9"/>
+<line x1="600.09" y1="150.41" x2="594.67" y2="116.65" stroke="#E0B24A" stroke-width="2.06" opacity="0.9"/>
+<line x1="584.62" y1="107.42" x2="594.67" y2="116.65" stroke="#E0B24A" stroke-width="2.06" opacity="0.9"/>
+<line x1="584.62" y1="107.42" x2="600.09" y2="150.41" stroke="#E0B24A" stroke-width="2.06" opacity="0.9"/>
+<line x1="594.67" y1="116.65" x2="584.62" y2="107.42" stroke="#E0B24A" stroke-width="2.06" opacity="0.9"/>
+<line x1="594.67" y1="116.65" x2="600.09" y2="150.41" stroke="#E0B24A" stroke-width="2.06" opacity="0.9"/>
+<line x1="598.61" y1="254.80" x2="568.14" y2="249.74" stroke="#E0B24A" stroke-width="2.06" opacity="0.9"/>
+<line x1="598.61" y1="254.80" x2="565.49" y2="205.66" stroke="#E0B24A" stroke-width="2.06" opacity="0.9"/>
+<line x1="541.53" y1="128.66" x2="584.62" y2="107.42" stroke="#E0B24A" stroke-width="2.06" opacity="0.9"/>
+<line x1="541.53" y1="128.66" x2="594.67" y2="116.65" stroke="#E0B24A" stroke-width="2.06" opacity="0.9"/>
+<line x1="526.95" y1="193.58" x2="535.54" y2="194.00" stroke="#E0B24A" stroke-width="2.06" opacity="0.9"/>
+<line x1="526.95" y1="193.58" x2="539.07" y2="193.10" stroke="#E0B24A" stroke-width="2.06" opacity="0.9"/>
+<line x1="565.49" y1="205.66" x2="545.75" y2="203.79" stroke="#E0B24A" stroke-width="2.06" opacity="0.9"/>
+<line x1="565.49" y1="205.66" x2="539.07" y2="193.10" stroke="#E0B24A" stroke-width="2.06" opacity="0.9"/>
+<line x1="593.86" y1="175.08" x2="600.09" y2="150.41" stroke="#E0B24A" stroke-width="2.06" opacity="0.9"/>
+<line x1="593.86" y1="175.08" x2="565.49" y2="205.66" stroke="#E0B24A" stroke-width="2.06" opacity="0.9"/>
+<line x1="568.14" y1="249.74" x2="598.61" y2="254.80" stroke="#E0B24A" stroke-width="2.06" opacity="0.9"/>
+<line x1="568.14" y1="249.74" x2="565.49" y2="205.66" stroke="#E0B24A" stroke-width="2.06" opacity="0.9"/>
+<line x1="653.51" y1="207.08" x2="593.86" y2="175.08" stroke="#E0B24A" stroke-width="2.06" opacity="0.9"/>
+<line x1="653.51" y1="207.08" x2="598.61" y2="254.80" stroke="#E0B24A" stroke-width="2.06" opacity="0.9"/>
+<line x1="539.07" y1="193.10" x2="535.54" y2="194.00" stroke="#E0B24A" stroke-width="2.06" opacity="0.9"/>
+<line x1="539.07" y1="193.10" x2="526.95" y2="193.58" stroke="#E0B24A" stroke-width="2.06" opacity="0.9"/>
+<line x1="535.54" y1="194.00" x2="539.07" y2="193.10" stroke="#E0B24A" stroke-width="2.06" opacity="0.9"/>
+<line x1="535.54" y1="194.00" x2="526.95" y2="193.58" stroke="#E0B24A" stroke-width="2.06" opacity="0.9"/>
+<line x1="545.75" y1="203.79" x2="539.07" y2="193.10" stroke="#E0B24A" stroke-width="2.06" opacity="0.9"/>
+<line x1="545.75" y1="203.79" x2="535.54" y2="194.00" stroke="#E0B24A" stroke-width="2.06" opacity="0.9"/>
+<circle cx="600.09" cy="150.41" r="4.64" fill="#F6D88A"/>
+<circle cx="600.09" cy="150.41" r="3.78" fill="none" stroke="#E0B24A" stroke-width="1.03"/>
+<circle cx="584.62" cy="107.42" r="4.64" fill="#F6D88A"/>
+<circle cx="584.62" cy="107.42" r="3.78" fill="none" stroke="#E0B24A" stroke-width="1.03"/>
+<circle cx="594.67" cy="116.65" r="4.64" fill="#F6D88A"/>
+<circle cx="594.67" cy="116.65" r="3.78" fill="none" stroke="#E0B24A" stroke-width="1.03"/>
+<circle cx="598.61" cy="254.80" r="4.64" fill="#F6D88A"/>
+<circle cx="598.61" cy="254.80" r="3.78" fill="none" stroke="#E0B24A" stroke-width="1.03"/>
+<circle cx="541.53" cy="128.66" r="4.64" fill="#F6D88A"/>
+<circle cx="541.53" cy="128.66" r="3.78" fill="none" stroke="#E0B24A" stroke-width="1.03"/>
+<circle cx="526.95" cy="193.58" r="4.64" fill="#F6D88A"/>
+<circle cx="526.95" cy="193.58" r="3.78" fill="none" stroke="#E0B24A" stroke-width="1.03"/>
+<circle cx="565.49" cy="205.66" r="4.64" fill="#F6D88A"/>
+<circle cx="565.49" cy="205.66" r="3.78" fill="none" stroke="#E0B24A" stroke-width="1.03"/>
+<circle cx="593.86" cy="175.08" r="4.64" fill="#F6D88A"/>
+<circle cx="593.86" cy="175.08" r="3.78" fill="none" stroke="#E0B24A" stroke-width="1.03"/>
+<circle cx="568.14" cy="249.74" r="4.64" fill="#F6D88A"/>
+<circle cx="568.14" cy="249.74" r="3.78" fill="none" stroke="#E0B24A" stroke-width="1.03"/>
+<circle cx="653.51" cy="207.08" r="4.64" fill="#F6D88A"/>
+<circle cx="653.51" cy="207.08" r="3.78" fill="none" stroke="#E0B24A" stroke-width="1.03"/>
+<circle cx="539.07" cy="193.10" r="4.64" fill="#F6D88A"/>
+<circle cx="539.07" cy="193.10" r="3.78" fill="none" stroke="#E0B24A" stroke-width="1.03"/>
+<circle cx="535.54" cy="194.00" r="4.64" fill="#F6D88A"/>
+<circle cx="535.54" cy="194.00" r="3.78" fill="none" stroke="#E0B24A" stroke-width="1.03"/>
+<circle cx="545.75" cy="203.79" r="4.64" fill="#F6D88A"/>
+<circle cx="545.75" cy="203.79" r="3.78" fill="none" stroke="#E0B24A" stroke-width="1.03"/>
+<circle cx="474.16" cy="229.12" r="27.52" fill="url(#blip)"/>
+<circle cx="474.16" cy="229.12" r="6.88" fill="#F6D88A"/>
+<circle cx="474.16" cy="229.12" r="17.20" fill="none" stroke="#F6D88A" stroke-width="1.03" opacity="0.4"/>
+<circle cx="474.16" cy="229.12" r="29.24" fill="none" stroke="#F6D88A" stroke-width="1.03" opacity="0.32999999999999996"/>
+<circle cx="474.16" cy="229.12" r="41.28" fill="none" stroke="#F6D88A" stroke-width="1.03" opacity="0.26"/>
+</g>
+<path d="M339.21 335.76 A 199.52 199.52 0 1 1 675.44 350.44" fill="none" stroke="url(#arc)" stroke-width="5.16" stroke-linecap="round"/>
+<g transform="translate(646.16,112.16) rotate(-18) scale(1.892)"><path d="M0 0 Q 14 -10 26 -2 Q 16 8 0 0 Z" fill="#16C079"/><path d="M2 -1 Q 14 -4 24 -2" fill="none" stroke="#B7F36A" stroke-width="1.2" opacity="0.7"/></g>
+<g transform="translate(663.36,103.56) rotate(-48) scale(1.5479999999999998)"><path d="M0 0 Q 14 -10 26 -2 Q 16 8 0 0 Z" fill="#16C079"/><path d="M2 -1 Q 14 -4 24 -2" fill="none" stroke="#B7F36A" stroke-width="1.2" opacity="0.7"/></g>
+ <text x="512.0" y="492" text-anchor="middle" font-family="Inter,'DejaVu Sans',sans-serif" font-weight="800" font-size="60" letter-spacing="2" fill="#15322C">CAMBIUM AI</text>
+ <text x="512.0" y="532" text-anchor="middle" font-family="Inter,'DejaVu Sans',sans-serif" font-weight="600" font-size="22" letter-spacing="8" fill="#5C7068">RESEARCH INSTITUTION</text>
+ <g transform="translate(743.1875,525) rotate(-22) scale(1.05)"><path d="M0 0 Q 12 -9 22 -1 Q 13 7 0 0 Z" fill="#16C079"/><path d="M3 -1 Q 12 -4 20 -1" fill="none" stroke="#B7F36A" stroke-width="1.1" opacity="0.7"/></g>
 </svg>

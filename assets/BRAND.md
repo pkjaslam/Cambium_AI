@@ -19,10 +19,12 @@ A fresh, modern, botanical-scientific identity. Replaces the old navy + gold tre
 
 Badge hex (no #): primary `16C079`, accent `B7F36A`, bg `07231A`.
 
-## Motif — "growth ring with active node"
-Concentric thin **emerald** growth rings (the cambium lays down a tree's rings), with ONE bright
-**lime** node glowing at the active growth point on the outer ring, plus a fine radial spoke.
-Geometric, scientific, organic. No gold, no navy.
+## Motif — the official emblem (`assets/cambium ai logo.png`)
+The canonical logo is **`assets/cambium ai logo.png`** (transparent): a wood-ring tree cross-section
+(green → teal → gold growth rings = the cambium), a gold neural node-network (the AI), a glowing gold
+blip, an open arc frame, emerald leaves, and the **CAMBIUM AI · RESEARCH INSTITUTION** wordmark. All
+derivatives — `logo.png` (light), `logo-dark.png` (light wordmark for dark bg), `logo-mark.png` (emblem
+only), `favicon.png`, and the 1280×640 `social-preview.png` — are built from this file. Palette: 'Living Layer'.
 
 ## Type
 Geometric sans (system stack: Inter / SF / Segoe UI). Wordmark "Cambium" — ink on light, canvas on

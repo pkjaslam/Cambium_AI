@@ -39,3 +39,8 @@ Separation of duties: the author of a deliverable is not its sole approver; G3 a
 | G-outline | 2026-06-26 | Director (Jaslam) | APPROVE | Write the full 16-section world-class README to the approved architecture; then assets pass + verify. |
 | G-ship | 2026-06-27 | Director (Jaslam) | APPROVE | Ship the world-class comprehensive README (400 lines, 16 sections; Referee accept 9s, Integrity PASS-WITH-FIXES all applied) + regenerated org-chart. |
 | G-assets | 2026-06-27 | Director (Jaslam) | APPROVE | Recreate the brand asset set (mark, wordmarks, social card, favicon) at premium quality from a reproducible generator. |
+| G-logo2 | 2026-06-27 | Director (Jaslam) | APPROVE | Adopt the "Governed Growth Ring" mark v2 (8 gates + PI + sweep + caught-error) across logo/wordmark/social/favicon. |
+| G-logo3 | 2026-06-27 | Director (Jaslam) | APPROVE (blend) | Final "Living Tree" mark — tree of life + growth rings + 8 gates + sweep + caught-error + PI at roots. |
+| G-logo4 | 2026-06-27 | Director (Jaslam) | APPROVE (use directly) | Vector recreation of the uploaded ring+node-network emblem, transparent bg, across the asset set. |
+| G-logo5 | 2026-06-27 | Director (Jaslam) | APPROVE (use directly) | Adopt the official Cambium_logo.png; all derivatives built from it. |
+| G-logo6 | 2026-06-27 | Director (Jaslam) | APPROVE | Hi-res official logo, cream bg keyed out, all derivatives rebuilt. |

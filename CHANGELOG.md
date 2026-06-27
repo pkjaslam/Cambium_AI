@@ -462,3 +462,58 @@ real dispatched agents, gate G2 approved). Adopted the genuinely-missing ideas; 
 - Brand tokens unchanged (BRAND.md "Living Layer" palette). All SVGs validate; PNG dimensions confirmed.
 - Green: consistency exit 0 · doctor --grade A (100%, HTML integrity intact) · 113 tests pass.
 - Action: re-upload the new `assets/social-preview.png` in GitHub Settings → Social preview (replaces the old card).
+
+## 1.00.5 - 2026-06-27 — Logo v2: "Governed Growth Ring" identity
+- Redesigned the brand mark from a richer, story-telling concept (inspired by reference directions): the
+  mark now encodes Cambium itself — **8 gate-checkpoints** (amber keyhole+check = the 8 human gates) on the
+  outer ring, concentric **emerald growth rings** (the cambium), the central **Director (PI)**, eight
+  **council branch spokes** with leaf buds, a **lime radar sweep** to the active gate, and a single
+  **red ✕ caught-error node** (the Verification board blocking a bad result). Clean flat vector, fully
+  scalable — sharper and more meaningful than the references' raster art, on the "Living Layer" palette.
+- Regenerated the whole set from `tools/gen_brand_assets.py` (v2): `logo-mark` (.svg + 512/1024 png),
+  `logo`/`logo-dark` wordmarks (subtitle now "PORTABLE · GOVERNED · RESEARCH"), `social-preview` (1280×640),
+  `favicon` (a simplified mini-mark for small sizes). BRAND.md motif section updated to match.
+- Green: consistency exit 0 · doctor --grade A (100%) · all SVGs validate · PNG dims confirmed.
+- Action: push, then re-upload the new `assets/social-preview.png` in GitHub Settings → Social preview.
+
+## 1.00.6 - 2026-06-27 — Logo finalized: the "Living Tree" (blend)
+- Final brand mark (supersedes the interim governance-ring in 1.00.5): a **tree of life** — symmetric
+  canopy + roots with lime leaf clusters — rising from the concentric **growth rings** (the literal
+  cambium), with the **8 gate-checkpoints** on the outer ring, a **lime radar sweep** to the active gate,
+  a **red ✕ caught-error** node (Verification blocking a bad result), and the **Director (PI)** grounded at
+  the roots. Blends the botanical + governance reference directions the Director chose. Clean flat vector.
+- Regenerated the whole set from `tools/gen_brand_assets.py`: logo-mark (.svg + 512/1024), light/dark
+  wordmarks (clean tier mark), social-preview (1280×640), favicon (mini tier). BRAND.md motif updated to
+  "the Living Tree".
+- Green: consistency exit 0 · doctor --grade A (100%) · all SVGs validate · social 1280×640.
+- Action: push, then re-upload `assets/social-preview.png` in GitHub Settings → Social preview.
+
+## 1.00.7 - 2026-06-27 — Logo: vector recreation of the "AI Research Institution" emblem (transparent)
+- Recreated the Director's chosen emblem as clean vector with a **transparent background** (supersedes the
+  Living-Tree mark): a wood-ring tree cross-section (deep green → teal → gold rings), a gold neural
+  node-network branching through one quadrant, a glowing gold active blip, a thin open arc frame
+  (emerald → gold), emerald leaves, and the **CAMBIUM AI · RESEARCH INSTITUTION** wordmark.
+- Light + dark lockups (transparent, swap cleanly in GitHub's <picture>), emblem-only `logo-mark`,
+  `social-preview` (1280×640, emblem + wordmark + tagline + stats on the brand dark bg), and `favicon`.
+  All from `tools/gen_brand_assets.py` (regenerated); BRAND.md motif updated.
+- Green: consistency exit 0 · doctor --grade A (100%) · all SVGs validate · social 1280×640.
+- Action: push, then re-upload `assets/social-preview.png` in Settings → Social preview.
+
+## 1.00.8 - 2026-06-27 — Adopt the official logo (assets/Cambium_logo.png)
+- Replaced the generated marks with the Director's **official logo** (`assets/Cambium_logo.png`, transparent)
+  and built all derivatives directly from it: `logo.png` (light), `logo-dark.png` (wordmark recolored to
+  canvas for dark mode), `logo-mark.png` (cropped emblem), `favicon.png`, and the 1280×640 `social-preview.png`
+  (the real emblem + white CAMBIUM AI wordmark + tagline + stats on the brand dark).
+- README hero now uses the PNG logo via <picture> (light/dark); index.html favicon → favicon.png.
+  BRAND.md points to Cambium_logo.png as the canonical source.
+- Green: consistency exit 0 · doctor --grade A (100%, index.html intact) · README + index intact.
+- Action: push, then re-upload `assets/social-preview.png` in Settings → Social preview.
+
+## 1.00.9 - 2026-06-27 — Hi-res logo (background keyed out, all derivatives rebuilt)
+- Adopted the Director's high-resolution official logo (`assets/cambium ai logo.png`, 1407×768). Keyed out
+  the cream mockup background to transparent (feathered edges, no halo), tight-cropped, and rebuilt every
+  derivative at full quality from it: `logo.png` (514×574, light), `logo-dark.png` (white wordmark for dark
+  mode), `logo-mark.png` (1024² emblem), `favicon.png`, and the 1280×640 `social-preview.png` (crisp emblem +
+  white CAMBIUM AI wordmark + tagline + stats). README hero + index favicon already point to these.
+- Green: consistency exit 0 · doctor --grade A (100%) · README + index intact.
+- Action: push, then re-upload `assets/social-preview.png` in Settings → Social preview.
