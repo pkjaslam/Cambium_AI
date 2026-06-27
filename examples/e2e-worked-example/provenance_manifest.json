@@ -1,0 +1,19 @@
+{
+  "schema": "cambium-provenance-1",
+  "ledger": "findings_ledger.csv",
+  "cwd": "examples/e2e-worked-example",
+  "entries": [
+    {
+      "claim_id": "F1",
+      "tier": "Code-verified",
+      "rerun_cmd": "python3 code/analysis.py",
+      "exit_code": 0,
+      "script_sha256": {
+        "code/analysis.py": "8e7418f084ca9030664950ec0da925ef86822a46fddcf989cb11212c57aed291"
+      },
+      "output_sha256": "3a4a2e23b340618baf0ead9df235feebe3cd2358d528405644c4d07fc7a7e36f",
+      "output_preview": "HEADLINE: treatment increased yield by 3.06 bu/acre (95% CI 2.83-3.29, t=26.1, n=12)",
+      "verified_at": "2026-06-27T19:26:52Z"
+    }
+  ]
+}

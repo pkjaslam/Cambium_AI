@@ -1,0 +1,4 @@
+id,issue,agents,severity,claim_tier,evidence,status,action
+F1,Treatment yield effect (Aim 1),lab-statistics;verify-evidence,P2,Code-verified,rerun `python3 code/analysis.py` reproduces 3.06 bu/acre; output sha256 recorded in provenance_manifest.json (F1),accepted,cmd: python3 code/analysis.py
+F2,Rainfall interaction (Aim 2),lab-methods,P1,Open,model not yet fit — flagged for post-award,open,defer to G4
+F3,Design is a valid paired comparison,verify-rigor,P2,Asserted,standard paired design; argued not run,accepted,n/a

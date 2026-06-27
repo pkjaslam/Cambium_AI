@@ -92,3 +92,16 @@ jobs:
           echo "--- demo ledger (informational; open P0 is intentional) ---"
           python3 governance/validate.py \
             examples/demo-mid-project/agent_outputs/findings_ledger.csv || true
+
+      # ── Step 4: Gate interlock against the committed worked-example ledger ──
+      # A REAL, reproducible ledger (Code-verified claim w/ rerun+hash). Must open (no blockers).
+      - name: Gate interlock (worked-example ledger)
+        run: python3 tools/gate.py G5 --ledger examples/e2e-worked-example/findings_ledger.csv
+
+      # ── Step 5: Provenance — the worked example must reproduce bit-for-bit ──
+      - name: Provenance check (worked example reproduces)
+        run: python3 tools/provenance.py check examples/e2e-worked-example/provenance_manifest.json
+
+      # ── Step 6: Finding audit (advisory — flags unsupported self-reports) ──
+      - name: Finding audit (advisory)
+        run: python3 tools/finding_audit.py || true

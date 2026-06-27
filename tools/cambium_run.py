@@ -15,7 +15,18 @@ Usage:
   python3 tools/cambium_run.py "<task / RFP path>"            # dry-run plan
   python3 tools/cambium_run.py "<task>" --live --max 5        # live, 5 concurrent sessions
 """
-import os, sys, json, time, concurrent.futures as cf
+import os, sys, json, time, csv, concurrent.futures as cf
+# approx USD per 1M tokens (input, output) — update as model pricing changes
+PRICE = {"claude-opus-4-8": (15.0, 75.0), "claude-sonnet-4-6": (3.0, 15.0), "claude-haiku-4-5-20251001": (0.80, 4.0)}
+def estimate_cost(model, usage):
+    pin, pout = PRICE.get(model, (3.0, 15.0))
+    return round(usage.get("input_tokens", 0)/1e6*pin + usage.get("output_tokens", 0)/1e6*pout, 6)
+def log_cost(path, row):
+    new = not os.path.exists(path)
+    with open(path, "a", newline="", encoding="utf-8") as fh:
+        w = csv.writer(fh)
+        if new: w.writerow(["run","phase","agent","model","input_tokens","output_tokens","wall_s","est_usd"])
+        w.writerow(row)
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "tools"))
 
@@ -50,8 +61,10 @@ def call_model(model, system, user, key):
                     "system": system, "messages":[{"role":"user","content":user}]}).encode()
     req = urllib.request.Request("https://api.anthropic.com/v1/messages", data=body,
             headers={"x-api-key": key, "anthropic-version":"2023-06-01", "content-type":"application/json"})
+    t0 = time.time()
     with urllib.request.urlopen(req, timeout=120) as r:
-        d = J.loads(r.read()); return d["content"][0]["text"]
+        d = J.loads(r.read())
+    return d["content"][0]["text"], d.get("usage", {}), round(time.time()-t0, 2)
 
 def main():
     args = sys.argv[1:]
@@ -75,19 +88,25 @@ def main():
     if live: os.makedirs(outdir, exist_ok=True)
     print("="*64)
 
+    current_phase = {"id": "?"}
     def run_one(name):
         model = mr.resolve(name, cards, tiers)[1]
         if not live:
             return name, model, "(planned)"
         spec = agent_spec(name) or ("You are the %s agent for Cambium." % name)
         try:
-            txt = call_model(model, spec, "TASK: %s\nDo your job per your spec. Be concise." % task, key)
+            txt, usage, wall = call_model(model, spec, "TASK: %s\nDo your job per your spec. Be concise." % task, key)
             open(os.path.join(outdir, name+".md"), "w", encoding="utf-8").write(txt)
-            return name, model, "done (%d chars)" % len(txt)
+            cost = estimate_cost(model, usage)
+            log_cost(os.path.join(ROOT, "agent_outputs", "cost_log.csv"),
+                     [runlbl, current_phase["id"], name, model, usage.get("input_tokens", 0),
+                      usage.get("output_tokens", 0), wall, cost])
+            return name, model, "done (%d chars, %ss, ~$%.4f)" % (len(txt), wall, cost)
         except Exception as e:
             return name, model, "ERROR "+str(e)[:80]
 
     for ph in plan["phases"]:
+        current_phase["id"] = ph["id"]
         print("\n### PHASE: %s" % ph["id"])
         for label, ags, conc in agent_groups(ph):
             tag = "PARALLEL (%d sessions at once)" % min(len(ags),maxc) if conc and len(ags)>1 else "sequential"

@@ -382,3 +382,55 @@ never forked into the Cambium tree. The design:
   and read-verified. `consistency_check.py` counts unchanged (46·11·8). Schema JSON parses cleanly.
   `doctor.py` and full pytest suite: **Asserted** (cannot run in this sandbox — hand to Orchestrator
   for Windows-side re-run before publishing).
+
+## ADR-029: Machine-checkable provenance manifest for Code-verified claims
+- Date: 2026-06-27 · Status: Accepted (Director approved) · Decider: Director (Jaslam)
+- Context: ROADMAP near-term item + the self-evaluation's top finding — "Code-verified" in validate.py was
+  satisfied by a command *string*, not an actual rerun. Honesty needed reproduction, not assertion.
+- Decision: ship `tools/provenance.py` — `build` re-runs each Code-verified claim's `cmd:` in the ledger,
+  hashes the command + referenced script(s) + captured output, and writes a manifest linking claim →
+  rerun + script_sha256 + output_sha256; `check` re-runs and FAILS (exit 1) if any output hash drifts.
+  Demonstrated end-to-end in `examples/e2e-worked-example/` (RFP→aims→proposal→deterministic
+  `code/analysis.py`→ledger→manifest→report; headline 3.06 bu/acre reproduced + hashed). Tests:
+  `tests/test_provenance.py` (build+check pass; check fails on output drift).
+- Consequences: Code-verified becomes reproducible-by-construction where a rerun command exists; the worked
+  example proves the full artifact chain + provenance. Also shipped 2 non-ML domain configs
+  (`examples/configs/social-science-survey.yml`, `agricultural-field-trials.yml`). Counts: 23 tools (was 21;
+  README updated). Green: consistency 46·11·8 · doctor GRADE A · 115 tests pass.
+
+## ADR-030: Grounded retrieval backend + live speed/cost telemetry (eval suggestions #2, #4)
+- Date: 2026-06-27 · Status: Accepted (Director approved) · Decider: Director (Jaslam)
+- Context: the self-evaluation (agent_outputs/EVALUATION.md) scored Deep-search 5/10 ("thin web-search
+  wrapper, no retrieval backend") and Speed 6/10 ("zero measured latency/cost data — policy only").
+- Decision: (#2) ship `tools/paper_search.py` — grounded scholarly retrieval over **OpenAlex (CC0) +
+  Crossref**, no API key, offline-safe; returns structured citable records (title/authors/year/venue/DOI/
+  citations/abstract). Wired into scout-prior-art, scout-methods, scout-landscape, and librarian.
+  (#4) instrument `tools/cambium_run.py` to capture per-agent **wall-clock + input/output tokens + est_usd**
+  to `agent_outputs/cost_log.csv` on every live call (turns the EFFICIENCY.md cost-telemetry policy into real
+  data). Tests: `tests/test_paper_search.py` (parsers), `tests/test_cost_telemetry.py` (estimate + log).
+- Consequences: scouts ground citations in a 250M-work corpus instead of ad-hoc web tool use; runs now emit
+  measurable speed/cost. Tool count 23→24 (README corrected). Live retrieval verified (real OpenAlex
+  results). Green: consistency 46·11·8 · doctor GRADE A · 120 tests pass.
+
+## ADR-031: Gate interlock + independent finding-audit + funder corpus & demonstrated post-award (eval #3, #6, #7)
+- Date: 2026-06-27 · Status: Accepted (Director approved) · Decider: Director (Jaslam)
+- Context: the self-evaluation found the central gap "documented != enforced" — four seams where the spec is
+  A-grade but the mechanical guarantee lags: (A) live gate is convention, (B) CI tests a stand-in ledger,
+  (C) the board trusts agents' self-reports, (D) `Code-verified` is a string match. Plus Scope/Knowledge gaps:
+  only 2 funders, and post-award execution documented-not-demonstrated.
+- Decision:
+  (#3) `tools/gate.py` — wraps `governance/validate.py` over the **production** ledger; exit 1 BLOCKS the gate
+  on any release-blocker. CI now also gates + provenance-checks the committed `e2e-worked-example` ledger and
+  runs the audit, so CI exercises a real artifact, not only `ci_ledger.csv` (closes seams A/B). The interlock
+  caught a genuine evidence-cell gap on first run and forced the fix.
+  (#6) `tools/finding_audit.py` — independent scan flagging completion/verification claims that lack evidence
+  markers; advisory in CI (closes seam C). Seam D was already closed by the provenance manifest (ADR-029).
+  (#7) added source-verified `governance/funders/usda-afri.yml` + `doe.yml` (corpus 2->4); the honest finding
+  that DOE-P-2031 excludes financial-assistance recipients is recorded rather than glossed. Added
+  `examples/e2e-worked-example/04_postaward_runlab.md` demonstrating the G4 run-lab loop end-to-end.
+- Consequences: the validator-checkable surface is now enforced by construction, not convention; CI fails on a
+  broken real ledger; over-claiming is independently flagged; funder coverage and a demonstrated post-award
+  example close the Scope/Knowledge gaps. Tool count 24->26; worked examples 5->6 (README + roadmap reconciled).
+  Remaining for grade A: eval #1 — run a real arm of the enforcement A/B and report effect size + CIs (needs an
+  API key + budget; the central claim stays honestly **Open** until then).
+- Green: consistency 46·11·8 exit 0 · doctor GRADE A (100%) · 123 tests pass / 1 skipped · funder-freshness 4/4.

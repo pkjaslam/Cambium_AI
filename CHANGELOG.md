@@ -536,3 +536,44 @@ real dispatched agents, gate G2 approved). Adopted the genuinely-missing ideas; 
 - Wired the `render-video` skill into SKILLS_MAP.md and the Relevant-skills line of `deck-builder`,
   `reporting-officer`, and `outreach` (canonical + agents/ mirror, 46/46).
 - Green: router test passes · check_agents OK · consistency exit 0 · doctor --grade A · 113 tests pass.
+
+## 1.00.12 - 2026-06-27 — Provenance manifest + e2e worked example + domain configs
+- **Machine-checkable provenance manifest** (`tools/provenance.py`, ADR-029): `build` re-runs each
+  Code-verified claim's recorded command, hashes command+script+output, and writes a manifest; `check`
+  re-runs and fails on any output drift. Turns "Code-verified by convention" into reproduced-and-hashed.
+- **End-to-end worked example** (`examples/e2e-worked-example/`): a full artifact chain RFP→aims→proposal→
+  deterministic `code/analysis.py`→findings_ledger→provenance_manifest→report, with the headline number
+  (3.06 bu/acre) reproduced + hashed (not asserted). Self-reproducing via `provenance.py check`.
+- **2 non-ML domain configs** (`examples/configs/`: social-science survey, agricultural field trials).
+- Tests +2 (`tests/test_provenance.py`, incl. drift-detection). Tool count 21→23; README corrected.
+- Also: ran a full **Cambium self-evaluation** (Referee+Faculty+Scout) — `agent_outputs/EVALUATION.md`,
+  overall B+, with prioritized suggestions (top: prove the enforcement A/B; wire a retrieval backend).
+- Green: consistency exit 0 · doctor --grade A (100%) · 115 tests pass / 1 skipped · e2e manifest reproduces.
+
+## 1.00.13 - 2026-06-27 — Grounded retrieval + speed/cost telemetry (eval #2, #4)
+- **Deep search (#2):** `tools/paper_search.py` — grounded scholarly retrieval over OpenAlex + Crossref
+  (no API key, offline-safe), returning structured citable records; wired into the 3 Scouts + Librarian.
+  Fixes the "thin web-search wrapper" weakness (deep-search 5 → grounded corpus).
+- **Speed (#4):** `tools/cambium_run.py` now logs per-agent wall-clock + tokens + est_usd to
+  `agent_outputs/cost_log.csv` on every live call — the EFFICIENCY.md cost-telemetry policy is now real data.
+- Tests +5 across the two (parsers + estimate/log). Tool count 23→24; README corrected. ADR-030.
+- Green: consistency exit 0 · doctor --grade A (100%) · 120 tests pass / 1 skipped · live retrieval verified.
+
+## 1.00.14 - 2026-06-27 — Gate interlock + finding-audit + funder corpus & demonstrated post-award (eval #3, #6, #7)
+- **#3 Live gate interlock:** `tools/gate.py` runs `governance/validate.py` against the **production** ledger
+  and mechanically **BLOCKS** the gate (exit 1) on an open P0 / un-evidenced `Code-verified` / unresolved
+  citation — "human-in-the-loop by convention" -> an enforced precondition (closes eval seams A/B).
+- **#6 Independent finding-audit:** `tools/finding_audit.py` flags any agent self-report claiming
+  completion/verification **without** supporting evidence — stops the board blindly trusting `## Decision`
+  (closes seam C; directly targets the over-claiming pattern).
+- **CI wires both to REAL committed artifacts:** `validate.yml` now gates + provenance-checks the
+  `e2e-worked-example` ledger and runs the finding-audit — not just the hand-curated stand-in (seam B).
+  The interlock immediately caught a real gap (Code-verified evidence cell missing its run command) and forced the fix.
+- **#7 Funder corpus -> 4 funders:** added source-verified `governance/funders/usda-afri.yml` and `doe.yml`
+  (key honest finding: DOE-P-2031 *explicitly excludes financial-assistance recipients*; no applicant-facing
+  AI-drafting prohibition located for USDA-AFRI or DOE — stated plainly, freshness-CI passing).
+- **#7 Demonstrated post-award:** `examples/e2e-worked-example/04_postaward_runlab.md` — the G4 run-lab loop
+  (provision -> run -> reproduce+hash -> gate decision card) using the real tools, closing the "post-award
+  execution documented-not-demonstrated" scope gap. Worked examples 5->6; README reconciled.
+- Tests +3 (gate blocks/opens, audit flags). Tool count 24->26; README + roadmap reconciled. ADR-031.
+- Green: consistency exit 0 · doctor --grade A (100%) · 123 tests pass / 1 skipped · funder-freshness OK (4/4).

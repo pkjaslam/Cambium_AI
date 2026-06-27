@@ -1,0 +1,49 @@
+# governance/funders/usda-afri.yml
+# USDA-NIFA-AFRI per-funder rule entries for Cambium governance corpus.
+# Owner: M. Jaslam (Director/PI) — quarterly re-verification required.
+# See DISCLAIMER.md before relying on any entry.
+#
+# SCHEMA REQUIRED FIELDS: funder, rule_id, summary, rule_text_note, source_url,
+#   source_date, gate_mapping, last_reviewed, reviewed_by, review_cadence,
+#   freshness_window_days, status
+# OPTIONAL: source_id, confidence
+
+- funder: USDA-NIFA-AFRI
+  rule_id: USDA-AFRI-AI-001
+  summary: >
+    As of 2026-06-27 NO AFRI/NIFA-specific prohibition on AI-assisted proposal
+    preparation was located. Application format, page limits, and font rules are
+    governed by the NIFA Grants Application Guide and the active program NOFO.
+    FY26 AFRI-SAS cycle: Letters of Intent due 2026-02-26; applications due
+    2026-03-26 (A9201) and 2026-04-23 (A9231).
+  rule_text_note: >
+    Unlike NIH (NOT-OD-25-132), no NIFA Guide notice restricting "AI-developed"
+    applications was found in this review. ABSENCE OF A LOCATED RULE IS NOT A
+    GUARANTEE ONE DOES NOT EXIST — the binding terms are whatever the active NOFO
+    and NIFA-22-001 Application Guide state at submission time. Re-read both before
+    relying on this entry; treat AI assistance as drafting/code support, not
+    authorship, and keep the PI accountable for all content.
+  source_url: "https://www.nifa.usda.gov/grants/programs/agriculture-food-research-initiative/afri-funding-opportunities-resources"
+  source_id: NIFA-22-001
+  source_date: "2026-01-15"
+  gate_mapping:
+    - gate: G2
+      obligation: >
+        Confirm the target AFRI program area, eligibility, and the LOI/application
+        deadlines for the active cycle BEFORE committing this idea to a submission
+        track. Verify page/format limits against the active NOFO + NIFA-22-001.
+      owner_role: grants-compliance + PI
+      action: surface-and-block-if-ineligible
+    - gate: G3
+      obligation: >
+        Record AI assistance in the AI Use Statement and attest human authorship.
+        No located AFRI prohibition, but comply with any AI terms in the active NOFO;
+        PI signs.
+      owner_role: PI
+      action: require-attestation
+  last_reviewed: "2026-06-26"
+  reviewed_by: "M. Jaslam (Director/PI)"
+  review_cadence: quarterly
+  freshness_window_days: 120
+  status: active
+  confidence: medium  # deadlines + program structure web-verified 2026-06-27; no AI-in-proposal rule located (verify against active NOFO)

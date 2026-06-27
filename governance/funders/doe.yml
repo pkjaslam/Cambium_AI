@@ -1,0 +1,49 @@
+# governance/funders/doe.yml
+# U.S. Department of Energy (DOE) per-funder rule entries for Cambium governance corpus.
+# Owner: M. Jaslam (Director/PI) — quarterly re-verification required.
+# See DISCLAIMER.md before relying on any entry.
+#
+# SCHEMA REQUIRED FIELDS: funder, rule_id, summary, rule_text_note, source_url,
+#   source_date, gate_mapping, last_reviewed, reviewed_by, review_cadence,
+#   freshness_window_days, status
+# OPTIONAL: source_id, confidence
+
+- funder: DOE-Office-of-Science
+  rule_id: DOE-AI-001
+  summary: >
+    DOE's Generative AI policy (DOE-P-2031) governs DOE staff and contractors and
+    EXPLICITLY DOES NOT APPLY to recipients of financial assistance (i.e., grant
+    applicants/awardees). As of 2026-06-27 no applicant-facing prohibition on
+    AI-assisted proposal preparation was located. The policy states a human-oversight
+    and user-accountability principle for all GenAI output.
+  rule_text_note: >
+    DOE-P-2031 reads that GenAI use "does not apply to recipients of financial
+    assistance from DOE." That is a SCOPE statement, not a license to over-rely on
+    AI — applicants remain fully accountable for the accuracy and originality of every
+    submission. Individual FOAs/RFAs may impose their own AI terms (e.g., the 2026
+    Genesis Mission RFA): always re-read the specific opportunity. Absence of a located
+    DOE-wide applicant rule is not a guarantee that a given FOA imposes none.
+  source_url: "https://www.energy.gov/cio/articles/department-energy-generative-artificial-intelligence-policy"
+  source_id: DOE-P-2031
+  source_date: "2026-03-17"
+  gate_mapping:
+    - gate: G2
+      obligation: >
+        Check the specific FOA/RFA (program, eligibility, deadlines, and any AI-use
+        terms) BEFORE committing this idea to a submission track. DOE-P-2031 does not
+        bind applicants, but the FOA's own terms do.
+      owner_role: grants-compliance + PI
+      action: surface-and-block-if-foa-restricts
+    - gate: G3
+      obligation: >
+        Record AI assistance in the AI Use Statement and attest human authorship and
+        accountability for all content (consistent with DOE's stated human-oversight
+        principle); PI signs.
+      owner_role: PI
+      action: require-attestation
+  last_reviewed: "2026-06-26"
+  reviewed_by: "M. Jaslam (Director/PI)"
+  review_cadence: quarterly
+  freshness_window_days: 120
+  status: active
+  confidence: medium  # DOE-P-2031 recipient-exclusion + Genesis Mission RFA web-verified 2026-06-27; exact DOE-P-2031 issue date not confirmed (verify per FOA)

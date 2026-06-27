@@ -12,7 +12,7 @@ Scouts default to quick scan and ESCALATE to deep research when the decision is 
 - Invalidate the cache on any repo change to a cached file; record a cache key in provenance.
 
 ## Per-vendor cost telemetry
-- Log per phase: model/vendor, input/output tokens, wall-clock, est. cost → `agent_outputs/cost_log.csv`.
+- Log per phase: model/vendor, input/output tokens, wall-clock, est. cost → `agent_outputs/cost_log.csv (now captured live by tools/cambium_run.py: per-agent wall-clock + tokens + est_usd)`.
 - Surface a cost line in each run report and in `provenance.json` (`model` already recorded; add `tokens`,`cost` when available).
 - Use telemetry to tune the MODEL_ROUTER (move cheap work to cheaper tiers; keep the critical path on the strongest model).
 
