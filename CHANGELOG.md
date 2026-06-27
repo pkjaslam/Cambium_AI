@@ -241,3 +241,26 @@ ncils, stopping at a one-page
   if close-out goes missing from a task type, or if document-office stops being routed. 32 tests pass.
 - 7 agents remain intentionally on-demand (orchestrator, partnership-liaison, program-manager, outreach,
   office-manager, feedback-router, teaching-assistant) — excluded by design to avoid artificial over-use.
+
+## 3.12.0 - Three built-in quantitative skills (mathematics, statistics, machine-learning)
+- NEW skills/mathematics — deterministic symbolic + numeric math (SymPy/SciPy, optional Z3/Pint):
+  compute exact answers, verify by back-substitution, tag Proved/Code-verified/Asserted.
+- NEW skills/statistics — rigorous inference: tests, power/sample-size, GLM/mixed models, multiplicity
+  correction, bootstrap, Bayesian basics (scipy/statsmodels/pingouin); reports effect size + CI, checks
+  assumptions.
+- NEW skills/machine-learning — leak-free predictive modeling: stratified/grouped/time splits, pipelines,
+  CV, tuning off the test set, calibration, SHAP, model cards; explicit leakage checklist.
+- SKILLS_MAP.md maps the three to the agents that wield them and notes optional curated web add-ons
+  (frontend-design, frontend-excellence) — your installed UI/web skills already cover most of that.
+- Smoke-tested: SymPy + scipy.stats patterns run and return correct values. 32 tests pass.
+
+## 3.13.0 - Full council skill coverage (8 new skills)
+- NEW skills covering every previously-uncovered council:
+  optimization (lab-methods), reproducibility (research-engineer/verify-evidence), citations (librarian),
+  data-management (data-steward), grant-writing (pre-award), research-ethics (governance),
+  project-management (program-manager), scientific-writing (document-office/reporting-officer).
+- Each emphasizes correctness + honesty: optimality status, rerun-and-verify, never-fabricate citations,
+  PII screening, criteria alignment, GO/CONDITIONS/STOP ethics gates, claims<->evidence tiers.
+- SKILLS_MAP.md maps all 11 built-in skills to the councils/agents that wield them. Deliberately did NOT
+  duplicate UI/UX, web, software-eng, figures, decks, teaching — already covered by installed skills.
+- Smoke-tested optimization (scipy linprog -> verified optimum). 32 tests pass; plugin.json clean.

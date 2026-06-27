@@ -22,3 +22,35 @@ untrusted code is a security risk.*
 
 Marketplace plugins worth considering: **data** (stats + viz + dashboards), domain-specific research
 connectors. Install only what you approve.
+
+## New built-in domain skills (ship with Cambium, v3.12.0)
+
+| Skill | Agents | Purpose |
+|---|---|---|
+| **mathematics** | lab-theory, lab-methods, faculty-expert (math), verify-rigor, RA | exact symbolic + numeric math (SymPy/SciPy/Z3/Pint) — compute, don't estimate |
+| **statistics** | lab-statistics, verify-methodology, faculty-expert (statistics), data-steward | rigorous inference — tests, power, GLM/mixed models, multiplicity, bootstrap, Bayesian |
+| **machine-learning** | lab-methods, exec-experiments, research-engineer, verify-evidence | leak-free predictive modeling — pipelines, CV, calibration, SHAP, model cards |
+
+## Curated external add-ons (optional install — web/frontend)
+
+Your installed `ui-ux-pro-max`, `ckmdesign`, and `web-artifacts-builder` already cover most web/UI work.
+If you want more frontend depth, these community skills are worth a look (install only what you vet):
+- **frontend-design** — production-grade, non-generic UI (React/Vue/Svelte/HTML).
+- **frontend-excellence** — React/Next/TypeScript/Tailwind scaffolding, bundle analysis, a11y.
+
+Find them via the marketplaces in DECISIONS.md ADR-017. Cambium does not bundle untrusted external code.
+
+## Built-in domain skills — wave 2 (full council coverage, v3.13.0)
+
+| Skill | Council · agents | Purpose |
+|---|---|---|
+| **optimization** | Labs · lab-methods | LP/MILP/convex/nonlinear (scipy.optimize, cvxpy, PuLP, OR-Tools); reports optimality status |
+| **reproducibility** | Execution · research-engineer; Verification · verify-evidence | pinned env, seeds, Makefile/CI, rerun-and-verify headline numbers |
+| **citations** | Support · librarian | DOI/Crossref verify, BibTeX, dedup; never fabricate a reference |
+| **data-management** | Support · data-steward | inventory, schema/units, provenance, quality checks, PII/privacy |
+| **grant-writing** | Pre-Award · proposal-writer, grants-compliance | Specific Aims, criteria alignment, NSF/NIH/USDA structure |
+| **research-ethics** | Governance · research-conduct-officer | IRB/IACUC, COI, FERPA/sovereignty, dual-use; GO/CONDITIONS/STOP |
+| **project-management** | Partnerships · program-manager, convener | WBS, milestones, deliverables register, RACI, risk log |
+| **scientific-writing** | Orchestration · document-office; Reporting · reporting-officer | IMRaD, one-contribution rule, claims↔evidence tiers |
+
+After wave 2, every one of the 11 councils has at least one dedicated skill.

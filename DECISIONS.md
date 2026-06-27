@@ -123,6 +123,28 @@ k-only; no third-party content copied; nothing installed; counts stay 46·11·8)
   agents unrouted by design. Ran the Cambium way; approved at a human gate.
 - Consequences: all 11 councils reachable; Support 6/6; plan now reflects close-out. No new human gates.
   Version 3.11.3.
-laim_id`, `evidence_tier` (Proved/Code-verified/Asserted/Open), `generated_by` (council · agent), `used` (input artifact/dataset/citation id), optional `informed_by` (prompt/decision ref); draft first as a `templates/` doc, not a schema/`validate.py` change. (2) propose a future read-only "lineage / root-cause" helper that answers Q1/Q5 from `claims[]` — recorded as a proposal only, not built. (3) reuse-first guardrail: must wrap existing `provenance.json` + `run_trace.py`; no new provenance engine, no Flowcept/Redis/Kafka, no re-architecture. Natural owners: record-keeper (maintains rows) + Verification council (consumes for root-cause). Pairs with the still-open supersession concern (the two-`ADR-008` defect): claim-grain lineage is the same machinery that catches a silent supersession.
-- Acceptance (when/if gated work proceeds): a planted unsupported claim is traceable to a missing/empty `used` edge while well-sourced claims pass; `consistency_check`, `doctor`, and the test suite stay green with the template/array absent (back-compat). Detail: `cambium_imp/skill-scan/2026-06-26-2341.md`. This run: consistency + doctor + pytest results in the run report; only `.md` files written (this ADR + new scan note + LOG rows).
-- UPDATE 2026-06-26 (human-approved): ADR-015 status → **ACCEPTED**. Implemented the Markdown-only part: new `templates/CLAIM_LINEAGE.md` (freshly authored; claim-grain lineage convention — claim_id, evidence_tier, generated_by council·agent, used input, informed_by decision/ADR; root-cause checks for Q1/Q5; mirrors REPRODUCIBILITY_CHECKLIST house style). Owners: record-keeper maintains rows; verify-evidence + referee consume them before G5. STILL GATED (separate human/dev build, not done in this docs-only run): the optional `claims[]` array in `provenance.json` + `validate.py` read/emit, and the read-only Q1/Q5 lineage helper under `tools/`. Reuse-first: wraps existing `provenance.json` + `run_trace.py`; no provenance engine; no Flowcept/Redis/Kafka; counts stay 46·11·8. Post-change governance: consistency_check 46·11·8 OK, doctor healthy; pytest not runnable in sandbox (install forbidden) — re-run in dev env before publish. Only `.md` files changed.
+
+## ADR-017 - Add quantitative built-in skills (math, statistics, ML); curate web rather than rebuild
+- Context: user requested skills for math, statistics, ML, web, UI/UX, software. Inventory of the live
+  setup showed UI/UX (ui-ux-pro-max, ckmdesign), web (web-artifacts-builder), and software (the packaged
+  software-engineering plugin) already covered; the real gaps were mathematics (nothing installed) and
+  rigorous statistics / leak-free ML (data plugin is analysis-flavored). Ran the Cambium way; Scouts
+  surveyed 8 skill marketplaces; approved at a gate (Option B).
+- Decision: BUILD three skills under skills/ (mathematics, statistics, machine-learning) emphasizing
+  deterministic computation, assumption checks, and leakage guards; CURATE web/frontend by pointing to
+  vetted external skills in SKILLS_MAP.md rather than bundling untrusted code. Skills auto-discover via
+  skills/*/SKILL.md; no agent changes.
+- Consequences: Cambium ships exact-math + defensible-stats + honest-ML capability. Version 3.12.0.
+  Marketplaces referenced: awesomeclaude.ai, github.com/travisvn/awesome-claude-skills,
+  github.com/Data-Wise/claude-plugins.
+
+## ADR-018 - Built-in skill coverage for every council (wave 2)
+- Context: user asked to think through all councils/agents and implement every skill they need. A
+  coverage map showed Faculty/Scouts/Reporting/Labs(stats,theory) covered by installed + wave-1 skills,
+  leaving 8 real gaps. Ran the Cambium way; approved at a gate.
+- Decision: BUILD 8 skills (optimization, reproducibility, citations, data-management, grant-writing,
+  research-ethics, project-management, scientific-writing) under skills/, each owned by a council and
+  written around correctness/honesty guardrails. Did NOT build skills where installed ones already
+  suffice (UI/UX, web, software-eng, figures, decks, teaching) to avoid bloat.
+- Consequences: all 11 councils now have >=1 dedicated skill; 12 skill dirs total (incl. cambium-mode
+  + wave 1). Auto-discovered via skills/*/SKILL.md; no agent changes. Version 3.13.0.
