@@ -36,7 +36,7 @@ def _grant():
     return [
       ph("intake",[grp("intake",C("preaward","rfp-radar","rfp-analyst"))],{"id":"G1","decision":"pursue this RFP?"}),
       ph("ideation",[grp("scouts",C("scout")),grp("ideate",C("preaward","ideation-facilitator","idea-tournament"),False),grp("faculty",C("faculty"),False)],{"id":"G2","decision":"which idea advances?"}),
-      ph("proposal",[grp("PI",C("preaward","principal-investigator"),False),grp("write",C("preaward","proposal-writer","budget-officer","grants-compliance")+C("partner","collaborator-scout","convener")),grp("review",C("verify","referee")+C("gov"),False)],{"id":"G3","decision":"finalize & submit?"}),
+      ph("proposal",[grp("PI",C("preaward","principal-investigator"),False),grp("write",C("preaward","proposal-writer","budget-officer","grants-compliance")+C("partner","collaborator-scout","convener")+C("support","librarian","figures")),grp("review",C("verify","referee")+C("gov"),False)],{"id":"G3","decision":"finalize & submit?"}),
     ]
 def _software():
     return [
@@ -90,12 +90,26 @@ def _provision():
     return ph("provision",[grp("toolsmith", C("support","toolsmith"), False)],
               {"id":"G-provision","decision":"approve the toolchain (reuse beats rebuild)?"})
 
-def route(task):
-    typ, hits = classify(task)
+def _writeup():
+    # final written deliverable from VERIFIED findings, with citations + figures
+    return ph("writeup",[grp("write-up",C("orch","document-office")+C("support","librarian","figures"),False)])
+
+def _closeout():
+    # Support council housekeeping after EVERY task; no human gate (automatic close-out)
+    return ph("closeout",[grp("close-out",C("support","record-keeper","integrity-officer","janitor"))])
+
+def plan_for_type(typ):
     builder = dict((n,b) for n,_,b in TYPES)[typ]
     phases = builder()
     if typ in ("software","research","data"):
         phases = [_provision()] + phases
+    if typ in ("research","report","data"):
+        phases = phases + [_writeup()]
+    return phases + [_closeout()]
+
+def route(task):
+    typ, hits = classify(task)
+    phases = plan_for_type(typ)
     councils = sorted({c for p in phases for g in p["groups"] for c in [k for k,v in CMAP.items() if set(g["agents"]) & set(v)]})
     n_agents = len({a for p in phases for g in p["groups"] for a in g["agents"]})
     return {"task": task, "type": typ, "councils": councils, "n_agents": n_agents, "phases": phases, "signal": hits}

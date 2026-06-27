@@ -231,3 +231,13 @@ ncils, stopping at a one-page
 - Encodes the decision rule, session-memory, and an honest note that /solo and /cambium are the only
   100%-deterministic controls. USE_CAMBIUM.md documents the default so behavior is predictable even
   when the soft trigger doesn't fire.
+
+## 3.11.3 - Routing coverage: Support close-out everywhere + write-up phase (ADR-016)
+- Standard Support close-out (record-keeper, integrity-officer, janitor) now runs on EVERY task type
+  (Support council coverage 3/6 -> 6/6) — the plan finally matches the "housekeeping every time" rule.
+- document-office write-up phase added to research/report/data (Orchestration council 0 -> 3/6);
+  librarian + figures routed into grant/research/report.
+- New guard test (tests/test_router_coverage.py) fails CI if any council drops to zero routed agents,
+  if close-out goes missing from a task type, or if document-office stops being routed. 32 tests pass.
+- 7 agents remain intentionally on-demand (orchestrator, partnership-liaison, program-manager, outreach,
+  office-manager, feedback-router, teaching-assistant) — excluded by design to avoid artificial over-use.
