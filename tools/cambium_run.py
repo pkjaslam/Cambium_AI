@@ -70,6 +70,13 @@ def main():
     args = sys.argv[1:]
     if not args:
         print('Usage: python3 tools/cambium_run.py "<task / RFP path>" [--live] [--max N]'); return 1
+    # Single-command quickstart: `cambium_run.py example` (or `run example`) loads a bundled RFP so a
+    # brand-new user sees the whole institute mobilize with NO API key. (dean ask #3)
+    EXAMPLE_RFP = "examples/demo-from-scratch/RFP.md"  # relative, for a clean banner
+    if args and args[0].lower() in ("example", "run") and (args[0].lower() == "example" or
+            (len(args) > 1 and args[1].lower() == "example")):
+        args = [EXAMPLE_RFP] + [x for x in args if x.startswith("--")]
+        print("[cambium] running the bundled example RFP (no API key needed) — examples/demo-from-scratch/RFP.md\n")
     task = args[0]
     live = "--live" in args
     maxc = int(args[args.index("--max")+1]) if "--max" in args else 5

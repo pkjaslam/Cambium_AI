@@ -727,6 +727,35 @@ real dispatched agents, gate G2 approved). Adopted the genuinely-missing ideas; 
 - Tests +6 (gate_lock 4, roles 2) → 154 pass. Tools 28→30. ROADMAP/RESULTS refreshed by Support; closeout green.
 - Green: consistency exit 0 · doctor --grade A (100%) · 154 tests pass / 1 skipped · closeout OK. ADR-039.
 
+## 1.00.28 - 2026-06-28 — The eval dashboard now regenerates itself from live tools (no drift)
+- **`tools/gen_dashboard.py`** — regenerates `assets/benchmark_dashboard.html` from LIVE output: it runs
+  pytest (count), `doctor.py --grade` (grade), `enforce.py` (gauntlet PASS/FAIL), `consistency_check.py`
+  (46/11/8 + tool count), and parses `AI_POLICY.md`, `POSITIONING.md`, and the A/B `RESULTS.md`. The
+  dashboard can no longer contradict reality — the exact failure mode (README "113" vs dashboard "168")
+  the integrity audit caught last cycle.
+- **CI is drift-proof:** a new step regenerates the dashboard from live tools and `git diff --exit-code`s it
+  — a stale number turns CI RED.
+- **Fast `--check`** (reuses the committed live-run fields, re-verifies the cheap static fields) and a
+  `--tests P/S` inject so CI reuses its own pytest result instead of double-running.
+- +1 tool (33→34), +4 tests (168→172). Verified: consistency exit 0 · closeout OK · doctor A · gauntlet PASS.
+
+## 1.00.27 - 2026-06-28 — Dean's three asks: 5-minute demo, eval dashboard, one-command quickstart
+- **(1) "▶ 5-minute demo" at the top of the README** — a zero-setup, no-key path to watch the whole
+  institute mobilize; links to the one command, the gates, the enforcement gauntlet, and the dashboard.
+- **(2) Evaluation/benchmark dashboard** (`assets/benchmark_dashboard.html`, linked from the README nav) —
+  repo-verified health (doctor A, 168 tests, gauntlet PASS, 46/8/33 counts, 8/10 policy points) plus the
+  pre-registered enforcement A/B reported as an honest **Open** (false-claim diff +0.08, 95% CI
+  [−0.12,+0.28], p=0.78) with the synthetic fixture data firewalled off. Every number is reproducible from
+  the repo.
+- **(3) Single-command quickstart `/cambium run example`** — `tools/cambium_run.py example` loads a bundled
+  RFP and prints the full phase ladder (named agents, models, gates) with **no API key**; documented in
+  `commands/cambium.md` and the README demo.
+- **Integrity audit (Support · Integrity Officer) caught a real drift:** the README body still showed
+  "113 passed" while the dashboard showed 168 — a test-count contradiction. Fixed: README, dashboard, and
+  `index.html` now all show the live **168 / 1 skipped**; the brittle doctor sub-count was replaced with the
+  grade. Exactly the kind of overclaim the evidence contract exists to catch. Gate **G-dean**.
+- Verified: consistency exit 0 · doctor GRADE A · closeout OK · 168 tests pass.
+
 ## 1.00.26 - 2026-06-28 — Enforce-all: the Partial policy points become enforced controls
 - **Adopted `VISION.md` + `AI_POLICY.md`** as canonical, fact-checked the Cambium way (Integrity Officer +
   Research-Conduct Officer graded every claim against a real mechanism; gate **G-vision**).

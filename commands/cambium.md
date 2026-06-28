@@ -51,3 +51,10 @@ all-✓ board and a 3–5 line "what shipped" summary.
 
 If the request is missing detail you need (which file, what the deliverable is, where to save it), ask one
 short clarifying question first, then proceed.
+
+**Shortcut — `/cambium run example`.** If the request is `run example` (or just `example`), the Director
+wants a zero-setup taste of the institute. Run `python3 tools/cambium_run.py example` and show the
+resulting dry-run plan — the full RFP→report phase ladder, the real named agents per phase, the model each
+uses, and where it stops at each human gate — using a bundled RFP and **no API key**. Add one sentence:
+"this is the plan only (no key, no calls); type `/cambium <your real task>` to run it for real." Do not
+dispatch live agents for the example.

@@ -18,9 +18,11 @@
 <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square"></a>
 </p>
 
-<p><b>46 specialized agents · 11 councils · 8 human gates · 21 skills · 33 tools · a CI-enforced evidence contract</b></p>
+<p><b>46 specialized agents · 11 councils · 8 human gates · 21 skills · 34 tools · a CI-enforced evidence contract</b></p>
 
 <p>
+<a href="#-5-minute-demo">5-minute demo</a> ·
+<a href="assets/benchmark_dashboard.html">Eval dashboard</a> ·
 <a href="VISION.md">Vision</a> ·
 <a href="AI_POLICY.md">AI Policy</a> ·
 <a href="PHILOSOPHY.md">Why Cambium (philosophy)</a> ·
@@ -39,6 +41,26 @@
 <img src="assets/demo.gif" alt="Cambium in action — from RFP to verified results, narrated one sentence at a time" width="820">
 
 </div>
+
+---
+
+## ▶ 5-minute demo
+
+**See the whole institute mobilize in one command — no API key, no setup.**
+
+```bash
+python3 tools/cambium_run.py example      # or, inside Claude Code / Cowork:  /cambium run example
+```
+
+In ~5 minutes you'll watch, end to end:
+
+1. **The plan, up front** — a bundled RFP turns into the full pre-award → post-award phase ladder.
+2. **Real named agents** — each phase shows which specialists run (e.g. `Scouts · Landscape`, `Verification · Rigor`), the model each uses, and which run in parallel.
+3. **The 8 human gates** — the run *stops* at each one (`G1 pursue? → G2 idea? → G3 submit? …`); nothing advances without your `APPROVE`.
+4. **Honesty enforced** — `python3 tools/enforce.py` runs every governance control (evidence · pace · data · roles · tokens) and fails if any trips.
+5. **The receipts** — open the **[evaluation dashboard](assets/benchmark_dashboard.html)** for Cambium's verified metrics and the pre-registered A/B result (reported as an honest **Open**, not spun).
+
+> No key is needed for the demo — it prints the plan only. Type `/cambium <your real task>` to run it for real, or follow the **[60-second quickstart](#-60-second-quickstart)** to install.
 
 ---
 
@@ -220,7 +242,7 @@ Full charter: [`INSTITUTE.md`](INSTITUTE.md) · roster specs: [`.claude/agents/`
 
 ## 🧰 Full capability catalog
 
-Cambium ships **21 skills, 33 tools, 6 MCP tools, 17 templates, and 6 worked examples** — not vapor. Here's everything, scannably.
+Cambium ships **21 skills, 34 tools, 6 MCP tools, 17 templates, and 6 worked examples** — not vapor. Here's everything, scannably.
 
 <details>
 <summary><b>🧪 21 skills</b> — the domain expertise the agents wield</summary>
@@ -253,7 +275,7 @@ Cambium ships **21 skills, 33 tools, 6 MCP tools, 17 templates, and 6 worked exa
 </details>
 
 <details>
-<summary><b>🛠️ 33 tools</b> — the machinery (run from a terminal or via the MCP server)</summary>
+<summary><b>🛠️ 34 tools</b> — the machinery (run from a terminal or via the MCP server)</summary>
 
 <br>
 
@@ -277,6 +299,7 @@ Cambium ships **21 skills, 33 tools, 6 MCP tools, 17 templates, and 6 worked exa
 | `new_project.py` | Scaffolds a full `projects/<slug>/` with the v3 lifecycle folders |
 | `whoami.py` | Shows any person's desk agents + gate authority from `config.yml` |
 | `gen_agent_cards.py` · `gen_org_chart.py` · `gen_board_image.py` · `gen_demo_gif.py` | Regenerate the roster manifest and the README's visual assets from the live roster |
+| `gen_dashboard.py` | Regenerates `assets/benchmark_dashboard.html` from **live** tool output (doctor · pytest · enforce · A/B RESULTS) — the dashboard can't drift from reality; `--check` fails CI if it's stale |
 | `sync_plugin_agents.py` | Mirrors `.claude/agents/` → `agents/` so the plugin roster never drifts |
 | `enforce.py` | The **enforce-all gauntlet** — runs every machine-checkable control (evidence · pace · roles · data · tokens) and fails CI if any blocks |
 | `pace_check.py` | Enforces the **deliberation interval** between decision gates (governance/PACE.md) — blocks gates rammed through too fast |
@@ -332,7 +355,7 @@ What enforces it:
 
 - **Evidence validator** — [`governance/validate.py`](governance/validate.py) fails the build on an un-evidenced "Code-verified" claim, an unresolved citation, or an open **P0**, and emits a per-run `provenance.json`.
 - **Self-grade** — `python3 tools/doctor.py --grade` scores the institute **A–F** across roster, governance, tooling, tests, and decisions, plus a security scan. Currently **A** (graded 2026-06-26; reproduce it yourself). ![doctor grade A](https://img.shields.io/badge/doctor%20--grade-A-16C079?style=flat-square)
-- **Tests + CI** — a pytest suite (**113 passed / 1 skipped**, 2026-06-26) plus `consistency_check.py`, run on every push by a GitHub Action.
+- **Tests + CI** — a pytest suite (**168 passed / 1 skipped**, 2026-06-28) plus `consistency_check.py` and the `enforce.py` gauntlet, run on every push by a GitHub Action.
 - **Shipped policy** — [`AI_GOVERNANCE.md`](AI_GOVERNANCE.md) (authorship, IRB, FERPA, data sovereignty, dual-use) + [`RESEARCH_CONDUCT.md`](RESEARCH_CONDUCT.md) (a 12-point per-gate checklist) + a recorded human-approval ledger and decision records.
 
 #### Proving the claim, not just asserting it
@@ -391,10 +414,4 @@ No existing system joins pre-award and post-award under one evidence contract, w
 
 ## 🗺️ Roadmap
 
-Shipped recently: grounded retrieval (OpenAlex + Crossref, `tools/paper_search.py`); per-agent speed/cost telemetry; a live gate interlock (`tools/gate.py`) that blocks on an open blocker or a missing Director contribution; an independent finding-audit (`tools/finding_audit.py`); a provenance manifest (rerun + hash); the per-funder corpus expanded to NIH · NSF · USDA-AFRI · DOE; a CI-verified post-award worked example; the **Learning Gate** (GATE_SUMMARY §8 + `tools/learning_gate.py` + Contribution Ledger, mandated at every decision gate via `gate.py --require-contribution`); a **NIST AI RMF bias-mitigation module**; `citation_support="unsupported"` as a release blocker; a regulated-data default-deny control; **Multi-PI Stage-1 named-approver** enforcement; inline click-to-approve gate cards; a **tamper-evident gate token lock** (`tools/gate_lock.py`) that post-gate steps must clear; **multi-PI named-approver auto-lookup** (`gate.py --roles`); the A/B task set expanded **12→18**; and an **automated close-out** (`tools/closeout.py`) so the Support council refreshes the docs after every change. **Enforce-all layer (new):** the five honest *Partial* points from the positioning audit are now real controls — a **pace deliberation interval** (`tools/pace_check.py`, governance/PACE.md), **human-vs-AI change tracking** in the Learning Gate (`learning_gate.py` records `change_ratio` + a diff), an **automated regulated/PII scanner** (`tools/data_scan.py`), and a single **`tools/enforce.py` gauntlet** wired into CI that fails the build if any control blocks. The enforcement A/B pilot ran (24 Opus runs) and found no measurable effect vs soft-prompting — result honestly **Open**, not suppressed. Near-term: Learning Gate as a hard runtime lock (today an Orchestrator-followed contract); the v1 human-judged enforcement study; community faculty packs; ORCID/NSF collaborator sourcing. Long-term: a real secure-data enclave + shared multi-institution infrastructure (Stage-1 roles shipped; federated server/SSO/RBAC is the current adoption blocker for consortium grants); offline model paths. What it will **not** become: a fully autonomous engine (the gates are the point) or a substitute for journal peer review. Full detail + explicit out-of-scope: [`ROADMAP.md`](ROADMAP.md).
-
----
-
-## 🤝 Contributing · 📓 Cite
-
-**Contributing** — issues and PRs welcome. CI runs the evidence validator, t
+Shipped recently: grounded retrieval (OpenAlex + Crossref, `tools/paper_search.py`); per-agent speed/cost telemetry; a live gate interlock (`tools/gate.py`) that blocks on an open blocker or a missing Director contribution; an independent finding-audit (`tools/finding_audit.py`); a provenance manifest (rerun + hash); the per-funder corpus expanded to NIH · NSF · USDA-AFRI · DOE; a CI-verified post-award worked example; the **Learning Gate** (GATE_SUMMARY §8 + `tools/learning_gate.py` + Contribution Ledger, mandated at every decision gate via `gate.py --require-contribution`); a **NIST AI RMF bias-mitigation module**; `citation_support="unsupported"` as a release blocker; a regulated-data default-deny control; **Multi-PI Stage-1 named-approver** enforcement; inline click-to-approve gate cards; a **tamper-evident gate token lock** (`tools/gate_lock.py`) that post-gate steps must clear; **multi-PI named-approver auto-lookup** (`gate.py --roles`); the A/B task set expanded **12→18**; and an **automated close-out** (`tools/closeout.py`)
