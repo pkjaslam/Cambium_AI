@@ -1,0 +1,37 @@
+# Curated map: useful MCP servers -> which Cambium councils should use them, and for what.
+# The toolsmith reads this plus the host's MCP config, then PROPOSES routing at the provisioning gate.
+# Nothing connects or is used automatically; a human approves first (see docs/governance/TOOL_POLICY.md).
+servers:
+  - name: alphaXiv
+    purpose: arXiv full text and semantic search (CS, ML, physics, math, quantitative biology)
+    councils: [Scouts, Labs]
+    match: [arxiv, preprint, machine learning, physics, mathematics, algorithm]
+  - name: PubMed
+    purpose: biomedical and clinical literature with real citation resolution
+    councils: [Scouts, Support]
+    match: [biomedical, clinical, health, medicine, biology, genomics, pubmed]
+  - name: Consensus
+    purpose: evidence synthesis across a large peer-reviewed corpus
+    councils: [Scouts, Verification]
+    match: [evidence, what does the research say, synthesis, meta-analysis]
+  - name: Exa
+    purpose: grounded web search and code-docs retrieval
+    councils: [Scouts, Execution]
+    match: [web, current, news, recent, code documentation]
+  - name: Semantic Scholar
+    purpose: scholarly metadata and citation graph (~200M papers)
+    councils: [Scouts, Support]
+    match: [citation graph, scholarly, semantic scholar]
+  - name: bioRxiv
+    purpose: life-science preprints (bioRxiv and medRxiv)
+    councils: [Scouts]
+    match: [biorxiv, medrxiv, life science preprint]
+  - name: Zotero
+    purpose: reference library management and bibliography
+    councils: [Support]
+    match: [zotero, reference manager, bibliography, refs.bib]
+  - name: GitHub
+    purpose: repository and code access for the build councils
+    councils: [Execution]
+    match: [github, repository, codebase, pull request]
+# Council shorthand: Support covers the Librarian; Scouts cover prior-art/methods/landscape.

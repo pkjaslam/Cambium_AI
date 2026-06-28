@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.12.0 - 2026-06-28 — Toolsmith gets live MCP awareness
+
+The toolsmith already finds the best existing tool, skill, or MCP instead of relying on the base model. This
+makes its MCP discovery concrete and council-aware, the honest way.
+
+- `tools/mcp_discovery.py` (new): reads the host's MCP config files plus a curated routing map and proposes
+  which connected or available MCP each council should use (literature MCPs to Scouts and the Librarian, web
+  search broadly, code to Execution). It NEVER connects or installs anything; the proposal goes to the
+  provisioning gate for human approval. Honest ceiling stated in the tool: it reports a server as
+  "configured" (found on disk) or "available to add", and does not claim a server is live, since runtime
+  connection state is not visible to a standalone tool.
+- `governance/mcp_map.yml` (new): the curated MCP-to-council routing (alphaXiv, PubMed, Consensus, Exa,
+  Semantic Scholar, bioRxiv, Zotero, GitHub).
+- The toolsmith agent now runs `mcp_discovery` at provisioning and includes the result in its manifest.
+  Tools 43 to 44, +5 tests (216). Verified: tests pass, consistency OK, dashboard --check passes.
 ## 1.11.0 - 2026-06-28 — Brain step-up, first increment (gates G1, G-fit)
 
 Answered an external "make Cambium the best research brain" evaluation the Cambium way: Scouts audited its

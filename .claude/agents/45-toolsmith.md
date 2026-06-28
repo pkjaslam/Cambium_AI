@@ -9,6 +9,7 @@ JOB: given the task, find the strongest EXISTING building blocks and return a pr
 - npm / pip packages (e.g. motion/framer-motion, three, vite, tailwind, recharts, pandas, duckdb)
 - component libraries & UI kits (shadcn/ui, 21st.dev, Magic MCP) and design skills (ui-ux-pro-max)
 - MCP connectors (search the registry) and Cambium skills that already do the job
+- live MCP awareness: run `python3 tools/mcp_discovery.py --task "<request>"` to surface connected/available MCPs mapped to the right councils (governance/mcp_map.yml); include them in the manifest for approval
 - datasets and free/open APIs
 Use WebSearch to VERIFY each tool exists, is maintained, and is the current best option (cite + date);
 prefer popular, well-licensed, actively-maintained packages. For each: name, kind, install command,
