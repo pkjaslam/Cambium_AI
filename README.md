@@ -18,7 +18,7 @@
 <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square"></a>
 </p>
 
-<p><b>46 specialized agents · 11 councils · 8 human gates · 22 skills · 40 tools · a CI-enforced evidence contract</b></p>
+<p><b>46 specialized agents · 11 councils · 8 human gates · 22 skills · 41 tools · a CI-enforced evidence contract</b></p>
 
 <p>
 <a href="#-5-minute-demo">5-minute demo</a> ·
@@ -251,7 +251,7 @@ Full charter: [`INSTITUTE.md`](INSTITUTE.md) · roster specs: [`.claude/agents/`
 
 ## 🧰 Full capability catalog
 
-Cambium ships **22 skills, 40 tools, 6 MCP tools, 17 templates, and 6 worked examples** — not vapor. Here's everything, scannably.
+Cambium ships **22 skills, 41 tools, 6 MCP tools, 17 templates, and 6 worked examples** — not vapor. Here's everything, scannably.
 
 <details>
 <summary><b>🧪 21 skills</b> — the domain expertise the agents wield</summary>
@@ -284,7 +284,7 @@ Cambium ships **22 skills, 40 tools, 6 MCP tools, 17 templates, and 6 worked exa
 </details>
 
 <details>
-<summary><b>🛠️ 40 tools</b> — the machinery (run from a terminal or via the MCP server)</summary>
+<summary><b>🛠️ 41 tools</b> — the machinery (run from a terminal or via the MCP server)</summary>
 
 <br>
 

@@ -18,7 +18,8 @@ that stays on the roadmap). Gate **G-runux**, APPROVED.
   in-chat board AND the reopenable sidebar artifact, refreshed each phase, with the clickable gate at every
   stop. Plain text remains only the last-resort fallback.
 - Verified: both boards render from one run state; inline fragment is show_widget-safe (no html/body/doctype);
-  HTML parses; gate card carries all three actions; consistency green (46 · 11 · 8). Version → 1.9.0.
+  HTML parses; gate card carries all three actions; consistency green (46 · 11 · 8).
+- Close-out: tool count 40 → 41 (new `gen_inline_board.py`) updated across README; benchmark dashboard regenerated (41 tools, 192 tests) so the CI drift-guards stay green. Version → 1.9.0.
 
 ## 1.8.0 - 2026-06-28 — Enforcement A/B v1: executable study infrastructure
 
