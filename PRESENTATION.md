@@ -30,18 +30,25 @@ All boards are produced by `tools/run_trace.py` so the vocabulary never drifts. 
 Transparency before action. The moment the Cambium way starts, show the plan so the Director sees the
 whole institute that is about to mobilize.
 
-0. **Reset run state (first, always):** `python3 tools/run_state.py reset --note "<request>"` — clears any prior run's phase/findings/gate and stamps a fresh `started_at`, so `sync` ignores stale `agent_outputs/*.md` left by earlier runs. Skipping this is what leaks a previous run's findings onto the new board.
-1. **Text board (always):** `python3 tools/run_trace.py --board "<request>"` — branded header +
-   council-grouped roster + the gate rail. This renders in ANY client and is the non-negotiable baseline.
-2. **In Cowork / visual clients (also):**
-   - Live dashboard: `python3 tools/run_trace.py --html --out <project>/run_board.html "<request>"`,
-     then publish it as an artifact (`create_artifact`) titled *"Cambium run board"*. This is the
-     persistent, re-openable view.
-   - Optional inline picture: `python3 tools/run_trace.py --svg "<request>"`.
-3. One plain sentence under it: *"Here's the institute I'll run for this — N specialists across M
+> ⛔ **FIRST PAINT IS ONE COMMAND — and it is non-negotiable.** Your first action, before any prose, is:
+> ```
+> python3 tools/cambium_start.py "<request>"
+> ```
+> It does Act I in a single call: resets the run state, prints the branded **text board** (renders in ANY
+> client — the non-negotiable baseline), writes the **live HTML board** to `agent_outputs/run_board.html`,
+> and prints a banner telling you what to do next. Collapsing Act I to one call is deliberate — three
+> separate calls were easy to skip, and a plain-text answer to `/cambium` is the single failure this
+> contract exists to prevent.
+
+After running it:
+1. **In Cowork / visual clients:** publish `agent_outputs/run_board.html` as an artifact (`create_artifact`)
+   titled *"Cambium run board"* and keep its id — you update the SAME artifact at the start of every phase.
+   (Optional inline picture: `python3 tools/run_trace.py --svg "<request>"`.)
+2. One plain sentence under it: *"Here's the institute I'll run for this — N specialists across M
    councils, with K gates where you decide. Starting now."*
 
-Never start dispatching before the opening board is shown.
+Never start dispatching before the opening board is shown. If you are about to reply without the board,
+STOP and run `cambium_start.py` first.
 
 ---
 

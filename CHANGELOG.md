@@ -730,6 +730,24 @@ real dispatched agents, gate G2 approved). Adopted the genuinely-missing ideas; 
 - Tests +6 (gate_lock 4, roles 2) → 154 pass. Tools 28→30. ROADMAP/RESULTS refreshed by Support; closeout green.
 - Green: consistency exit 0 · doctor --grade A (100%) · 154 tests pass / 1 skipped · closeout OK. ADR-039.
 
+## 1.1.0 - 2026-06-28 — /cambium always paints the UI + close the two real review gaps
+- **Fix the Director-observed bug: `/cambium` sometimes answered in plain text** (no run board, no named
+  agents, no gate). Root cause: Act I was three skippable tool calls. **`tools/cambium_start.py "<task>"`**
+  now does Act I in ONE deterministic call — reset + text board + live HTML board + a hard "do NOT answer
+  in plain text" banner. `commands/cambium.md` and `PRESENTATION.md` now LEAD with it and a STOP guard.
+  Honest limit: this strengthens the prompt contract; it is not a hard runtime lock on the model.
+- **Responded to an external code review** (`REVIEW_RESPONSE.md`). The review was written without code
+  access and about a different same-named product; the Integrity Officer mapped its 5 Priority Fixes to
+  actual mechanisms — fixes 1, 3 (logs), 5 already met. Built the two genuine residuals:
+  - **#2 Audit trail:** `tools/audit_log.py` — turn-level, append-only, **hash-chained** trail
+    (`governance/audit_trail.jsonl`); stores sha256 hashes not plaintext; `verify` detects any tamper.
+  - **#4 Learning loop:** `tools/draft_diff.py` — records exactly what a human changed in an AI-drafted
+    document (`change_ratio` + diff) into `governance/DRAFT_CORRECTION_LEDGER.csv`.
+  - #3 residual (sentence-span tagging) is noted as optional, not built — stated plainly.
+- **Minor version bump (1.0.29 → 1.1.0)** under the new SemVer scheme — new backward-compatible features.
+- +3 tools (34→37), +8 tests (169→177). Verified: consistency exit 0 · closeout OK · doctor A · gauntlet
+  PASS · dashboard regenerated (37 tools / 177 tests).
+
 ## 1.0.29 - 2026-06-28 — Fix: version badge restored (valid SemVer) + all version sources synced
 - **Root cause:** the manifest version was `1.00.0` — invalid SemVer (leading zeros are forbidden), so the
   desktop Customize panel could not parse it and hid the version badge. The marketplace entry had also

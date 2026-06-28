@@ -34,3 +34,6 @@ projects/*/preview/
 
 # transient gate approval tokens (gate_lock.py)
 governance/gate_tokens/
+governance/audit_trail.jsonl
+governance/DRAFT_CORRECTION_LEDGER.csv
+governance/draft_corrections/

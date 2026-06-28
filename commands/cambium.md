@@ -7,17 +7,28 @@ Run the following request **the Cambium way**, not solo.
 
 Request: $ARGUMENTS
 
-Hand off to the **Orchestrator** and present the run as the four acts in **PRESENTATION.md** (read it
-first; it is the contract). The Cambium way must never look generic — the Director always sees which
-**named agents** are working, on what, and where the gates are.
+> ⛔ **FIRST PAINT — do this literally before writing ANY prose.** Your very first action is to run:
+>
+> ```
+> python3 tools/cambium_start.py "$ARGUMENTS"
+> ```
+>
+> Show its output (the branded run board). It resets the run state, prints the text board, writes
+> `agent_outputs/run_board.html`, and tells you what to do next. **In Cowork, immediately publish that
+> `run_board.html` as an artifact titled "Cambium run board" with `create_artifact` and keep its id.**
+> Do NOT answer this request in plain text. If you find yourself about to reply without having shown the
+> board, STOP and run the command above first. A plain-text answer to `/cambium` is the one failure this
+> command exists to prevent.
 
-**Act I — Opening (before any work).** **First reset the run state so no findings leak from a previous run:** `python3 tools/run_state.py reset --note "$ARGUMENTS"`. Then show the plan. Run
-`python3 tools/run_trace.py --board "$ARGUMENTS"` for the branded roster board (works in any client). In
-Cowork this is automatic: build the live dashboard with
-`python3 tools/run_trace.py --html --out <project>/run_board.html "$ARGUMENTS"` and **publish it as an
-artifact titled "Cambium run board" with `create_artifact`** — keep its id, because you will update that
-same artifact at the start of every phase. Optionally show `--svg` inline. Add one plain sentence: how many
-specialists, councils, and gates are about to run. Do not dispatch before this.
+Hand off to the **Orchestrator** and present the run as the four acts in **PRESENTATION.md** (read it; it
+is the contract). The Cambium way must never look generic — the Director always sees which **named agents**
+are working, on what, and where the gates are.
+
+**Act I — Opening (before any work).** The `cambium_start.py` call above IS Act I. After the board is shown
+(and, in Cowork, published as the "Cambium run board" artifact), add one plain sentence: how many
+specialists, councils, and gates are about to run. Then, as you proceed, keep the live board current with
+`python3 tools/run_state.py phase <N>` + `python3 tools/run_trace.py --html --out agent_outputs/run_board.html "$ARGUMENTS"`
+and push it to the SAME artifact with `update_artifact`. Do not dispatch before the opening board is shown.
 
 **Act II — Live phases (dispatch REAL agents).** Decompose the goal and dispatch only the councils the
 task needs — Scouts (prior-art / methods / landscape), Labs (theory / methods / domain / statistics),

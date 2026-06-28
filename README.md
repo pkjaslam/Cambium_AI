@@ -11,14 +11,14 @@
 
 <p>
 <a href="https://github.com/IFC-UIDAHO/Cambium_AI/actions/workflows/validate.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/IFC-UIDAHO/Cambium_AI/validate.yml?style=flat-square&label=CI&color=16C079"></a>
-<a href="CHANGELOG.md"><img alt="Version" src="https://img.shields.io/badge/version-1.0.29-16C079?style=flat-square"></a>
+<a href="CHANGELOG.md"><img alt="Version" src="https://img.shields.io/badge/version-1.1.0-16C079?style=flat-square"></a>
 <a href="INSTITUTE.md"><img alt="Agents" src="https://img.shields.io/badge/agents-46-16C079?style=flat-square"></a>
 <a href="#-the-lifecycle--8-gates"><img alt="Human gates" src="https://img.shields.io/badge/human_gates-8-0E8E5B?style=flat-square"></a>
 <a href="MCP_INTEGRATION.md"><img alt="MCP" src="https://img.shields.io/badge/MCP-ready-0E8E5B?style=flat-square"></a>
 <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow?style=flat-square"></a>
 </p>
 
-<p><b>46 specialized agents · 11 councils · 8 human gates · 21 skills · 34 tools · a CI-enforced evidence contract</b></p>
+<p><b>46 specialized agents · 11 councils · 8 human gates · 21 skills · 37 tools · a CI-enforced evidence contract</b></p>
 
 <p>
 <a href="#-5-minute-demo">5-minute demo</a> ·
@@ -27,6 +27,7 @@
 <a href="AI_POLICY.md">AI Policy</a> ·
 <a href="PHILOSOPHY.md">Why Cambium (philosophy)</a> ·
 <a href="POSITIONING.md">Positioning</a> ·
+<a href="REVIEW_RESPONSE.md">Review response</a> ·
 <a href="#-why-it-stands-out">Why it stands out</a> ·
 <a href="#-see-it-work">See it work</a> ·
 <a href="#-60-second-quickstart">Quickstart</a> ·
@@ -242,7 +243,7 @@ Full charter: [`INSTITUTE.md`](INSTITUTE.md) · roster specs: [`.claude/agents/`
 
 ## 🧰 Full capability catalog
 
-Cambium ships **21 skills, 34 tools, 6 MCP tools, 17 templates, and 6 worked examples** — not vapor. Here's everything, scannably.
+Cambium ships **21 skills, 37 tools, 6 MCP tools, 17 templates, and 6 worked examples** — not vapor. Here's everything, scannably.
 
 <details>
 <summary><b>🧪 21 skills</b> — the domain expertise the agents wield</summary>
@@ -275,7 +276,7 @@ Cambium ships **21 skills, 34 tools, 6 MCP tools, 17 templates, and 6 worked exa
 </details>
 
 <details>
-<summary><b>🛠️ 34 tools</b> — the machinery (run from a terminal or via the MCP server)</summary>
+<summary><b>🛠️ 37 tools</b> — the machinery (run from a terminal or via the MCP server)</summary>
 
 <br>
 
@@ -300,6 +301,9 @@ Cambium ships **21 skills, 34 tools, 6 MCP tools, 17 templates, and 6 worked exa
 | `whoami.py` | Shows any person's desk agents + gate authority from `config.yml` |
 | `gen_agent_cards.py` · `gen_org_chart.py` · `gen_board_image.py` · `gen_demo_gif.py` | Regenerate the roster manifest and the README's visual assets from the live roster |
 | `gen_dashboard.py` | Regenerates `assets/benchmark_dashboard.html` from **live** tool output (doctor · pytest · enforce · A/B RESULTS) — the dashboard can't drift from reality; `--check` fails CI if it's stale |
+| `cambium_start.py` | **First paint in one command** — resets state, prints the run board, writes the live HTML board, and forces the UI so `/cambium` can never silently fall back to plain text |
+| `audit_log.py` | Turn-level, append-only, **hash-chained** audit trail (query/prompt/model/output/action) — tamper-evident; stores hashes, not plaintext |
+| `draft_diff.py` | Records exactly what a human changed in an AI-drafted document (`change_ratio` + diff) into a correction ledger — the learning-loop record |
 | `sync_plugin_agents.py` | Mirrors `.claude/agents/` → `agents/` so the plugin roster never drifts |
 | `enforce.py` | The **enforce-all gauntlet** — runs every machine-checkable control (evidence · pace · roles · data · tokens) and fails CI if any blocks |
 | `pace_check.py` | Enforces the **deliberation interval** between decision gates (governance/PACE.md) — blocks gates rammed through too fast |

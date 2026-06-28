@@ -599,3 +599,17 @@ check); **#9 shared secure infrastructure (server/SSO/RBAC) remains Partial** an
 blocker for consortium grants.
 **Consequence.** Eight of ten policy points are now mechanism-enforced; the gauntlet fails CI if any trips.
 Verified by an adversarial Verification·Evidence audit (ACCEPT-WITH-CAVEATS) + 168 tests / doctor A.
+
+## ADR-041: Make /cambium reliably paint the UI + close the two real review gaps
+**Date:** 2026-06-28 · **Status:** Accepted (gate G-ui)
+**Context.** The Director observed `/cambium` sometimes returning plain text with no run board/gate — Act I
+(three tool calls) was being skipped. Separately, an external review (written without code access, about a
+different same-named product) listed 5 Priority Fixes; an Integrity audit found 3 already met and 2 real
+residuals.
+**Decision.** (1) Collapse Act I into one deterministic command `tools/cambium_start.py` (reset + text board
++ HTML board + hard "no plain text" banner); make `commands/cambium.md` and `PRESENTATION.md` lead with it.
+(2) Build the two residuals: `tools/audit_log.py` (turn-level hash-chained audit trail, hashes not plaintext)
+and `tools/draft_diff.py` (document AI-vs-human change ledger). Publish `REVIEW_RESPONSE.md`.
+**Honest ceiling.** First-paint strengthens the prompt contract, not a runtime lock — a model can still
+ignore the banner. Sentence-span AI/human annotation (review #3 residual) is left optional/unbuilt.
+**Consequence.** The UI is the easy path; audit/feedback residuals are closed; +3 tools, +8 tests (177 pass).
