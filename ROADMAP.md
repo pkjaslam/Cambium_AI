@@ -73,4 +73,15 @@ GitHub template + Claude plugin; the live run board + `dashboard.html`.
 
 ---
 
+## Deferred Stage-2 (named from the code-aware review)
+
+These are real, acknowledged gaps that need infrastructure a flat-file CLI can't provide — tracked here so they are honest open items, not hidden ones:
+
+- **Web UI with click-through gates** (today: live run board + CLI).
+- **Federated auth / SSO / RBAC** so identity is verified, not free-text (today: signed approver token + `CAMBIUM_USER` stamp).
+- **Database + multi-tenant isolation** (today: CSV/JSONL/JSON ledgers).
+- **Secrets vault** for API keys (today: env var; `doctor.py` scans for hardcoded keys).
+- **Auto-feedback of corrections into agent specs** (today: `draft_diff.py` + `learning_gate.py` record them).
+See `ARCHITECTURE_MULTI_INSTITUTION.md` and `REVIEW_RESPONSE2.md`.
+
 *Last updated: 2026-06-28. Roadmap reflects the maintainer's current intentions; priorities may shift based on user feedback and available capacity.*

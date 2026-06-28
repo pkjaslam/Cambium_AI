@@ -730,6 +730,23 @@ real dispatched agents, gate G2 approved). Adopted the genuinely-missing ideas; 
 - Tests +6 (gate_lock 4, roles 2) → 154 pass. Tools 28→30. ROADMAP/RESULTS refreshed by Support; closeout green.
 - Green: consistency exit 0 · doctor --grade A (100%) · 154 tests pass / 1 skipped · closeout OK. ADR-039.
 
+## 1.2.0 - 2026-06-28 — Enforced `--resume`: a gate can no longer be bypassed by re-running
+- **Real bug fixed (code-aware review #4/#5/#6):** `tools/cambium_run.py` advertised `--resume <phase>` but
+  never parsed it — `main()` always looped from phase 1, so in `--live` a re-run ignored prior gates. Now:
+  - `--resume <phase>` is parsed and skips only completed phases.
+  - Before continuing past a gate, the runner calls **`gate_lock.py require`** and **refuses** without a
+    valid, fresh, untampered approval token; it also runs **`pace_check.py gate`** (deliberation interval).
+  - **`gate.py --mint`** makes minting the token the Director's approval act (validates ledger +
+    contribution first; a bare approval mints nothing). We deliberately do NOT auto-mint in the runner —
+    that would bypass the human.
+  - Every live agent turn is written to the **`audit_log.py`** hash-chained trail; `CAMBIUM_USER` stamps
+    operator identity on logged actions.
+- **`REVIEW_RESPONSE2.md`** maps all 14 review points (fixed / partial / honestly deferred). Deferred
+  Stage-2 items (web UI, SSO/RBAC, DB/multi-tenancy, secrets vault, auto-feedback) are now named in
+  `ROADMAP.md`, not hidden.
+- **Minor bump 1.1.1 → 1.2.0** (new enforcement behavior, backward compatible). +6 tests (177→183).
+  Verified: consistency exit 0 · closeout OK · dashboard regenerated (38 tools / 183 tests).
+
 ## 1.1.1 - 2026-06-28 — The "5-minute demo" now has an actual recording to watch
 - The README demo section used a ▶ icon and "you'll watch" but embedded **no video** — only a command,
   which read on GitHub as a broken/absent video. **Added `assets/demo_example.gif`**: a real recording of

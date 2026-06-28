@@ -82,6 +82,21 @@ def main():
         tail = ""
     who = f" by {approver}" if approver else ""
     print(f"\n  ⛩ GATE {gate_id} — ledger clear{tail}; open for APPROVE / REVISE / REJECT{who}.")
+
+    # --mint: minting the tamper-evident token IS the human approval. It couples this gate to the runner:
+    # cambium_run.py --resume refuses to continue past a gate unless this token exists (gate_lock require).
+    if "--mint" in a:
+        if not approver:
+            print(f"  ⛩ GATE {gate_id} — NOT minted: --mint requires --approver \"<name>\" (who is approving)."); return 1
+        if not (require or contrib):
+            print(f"  ⛩ GATE {gate_id} — NOT minted: --mint requires a Director contribution "
+                  f"(--require-contribution --contribution c.json). A bare approval cannot mint a token."); return 1
+        sys.path.insert(0, os.path.join(ROOT, "tools"))
+        import gate_lock as GL
+        rc = GL.mint(gate_id, approver, contrib, ledger)
+        if rc != 0:
+            print(f"  ⛩ GATE {gate_id} — token NOT minted (gate_lock blocked)."); return rc
+        print(f"  ⛩ GATE {gate_id} — APPROVED by {approver}; token minted. cambium_run.py --resume may now proceed past this gate.")
     return 0
 
 if __name__ == "__main__": sys.exit(main())

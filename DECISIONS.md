@@ -613,3 +613,17 @@ and `tools/draft_diff.py` (document AI-vs-human change ledger). Publish `REVIEW_
 **Honest ceiling.** First-paint strengthens the prompt contract, not a runtime lock — a model can still
 ignore the banner. Sentence-span AI/human annotation (review #3 residual) is left optional/unbuilt.
 **Consequence.** The UI is the easy path; audit/feedback residuals are closed; +3 tools, +8 tests (177 pass).
+
+## ADR-042: Enforce --resume in the runner (close the gate-bypass the code review found)
+**Date:** 2026-06-28 · **Status:** Accepted (gate G-resume)
+**Context.** A code-aware review found `cambium_run.py` documented `--resume <phase>` but never parsed it,
+so `--live` re-runs ignored prior gates — the gate system was cosmetic in the runner.
+**Decision.** Parse `--resume`; before continuing past a phase's gate, call `gate_lock.py require` (block
+without a valid token) and `pace_check.py gate` (deliberation interval). Add `gate.py --mint` so minting the
+token IS the Director's approval (validates ledger + contribution; bare approval mints nothing). Wire
+`audit_log.py` per live agent turn; stamp `CAMBIUM_USER`. Do NOT auto-mint in the runner (would bypass the
+human). Architectural items (web UI, SSO/RBAC, DB/multi-tenancy, secrets vault) deferred to Stage-2 and
+named in ROADMAP.md + REVIEW_RESPONSE2.md.
+**Honest ceiling.** Enforcement binds the runner, not a hand-run of agents; a gateless phase is not
+token-gated; the token salt is tamper-evidence, not security.
+**Consequence.** Re-running can no longer skip an unapproved gate. +6 tests (183 pass).

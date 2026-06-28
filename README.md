@@ -11,7 +11,7 @@
 
 <p>
 <a href="https://github.com/IFC-UIDAHO/Cambium_AI/actions/workflows/validate.yml"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/IFC-UIDAHO/Cambium_AI/validate.yml?style=flat-square&label=CI&color=16C079"></a>
-<a href="CHANGELOG.md"><img alt="Version" src="https://img.shields.io/badge/version-1.1.1-16C079?style=flat-square"></a>
+<a href="CHANGELOG.md"><img alt="Version" src="https://img.shields.io/badge/version-1.2.0-16C079?style=flat-square"></a>
 <a href="INSTITUTE.md"><img alt="Agents" src="https://img.shields.io/badge/agents-46-16C079?style=flat-square"></a>
 <a href="#-the-lifecycle--8-gates"><img alt="Human gates" src="https://img.shields.io/badge/human_gates-8-0E8E5B?style=flat-square"></a>
 <a href="MCP_INTEGRATION.md"><img alt="MCP" src="https://img.shields.io/badge/MCP-ready-0E8E5B?style=flat-square"></a>
@@ -28,6 +28,7 @@
 <a href="PHILOSOPHY.md">Why Cambium (philosophy)</a> ·
 <a href="POSITIONING.md">Positioning</a> ·
 <a href="REVIEW_RESPONSE.md">Review response</a> ·
+<a href="REVIEW_RESPONSE2.md">Review response II</a> ·
 <a href="#-why-it-stands-out">Why it stands out</a> ·
 <a href="#-see-it-work">See it work</a> ·
 <a href="#-60-second-quickstart">Quickstart</a> ·
