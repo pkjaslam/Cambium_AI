@@ -16,7 +16,7 @@ import os, re, glob, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 COUNCILS, GATES = 11, 8
 GATE_WORDS = {"six":6,"seven":7,"eight":8,"nine":9}
-SKIP = ("CHANGELOG","cambium_imp",".git/","agent_outputs","projects/",os.sep+"run_board")
+SKIP = ("CHANGELOG","cambium_imp","cambium_temp",".git/","agent_outputs","projects/",os.sep+"run_board")
 EXTS = ("*.md","*.html","*.svg","*.cff","*.yml","*.yaml","*.json")
 
 def n_agents():

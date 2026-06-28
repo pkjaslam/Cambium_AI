@@ -45,3 +45,6 @@ agent_outputs/run_board.html
 agent_outputs/autorun-*/
 agent_outputs/cost_log.csv
 web/frontend-r3f/node_modules/
+
+# local scratch moved out of the public tree (Director cleanup 2026-06-28)
+cambium_temp/
