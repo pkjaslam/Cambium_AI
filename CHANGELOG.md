@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.11.0 - 2026-06-28 — Brain step-up, first increment (gates G1, G-fit)
+
+Answered an external "make Cambium the best research brain" evaluation the Cambium way: Scouts audited its
+claims (7 of 10 verified; specific competitor benchmark numbers flagged as unverified), the Integrity
+Officer tiered all 12 proposed upgrades honestly, and we built only what is real.
+
+- `docs/reference/BRAIN_ROADMAP.md` (new): the 12 capabilities tiered as buildable-now (6), honest scaffold
+  (4), or external-only (2), with hard guardrails (no stub ships as capability; the web bridge stays labeled
+  simulation; "most capable" stays Asserted until a real benchmark is run).
+- Reasoning tier (`tools/model_router.py`): an extended-thinking budget for the six hardest agents
+  (verification boards, referee, theory, statistics), test-time scalable from low to max. The base
+  strong/mid/light routing is unchanged and backward compatible. Honest: the router emits the
+  recommendation; the runner must honor it.
+- Literature depth (`tools/paper_search.py`): Semantic Scholar as the primary source, a citation-graph
+  lookup for a DOI, and a lexical relevance rerank, all with graceful fallback to OpenAlex/Crossref. The
+  rerank is lexical, not neural embeddings (embeddings remain a scaffolded item).
+- verify-evidence audited both as honest; two low wording overclaims were fixed. +7 tests (211). Verified:
+  consistency OK, dashboard --check passes.
 ## 1.10.0 - 2026-06-28 — Adopt agent-skills patterns + two new skills (gates G1, G-fit)
 
 Evaluated integrating addyosmani/agent-skills (MIT) the Cambium way (Scouts investigated, then Faculty and

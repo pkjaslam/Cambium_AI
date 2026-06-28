@@ -1,25 +1,34 @@
 #!/usr/bin/env python3
-"""Cambium model router (v3.2).
+"""Cambium model router (v3.3 — adds a reasoning tier).
 
 Maps each agent to a concrete model via:
   agent's own tier (opus/sonnet/haiku/inherit, from agent_cards.json)
     -> router tier name (strong/mid/light)
       -> concrete model string of the ACTIVE provider (from config.yml).
 
-Claude works out of the box. To use other/free models later: in config.yml fill a provider's
-tiers, set its api_key_env (and base_url for openai_compatible), flip enabled:true, and set
-active_provider. Nothing else changes.
+NEW: a REASONING layer for the hardest judgment work (verification boards, theory, statistics). Claude's
+extended thinking is the same strong model run with a thinking budget, so reasoning is expressed honestly as
+"strong model + a test-time thinking budget", not a different vendor. The budget scales with difficulty
+(test-time scaling). Whether the budget is honored is up to the runner (Claude Code / the SDK); this router
+emits the recommendation. Other providers stay pluggable via config.yml.
 
 Usage:
-  python3 tools/model_router.py            # print the full agent->model table
-  python3 tools/model_router.py <agent>    # resolve one agent (e.g. lab-theory)
+  python3 tools/model_router.py                 # full agent->model table (marks reasoning agents)
+  python3 tools/model_router.py <agent>         # resolve one agent, with its thinking budget
+  python3 tools/model_router.py <agent> --budget hard   # test-time scaling: low|normal|hard|max
+Importable:  from tools.model_router import route ; route("verify-rigor")
 """
 import os, sys, json
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-# agent model-tier (opus/sonnet/haiku/inherit) -> router tier (strong/mid/light)
 TIER_OF = {"opus": "strong", "inherit": "strong", "sonnet": "mid", "haiku": "light"}
+
+# the hardest judgment work gets extended thinking (the "reasoning tier")
+REASONING_AGENTS = {"verify-rigor", "verify-methodology", "verify-evidence", "referee",
+                    "lab-theory", "lab-statistics"}
+# test-time scaling: thinking-token budget by difficulty (0 = no extended thinking)
+THINKING_BUDGET = {"off": 0, "low": 4000, "normal": 8000, "hard": 16000, "max": 32000}
 
 def load_config():
     for name in ("config.yml", "config.example.yml"):
@@ -30,7 +39,6 @@ def load_config():
                 return yaml.safe_load(open(p, encoding="utf-8")), name
             except Exception:
                 break
-    # stdlib fallback: built-in Claude defaults
     return {"model_router": {"active_provider": "anthropic", "providers": {"anthropic": {"enabled": True,
             "tiers": {"strong": "claude-opus-4-8", "mid": "claude-sonnet-4-6",
                       "light": "claude-haiku-4-5-20251001"}}}}}, "(built-in defaults)"
@@ -54,26 +62,46 @@ def load_cards():
     return {a["name"]: a.get("model", "inherit") for a in json.load(open(p))["agents"]}
 
 def resolve(name, cards, tiers):
+    """Unchanged: returns (router_tier, model) using strong/mid/light. Backwards compatible."""
     agent_tier = cards.get(name, "inherit")
     rt = TIER_OF.get(agent_tier, "mid")
     return rt, tiers[rt]
 
+def thinking_budget(name, difficulty="hard"):
+    """Test-time thinking budget for an agent. Reasoning agents get extended thinking; others get 0."""
+    if name in REASONING_AGENTS:
+        return THINKING_BUDGET.get(difficulty, THINKING_BUDGET["hard"])
+    return 0
+
+def route(name, difficulty="hard"):
+    """Full routing decision for an agent: model + whether to use extended thinking + the budget."""
+    cfg, _ = load_config()
+    _, tiers = active_tiers(cfg)
+    cards = load_cards()
+    rt, model = resolve(name, cards, tiers)
+    budget = thinking_budget(name, difficulty)
+    return {"agent": name, "tier": ("reasoning" if budget else rt), "model": model,
+            "extended_thinking": bool(budget), "thinking_budget": budget}
+
 def main():
+    args = sys.argv[1:]
+    difficulty = args[args.index("--budget") + 1] if "--budget" in args else "hard"
+    pos = [a for a in args if not a.startswith("--") and a != difficulty]
     cfg, src = load_config()
     prov, tiers = active_tiers(cfg)
     cards = load_cards()
-    if len(sys.argv) > 1:
-        name = sys.argv[1]
-        rt, model = resolve(name, cards, tiers)
-        print("[router] %s -> tier=%s -> %s (provider=%s)" % (name, rt, model, prov))
+    if pos:
+        r = route(pos[0], difficulty)
+        tag = (" + extended thinking (%d tok)" % r["thinking_budget"]) if r["extended_thinking"] else ""
+        print("[router] %s -> tier=%s -> %s%s (provider=%s)" % (r["agent"], r["tier"], r["model"], tag, prov))
         return 0
-    print("[router] config=%s | provider=%s | %d agents" % (src, prov, len(cards)))
-    counts = {}
+    print("[router] config=%s | provider=%s | %d agents | %d on the reasoning tier" % (
+        src, prov, len(cards), sum(1 for n in cards if n in REASONING_AGENTS)))
     for name in sorted(cards):
         rt, model = resolve(name, cards, tiers)
-        counts[rt] = counts.get(rt, 0) + 1
-    for rt in ("strong", "mid", "light"):
-        print("  %-7s (%2d agents) -> %s" % (rt, counts.get(rt, 0), tiers[rt]))
+        b = thinking_budget(name, difficulty)
+        mark = "  <reasoning %dtok>" % b if b else ""
+        print("  %-26s -> %-7s %s%s" % (name, rt, model, mark))
     return 0
 
 if __name__ == "__main__":

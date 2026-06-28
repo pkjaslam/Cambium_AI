@@ -5,7 +5,7 @@
 <br>
 
 <a href="https://github.com/IFC-UIDAHO/Cambium_AI/actions"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/IFC-UIDAHO/Cambium_AI/validate.yml?style=flat-square&label=CI&color=16C079"></a>
-<a href="CHANGELOG.md"><img alt="Version" src="https://img.shields.io/badge/version-1.10.0-16C079?style=flat-square"></a>
+<a href="CHANGELOG.md"><img alt="Version" src="https://img.shields.io/badge/version-1.11.0-16C079?style=flat-square"></a>
 <img alt="Agents" src="https://img.shields.io/badge/agents-46-16C079?style=flat-square">
 <img alt="Human gates" src="https://img.shields.io/badge/human_gates-8-0E8E5B?style=flat-square">
 <img alt="Doctor grade" src="https://img.shields.io/badge/doctor%20--grade-A-16C079?style=flat-square">
@@ -191,7 +191,7 @@ Open models from the major families can run on your own machine or cluster, so m
 
 ## What's next
 
-Soon: actually run the v1 enforcement study, the powered, human-judged version. The task set, the rater tool, and the analysis are built and waiting on people and budget. After that, more work on reproducibility. Further out: shared infrastructure for multi-institution grants, and a cinematic web front-end that drives the same gated engine. Nothing reaches that list without the same evidence contract pointed back at it.
+Soon: actually run the v1 enforcement study, the powered, human-judged version. The task set, the rater tool, and the analysis are built and waiting on people and budget. After that, more work on reproducibility. Further out: shared infrastructure for multi-institution grants, and a cinematic web front-end that drives the same gated engine. Nothing reaches that list without the same evidence contract pointed back at it. An external evaluation pushed us to deepen reasoning and literature search; we answered it the Cambium way, in [`docs/reference/BRAIN_ROADMAP.md`](docs/reference/BRAIN_ROADMAP.md), which tiers the 12 proposed upgrades honestly (six buildable now, four scaffolds, two external-only). The first increment is already in: a reasoning tier (extended thinking for the hardest agents) and a literature-depth upgrade (Semantic Scholar plus a citation graph plus a relevance rerank, with graceful fallback).
 
 ---
 
