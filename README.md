@@ -175,6 +175,18 @@ Multi-PI projects get named, institution-scoped approvers, so a gate won't pass 
 
 ---
 
+## Models and tokens
+
+Does running a whole institute burn a lot of tokens? The honest answer.
+
+Today everything runs on Claude, on purpose. The work that matters here, judging evidence, catching overclaims, reproducing numbers, signing gates, is where a strong model pays for itself.
+
+The direction is routing, not more spend. Frontier models handle the hard, gate-critical steps. Capable open models handle the routine bulk: summaries, formatting, drafts, retrieval. Most of the volume is the routine kind.
+
+Open models from the major families can run on your own machine or cluster, so most of the work never leaves your environment and never meters a token, while a frontier model is saved for the calls that decide whether the science holds. The per-task router exists today; the frontier-plus-open mix is on the roadmap.
+
+---
+
 ## What's next
 
 Soon: actually run the v1 enforcement study, the powered, human-judged version. The task set, the rater tool, and the analysis are built and waiting on people and budget. After that, more work on reproducibility. Further out: shared infrastructure for multi-institution grants, and a cinematic web front-end that drives the same gated engine. Nothing reaches that list without the same evidence contract pointed back at it.
