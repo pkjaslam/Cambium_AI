@@ -254,7 +254,7 @@ function renderBlock(b,mi,li,bi){
   const ckey=(ci)=>lid(mi,li)+':c'+ci;
   let idx=0;
   // Spacing banner
-  const banner=el('div','spacing-banner','&#128197; Spacing works across days — come back tomorrow to review what\'s due.');
+  const banner=el('div','spacing-banner','&#128197; Spacing works across days ,  come back tomorrow to review what\'s due.');
   deck.appendChild(banner);
   const cardBox=el('div','card');
   const bar=el('div','deckbar');
@@ -275,7 +275,7 @@ function renderBlock(b,mi,li,bi){
    const isDue=due<=Date.now();
    bar.innerHTML=`<span>Card ${idx+1} / ${b.cards.length}</span><span>${box>=3?'&#9733; remembered':'box '+(box+1)}</span>`;
    if(!isDue&&due>0){
-    dueNote.textContent='Reviewed — due again '+fcRelDate(due)+'. Reviewing early is fine but counts less.';
+    dueNote.textContent='Reviewed ,  due again '+fcRelDate(due)+'. Reviewing early is fine but counts less.';
     dueNote.style.display='block';
     cardBox.style.opacity='0.72';
    } else {
@@ -408,7 +408,7 @@ function renderQuiz(mi){
  const m=LAB.modules[mi]; const main=document.getElementById('main'); main.innerHTML='';
  main.appendChild(el('div','crumb',esc(m.title)+' &middot; Mastery check'));
  main.appendChild(el('h1','lt','Mastery check: '+esc(m.title)));
- main.appendChild(el('div','lsub','Cumulative, closed-book check — best taken a day after the lessons.'));
+ main.appendChild(el('div','lsub','Cumulative, closed-book check ,  best taken a day after the lessons.'));
  const wrap=el('div','block quizwrap');
  const qs=buildCumulativeQuiz(mi);
  let answered=0, correct=0;
@@ -444,7 +444,7 @@ function renderGoDeeper(m){
  const ul=el('ul','');
  resources.forEach(r=>{
   const li=document.createElement('li');
-  li.innerHTML=`<a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.title)}</a> — ${esc(r.org)} (${esc(r.type)})${r.why?`<div class="res-why">${esc(r.why)}</div>`:''}`;
+  li.innerHTML=`<a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.title)}</a> ,  ${esc(r.org)} (${esc(r.type)})${r.why?`<div class="res-why">${esc(r.why)}</div>`:''}`;
   ul.appendChild(li);
  });
  div.appendChild(ul);

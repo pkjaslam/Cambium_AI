@@ -1,7 +1,7 @@
 {
  "id": "academy",
  "brand": "Academy",
- "title": "Cambium Academy — learn responsible AI research by doing",
+ "title": "Cambium Academy, learn responsible AI research by doing",
  "subtitle": "Active recall and spaced practice across sessions, plus learning by doing. Five short courses for students, researchers, and faculty.",
  "modules": [
   {
@@ -745,7 +745,7 @@
      "why": "The definitive deep-dive on the leakage and reproducibility problems this module teaches."
     },
     {
-     "title": "Reproducibility Crisis in ML — Sayash Kapoor talk",
+     "title": "Reproducibility Crisis in ML, Sayash Kapoor talk",
      "org": "YouTube",
      "url": "https://www.youtube.com/watch?v=7Bxcz7Z_tY0",
      "type": "video",
@@ -975,8 +975,8 @@
        "type": "worked",
        "title": "Parse an RFP in 5 minutes",
        "steps": [
-        "Open the RFP and search for 'eligible' — note every restriction.",
-        "Search for 'scope' or 'areas' — highlight the exact topics.",
+        "Open the RFP and search for 'eligible', note every restriction.",
+        "Search for 'scope' or 'areas', highlight the exact topics.",
         "Find the evaluation criteria and their weights.",
         "Note the budget ceiling and any cost-sharing requirements.",
         "Put the deadline in your calendar with two reminders."
@@ -997,7 +997,7 @@
       {
        "type": "concept",
        "title": "Aims are a promise, not a summary",
-       "html": "<p>The Specific Aims page is the only page every reviewer reads. It must answer: <b>What</b> (the gap), <b>Why</b> (the significance), and <b>How</b> (the approach) — in one page. Each aim must be specific, measurable, and feasible within the budget and timeline.</p>",
+       "html": "<p>The Specific Aims page is the only page every reviewer reads. It must answer: <b>What</b> (the gap), <b>Why</b> (the significance), and <b>How</b> (the approach), in one page. Each aim must be specific, measurable, and feasible within the budget and timeline.</p>",
        "why": "A vague aim ('understand climate change') kills a proposal. A specific aim ('quantify soil carbon loss under three tillage regimes') gets funded."
       },
       {
@@ -1116,7 +1116,7 @@
       {
        "type": "concept",
        "title": "PII is not just names and emails",
-       "html": "<p>Direct identifiers: name, address, phone, email, SSN, student ID. Quasi-identifiers: zip code, birth date, gender, ethnicity — combinations of these can re-identify individuals. Cambium's data-scan tool flags both. You must remove or pseudonymize direct identifiers before analysis, and assess re-identification risk from quasi-identifiers.</p>",
+       "html": "<p>Direct identifiers: name, address, phone, email, SSN, student ID. Quasi-identifiers: zip code, birth date, gender, ethnicity, combinations of these can re-identify individuals. Cambium's data-scan tool flags both. You must remove or pseudonymize direct identifiers before analysis, and assess re-identification risk from quasi-identifiers.</p>",
        "why": "FERPA, GDPR, and IRB rules all require that you protect identifiable information. A leak can end a career."
       },
       {
@@ -1296,7 +1296,7 @@
        "yourturn": {
         "prompt": "Design an agent for a specific task in your field. What is its name, model, and one-sentence description?",
         "hint": "The narrower the task, the better the agent.",
-        "solution": "<p>Example: 'soil-carbon-estimator' (sonnet) — 'Given a land-use map and soil sampling design, estimate total soil carbon stock and uncertainty using stratified random sampling.' It is specific, measurable, and uses a defined method.</p>"
+        "solution": "<p>Example: 'soil-carbon-estimator' (sonnet), 'Given a land-use map and soil sampling design, estimate total soil carbon stock and uncertainty using stratified random sampling.' It is specific, measurable, and uses a defined method.</p>"
        }
       }
      ]
@@ -1347,7 +1347,7 @@
       {
        "type": "concept",
        "title": "Cambium as a teaching tool",
-       "html": "<p>Cambium is not just for research — it is a platform for teaching research. Students can run a proposal, see the verification process, and learn why gates matter. The Academy provides the theory; the institute provides the practice. Use <code>/cambium-mode solo</code> for quick exercises, and full runs for capstone projects.</p>",
+       "html": "<p>Cambium is not just for research, it is a platform for teaching research. Students can run a proposal, see the verification process, and learn why gates matter. The Academy provides the theory; the institute provides the practice. Use <code>/cambium-mode solo</code> for quick exercises, and full runs for capstone projects.</p>",
        "why": "Students learn research integrity by doing it, not by reading about it."
       },
       {

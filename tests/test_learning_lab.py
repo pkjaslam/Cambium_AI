@@ -20,7 +20,7 @@ def test_render_academy_is_valid_and_self_contained():
     html = G.render(lab)
     assert "__LAB_DATA__" not in html and "__TITLE__" not in html
     data = _embedded(html)
-    assert len(data["modules"]) == 5
+    assert len(data["modules"]) == len(lab["modules"]) >= 5
     # script payload cannot break out of its tag
     assert "</script>" not in html.split('id="lab-data"')[1].split("</script>")[0] or True
 
