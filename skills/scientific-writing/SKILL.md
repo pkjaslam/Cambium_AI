@@ -1,6 +1,6 @@
 ---
 name: scientific-writing
-description: Write clear, honest scientific prose — papers, theses, technical reports — with sound structure (IMRaD), a single clear contribution, and strict claims-to-evidence discipline. Use when drafting or revising a research paper/report/thesis, structuring Introduction→Methods→Results→Discussion, sharpening an abstract or contribution statement, or tightening prose and aligning claims with evidence. Trigger on "write the paper", "Methods section", "abstract", "Discussion", "IMRaD", "results section", "scientific writing", "tighten this". Pairs with document-office and reporting-officer; writes from VERIFIED findings only, never invents results or citations.
+description: Write clear, honest scientific prose — papers, theses, technical reports — with sound structure (IMRaD), a single clear contribution, and strict claims-to-evidence discipline. Use when drafting or revising a research paper/report/thesis, structuring Introduction→Methods→Results→Discussion, sharpening an abstract or contribution statement, or tightening prose and aligning claims with evidence. Trigger on "write the paper", "Methods section", "abstract", "Discussion", "IMRaD", "results section", "scientific writing", "tighten this". Pairs with document-office and reporting-officer; drafts from VERIFIED findings only for the researcher to finalize, never invents results or citations.
 ---
 
 # Scientific writing — one contribution, every claim earned

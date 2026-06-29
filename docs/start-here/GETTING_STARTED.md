@@ -29,7 +29,7 @@ This is the full pre-award path.
 4. **`find collaborators <categories>`** — the **Collaborator-Scout** builds a *verified* candidate
    list (universities, agencies, industry, partners); the **Partnership-Liaison** drafts outreach
    emails + a one-page brief + meeting agendas. → **Gate G3a:** you approve who to contact; **you send.**
-5. **`draft proposal`** — the **Proposal-Writer** produces the full draft (significance, approach,
+5. **`draft proposal`** — the **Proposal-Writer** drafts the proposal with you (significance, approach,
    timeline, deliverables, budget narrative, criteria-alignment) → `04_proposal_draft.md`. → **Gate G3:**
    you finalize and **submit.**
 
@@ -63,7 +63,7 @@ For periodic reporting, papers, and decks — at any point.
   → **Gate G5/G6:** you approve release.
 - **`make deck`** — the **Deck-Builder** turns a report or proposal into a clean PPT/HTML deck (with the
   **Figures** studio's charts).
-- **Final deliverables** — the **Document Office** writes the paper/thesis from verified findings; the
+- **Final deliverables** - the **Document Office** helps you assemble the paper/thesis from verified findings; the
   **Outreach** agent prepares the repo/README/demo; the **Program-Manager** tracks the deliverables
   register (paper, thesis, tool, GitHub, dataset).
 

@@ -1,6 +1,6 @@
 ---
 name: proposal
-description: Drive a full proposal from approved aims to a submission-ready draft, then stop at gate G3 "finalize & submit?". Use when the user says "draft the proposal", "write the proposal", "build the proposal", "turn these aims into a proposal", or asks to assemble Significance/Innovation/Approach plus compliance pieces for a funder. Delegates to the Pre-Award council (principal-investigator, proposal-writer, budget-officer, grants-compliance), Verification (referee), and Governance (research-conduct-officer) under the Orchestrator. Writes from the PI's aims; never invents results or citations.
+description: Drive a full proposal from approved aims to a submission-ready draft, then stop at gate G3 "finalize & submit?". Use when the user says "draft the proposal", "write the proposal", "build the proposal", "turn these aims into a proposal", or asks to assemble Significance/Innovation/Approach plus compliance pieces for a funder. Delegates to the Pre-Award council (principal-investigator, proposal-writer, budget-officer, grants-compliance), Verification (referee), and Governance (research-conduct-officer) under the Orchestrator. Drafts from the PI's aims for the PI to develop; never invents results or citations.
 ---
 
 # Proposal — assemble and pressure-test a submission

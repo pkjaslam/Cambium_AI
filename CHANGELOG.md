@@ -1,5 +1,30 @@
 # Changelog
 
+## 1.20.0 - 2026-06-29 - AI assists, never replaces, in the words and in the code (gate G-fit)
+
+Cambium's university AI and IT council asked for one thing: every claim should show AI assisting the
+researcher, never replacing them or authoring the scholarship. We ran the audit the Cambium way
+(integrity-officer, research-assistant, research-conduct-officer, outreach) and fixed both the message and
+the mechanism.
+
+- **Assistive-voice copy.** The README tagline, subhead, and feature rows; the USE_CAMBIUM and
+  GETTING_STARTED opening lines; the document-office, proposal-writer, and lab-statistics agent cards; and the
+  grant-writing, scientific-writing, and proposal skill descriptions now frame the AI as drafting options and
+  running checks for a researcher who stays the author and the decider. The RFP example is the model: Cambium
+  pulls the RFP, matches your expertise, asks your interests, finds gaps and needed sections, proposes topics,
+  then you develop the proposal with it.
+- **A human release gate on finished deliverables (`tools/task_router.py`).** The writeup path (paper,
+  proposal, thesis) previously closed out with no human sign-off on the manuscript itself; G4 approves
+  findings only. The new G-release gate fires after the deliverable is drafted and before closeout, so a
+  person approves the finished work, not just the findings.
+- **Researcher interests required before drafting.** New `require_researcher_profile()` guard plus
+  `GENERATIVE_TYPES` and `NEEDS_RESEARCHER_INPUT`: on generative task types, an empty researcher profile
+  stops the run and asks for the researcher's interests and expertise before anything is proposed. Enforced
+  at the CLI. +29 tests.
+- Honest status: code complete and verified by inspection; the live test run was deferred to a clean machine
+  because the build sandbox mount blocked execution here. Follow-up: wire the profile guard into the Cowork
+  run contract, and record G-release in the gate registry.
+
 ## 1.19.0 - 2026-06-29 - We asked whether to adopt MemPalace, and built our own instead (gate G-fit)
 
 The Director asked whether to integrate MemPalace, an external memory-palace tool (a local MCP server over a

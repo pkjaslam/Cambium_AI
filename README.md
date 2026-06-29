@@ -12,9 +12,9 @@
 <img alt="MCP" src="https://img.shields.io/badge/MCP-ready-0E8E5B?style=flat-square">
 <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-B7F36A?style=flat-square">
 
-<h3>Let AI do the work. Keep a human responsible for the science.</h3>
+<h3>Let AI handle the volume. Keep a human responsible for every result.</h3>
 
-<em>Cambium turns one researcher into a whole institute of AI specialists, then stops at human checkpoints so a person, not a model, makes the calls that matter.</em>
+<em>Cambium gives one researcher a whole institute of AI specialists to scout, draft, and check, then stops at human checkpoints so a person, not a model, makes the calls that matter.</em>
 
 </div>
 
@@ -81,10 +81,10 @@ That is the whole setup. `/cambium` draws a live board of the institute working,
 | See the whole institute run a task | `/cambium <your task>` |
 | Try it with no setup | `/cambium run example` |
 | Read a funding call and decide if it fits | `/cambium read this RFP: <link or text>` |
-| Turn approved aims into a proposal | `/cambium draft the proposal` |
+| Draft a proposal with you, from your approved aims | `/cambium draft the proposal` |
 | Build and verify a method | `/cambium run the lab` |
 | Stress-test a result or a claim | `/cambium verify this: <result>` |
-| Write a progress or annual report | `/cambium write the quarterly report` |
+| Draft a progress or annual report for you to review and release | `/cambium write the quarterly report` |
 | Go fast, skip the gates | `/cambium-mode`, then solo |
 
 

@@ -5,7 +5,7 @@ import run_trace
 
 def test_mermaid_has_flow_gate_and_orchestrator():
     m = run_trace.mermaid("summarize this grant call and tell me whether to apply")
-    assert "flowchart TD" in m and "🚦" in m and "Orchestration" in m
+    assert "flowchart TD" in m and "\U0001f6a6" in m and "Orchestration" in m
 
 def test_text_plan_lists_gate():
     t = run_trace.text("draft proposal")

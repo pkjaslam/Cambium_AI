@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Cambium Task Router — pick the councils a task needs, build a phase plan.
+"""Cambium Task Router -- pick the councils a task needs, build a phase plan.
 
 Given ANY task ("build an app", "review this code", "win an NSF grant"), classify it and emit a
 custom multi-phase plan: which councils/agents activate, which run in parallel, and where the human
 gates fall. Deterministic + keyword-based (no API key needed). The engine + app consume this so
 council selection is Cambium's, not hand-picked.
 
-Usage: python3 tools/task_router.py "your task here"
+Usage: python3 tools/task_router.py "your task here" [--profile "interests/expertise"]
 """
 import sys, json
 
@@ -30,6 +30,59 @@ def C(council, *only):
 
 def ph(pid, groups, gate=None): return {"id": pid, "groups": groups, "gate": gate}
 def grp(label, agents, parallel=True): return {"label": label, "parallel": parallel, "agents": agents}
+
+# ---- researcher profile guard (hard precondition, G0) ----
+#
+# AI-assists-not-replaces principle: the researcher's interests and expertise
+# must be provided BEFORE any topic proposal or drafting step on a generative
+# or pre-award path (governance/GATES.md G0). This guard enforces that at the
+# run-engine level.
+#
+# Call require_researcher_profile(profile) at intake BEFORE starting a
+# generative run. If the profile is absent or empty, it returns the
+# NEEDS_RESEARCHER_INPUT stop dict; the engine must surface the message to the
+# researcher and halt until they supply their interests/expertise.
+#
+# Display-only callers (run_trace, board generators) do NOT need to call this
+# guard -- they render the routing plan for visibility, not to execute a run.
+#
+# GENERATIVE_TYPES are the task types where this guard applies:
+GENERATIVE_TYPES = {"grant", "research", "data", "report"}
+
+NEEDS_RESEARCHER_INPUT = {
+    "stop": "needs-researcher-input",
+    "gate": "G0",
+    "message": (
+        "Researcher profile is empty. Cambium cannot propose topics or begin drafting "
+        "until the researcher supplies their interests and expertise. "
+        "Please fill USER_PROFILE.md (interests + expertise fields) and re-run."
+    ),
+}
+
+def require_researcher_profile(profile):
+    """Return NEEDS_RESEARCHER_INPUT stop dict if profile is absent/empty, else None.
+
+    'profile' may be:
+      - None or empty string/dict/list  -> blocked (returns stop dict)
+      - A non-empty string              -> allowed (returns None)
+      - A dict with at least one of 'interests' or 'expertise' non-empty -> allowed
+      - Any other truthy value          -> allowed
+
+    This is the hard G0 gate for the generative/pre-award path. Call it at
+    intake, before route(), on generative task types (GENERATIVE_TYPES).
+    Return the stop dict to the user if non-None; do NOT proceed to drafting.
+    """
+    if not profile:
+        return NEEDS_RESEARCHER_INPUT
+    if isinstance(profile, dict):
+        interests = str(profile.get("interests", "")).strip()
+        expertise = str(profile.get("expertise", "")).strip()
+        if not interests and not expertise:
+            return NEEDS_RESEARCHER_INPUT
+        return None
+    if isinstance(profile, str) and not profile.strip():
+        return NEEDS_RESEARCHER_INPUT
+    return None
 
 # ---- per-type phase templates ----
 def _grant():
@@ -101,6 +154,16 @@ def _writeup():
     # final written deliverable from VERIFIED findings, with citations + figures
     return ph("writeup",[grp("write-up",C("orch","document-office")+C("support","librarian","figures"),False)])
 
+def _release_gate():
+    # Human must approve the finished deliverable before close-out.
+    # G-release fires AFTER the manuscript/paper/proposal/thesis is drafted
+    # and BEFORE housekeeping (closeout). The human -- not the AI -- decides
+    # whether the scholarly work is ready to release or publish.
+    # Mirrors the video path's G5/G6 pair; G4 approves findings only,
+    # so a separate gate is required here for the final document.
+    return ph("release",[grp("conduct+integrity",C("gov")+C("support","integrity-officer"),False)],
+              {"id":"G-release","decision":"release / publish the deliverable?"})
+
 def _closeout():
     # Support council housekeeping after EVERY task; no human gate (automatic close-out).
     # office-manager compiles the run digest; feedback-router routes any REVISE feedback to the right agents.
@@ -118,11 +181,23 @@ def plan_for_type(typ):
         phases = [_provision()] + phases
     if typ in ("research","report","data"):
         phases = phases + [_writeup()]
+        # G-release: human must approve the finished deliverable before closeout.
+        # Applies to all paths that produce a written scholarly deliverable.
+        phases = phases + [_release_gate()]
     if typ in ("software","research","data"):
         phases = phases + [_learn()]
     return phases + [_closeout()]
 
 def route(task):
+    """Route a task to a multi-phase plan.
+
+    Returns a plan dict with: task, type, councils, n_agents, phases, signal.
+
+    Note: for generative task types (GENERATIVE_TYPES), the run engine must call
+    require_researcher_profile(profile) BEFORE starting the run and halt if it
+    returns a stop dict. route() itself does not enforce the profile -- it only
+    generates the routing plan, which display tools (boards, trace) also use.
+    """
     typ, hits = classify(task)
     phases = plan_for_type(typ)
     councils = sorted({c for p in phases for g in p["groups"] for c in [k for k,v in CMAP.items() if set(g["agents"]) & set(v)]})
@@ -130,7 +205,19 @@ def route(task):
     return {"task": task, "type": typ, "councils": councils, "n_agents": n_agents, "phases": phases, "signal": hits}
 
 if __name__ == "__main__":
-    task = " ".join(sys.argv[1:]) or "a sample research project"
+    args = sys.argv[1:]
+    profile = None
+    if "--profile" in args:
+        idx = args.index("--profile")
+        profile = args[idx + 1] if idx + 1 < len(args) else None
+        args = args[:idx] + args[idx+2:]
+    task = " ".join(args) or "a sample research project"
+    typ, _ = classify(task)
+    if typ in GENERATIVE_TYPES:
+        stop = require_researcher_profile(profile)
+        if stop is not None:
+            print("BLOCKED [G0]:", stop["message"])
+            sys.exit(1)
     r = route(task)
     print("TASK:", task)
     print("TYPE:", r["type"], "| councils:", ", ".join(r["councils"]), "| agents:", r["n_agents"])

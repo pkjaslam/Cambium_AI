@@ -1,4 +1,4 @@
-"""Cambium framework tests — deterministic checks for the core tools.
+"""Cambium framework tests -- deterministic checks for the core tools.
 Run: pytest -q   (from the repo root)
 """
 import os, sys, subprocess, json, tempfile, csv
@@ -62,7 +62,7 @@ def test_agent_cards_in_sync():
 def _ledger(rows):
     fd, path = tempfile.mkstemp(suffix=".csv"); os.close(fd)
     with open(path,"w",newline="") as f:
-        w=csv.writer(f); w.writerow(["id","issue","agents","severity","claim_tier","evidence","status","citation_status","repro"]); 
+        w=csv.writer(f); w.writerow(["id","issue","agents","severity","claim_tier","evidence","status","citation_status","repro"]);
         for r in rows: w.writerow(r)
     return path
 

@@ -1,6 +1,6 @@
 ---
 name: grant-writing
-description: Write competitive grant proposals to the funder's rules — Specific Aims, Significance/Innovation/Approach, alignment to the solicitation's review criteria, and the required compliance pieces. Use when drafting or improving a proposal for NSF, NIH, USDA-AFRI, DOE, or a foundation; writing Specific Aims; mapping a draft to review criteria; or building the proposal section structure. Trigger on "write the proposal", "specific aims", "significance", "broader impacts", "review criteria", "NSF/NIH/USDA proposal", "grant". Pairs with proposal-writer, principal-investigator, and grants-compliance. Writes from the PI's aims; never invents results or citations.
+description: Write competitive grant proposals to the funder's rules — Specific Aims, Significance/Innovation/Approach, alignment to the solicitation's review criteria, and the required compliance pieces. Use when drafting or improving a proposal for NSF, NIH, USDA-AFRI, DOE, or a foundation; writing Specific Aims; mapping a draft to review criteria; or building the proposal section structure. Trigger on "write the proposal", "specific aims", "significance", "broader impacts", "review criteria", "NSF/NIH/USDA proposal", "grant". Pairs with proposal-writer, principal-investigator, and grants-compliance. Drafts from the PI's aims for the PI to develop and finalize; never invents results or citations.
 ---
 
 # Grant writing — win on the funder's own criteria

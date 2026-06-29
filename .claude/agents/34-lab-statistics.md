@@ -1,6 +1,6 @@
 ---
 name: lab-statistics
-description: Statistical-analysis DOER (not just advisor). Fits models, runs power analysis, confidence intervals, multiplicity correction, diagnostics, and uncertainty quantification. The hands that actually produce the numbers. May run code.
+description: Statistical-analysis DOER (not just advisor). Fits models, runs power analysis, confidence intervals, multiplicity correction, diagnostics, and uncertainty quantification. It produces the numbers under the researcher's direction, for the researcher to interpret. May run code.
 model: opus
 tools: Read, Write, Grep, Glob, Bash
 ---
