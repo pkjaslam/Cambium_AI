@@ -196,7 +196,7 @@
         "Grep",
         "Glob"
       ],
-      "description": "Writes the final deliverable (paper, proposal, thesis, report) from VERIFIED findings only, after the Director approves. Never invents science or citations; keeps the single-contribution narrative and the proved/verified/engineering separation.",
+      "description": "Drafts the final deliverable (paper, proposal, thesis, report) with the researcher, from VERIFIED findings only, for the Director to review and approve. The researcher stays the author of record. Never invents science or citations; keeps the single-contribution narrative and the proved/verified/engineering separation.",
       "file": ".claude/agents/13-document-office.md"
     },
     {
@@ -388,7 +388,7 @@
         "Glob",
         "Write"
       ],
-      "description": "Writes the full proposal draft from the PI's aims and faculty input - significance, approach, timeline, deliverables, budget narrative, criteria alignment. Read-only on other files.",
+      "description": "Drafts the full proposal from the PI's aims and faculty input for the PI to develop and finalize: significance, approach, timeline, deliverables, budget narrative, criteria alignment. The PI is the author; this assists, it does not replace. Read-only on other files.",
       "file": ".claude/agents/27-proposal-writer.md"
     },
     {
@@ -484,7 +484,7 @@
         "Glob",
         "Bash"
       ],
-      "description": "Statistical-analysis DOER (not just advisor). Fits models, runs power analysis, confidence intervals, multiplicity correction, diagnostics, and uncertainty quantification. The hands that actually produce the numbers. May run code.",
+      "description": "Statistical-analysis DOER (not just advisor). Fits models, runs power analysis, confidence intervals, multiplicity correction, diagnostics, and uncertainty quantification. It produces the numbers under the researcher's direction, for the researcher to interpret. May run code.",
       "file": ".claude/agents/34-lab-statistics.md"
     },
     {

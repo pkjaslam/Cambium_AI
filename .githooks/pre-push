@@ -1,0 +1,20 @@
+#!/bin/sh
+# Cambium pre-push guard: run the test suite before any push.
+#
+# Activate once (per clone):   git config core.hooksPath .githooks
+# Emergency bypass:            git push --no-verify
+#
+# This blocks a push if the test suite is red, so the failures your CI would
+# catch are caught locally first, before the push button ever runs.
+echo "[pre-push] running Cambium precheck ..."
+if command -v python3 >/dev/null 2>&1; then
+  python3 scripts/precheck.py
+else
+  python scripts/precheck.py
+fi
+status=$?
+if [ "$status" -ne 0 ]; then
+  echo "[pre-push] tests failed, push blocked. Override with: git push --no-verify"
+  exit 1
+fi
+exit 0

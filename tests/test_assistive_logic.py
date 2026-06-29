@@ -40,7 +40,10 @@ def _gate_ids(phases):
 # ---------------------------------------------------------------------------
 
 class TestWriteupReleaseGate:
-    """G-release must appear on research/data/report paths, before closeout."""
+    """G-release must appear on research/data paths, before closeout.
+
+    report is excluded on purpose: _report() already ends with its own G5
+    "release report?" gate, so adding G-release would double the release gate."""
 
     def test_research_plan_contains_g_release(self):
         phases = tr.plan_for_type("research")
@@ -54,15 +57,18 @@ class TestWriteupReleaseGate:
             "data plan missing G-release gate"
         )
 
-    def test_report_plan_contains_g_release(self):
-        phases = tr.plan_for_type("report")
-        assert "G-release" in _gate_ids(phases), (
-            "report plan missing G-release gate"
+    def test_report_keeps_its_own_release_gate(self):
+        # report already ends with its own G5 "release report?" gate, so it must
+        # NOT also get G-release (that would be two human release gates on one run).
+        ids = _gate_ids(tr.plan_for_type("report"))
+        assert "G5" in ids, "report plan should keep its own G5 release gate"
+        assert "G-release" not in ids, (
+            "report must not have G-release: it would duplicate G5"
         )
 
     def test_g_release_comes_before_closeout(self):
         """G-release must fire BEFORE closeout on every writeup path."""
-        for typ in ("research", "data", "report"):
+        for typ in ("research", "data"):
             phases = tr.plan_for_type(typ)
             ids = _phase_ids(phases)
             assert "release" in ids, f"{typ}: no 'release' phase"
@@ -73,7 +79,7 @@ class TestWriteupReleaseGate:
 
     def test_g_release_comes_after_writeup(self):
         """G-release must fire AFTER the writeup phase on every writeup path."""
-        for typ in ("research", "data", "report"):
+        for typ in ("research", "data"):
             phases = tr.plan_for_type(typ)
             ids = _phase_ids(phases)
             assert "writeup" in ids, f"{typ}: no 'writeup' phase"

@@ -180,9 +180,13 @@ def plan_for_type(typ):
     if typ in ("software","research","data","video"):
         phases = [_provision()] + phases
     if typ in ("research","report","data"):
+        # all three produce a written deliverable, so the document-office drafts it.
         phases = phases + [_writeup()]
-        # G-release: human must approve the finished deliverable before closeout.
-        # Applies to all paths that produce a written scholarly deliverable.
+    if typ in ("research","data"):
+        # research and data end at G4 (accept findings) with no human release gate on
+        # the finished manuscript, so they need G-release. report is excluded on
+        # purpose: _report() already ends with its own G5 "release report?" gate, so
+        # adding G-release would double the release gate.
         phases = phases + [_release_gate()]
     if typ in ("software","research","data"):
         phases = phases + [_learn()]

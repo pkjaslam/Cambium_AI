@@ -26,8 +26,8 @@ def test_gate_pauses_then_resumes():
             if ev is None: break
             seen.append(ev["type"])
             if ev["type"] == "gate.open":
-                assert not decided
-                # the run is now blocked waiting; the human decides ->
+                # the run is now blocked waiting; the human approves each gate it
+                # reaches (robust to runs that legitimately have more than one gate) ->
                 r.decide("APPROVE"); decided = True
         await task
         return seen
