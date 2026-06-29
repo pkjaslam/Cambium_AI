@@ -9,6 +9,7 @@ reopenable SIDEBAR board; tools/gen_inline_board.py renders the same run as an i
   python3 tools/gen_board_pro.py [--state agent_outputs/run_state.json] [--out agent_outputs/run_board.html] [--title "<request>"]
 """
 import argparse, html, json, os, sys
+import cambium_io  # noqa: F401 — reconfigures stdout/stderr to UTF-8 on Windows
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 COUNCIL_HUE = {

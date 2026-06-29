@@ -17,6 +17,7 @@ Honest ceiling: a standalone tool cannot confirm a server is live and authentica
 """
 from __future__ import annotations
 import argparse, json, os, re, sys
+import cambium_io  # noqa: F401 — reconfigures stdout/stderr to UTF-8 on Windows
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CONFIG_PATHS = [".mcp.json", ".claude/settings.json", ".claude/settings.local.json",

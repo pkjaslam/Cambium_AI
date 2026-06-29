@@ -16,6 +16,9 @@ import sys
 import os
 import re
 
+# ── import UTF-8 guard before any glyph output ──
+import cambium_io  # noqa: F401 — reconfigures stdout/stderr to UTF-8 on Windows
+
 # ── locate repo root (the directory containing config.yml / config.example.yml) ──
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 REPO_ROOT   = os.path.dirname(SCRIPT_DIR)   # tools/ is one level below root

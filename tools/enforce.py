@@ -16,6 +16,7 @@ Controls (each maps to a policy point):
 Exit: 0 = every enforced control passed · 1 = at least one control BLOCKED.
 """
 import argparse, os, subprocess, sys
+import cambium_io  # noqa: F401 — reconfigures stdout/stderr to UTF-8 on Windows
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PY = sys.executable
 

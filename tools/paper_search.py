@@ -17,6 +17,7 @@ Usage:
 Importable:  from tools.paper_search import search, citation_graph
 """
 import sys, json, urllib.request, urllib.parse, re
+import cambium_io  # noqa: F401 — reconfigures stdout/stderr to UTF-8 on Windows
 
 UA = {"User-Agent": "Cambium/1.0 (https://github.com/pkjaslam/Cambium_AI; mailto:pkjaslamagrico@gmail.com)"}
 S2 = "https://api.semanticscholar.org/graph/v1"

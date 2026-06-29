@@ -12,6 +12,7 @@ roster file exists, and prints a one-line summary a committee can read. Gates ca
 """
 from __future__ import annotations
 import argparse, os, sys
+import cambium_io  # noqa: F401 — reconfigures stdout/stderr to UTF-8 on Windows
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 REQUIRED = ["institution", "approved_funders", "data_handling", "allowed_models", "budget", "approvers", "gates", "policy"]

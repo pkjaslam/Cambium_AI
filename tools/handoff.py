@@ -18,6 +18,7 @@ Subcommands:
 Paths: state=agent_outputs/run_state.json · handoff=agent_outputs/HANDOFF.md · archive=archive/handoffs/
 """
 import sys, os, json, csv, glob, datetime
+import cambium_io  # noqa: F401 — reconfigures stdout/stderr to UTF-8 on Windows
 
 STATE = os.path.join("agent_outputs", "run_state.json")
 HANDOFF = os.path.join("agent_outputs", "HANDOFF.md")

@@ -16,6 +16,7 @@ Usage:
 Exit: 1 = BLOCKED · 0 = open for the Director's APPROVE / REVISE / REJECT.
 """
 import sys, os, json, subprocess
+import cambium_io  # noqa: F401 — reconfigures stdout/stderr to UTF-8 on Windows
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 def _ledger_ok(gate_id, ledger):

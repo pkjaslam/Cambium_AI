@@ -18,6 +18,7 @@ logging, or a secure enclave. It turns #6 from "procedural only" into "procedura
 the full secure-data platform is still the multi-institution infrastructure track.
 """
 import argparse, os, re, sys
+import cambium_io  # noqa: F401 — reconfigures stdout/stderr to UTF-8 on Windows
 
 PATTERNS = [
     ("SSN",          "high", re.compile(r"\b\d{3}-\d{2}-\d{4}\b")),

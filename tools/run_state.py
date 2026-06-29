@@ -24,6 +24,7 @@ Typical loop the Orchestrator runs each phase:
   python3 tools/run_trace.py --board "<request>"     # auto-reads run_state.json
 """
 import sys, os, json, glob, re, time
+import cambium_io  # noqa: F401 — reconfigures stdout/stderr to UTF-8 on Windows
 
 ROOT = os.getcwd()
 DEFAULT = os.path.join("agent_outputs", "run_state.json")

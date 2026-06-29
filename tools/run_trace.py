@@ -29,6 +29,7 @@ import sys, os, json, html
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import task_router
+import cambium_io  # noqa: F401 — reconfigures stdout/stderr to UTF-8 on Windows
 
 # ---- Cambium brand palette (the deep-forest + Cambium-lime system) ----
 BG     = "#07231A"   # deep forest

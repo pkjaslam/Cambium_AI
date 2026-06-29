@@ -17,6 +17,7 @@ row + this row's fields, so editing or deleting a past row breaks the chain (det
 Exit: 0 ok · 1 verify failure / bad args.
 """
 import argparse, hashlib, json, os, sys, time
+import cambium_io  # noqa: F401 — reconfigures stdout/stderr to UTF-8 on Windows
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TRAIL = os.path.join(ROOT, "governance", "audit_trail.jsonl")
 SALT = "cambium-audit-v1"  # tamper-evidence salt (not a secret)

@@ -13,6 +13,7 @@ budget (default 200k, override with CAMBIUM_CTX_BUDGET); it's a heat gauge, not 
 Install (Claude Code): /statusline  →  command: bash tools/statusline.sh
 """
 import sys, os, json
+import cambium_io  # noqa: F401 — reconfigures stdout/stderr to UTF-8 on Windows
 
 BUDGET = int(os.environ.get("CAMBIUM_CTX_BUDGET", "200000"))
 WARN = float(os.environ.get("CAMBIUM_CTX_WARN", "0.85"))

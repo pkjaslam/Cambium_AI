@@ -12,6 +12,7 @@ Run in CI so stale counts can never ship again.
 Usage: python3 tools/consistency_check.py
 """
 import os, re, glob, sys
+import cambium_io  # noqa: F401 — reconfigures stdout/stderr to UTF-8 on Windows
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 COUNCILS, GATES = 11, 8
@@ -64,7 +65,7 @@ def main():
                 w=m.group(1).lower()
                 if w in GATE_WORDS and GATE_WORDS[w]!=GATES: bad.append(f"{rel}:{ln}: '{m.group(0)}' (should be {GATES} lifecycle gates)")
                 if w.isdigit() and int(w)!=GATES: bad.append(f"{rel}:{ln}: '{m.group(0)}' (should be {GATES} lifecycle gates)")
-    print(f"[consistency] canonical: {AGENTS} agents \u00b7 {COUNCILS} councils \u00b7 {GATES} gates")
+    print(f"[consistency] canonical: {AGENTS} agents · {COUNCILS} councils · {GATES} gates")
     if bad:
         print(f"[consistency] {len(bad)} MISMATCH(es):")
         for b in bad:

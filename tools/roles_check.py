@@ -11,6 +11,7 @@ Usage:
   python3 tools/roles_check.py <roles.yml> --gate G4       # print the required approver for a gate
 """
 import argparse, os, sys
+import cambium_io  # noqa: F401 — reconfigures stdout/stderr to UTF-8 on Windows
 
 def load(path):
     import yaml

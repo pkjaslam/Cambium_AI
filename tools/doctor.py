@@ -6,6 +6,7 @@
   python3 tools/doctor.py --grade  # score the institute's setup (A-F) + flag risks
 """
 import os, sys, ast, glob, json, subprocess, re
+import cambium_io  # noqa: F401 — reconfigures stdout/stderr to UTF-8 on Windows
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FIX  = "--fix" in sys.argv

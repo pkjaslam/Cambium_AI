@@ -17,6 +17,7 @@ live HTML board, and (4) prints an explicit FIRST-PAINT banner telling the model
 Exit: 0 always (first paint must never block the run).
 """
 import os, subprocess, sys
+import cambium_io  # noqa: F401 — reconfigures stdout/stderr to UTF-8 on Windows
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PYX = sys.executable
 

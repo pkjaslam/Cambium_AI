@@ -11,6 +11,7 @@ Usage: python3 tools/closeout.py
 Exit: 0 = memory is current · 1 = drift / a check failed (close-out is NOT done).
 """
 import os, re, sys, subprocess
+import cambium_io  # noqa: F401 — reconfigures stdout/stderr to UTF-8 on Windows
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FORWARD_DOCS = ["docs/reference/ROADMAP.md"]  # docs that carry a 'Last updated: YYYY-MM-DD' line
 

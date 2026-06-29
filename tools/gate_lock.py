@@ -21,6 +21,7 @@ and testable — strictly stronger than "the orchestrator promised to check."
 Exit: 0 ok · 1 blocked/failed.
 """
 import argparse, hashlib, json, os, subprocess, sys, time, secrets
+import cambium_io  # noqa: F401 — reconfigures stdout/stderr to UTF-8 on Windows
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TOKDIR = os.path.join(ROOT, "governance", "gate_tokens")
 

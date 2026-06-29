@@ -10,6 +10,7 @@ check; it does not trust the agent's word as proof.
 Usage: python3 tools/finding_audit.py [--dir agent_outputs]
 """
 import sys, os, re, glob
+import cambium_io  # noqa: F401 — reconfigures stdout/stderr to UTF-8 on Windows
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CLAIM = re.compile(r"\b(code-verified|all green|tests? pass|shipped|done|verified green|PASS\b|complete)\b", re.I)
 EVID  = re.compile(r"(cmd:|```|\$ |\bfile:|\bline \d|consistency|doctor|pytest|passed|exit 0|sha256|reproduce)", re.I)
