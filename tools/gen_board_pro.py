@@ -205,7 +205,11 @@ def main(argv=None):
     out = a.out if os.path.isabs(a.out) else os.path.join(ROOT, a.out)
     os.makedirs(os.path.dirname(out), exist_ok=True)
     open(out, "w", encoding="utf-8").write(render(a.state, a.title))
-    print("[gen_board_pro] wrote %s" % os.path.relpath(out, ROOT))
+    try:
+        shown = os.path.relpath(out, ROOT)
+    except ValueError:   # out and ROOT on different drives (Windows): show the absolute path
+        shown = out
+    print("[gen_board_pro] wrote %s" % shown)
     return 0
 
 if __name__ == "__main__":

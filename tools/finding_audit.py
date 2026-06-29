@@ -22,7 +22,10 @@ def audit(d):
         if os.path.basename(p) in SKIP: continue
         t = open(p, encoding="utf-8", errors="replace").read()
         if CLAIM.search(t) and not EVID.search(t):
-            flags.append(os.path.relpath(p, ROOT))
+            try:
+                flags.append(os.path.relpath(p, ROOT))
+            except ValueError:   # p and ROOT on different drives (Windows): use the raw path
+                flags.append(p)
     if flags:
         print("[finding_audit] UNSUPPORTED self-reports (claim completion/verification, no evidence):")
         for f in flags: print("  ?  " + f)
