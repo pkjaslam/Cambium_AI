@@ -11,7 +11,7 @@ All steps are tested; the **Troubleshooting** section at the bottom lists the re
 
 ### A. Easiest, no menu-hunting — `/create-cowork-plugin`  ⭐ start here
 1. In a Cowork chat, type: **`/create-cowork-plugin`**
-2. Paste the repo URL: `https://github.com/IFC-UIDAHO/Cambium_AI`
+2. Paste the repo URL: `https://github.com/pkjaslam/Cambium_AI`
 3. Choose **Repackage for Cowork → Full working bundle**.
 4. Press **Install** (or **Save plugin**) on the card it produces.
 
@@ -21,7 +21,7 @@ unreliable in current builds (see Troubleshooting). It’s a **snapshot**; for u
 ### B. Add the repo as a marketplace (updatable)
 1. Open the **Cowork** tab, then **Customize → Plugins**.
 2. Under **Personal plugins**, click **“+” → Add marketplace → Add from a repository**.
-3. Paste: `https://github.com/IFC-UIDAHO/Cambium_AI.git`
+3. Paste: `https://github.com/pkjaslam/Cambium_AI.git`
 4. Click **Browse plugins → Install** `cambium-institute`. Reload plugins if prompted.
 
 Installs as **`cambium-institute@Cambium_AI`** (repo-tracked → you can **Sync/Update** later — see §3).
@@ -37,7 +37,7 @@ Installs as **`cambium-institute@Cambium_AI`** (repo-tracked → you can **Sync/
 Run the two commands on **separate lines** (type one, Enter, wait, then the next):
 
 ```
-/plugin marketplace add https://github.com/IFC-UIDAHO/Cambium_AI.git
+/plugin marketplace add https://github.com/pkjaslam/Cambium_AI.git
 ```
 ```
 /plugin install cambium-institute

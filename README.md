@@ -4,7 +4,7 @@
 
 <br>
 
-<a href="https://github.com/IFC-UIDAHO/Cambium_AI/actions"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/IFC-UIDAHO/Cambium_AI/validate.yml?style=flat-square&label=CI&color=16C079"></a>
+<a href="https://github.com/pkjaslam/Cambium_AI/actions"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/pkjaslam/Cambium_AI/validate.yml?style=flat-square&label=CI&color=16C079"></a>
 <a href="CHANGELOG.md"><img alt="Version" src="https://img.shields.io/badge/version-1.17.0-16C079?style=flat-square"></a>
 <img alt="Agents" src="https://img.shields.io/badge/agents-46-16C079?style=flat-square">
 <img alt="Human gates" src="https://img.shields.io/badge/human_gates-8-0E8E5B?style=flat-square">
@@ -60,7 +60,7 @@ When a run starts, the institute comes to life in the chat. Agents wake up, do t
 
 ```bash
 # 1) Add the marketplace and install the plugin (Claude Code or Cowork)
-/plugin marketplace add IFC-UIDAHO/Cambium_AI
+/plugin marketplace add pkjaslam/Cambium_AI
 /plugin install cambium-institute
 
 # 2) Try it with no setup. A full plan, no API key, no calls.

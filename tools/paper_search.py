@@ -18,7 +18,7 @@ Importable:  from tools.paper_search import search, citation_graph
 """
 import sys, json, urllib.request, urllib.parse, re
 
-UA = {"User-Agent": "Cambium/1.0 (https://github.com/IFC-UIDAHO/Cambium_AI; mailto:pkjaslamagrico@gmail.com)"}
+UA = {"User-Agent": "Cambium/1.0 (https://github.com/pkjaslam/Cambium_AI; mailto:pkjaslamagrico@gmail.com)"}
 S2 = "https://api.semanticscholar.org/graph/v1"
 
 def _get(url, timeout=15):

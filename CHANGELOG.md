@@ -430,7 +430,7 @@ counts fixed (COMPARISON/FAQ/GETTING_STARTED/ROLES). Built BY Cambium; see cambi
 - `/plugin marketplace add` looks for `.claude-plugin/marketplace.json` at the REPO ROOT, but the manifests
   lived under `plugin/`. Result: clone succeeded but install failed with "Marketplace file not found."
 - Added root `.claude-plugin/marketplace.json` + `.claude-plugin/plugin.json` (source "./", agents=.claude/agents).
-  `/plugin marketplace add https://github.com/IFC-UIDAHO/Cambium_AI.git` + `/plugin install cambium-institute` now work.
+  `/plugin marketplace add https://github.com/pkjaslam/Cambium_AI.git` + `/plugin install cambium-institute` now work.
 - README: use the full HTTPS URL (short form can resolve to SSH and fail host-key checks); run the two commands separately.
 
 ## 3.10.3 - Make install actually work (lessons from real installs)

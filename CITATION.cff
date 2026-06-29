@@ -9,7 +9,7 @@ type: software
 authors:
   - name: "The Cambium contributors"
   - name: "University of Idaho IFC"
-repository-code: "https://github.com/IFC-UIDAHO/Cambium_AI"
+repository-code: "https://github.com/pkjaslam/Cambium_AI"
 license: MIT
 keywords:
   - responsible-ai

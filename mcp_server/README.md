@@ -9,7 +9,7 @@ as native tools: `cambium_plan`, `cambium_provision`, `cambium_agents`, `cambium
 pip install "mcp[cli]" PyYAML        # SDK + dep
 python -m cambium_mcp.server         # stdio server (from the mcp_server/ dir, or after `pip install -e mcp_server/`)
 ```
-Or packaged: `uvx --from git+https://github.com/IFC-UIDAHO/Cambium_AI#subdirectory=mcp_server cambium-mcp`
+Or packaged: `uvx --from git+https://github.com/pkjaslam/Cambium_AI#subdirectory=mcp_server cambium-mcp`
 
 ## Register in Claude (claude_desktop_config.json → mcpServers)
 ```json

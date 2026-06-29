@@ -29,7 +29,7 @@ scenes=[
  [("From RFP to verified results",30,INK,True),("with a human at every gate",20,MUT,False)],
  [(f"{N} agents  ·  {COUNCILS} councils",34,INK,True),(f"{GATES} human gates (G0–G6)",20,MUT,False)],
  [("Governed by construction",30,INK,True),("conduct + evidence + AI policy",20,MUT,False),("CI fails on un-evidenced claims",18,GREEN,False)],
- [("Cambium",46,GOLD,True),("github.com/IFC-UIDAHO/Cambium_AI",18,MUT,False)],
+ [("Cambium",46,GOLD,True),("github.com/pkjaslam/Cambium_AI",18,MUT,False)],
 ]
 frames=[]
 for sc in scenes:

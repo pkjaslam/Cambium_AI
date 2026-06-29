@@ -632,7 +632,7 @@ footer {
 
     <!-- Badges -->
     <div class="badge-row reveal">
-      <a href="https://github.com/IFC-UIDAHO/Cambium_AI/actions/workflows/validate.yml"><img src="https://img.shields.io/github/actions/workflow/status/IFC-UIDAHO/Cambium_AI/validate.yml?style=flat-square&label=CI&color=16C079" alt="CI"></a>
+      <a href="https://github.com/pkjaslam/Cambium_AI/actions/workflows/validate.yml"><img src="https://img.shields.io/github/actions/workflow/status/pkjaslam/Cambium_AI/validate.yml?style=flat-square&label=CI&color=16C079" alt="CI"></a>
       <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-1.00.0-16C079?style=flat-square" alt="Version 1.00.0"></a>
       <a href="INSTITUTE.md"><img src="https://img.shields.io/badge/agents-46-16C079?style=flat-square" alt="46 agents"></a>
       <a href="governance/GATES.md"><img src="https://img.shields.io/badge/human_gates-8-0E8E5B?style=flat-square" alt="8 human gates"></a>
@@ -1001,96 +1001,4 @@ footer {
         <div class="mut" style="font-size:13.5px;margin-top:4px">How one sentence becomes verified results.</div>
       </div>
       <div style="background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px">
-        <div style="color:var(--gold);font-weight:700">Evidence tiers</div>
-        <div class="mut" style="font-size:13.5px;margin-top:4px">Say exactly as much as the evidence supports.</div>
-      </div>
-      <div style="background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px">
-        <div style="color:var(--gold);font-weight:700">Human gates</div>
-        <div class="mut" style="font-size:13.5px;margin-top:4px">Why stopping to ask a person beats autonomy.</div>
-      </div>
-      <div style="background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px">
-        <div style="color:var(--gold);font-weight:700">Verify without fooling yourself</div>
-        <div class="mut" style="font-size:13.5px;margin-top:4px">Reproduce, then check for leakage and weak baselines.</div>
-      </div>
-      <div style="background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px">
-        <div style="color:var(--gold);font-weight:700">Ethics &amp; data stewardship</div>
-        <div class="mut" style="font-size:13.5px;margin-top:4px">The duties that come before the science.</div>
-      </div>
-    </div>
-    <p class="reveal mut" style="max-width:680px;font-size:15px">
-      Every Cambium run also produces a per-run <strong>Learning Lab</strong>: the same active walkthrough,
-      generated for the exact thing you just built, so you leave understanding it, not just approving it.
-    </p>
-    <div class="reveal" style="margin-top:18px">
-      <a class="btn-primary" href="academy/index.html" style="display:inline-flex">🎓 Enter the Academy</a>
-      &nbsp;&nbsp;
-      <a class="btn-secondary" href="demo/learning_lab.html" style="display:inline-flex">▶ See a Learning Lab</a>
-    </div>
-  </div>
-</section>
-
-<!-- ── FOOTER ── -->
-<footer>
-  <div class="footer-inner">
-    <ul class="footer-links">
-      <li><a href="README.md">README</a></li>
-      <li><a href="docs/concepts/INSTITUTE.md">INSTITUTE.md</a></li>
-      <li><a href="docs/governance/AI_GOVERNANCE.md">AI Governance</a></li>
-      <li><a href="docs/concepts/ROLES.md">Roles</a></li>
-      <li><a href="docs/start-here/GETTING_STARTED.md">Getting Started</a></li>
-      <li><a href="docs/governance/OUTPUT_CONTRACT.md">Output Contract</a></li>
-      <li><a href="docs/concepts/FACULTY_ROSTER.md">Faculty Roster</a></li>
-      <li><a href="governance/GATES.md">Gate Ledger</a></li>
-      <li><a href="dashboard.html">Dashboard</a></li>
-      <li><a href="academy/index.html">Academy</a></li>
-      <li><a href="demo/tour.html">Tour</a></li>
-      <li><a href="LICENSE">MIT License</a></li>
-    </ul>
-    <p class="footer-note">
-      <strong>Cambium</strong> · MIT License ·
-      Built with <a href="https://claude.ai" style="color:var(--gold)">Claude</a> ·
-      <span style="color:var(--exec)">Human-in-the-loop at every gate.</span>
-    </p>
-  </div>
-</footer>
-
-<script>
-(function () {
-  "use strict";
-
-  /* IntersectionObserver — reveal elements as they scroll into view */
-  var revealClasses = [".reveal", ".reveal-left", ".reveal-right"];
-  var selector = revealClasses.join(", ");
-  var els = Array.prototype.slice.call(document.querySelectorAll(selector));
-
-  if (!("IntersectionObserver" in window)) {
-    /* Fallback: show everything immediately */
-    els.forEach(function (el) { el.classList.add("visible"); });
-    return;
-  }
-
-  var observer = new IntersectionObserver(
-    function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("visible");
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.12, rootMargin: "0px 0px -40px 0px" }
-  );
-
-  els.forEach(function (el) { observer.observe(el); });
-
-  /* Hero elements start visible (above the fold) */
-  var heroEls = Array.prototype.slice.call(
-    document.querySelectorAll("#hero .reveal")
-  );
-  heroEls.forEach(function (el) {
-    el.classList.add("visible");
-  });
-})();
-</script>
-</body>
-</html>
+        <div style="col

@@ -42,11 +42,11 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/IFC-UIDAHO/Cambium_AI"
-Documentation = "https://github.com/IFC-UIDAHO/Cambium_AI#readme"
-Repository = "https://github.com/IFC-UIDAHO/Cambium_AI"
-Issues = "https://github.com/IFC-UIDAHO/Cambium_AI/issues"
-Changelog = "https://github.com/IFC-UIDAHO/Cambium_AI/blob/main/CHANGELOG.md"
+Homepage = "https://github.com/pkjaslam/Cambium_AI"
+Documentation = "https://github.com/pkjaslam/Cambium_AI#readme"
+Repository = "https://github.com/pkjaslam/Cambium_AI"
+Issues = "https://github.com/pkjaslam/Cambium_AI/issues"
+Changelog = "https://github.com/pkjaslam/Cambium_AI/blob/main/CHANGELOG.md"
 
 [project.scripts]
 cambium = "tools.cambium_run:main"

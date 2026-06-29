@@ -60,7 +60,7 @@ scenes = [
     [("Governed by construction", 36, INK, True),
      ("evidence contract · CI fails on un-evidenced claims", 22, LIME, False)],
     [("Cambium", 54, EMER, True),
-     ("github.com/IFC-UIDAHO/Cambium_AI", 22, MUT, False)],
+     ("github.com/pkjaslam/Cambium_AI", 22, MUT, False)],
 ]
 
 frames = []

@@ -44,7 +44,7 @@ def doi_resolves(doi, timeout=8):
     doi = doi.strip().replace("https://doi.org/", "").replace("doi:", "").strip()
     url = "https://doi.org/" + doi
     try:
-        req = urllib.request.Request(url, method="HEAD", headers={"User-Agent": "Cambium (https://github.com/IFC-UIDAHO/Cambium_AI)"})
+        req = urllib.request.Request(url, method="HEAD", headers={"User-Agent": "Cambium (https://github.com/pkjaslam/Cambium_AI)"})
         with urllib.request.urlopen(req, timeout=timeout) as r:
             ok = 200 <= r.status < 400
             return {"check": "doi_resolves", "type": "external-source", "pass": ok,
@@ -119,15 +119,4 @@ def main(argv=None):
         r = number_matches(a.claimed, a.reproduced, a.rel_tol, a.abs_tol)
     elif a.cmd == "doi":
         r = doi_resolves(a.doi)
-    elif a.cmd == "registry":
-        out, (det, ext, mod, tot) = write_checks_md()
-        print(f"[checks] {det+ext}/{tot} grounded ({det} deterministic + {ext} external-source) · "
-              f"{mod}/{tot} model-judged -> {os.path.relpath(out, ROOT)}")
-        return 0
-    else:
-        ap.print_help(); return 2
-    print(json.dumps(r, ensure_ascii=False))
-    return 0 if r.get("pass") in (True, None) else 1
-
-if __name__ == "__main__":
-    sys.exit(main())
+    eli
