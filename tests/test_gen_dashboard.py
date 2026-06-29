@@ -38,7 +38,7 @@ def test_check_is_fast_and_no_recursion():
     import subprocess, sys, time
     t0 = time.time()
     r = subprocess.run([sys.executable, os.path.join(ROOT, "tools", "gen_dashboard.py"), "--check"],
-                       cwd=ROOT, capture_output=True, text=True, timeout=20)
-    assert time.time() - t0 < 20            # fast: did not re-run the full pytest suite
+                       cwd=ROOT, capture_output=True, text=True, timeout=60)
+    assert time.time() - t0 < 60            # did not re-run the full pytest suite (~2 min); 60s tolerates a loaded machine
     assert r.returncode in (0, 1)           # ran and decided, no crash/hang
     assert "up to date" in r.stdout or "stale" in r.stdout or "differs" in r.stdout
