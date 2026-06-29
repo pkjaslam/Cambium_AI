@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Learning Lab — what is AI full-stack development</title>
+<meta name="description" content="For developers new to AI. Work through it, do not just read it.">
+<style>
+:root{
+ --bg:#07231A; --panel:#0E3326; --panel2:#15402F; --ink:#F4F7F2; --mut:#8AA197;
+ --gold:#16C079; --gold2:#19C0A6; --line:#1F4D3B; --good:#16C079; --warn:#E0B24A; --bad:#FF6B5E;
+ --r:14px; --sh:0 10px 30px rgba(0,0,0,.28);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:radial-gradient(1200px 700px at 80% -10%,#0c3526 0,var(--bg) 55%);color:var(--ink);
+ font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.6;min-height:100vh}
+a{color:var(--gold2)}
+.mono{font-family:ui-monospace,"Cascadia Code",monospace}
+.app{display:grid;grid-template-columns:300px 1fr;min-height:100vh}
+/* sidebar */
+.side{background:linear-gradient(180deg,#0b2c20,#0a261c);border-right:1px solid var(--line);padding:20px 16px;position:sticky;top:0;height:100vh;overflow-y:auto}
+.brand{display:flex;align-items:center;gap:9px;font-weight:800;font-size:16px;color:#eafaf0}
+.brand .hex{color:var(--gold);font-size:19px}
+.brand small{display:block;color:var(--mut);font-weight:600;font-size:11px;letter-spacing:.04em;text-transform:uppercase;margin-top:2px}
+.ov{margin:16px 0 8px;background:rgba(22,192,121,.08);border:1px solid var(--line);border-radius:12px;padding:12px}
+.ov .bar{height:8px;border-radius:99px;background:#0a1f17;overflow:hidden;margin-top:8px}
+.ov .bar>span{display:block;height:100%;width:0;border-radius:99px;background:linear-gradient(90deg,var(--gold),var(--gold2));transition:width .6s cubic-bezier(.2,.8,.2,1)}
+.ov .pct{font-size:12px;color:var(--mut);display:flex;justify-content:space-between;margin-top:7px}
+.mod{margin-top:14px}
+.mod>h4{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut);margin:0 0 4px;display:flex;align-items:center;gap:7px}
+.mbadge{margin-left:auto;font-size:10px;padding:2px 7px;border-radius:99px;border:1px solid var(--line);color:var(--mut)}
+.mbadge.master{color:#06140e;background:var(--gold);border-color:var(--gold);font-weight:700}
+.mpills{display:flex;flex-wrap:wrap;gap:4px;margin:0 0 5px}
+.mpill{font-size:9px;padding:2px 7px;border-radius:99px;background:rgba(22,192,121,.07);border:1px solid var(--line);color:var(--mut);letter-spacing:.02em}
+.mpill.tier{background:rgba(25,192,166,.1);border-color:var(--gold2);color:var(--gold2)}
+.lnav{list-style:none;display:flex;flex-direction:column;gap:3px}
+.lnav li{padding:8px 10px;border-radius:9px;cursor:pointer;font-size:13.5px;color:#cfe4d9;display:flex;align-items:center;gap:9px;border:1px solid transparent;transition:.15s}
+.lnav li:hover{background:rgba(255,255,255,.03);border-color:var(--line)}
+.lnav li.active{background:rgba(22,192,121,.13);border-color:var(--gold);color:#eafaf0;font-weight:600}
+.lnav li .tick{width:16px;height:16px;border-radius:50%;border:1.5px solid var(--line);flex:0 0 auto;display:grid;place-items:center;font-size:10px;color:transparent}
+.lnav li.done .tick{background:var(--gold);border-color:var(--gold);color:#06140e}
+/* main */
+.main{padding:36px 40px 90px;max-width:880px}
+.crumb{color:var(--mut);font-size:12.5px;letter-spacing:.03em;text-transform:uppercase}
+h1.lt{font-size:30px;line-height:1.18;margin:6px 0 4px;letter-spacing:-.02em}
+.lsub{color:var(--mut);font-size:15px;margin-bottom:8px}
+.howto{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 26px}
+.howto span{font-size:11.5px;color:#bfe0d0;background:rgba(22,192,121,.08);border:1px solid var(--line);padding:4px 10px;border-radius:99px}
+.block{background:linear-gradient(180deg,var(--panel),#0c2c20);border:1px solid var(--line);border-radius:var(--r);padding:22px 24px;margin:0 0 20px;box-shadow:var(--sh)}
+.block .kicker{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold2);font-weight:700;display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.block h3{font-size:19px;margin:0 0 8px;letter-spacing:-.01em}
+.block p{margin:0 0 10px;color:#dcebe3}
+.block p:last-child{margin-bottom:0}
+.block .why{color:var(--mut);font-size:12.5px;font-style:italic;margin-top:8px}
+.tbl{width:100%;border-collapse:collapse;margin-top:6px;font-size:13.5px}
+.tbl th,.tbl td{border:1px solid var(--line);padding:8px 11px;text-align:left;vertical-align:top}
+.tbl th{background:rgba(255,255,255,.03);color:#bfe0d0;font-weight:600}
+/* MCQ predict */
+.choices{display:flex;flex-direction:column;gap:9px;margin-top:6px}
+.choice{text-align:left;background:#0c2920;border:1px solid var(--line);color:var(--ink);padding:12px 14px;border-radius:11px;cursor:pointer;font-size:14px;transition:.15s;display:flex;gap:10px;align-items:flex-start}
+.choice:hover{border-color:var(--gold2);background:#0f3327}
+.choice .ix{width:22px;height:22px;border-radius:6px;background:#0a1f17;border:1px solid var(--line);display:grid;place-items:center;font-size:12px;font-weight:700;flex:0 0 auto;color:var(--mut)}
+.choice.correct{border-color:var(--good);background:rgba(22,192,121,.13)}
+.choice.correct .ix{background:var(--good);color:#06140e;border-color:var(--good)}
+.choice.wrong{border-color:var(--bad);background:rgba(255,107,94,.1)}
+.choice.wrong .ix{background:var(--bad);color:#1a0b09;border-color:var(--bad)}
+.choice:disabled{cursor:default;opacity:.92}
+.fb{margin-top:12px;padding:12px 14px;border-radius:10px;font-size:13.5px;display:none}
+.fb.show{display:block}
+.fb.ok{background:rgba(22,192,121,.1);border:1px solid var(--good)}
+.fb.no{background:rgba(224,178,74,.1);border:1px solid var(--warn)}
+/* reveal / explain */
+textarea.in{width:100%;min-height:84px;background:#0a1f17;border:1px solid var(--line);border-radius:10px;color:var(--ink);
+ padding:12px 14px;font-size:14px;font-family:inherit;resize:vertical}
+textarea.in:focus{outline:none;border-color:var(--gold2)}
+.btn{background:var(--gold);color:#06140e;border:none;border-radius:10px;padding:10px 16px;font-weight:700;font-size:13.5px;cursor:pointer;transition:.15s}
+.btn:hover{filter:brightness(1.07)}
+.btn.ghost{background:transparent;color:var(--gold2);border:1px solid var(--line)}
+.btn.ghost:hover{border-color:var(--gold2)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}
+.model{margin-top:14px;padding:14px 16px;border-radius:10px;background:rgba(22,192,121,.07);border:1px dashed var(--line);display:none}
+.model.show{display:block}
+.model h5{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--gold2);margin-bottom:6px}
+.rate{display:flex;gap:8px;margin-top:12px}
+.rate button{flex:1;border:1px solid var(--line);background:#0c2920;color:#cfe4d9;border-radius:9px;padding:8px;font-size:12.5px;cursor:pointer}
+.rate button:hover{border-color:var(--gold2)}
+.rate button.sel{border-color:var(--gold);background:rgba(22,192,121,.14);color:#eafaf0}
+/* flashcards */
+.deck{display:flex;flex-direction:column;align-items:center;gap:8px}
+.card{width:100%;max-width:520px;height:200px;perspective:1200px;cursor:pointer}
+.card .inner{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+.card.flip .inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;border-radius:14px;border:1px solid var(--line);
+ display:grid;place-items:center;text-align:center;padding:24px;font-size:17px;background:linear-gradient(160deg,#10392a,#0c2c20)}
+.face.back{transform:rotateY(180deg);background:linear-gradient(160deg,#123c2c,#0e3325);font-size:15px;color:#dcebe3}
+.face .tag{position:absolute;top:12px;left:14px;font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--mut)}
+.deckbar{display:flex;justify-content:space-between;align-items:center;width:100%;max-width:520px;font-size:12.5px;color:var(--mut)}
+.card-due-note{font-size:11.5px;color:var(--gold2);background:rgba(25,192,166,.08);border:1px solid var(--line);border-radius:8px;padding:5px 10px;text-align:center;width:100%;max-width:520px}
+.spacing-banner{font-size:12px;color:var(--mut);background:rgba(22,192,121,.06);border:1px solid var(--line);border-radius:8px;padding:8px 12px;margin-bottom:8px;width:100%;max-width:520px;text-align:center}
+/* diagram */
+.diagram{position:relative}
+.diagram svg{width:100%;height:auto;display:block;background:#0a1f17;border-radius:12px;border:1px solid var(--line)}
+.node rect{fill:#103a2a;stroke:var(--line);stroke-width:1.5;rx:9;cursor:pointer;transition:.15s}
+.node:hover rect,.node.sel rect{fill:#16523a;stroke:var(--gold)}
+.node text{fill:#eafaf0;font-size:12px;font-weight:600;pointer-events:none}
+.edge{stroke:#2a6048;stroke-width:1.6;marker-end:url(#arr)}
+.ndesc{margin-top:12px;padding:12px 14px;border-radius:10px;background:#0c2920;border:1px solid var(--line);font-size:13.5px;min-height:44px;color:#dcebe3}
+.ndesc b{color:var(--gold2)}
+/* worked */
+ol.steps{margin:6px 0 0 18px;padding:0}
+ol.steps li{margin:0 0 7px;color:#dcebe3;font-size:14px}
+.hintbox{margin-top:10px}
+/* lesson footer */
+.lfoot{display:flex;justify-content:space-between;align-items:center;margin-top:26px;gap:12px;flex-wrap:wrap}
+.donebtn{background:var(--gold);color:#06140e;border:none;border-radius:10px;padding:11px 18px;font-weight:700;cursor:pointer}
+.donebtn.is-done{background:transparent;color:var(--gold);border:1px solid var(--gold)}
+.nav2{display:flex;gap:8px}
+/* quiz / mastery */
+.quizwrap .qitem{margin-bottom:16px}
+.quizwrap .qsource{font-size:11px;color:var(--mut);margin-bottom:4px;letter-spacing:.02em}
+.mastercard{text-align:center;padding:30px}
+.mastercard .big{font-size:40px}
+.scorepill{display:inline-block;font-weight:800;font-size:15px;padding:6px 16px;border-radius:99px;margin-top:8px}
+.scorepill.pass{background:var(--gold);color:#06140e}
+.scorepill.fail{background:rgba(224,178,74,.15);border:1px solid var(--warn);color:var(--warn)}
+/* go deeper resources */
+.go-deeper{margin-top:22px;padding:18px 20px;border-radius:12px;background:rgba(22,192,121,.05);border:1px solid var(--line)}
+.go-deeper h4{font-size:13px;font-weight:700;color:var(--gold2);margin-bottom:4px;letter-spacing:.03em;text-transform:uppercase}
+.go-deeper .ext-note{font-size:11.5px;color:var(--mut);font-style:italic;margin-bottom:10px}
+.go-deeper ul{list-style:none;display:flex;flex-direction:column;gap:8px}
+.go-deeper li{font-size:13px;color:#cfe4d9}
+.go-deeper li .res-why{font-size:11.5px;color:var(--mut);margin-top:2px}
+@media(max-width:840px){.app{grid-template-columns:1fr}.side{position:relative;height:auto;border-right:none;border-bottom:1px solid var(--line)}.main{padding:24px 18px 80px}}
+</style>
+</head>
+<body>
+<div class="app">
+ <aside class="side">
+  <div class="brand"><span class="hex">&#x2B22;</span><div>Cambium<small id="brandsub">Learning Lab</small></div></div>
+  <div class="ov">
+   <div style="font-size:12px;color:#bfe0d0;font-weight:600">Your progress</div>
+   <div class="bar"><span id="ovbar"></span></div>
+   <div class="pct"><span id="ovpct">0%</span><span id="ovmaster">0 mastered</span></div>
+  </div>
+  <nav id="nav"></nav>
+  <button class="btn ghost" style="width:100%;margin-top:16px;font-size:12px" onclick="resetProgress()">Reset my progress</button>
+ </aside>
+ <main class="main" id="main"></main>
+</div>
+<script id="lab-data" type="application/json">{"id": "ai-fullstack", "brand": "Learning Lab", "title": "Learning Lab — what is AI full-stack development", "subtitle": "For developers new to AI. Work through it, do not just read it.", "modules": [{"id": "stack", "title": "AI full-stack development", "summary": "An AI app is a normal web app with three new layers added: a model layer, a retrieval layer, and an orchestration layer. Picking a capable model still matters, but a lot of the real work, and the thing that makes one app better than another, is in retrieval and orchestration.", "lessons": [{"id": "big-idea", "title": "The big idea", "subtitle": "Why AI apps are not as foreign as they look", "blocks": [{"type": "concept", "title": "An AI app is a normal web app, plus three new layers", "html": "<p>If you already build web apps, you are most of the way there. An AI app has the same frontend, backend, and data layer you already know. What is new sits in three layers on top:<\/p><table class='tbl'><tr><th>New layer<\/th><th>What it does<\/th><\/tr><tr><td>Model<\/td><td>The AI engine that generates text or decisions<\/td><\/tr><tr><td>Retrieval (RAG)<\/td><td>Fetches your data and puts it in the prompt<\/td><\/tr><tr><td>Orchestration<\/td><td>Coordinates multi-step reasoning and tool calls<\/td><\/tr><\/table><p><b>Key insight:<\/b> a strong model matters, but much of the competitive advantage is in retrieval and orchestration, because those are where your unique data and logic live.<\/p>", "why": "Framing AI as an extension of what you know reduces fear and focuses effort on what actually matters."}, {"type": "predict", "q": "A company wants to build a chatbot that answers questions about their internal product docs. Where does the biggest engineering challenge sit?", "choices": ["Picking the right AI model API", "Getting the frontend to render nicely", "Retrieval: making sure the right docs reach the model at query time", "Deploying to the cloud"], "answer": 2, "explain": "Hosted models are increasingly interchangeable for many tasks (though picking a capable one still matters). A lot of the hard, valuable work is retrieval: converting docs to embeddings, storing them well, and pulling the right chunks at query time. Without it the model just makes things up."}, {"type": "reveal", "prompt": "In one sentence: what makes an AI app different from a normal web app?", "answer": "<p>A normal web app queries a database and returns stored data; an AI app queries a model and returns generated output, often after assembling context from a retrieval layer and coordinating steps via an orchestration layer.<\/p>"}]}, {"id": "seven-layers", "title": "The 7 layers", "subtitle": "A map of the full AI stack from frontend to infra", "blocks": [{"type": "concept", "title": "Seven layers, three of which are new to you", "html": "<p>Layers 1 and 2 (frontend and backend) you already know. Layers 3 through 7 are new.<\/p><table class='tbl'><tr><th>#<\/th><th>Layer<\/th><th>Tools<\/th><th>Key idea<\/th><\/tr><tr><td>1<\/td><td>Frontend/UX<\/td><td>React, Next.js, Vercel AI SDK<\/td><td>Streaming tokens word by word<\/td><\/tr><tr><td>2<\/td><td>Backend/API<\/td><td>FastAPI, Node/Hono, serverless<\/td><td>REST backend that calls a model instead of just a DB<\/td><\/tr><tr><td>3<\/td><td>Model/Inference<\/td><td>OpenAI, Anthropic, Ollama, vLLM<\/td><td>Hosted pay-per-token or self-hosted open models<\/td><\/tr><tr><td>4<\/td><td>Orchestration<\/td><td>LangGraph, LlamaIndex, CrewAI<\/td><td>ReAct loop: think, call a tool, observe, repeat<\/td><\/tr><tr><td>5<\/td><td>Retrieval/RAG<\/td><td>Pinecone, pgvector, Chroma<\/td><td>Embed your docs, retrieve relevant chunks, inject into prompt<\/td><\/tr><tr><td>6<\/td><td>Eval/Observability<\/td><td>LangSmith, Langfuse, Phoenix<\/td><td>Trace calls, score quality, watch cost and latency<\/td><\/tr><tr><td>7<\/td><td>Deployment/Infra<\/td><td>Docker, Modal, RunPod, clouds<\/td><td>GPU-aware hosting and serverless for model workloads<\/td><\/tr><\/table>", "why": "Having a named map lets you look up any tool or concept and immediately know where it fits."}, {"type": "diagram", "caption": "The AI full-stack: request flows top to bottom; layers are stacked below", "nodes": [{"id": "fe", "label": "1. Frontend", "x": 50, "y": 5, "desc": "React/Next.js with Vercel AI SDK. Renders streaming tokens as they arrive."}, {"id": "be", "label": "2. Backend/API", "x": 50, "y": 20, "desc": "FastAPI or Node/Hono. Normal REST, but it orchestrates AI calls."}, {"id": "orch", "label": "4. Orchestration", "x": 50, "y": 38, "desc": "LangGraph/LlamaIndex. Runs the ReAct loop: think, tool call, observe, repeat."}, {"id": "rag", "label": "5. Retrieval/RAG", "x": 20, "y": 57, "desc": "Vector DB (Pinecone/pgvector). Embeds docs, retrieves relevant chunks, injects into prompt."}, {"id": "mdl", "label": "3. Model/Inference", "x": 80, "y": 57, "desc": "OpenAI/Anthropic APIs or self-hosted via Ollama/vLLM. Billed per token."}, {"id": "obs", "label": "6. Observability", "x": 50, "y": 75, "desc": "LangSmith/Langfuse/Phoenix. Traces, quality scores, cost/latency dashboards."}, {"id": "inf", "label": "7. Infra/Deploy", "x": 50, "y": 90, "desc": "Docker, Modal, RunPod. GPU-aware serverless or cloud hosting."}], "edges": [["fe", "be"], ["be", "orch"], ["orch", "rag"], ["orch", "mdl"], ["orch", "obs"], ["obs", "inf"]]}, {"type": "predict", "q": "You want to run a small open-source LLM on your laptop for local testing. Which tool from the stack fits?", "choices": ["Pinecone", "Ollama", "LangSmith", "Vercel AI SDK"], "answer": 1, "explain": "Ollama is the standard tool for running open-source models locally. Pinecone is a vector database, LangSmith is for observability, and Vercel AI SDK handles the frontend streaming layer."}, {"type": "explain", "prompt": "Explain in your own words what 'inference' means in the AI stack and why it is separated from the other layers.", "model": "<p>'Inference' means running the model on an input to get an output. It is separated because models are computationally expensive and often run on specialized GPU hardware or remote APIs. By isolating inference into its own layer you can swap models, scale them independently, and control cost without touching the rest of your app.<\/p>"}]}, {"id": "request-flow", "title": "Request flow", "subtitle": "Follow a single user message through the entire stack", "blocks": [{"type": "concept", "title": "What happens when a user sends a message", "html": "<p>Every AI request travels through this chain:<\/p><p><b>User<\/b> types a message. <b>Frontend<\/b> sends it to the backend and opens a streaming connection. <b>Backend<\/b> hands off to the <b>orchestration layer<\/b>, which assembles context: it may run a <b>RAG retrieval<\/b> to pull relevant document chunks, and it may call external <b>tools<\/b> (functions your code provides). It then sends the assembled prompt to the <b>model<\/b>, optionally through a gateway that handles retries and routing. The model streams tokens back. Every step emits <b>traces<\/b> to your observability layer.<\/p><p><b>Cost and latency<\/b> come from: (1) how many tokens you use, (2) which model tier you pick, and (3) how many retries occur.<\/p>", "why": "Understanding the flow tells you exactly where to look when something is slow, expensive, or wrong."}, {"type": "predict", "q": "Your AI app is slow to respond. Looking at your traces you see the model call itself is fast, but there is a 3-second delay before it. Where is the bottleneck most likely?", "choices": ["The frontend streaming render", "The RAG retrieval or tool call in the orchestration layer", "The model inference hardware", "The Docker container startup"], "answer": 1, "explain": "If the model is fast but there is a delay before it, the bottleneck is in the orchestration layer: either the RAG vector search is slow, a tool call is taking time, or context assembly is expensive. Traces show you exactly which step."}, {"type": "reveal", "prompt": "What are the three main drivers of cost in an AI app?", "answer": "<p>Token usage (how much text goes in and comes out), model tier (cheap/fast models like GPT-4o-mini vs. expensive/powerful ones like Opus), and retries (failed calls that run the model more than once). Reducing any of these cuts your bill.<\/p>"}, {"type": "explain", "prompt": "Why does streaming matter to the user experience? What would happen without it?", "model": "<p>Without streaming, the user stares at a blank screen until the model finishes generating the entire response, which can take several seconds. With streaming, tokens appear word by word as the model generates them, so the experience feels instant and conversational. The Vercel AI SDK handles the plumbing to make this easy in React.<\/p>"}]}, {"id": "core-concepts", "title": "Core concepts", "subtitle": "Tokens, prompting, embeddings, RAG, tool-calling, and streaming", "blocks": [{"type": "concept", "title": "Six concepts every AI engineer must own", "html": "<p>These six ideas appear everywhere. Learn them once and everything else clicks into place.<\/p><table class='tbl'><tr><th>Concept<\/th><th>Plain-language definition<\/th><\/tr><tr><td>Tokens<\/td><td>The units models read and write. As a rule of thumb about 100 tokens is roughly 75 words, and it depends on the tokenizer. You are billed per token in and out.<\/td><\/tr><tr><td>Prompting<\/td><td>The text you send to the model. System prompt = role and rules. User prompt = the actual request.<\/td><\/tr><tr><td>Embeddings<\/td><td>Numbers (vectors) that capture the meaning of text. Similar meanings produce vectors close together in space.<\/td><\/tr><tr><td>RAG<\/td><td>Retrieval-Augmented Generation. Embed your docs, retrieve the relevant chunks, paste them into the prompt.<\/td><\/tr><tr><td>Tool/function calling<\/td><td>The model can call functions you define (search, calculator, API). This is what makes an agent actually act.<\/td><\/tr><tr><td>Streaming<\/td><td>Tokens arrive one by one and are rendered as they come, so responses feel instant.<\/td><\/tr><\/table>", "why": "These six concepts are the vocabulary of AI engineering. Every paper, doc, and job description uses them."}, {"type": "flashcards", "cards": [{"front": "What is a token?", "back": "The unit a model reads and writes. About 100 tokens is roughly 75 words (tokenizer-dependent). You are billed per input token and per output token."}, {"front": "What is the difference between a system prompt and a user prompt?", "back": "The system prompt sets the model's role and rules (e.g., 'You are a helpful assistant. Never reveal internal data.'). The user prompt is the actual request the user typed."}, {"front": "What is an embedding?", "back": "A list of numbers (a vector) that encodes the meaning of a piece of text. Texts with similar meanings produce vectors that are close together. This enables semantic search: find docs that mean the same thing, not just docs that share exact words."}, {"front": "What problem does RAG solve?", "back": "Models only know their training data. RAG (Retrieval-Augmented Generation) solves this by embedding your documents, storing them in a vector database, and retrieving the most relevant chunks at query time to inject into the prompt."}, {"front": "What is tool/function calling?", "back": "A feature where the model can request that your code run a specific function (e.g., search the web, query a database, call an API). Your code runs the function and returns the result to the model, which then continues reasoning."}, {"front": "What is streaming and why does it matter?", "back": "Streaming sends tokens to the client as they are generated rather than waiting for the full response. It makes AI responses feel fast and conversational. The Vercel AI SDK provides React hooks that handle this automatically."}]}, {"type": "predict", "q": "You embed the sentence 'The dog chased the cat' and the sentence 'A canine pursued a feline.' What do you expect?", "choices": ["The vectors will be completely different because the words are different", "The vectors will be close together because the meaning is the same", "Embeddings do not work on sentences, only single words", "The second sentence produces twice as many tokens so its vector is longer"], "answer": 1, "explain": "Embeddings capture meaning, not exact words. Both sentences describe the same event, so a good embedding model places their vectors close together in the vector space. This is what makes semantic search work."}, {"type": "predict", "q": "You have a model that can call tools. You give it a 'search_docs' tool. In the ReAct loop, what is the correct order?", "choices": ["Call search_docs, then think, then output the answer", "Think about what is needed, call search_docs, observe the result, think again, then answer", "Output an answer first, then verify with search_docs", "The model picks the tool randomly and the orchestration layer decides when to stop"], "answer": 1, "explain": "ReAct stands for Reason-Act. The loop is: think (what do I need?), act (call a tool), observe (read the result), then think again. The model keeps looping until it has enough to answer, then produces a final response."}, {"type": "explain", "prompt": "Explain to a junior developer in two sentences why prompt engineering matters even if the model is very smart.", "model": "<p>Even the best model can only work with what you give it. A poorly written system prompt, vague user prompt, or missing context will produce weak or wrong answers regardless of model quality. Prompt engineering is how you give the model the structure and context it needs to be reliable.<\/p>"}]}, {"id": "worked-rag", "title": "Worked example: chat with your documents", "subtitle": "Build a RAG app step by step, then make a change yourself", "blocks": [{"type": "concept", "title": "The 'chat with your documents' pattern", "html": "<p>This is the most common first AI project. A user asks a question; the app finds the relevant parts of your document library and gives the model just those parts so it can answer accurately. Here is the full pipeline:<\/p><ol><li>Load documents (PDFs, markdown files, web pages).<\/li><li>Split them into chunks (e.g., 500 tokens each with 50-token overlap).<\/li><li>Embed each chunk with an embedding model (e.g., OpenAI text-embedding-3-small).<\/li><li>Store the chunk text and its vector in a vector database (Chroma locally, Pinecone in production).<\/li><li>At query time: embed the user's question, search the vector DB for the top-k closest chunks.<\/li><li>Build the prompt: system prompt + retrieved chunks + user question.<\/li><li>Send to the model, stream the response back to the user.<\/li><\/ol>", "why": "This pattern appears in nearly every enterprise AI app. Master it once and you can ship real value immediately."}, {"type": "worked", "title": "Tracing a single query through the RAG pipeline", "steps": ["User types: 'What is our refund policy?' The frontend sends this to the backend.", "The backend calls the embedding model on the query. It gets back a vector like [0.12, -0.45, 0.88, ...].", "The vector DB does a similarity search and returns the top 3 chunks from your policy docs, each with their text.", "The orchestration layer assembles the prompt: system prompt + the 3 chunks labeled as context + the user's question.", "The assembled prompt goes to the model (e.g., GPT-4o). The model reads the context and writes an answer.", "The answer streams back token by token through the backend to the frontend, appearing word by word to the user.", "The full trace (query vector, retrieved chunks, prompt, model response, latency, cost) is logged to your observability tool."], "yourturn": {"prompt": "The user asks a question but the model's answer is wrong because it retrieved the wrong document chunks. Walk through two things you would change in the pipeline to fix this.", "hint": "Think about what controls which chunks get retrieved (embedding quality, chunk size, number of results returned) and what controls how the model uses them (the prompt structure).", "solution": "<p>Two good changes: (1) <b>Retrieval side<\/b> — try a better or domain-specific embedding model, adjust chunk size (smaller chunks are more precise, larger give more context), or increase the number of retrieved chunks (top-k) so the right one is more likely to be included. (2) <b>Prompt side<\/b> — add explicit instructions in the system prompt telling the model to rely only on the provided context and to say 'I do not know' if the answer is not there. This stops the model from hallucinating when the retrieval misses.<\/p>"}}, {"type": "predict", "q": "You notice your RAG chatbot answers correctly for some questions but hallucinates answers for others where the relevant doc exists. What is the most likely cause?", "choices": ["The model tier is too cheap", "The embedding model is not capturing meaning well enough, so the right chunks are not being retrieved", "You need more layers in the orchestration", "Streaming is turned off"], "answer": 1, "explain": "If the doc exists but the model does not use it, the retrieval step is failing: the embedding of the query is not close enough to the embedding of the right chunk. Switching to a better embedding model or improving chunk overlap often fixes this before you try upgrading the generation model."}, {"type": "explain", "prompt": "Explain why you split documents into chunks rather than embedding the whole document at once.", "model": "<p>Embedding an entire large document produces one vector that averages out all the meanings in it. When you search, that average vector may not match your specific query closely. Small chunks each capture one specific idea, so the similarity search can pinpoint exactly the passage that answers the user's question. Smaller, focused chunks also fit more easily into the model's context window alongside other chunks and the user's prompt.<\/p>"}]}], "quiz": [{"q": "Which layer in the AI stack solves the problem 'the model does not know my company's data'?", "choices": ["Orchestration (LangGraph/LlamaIndex)", "Retrieval/RAG (vector DB + embeddings)", "Model/Inference (OpenAI/Anthropic)", "Deployment/Infra (Docker/Modal)"], "answer": 1, "explain": "RAG (Retrieval-Augmented Generation) is the direct solution: embed your docs, store them, retrieve relevant chunks at query time, and inject them into the prompt. The model never needs to be retrained on your data."}, {"q": "What is the ReAct loop in orchestration?", "choices": ["React frontend component re-rendering when state changes", "A load-balancing strategy for model API retries", "The cycle of think, call a tool, observe the result, then think again", "A method for splitting documents into chunks"], "answer": 2, "explain": "ReAct (Reason-Act) is the core agent loop: the model reasons about what it needs, calls a tool (function), observes the result, and repeats until it has enough to produce a final answer. It is how agents do multi-step work."}, {"q": "You need a model for simple classification tasks (cheap, fast, high volume). Which tier do you pick?", "choices": ["Tier 3 (Opus-class) for maximum accuracy", "Tier 1 (Haiku/GPT-4o-mini) for low cost and speed", "Self-hosted vLLM because it is always cheaper", "Tier 2 (Sonnet/GPT-4o) as a safe middle ground"], "answer": 1, "explain": "Tier 1 models (Haiku, GPT-4o-mini) are designed for high-volume, low-complexity tasks. They are much cheaper and faster and are the right default for classification, summarization, and routing. Save Tier 3 for hard reasoning tasks."}, {"q": "Every call in your AI app is logged with the prompt, response, latency, and cost. Which layer is responsible for this?", "choices": ["Frontend/UX", "Model/Inference", "Evaluation/Observability (LangSmith, Langfuse, Phoenix)", "Retrieval/RAG"], "answer": 2, "explain": "The observability layer (LangSmith, Langfuse, Phoenix) traces every call end-to-end, records prompts and completions, measures latency and token cost, and lets you score output quality. Without it you cannot debug or improve your app."}, {"q": "A user's message appears word by word on screen as the model responds. What technique makes this work?", "choices": ["WebSockets polling the model every 100ms", "Streaming: the model sends tokens as it generates them and the frontend renders each one", "The frontend caches a previous similar response and types it out", "The backend pre-generates responses and queues them"], "answer": 1, "explain": "Streaming means the model sends each token as it is generated rather than waiting to finish. The frontend (using the Vercel AI SDK or a similar library) listens to this stream and renders tokens as they arrive, creating the familiar word-by-word effect."}], "resources": [{"title": "AI Engineer Roadmap", "org": "roadmap.sh", "url": "https://roadmap.sh/ai-engineer", "type": "guide", "why": "A visual, clickable map of the entire AI engineering field. Use it to orient yourself and find what to learn next."}, {"title": "Vercel AI SDK Documentation", "org": "Vercel", "url": "https://ai-sdk.dev/docs/introduction", "type": "guide", "why": "The most hands-on starting point for web developers. Shows you streaming, tool calling, and RAG with real React code."}, {"title": "AI Engineering Roadmap", "org": "freeCodeCamp", "url": "https://www.freecodecamp.org/news/ai-engineering-roadmap/", "type": "guide", "why": "A free, plain-language overview of the field. Good for reading end-to-end to fill in gaps before going deeper on any one layer."}]}]}</script>
+<script>
+const LAB = JSON.parse(document.getElementById('lab-data').textContent);
+document.getElementById('brandsub').textContent = LAB.brand || 'Learning Lab';
+const KEY = 'cambium-lab:' + (LAB.id||'lab');
+const HAS_LS = (()=>{try{localStorage.setItem('__t','1');localStorage.removeItem('__t');return true}catch(e){return false}})();
+let store = load();
+let cur = store.last || {m:0,l:0};
+function load(){ if(!HAS_LS) return {done:{},cards:{},mastery:{}}; try{return JSON.parse(localStorage.getItem(KEY))||{done:{},cards:{},mastery:{}}}catch(e){return {done:{},cards:{},mastery:{}}} }
+function save(){ store.last=cur; if(HAS_LS) try{localStorage.setItem(KEY,JSON.stringify(store))}catch(e){} }
+function lid(m,l){return m+':'+l}
+const esc=s=>String(s==null?'':s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+
+function totalLessons(){return LAB.modules.reduce((a,m)=>a+m.lessons.length,0)}
+function doneCount(){return Object.values(store.done).filter(Boolean).length}
+function masterCount(){return Object.values(store.mastery).filter(Boolean).length}
+
+function renderNav(){
+ const nav=document.getElementById('nav'); nav.innerHTML='';
+ LAB.modules.forEach((m,mi)=>{
+  const wrap=document.createElement('div'); wrap.className='mod';
+  const mastered=store.mastery[mi];
+  wrap.innerHTML=`<h4>${esc(m.title)}<span class="mbadge ${mastered?'master':''}">${mastered?'Mastered':'Module '+(mi+1)}</span></h4>`;
+  // Pillar + tier pills
+  if((m.pillars&&m.pillars.length)||m.tier){
+   const pills=document.createElement('div'); pills.className='mpills';
+   if(m.tier){const p=document.createElement('span');p.className='mpill tier';p.textContent=m.tier;pills.appendChild(p)}
+   (m.pillars||[]).forEach(pl=>{const p=document.createElement('span');p.className='mpill';p.textContent=pl;pills.appendChild(p)});
+   wrap.appendChild(pills);
+  }
+  const ul=document.createElement('ul'); ul.className='lnav';
+  m.lessons.forEach((les,li)=>{
+   const done=store.done[lid(mi,li)];
+   const li2=document.createElement('li');
+   li2.className=(mi===cur.m&&li===cur.l?'active ':'')+(done?'done':'');
+   li2.innerHTML=`<span class="tick">&#10003;</span>${esc(les.title)}`;
+   li2.onclick=()=>{cur={m:mi,l:li};save();renderAll()};
+   ul.appendChild(li2);
+  });
+  // mastery check row
+  const q=document.createElement('li');
+  q.className=(cur.m===mi&&cur.l==='quiz'?'active ':'')+(store.mastery[mi]?'done':'');
+  q.innerHTML=`<span class="tick">&#10003;</span><b style="color:var(--warn)">Mastery check</b>`;
+  q.onclick=()=>{cur={m:mi,l:'quiz'};save();renderAll()};
+  ul.appendChild(q);
+  wrap.appendChild(ul); nav.appendChild(wrap);
+ });
+ const pct=Math.round(100*doneCount()/Math.max(1,totalLessons()));
+ document.getElementById('ovbar').style.width=pct+'%';
+ document.getElementById('ovpct').textContent=pct+'% of lessons';
+ document.getElementById('ovmaster').textContent=masterCount()+' / '+LAB.modules.length+' modules mastered';
+}
+
+function el(tag,cls,html){const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e}
+
+// Flashcard spacing: box -> delay in ms
+const FC_BOX_DELAYS=[86400000,259200000,604800000,1382400000]; // 1d,3d,7d,16d
+function fcDue(box){return Date.now()+FC_BOX_DELAYS[Math.min(box,FC_BOX_DELAYS.length-1)];}
+function fcRelDate(ts){
+ const d=Math.round((ts-Date.now())/86400000);
+ if(d<=0)return 'today';
+ if(d===1)return 'tomorrow';
+ return 'in '+d+' days';
+}
+
+function renderBlock(b,mi,li,bi){
+ const card=el('section','block');
+ if(b.type==='concept'){
+  card.innerHTML=`<div class="kicker">&#128161; Concept</div>${b.title?`<h3>${esc(b.title)}</h3>`:''}<div>${b.html||''}</div>${b.why?`<div class="why">${esc(b.why)}</div>`:''}`;
+  return card;
+ }
+ if(b.type==='predict'){
+  card.innerHTML=`<div class="kicker">&#129504; Predict, then check &nbsp;<span style="color:var(--mut);font-weight:500;text-transform:none;letter-spacing:0">retrieval beats rereading</span></div><h3>${esc(b.q)}</h3>`;
+  const ch=el('div','choices');
+  const fb=el('div','fb');
+  b.choices.forEach((c,ci)=>{
+   const btn=el('button','choice',`<span class="ix">${String.fromCharCode(65+ci)}</span><span>${esc(c)}</span>`);
+   btn.onclick=()=>{
+    if(card.dataset.answered)return; card.dataset.answered='1';
+    [...ch.children].forEach(x=>x.disabled=true);
+    if(ci===b.answer){btn.classList.add('correct');fb.className='fb show ok';fb.innerHTML='<b>Correct.</b> '+esc(b.explain||'');}
+    else{btn.classList.add('wrong');ch.children[b.answer].classList.add('correct');fb.className='fb show no';fb.innerHTML='<b>Not quite.</b> '+esc(b.explain||'');}
+    markEngaged(mi,li,bi);
+   };
+   ch.appendChild(btn);
+  });
+  card.appendChild(ch); card.appendChild(fb); return card;
+ }
+ if(b.type==='reveal'){
+  card.innerHTML=`<div class="kicker">&#9997; Recall it first</div><h3>${esc(b.prompt)}</h3><p class="mut" style="font-size:13px">Write your answer before revealing. The effort of retrieving is what builds the memory.</p>`;
+  const ta=el('textarea','in'); ta.placeholder='Your answer...';
+  const row=el('div','row');
+  const rb=el('button','btn','Reveal answer');
+  const model=el('div','model',`<h5>A strong answer</h5><div>${b.answer||''}</div>`);
+  const rate=el('div','rate'); rate.style.display='none';
+  ['Missed it','Fuzzy','Nailed it'].forEach((t,k)=>{const x=el('button',null,t);x.onclick=()=>{[...rate.children].forEach(y=>y.classList.remove('sel'));x.classList.add('sel');markEngaged(mi,li,bi)};rate.appendChild(x)});
+  rb.onclick=()=>{model.classList.add('show');rate.style.display='flex';rb.style.display='none'};
+  row.appendChild(rb); card.appendChild(ta); card.appendChild(row); card.appendChild(model); card.appendChild(rate);
+  return card;
+ }
+ if(b.type==='flashcards'){
+  card.innerHTML=`<div class="kicker">&#127183; Retrieval practice now, spaced review across sessions &nbsp;<span style="color:var(--mut);font-weight:500;text-transform:none;letter-spacing:0">rate honestly</span></div>`;
+  const deck=el('div','deck');
+  const ckey=(ci)=>lid(mi,li)+':c'+ci;
+  let idx=0;
+  // Spacing banner
+  const banner=el('div','spacing-banner','&#128197; Spacing works across days — come back tomorrow to review what\'s due.');
+  deck.appendChild(banner);
+  const cardBox=el('div','card');
+  const bar=el('div','deckbar');
+  const dueNote=el('div','card-due-note'); dueNote.style.display='none';
+  const inner=el('div','inner');
+  inner.innerHTML=`<div class="face front"><span class="tag">Question</span><span class="ftext"></span></div><div class="face back"><span class="tag">Answer</span><span class="btext"></span></div>`;
+  cardBox.appendChild(inner);
+  cardBox.onclick=()=>cardBox.classList.toggle('flip');
+  const rate=el('div','rate');
+  function paint(){
+   const c=b.cards[idx];
+   cardBox.classList.remove('flip');
+   inner.querySelector('.ftext').textContent=c.front;
+   inner.querySelector('.btext').textContent=c.back;
+   const stored=store.cards[ckey(idx)]||{box:0,due:0};
+   const box=typeof stored==='number'?stored:stored.box||0;
+   const due=typeof stored==='number'?0:stored.due||0;
+   const isDue=due<=Date.now();
+   bar.innerHTML=`<span>Card ${idx+1} / ${b.cards.length}</span><span>${box>=3?'&#9733; remembered':'box '+(box+1)}</span>`;
+   if(!isDue&&due>0){
+    dueNote.textContent='Reviewed — due again '+fcRelDate(due)+'. Reviewing early is fine but counts less.';
+    dueNote.style.display='block';
+    cardBox.style.opacity='0.72';
+   } else {
+    dueNote.style.display='none';
+    cardBox.style.opacity='1';
+   }
+  }
+  ['Again','Good','Easy'].forEach((t,k)=>{const x=el('button',null,t);x.onclick=(e)=>{e.stopPropagation();
+    const k2=ckey(idx);
+    const stored=store.cards[k2]||{box:0,due:0};
+    let box=typeof stored==='number'?stored:stored.box||0;
+    box=k===0?0:Math.min(4,box+(k===2?2:1));
+    store.cards[k2]={box:box,due:fcDue(box)};
+    save();
+    markEngaged(mi,li,bi);
+    idx=(idx+1)%b.cards.length; paint();
+   };rate.appendChild(x)});
+  deck.appendChild(bar); deck.appendChild(cardBox); deck.appendChild(dueNote); deck.appendChild(rate); card.appendChild(deck);
+  paint(); return card;
+ }
+ if(b.type==='diagram'){
+  card.innerHTML=`<div class="kicker">&#128506; See how it fits &nbsp;<span style="color:var(--mut);font-weight:500;text-transform:none;letter-spacing:0">click a piece</span></div>${b.caption?`<h3>${esc(b.caption)}</h3>`:''}`;
+  const W=720,H=Math.max(220,(Math.max(...b.nodes.map(n=>n.y))/100*300)+120);
+  const ns='http://www.w3.org/2000/svg';
+  const svg=document.createElementNS(ns,'svg'); svg.setAttribute('viewBox',`0 0 ${W} ${H}`);
+  svg.innerHTML=`<defs><marker id="arr" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#2a6048"/></marker></defs>`;
+  const pos=n=>({x:n.x/100*(W-150)+75, y:n.y/100*(H-90)+45});
+  (b.edges||[]).forEach(([a,c])=>{const A=pos(b.nodes.find(n=>n.id===a)),B=pos(b.nodes.find(n=>n.id===c));
+    const ln=document.createElementNS(ns,'line');ln.setAttribute('x1',A.x);ln.setAttribute('y1',A.y);ln.setAttribute('x2',B.x);ln.setAttribute('y2',B.y);ln.setAttribute('class','edge');svg.appendChild(ln)});
+  const desc=el('div','ndesc','<b>Tip:</b> click any box above to learn what it does.');
+  b.nodes.forEach(n=>{const P=pos(n);const g=document.createElementNS(ns,'g');g.setAttribute('class','node');g.setAttribute('transform',`translate(${P.x-65},${P.y-22})`);
+    const r=document.createElementNS(ns,'rect');r.setAttribute('width',130);r.setAttribute('height',44);r.setAttribute('rx',9);
+    const t=document.createElementNS(ns,'text');t.setAttribute('x',65);t.setAttribute('y',27);t.setAttribute('text-anchor','middle');t.textContent=n.label;
+    g.appendChild(r);g.appendChild(t);
+    g.onclick=()=>{[...svg.querySelectorAll('.node')].forEach(x=>x.classList.remove('sel'));g.classList.add('sel');desc.innerHTML=`<b>${esc(n.label)}.</b> ${esc(n.desc)}`;markEngaged(mi,li,bi)};
+    svg.appendChild(g)});
+  const wrap=el('div','diagram'); wrap.appendChild(svg); card.appendChild(wrap); card.appendChild(desc); return card;
+ }
+ if(b.type==='worked'){
+  card.innerHTML=`<div class="kicker">&#128221; Worked example, then your turn</div>${b.title?`<h3>${esc(b.title)}</h3>`:''}`;
+  const ol=el('ol','steps'); b.steps.forEach(s=>ol.appendChild(el('li',null,s))); card.appendChild(ol);
+  if(b.yourturn){
+   const yt=el('div','hintbox');
+   yt.innerHTML=`<div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--line)"><div class="kicker" style="color:var(--warn)">&#9654; Your turn</div><p>${esc(b.yourturn.prompt)}</p></div>`;
+   const row=el('div','row');
+   const hb=el('button','btn ghost','Show a hint');
+   const sb=el('button','btn ghost','Show the solution');
+   const hint=el('div','model',`<h5>Hint</h5><div>${esc(b.yourturn.hint||'')}</div>`);
+   const sol=el('div','model',`<h5>One good solution</h5><div>${b.yourturn.solution||''}</div>`);
+   hb.onclick=()=>{hint.classList.add('show');markEngaged(mi,li,bi)};
+   sb.onclick=()=>{sol.classList.add('show');markEngaged(mi,li,bi)};
+   row.appendChild(hb);row.appendChild(sb); yt.appendChild(row); yt.appendChild(hint); yt.appendChild(sol); card.appendChild(yt);
+  }
+  return card;
+ }
+ if(b.type==='explain'){
+  card.innerHTML=`<div class="kicker">&#127891; Explain it back &nbsp;<span style="color:var(--mut);font-weight:500;text-transform:none;letter-spacing:0">the Feynman test</span></div><h3>${esc(b.prompt)}</h3><p class="mut" style="font-size:13px">Teach it to an imaginary colleague in your own words. If you can't, you've found the gap, which is the point.</p>`;
+  const ta=el('textarea','in'); ta.placeholder='In my own words...';
+  const row=el('div','row'); const rb=el('button','btn','Compare with a model answer');
+  const model=el('div','model',`<h5>A model explanation</h5><div>${b.model||''}</div><div style="margin-top:10px;font-size:12.5px;color:var(--mut)">Did your version capture the key idea? If yes, you understand it. If not, reread the concept above and try again.</div>`);
+  rb.onclick=()=>{if(ta.value.trim().length<3){ta.focus();ta.style.borderColor='var(--warn)';return}model.classList.add('show');markEngaged(mi,li,bi)};
+  row.appendChild(rb); card.appendChild(ta); card.appendChild(row); card.appendChild(model); return card;
+ }
+ card.innerHTML=`<div>${esc(JSON.stringify(b))}</div>`; return card;
+}
+
+const engaged={}; // lessonKey -> Set of block indices engaged this session
+function markEngaged(mi,li,bi){
+ const k=lid(mi,li); engaged[k]=engaged[k]||new Set(); engaged[k].add(bi);
+ const need=requiredBlocks(mi,li);
+ const btn=document.getElementById('donebtn');
+ if(btn && engaged[k].size>=need.length){ btn.disabled=false; btn.classList.add('ready'); }
+}
+function requiredBlocks(mi,li){
+ const blocks=LAB.modules[mi].lessons[li].blocks||[];
+ const idx=[]; blocks.forEach((b,i)=>{if(['predict','reveal','flashcards','diagram','worked','explain'].includes(b.type))idx.push(i)});
+ return idx;
+}
+
+function renderLesson(mi,li){
+ const m=LAB.modules[mi], les=m.lessons[li];
+ const main=document.getElementById('main'); main.innerHTML='';
+ main.appendChild(el('div','crumb',esc(m.title)+' &middot; Lesson '+(li+1)+' of '+m.lessons.length));
+ main.appendChild(el('h1','lt',esc(les.title)));
+ if(les.subtitle)main.appendChild(el('div','lsub',esc(les.subtitle)));
+ if(li===0&&mi===0){
+  main.appendChild(el('div','howto','<span>&#129504; predict before you peek</span><span>&#127183; flip & rate cards</span><span>&#128506; click the diagram</span><span>&#9654; do the "your turn"</span><span>&#127891; explain it back</span>'));
+ }
+ (les.blocks||[]).forEach((b,bi)=>main.appendChild(renderBlock(b,mi,li,bi)));
+ // footer
+ const foot=el('div','lfoot');
+ const done=store.done[lid(mi,li)];
+ const db=el('button','donebtn'+(done?' is-done':''),done?'&#10003; Lesson complete':'Mark lesson complete');
+ db.id='donebtn'; if(!done && requiredBlocks(mi,li).length>0) db.disabled=true;
+ db.onclick=()=>{store.done[lid(mi,li)]=true;save();renderAll();goNext()};
+ const nav2=el('div','nav2');
+ if(li>0||mi>0){const p=el('button','btn ghost','&larr; Back');p.onclick=()=>{goPrev()};nav2.appendChild(p)}
+ const nx=el('button','btn ghost','Next &rarr;');nx.onclick=()=>goNext();nav2.appendChild(nx);
+ foot.appendChild(db); foot.appendChild(nav2); main.appendChild(foot);
+ window.scrollTo(0,0);
+}
+
+function buildCumulativeQuiz(mi){
+ // Collect current module questions
+ const cur_qs=(LAB.modules[mi].quiz||[]).map(q=>({...q,_src:LAB.modules[mi].title}));
+ // Collect 1-2 questions from each earlier completed module
+ const prior=[];
+ for(let i=0;i<mi;i++){
+  if(!store.mastery[i])continue;
+  const pqs=LAB.modules[i].quiz||[];
+  if(pqs.length===0)continue;
+  // pick up to 2: first and last (or just first if only one)
+  const picks=pqs.length===1?[pqs[0]]:[pqs[0],pqs[pqs.length-1]];
+  picks.forEach(q=>prior.push({...q,_src:LAB.modules[i].title}));
+ }
+ // Interleave: spread prior questions between current ones
+ const combined=[];
+ let pi=0;
+ cur_qs.forEach((q,i)=>{
+  combined.push(q);
+  // insert one prior question after every other current question
+  if(pi<prior.length&&(i%2===0)){combined.push(prior[pi]);pi++;}
+ });
+ // append any remaining prior questions
+ while(pi<prior.length){combined.push(prior[pi]);pi++;}
+ return combined;
+}
+
+function renderQuiz(mi){
+ const m=LAB.modules[mi]; const main=document.getElementById('main'); main.innerHTML='';
+ main.appendChild(el('div','crumb',esc(m.title)+' &middot; Mastery check'));
+ main.appendChild(el('h1','lt','Mastery check: '+esc(m.title)));
+ main.appendChild(el('div','lsub','Cumulative, closed-book check — best taken a day after the lessons.'));
+ const wrap=el('div','block quizwrap');
+ const qs=buildCumulativeQuiz(mi);
+ let answered=0, correct=0;
+ // Count how many are from current module for pass calculation
+ const curCount=(LAB.modules[mi].quiz||[]).length||qs.length;
+ qs.forEach((q,qi)=>{
+  const item=el('div','qitem');
+  const srcLabel=q._src&&q._src!==m.title?`<div class="qsource">From: ${esc(q._src)}</div>`:'';
+  item.innerHTML=`${srcLabel}<h3 style="font-size:16px">${qi+1}. ${esc(q.q)}</h3>`;
+  const ch=el('div','choices'); const fb=el('div','fb');
+  q.choices.forEach((c,ci)=>{
+   const btn=el('button','choice',`<span class="ix">${String.fromCharCode(65+ci)}</span><span>${esc(c)}</span>`);
+   btn.onclick=()=>{ if(item.dataset.a)return; item.dataset.a='1'; answered++;
+    [...ch.children].forEach(x=>x.disabled=true);
+    if(ci===q.answer){btn.classList.add('correct');correct++;fb.className='fb show ok';fb.innerHTML='<b>Correct.</b> '+esc(q.explain||'')}
+    else{btn.classList.add('wrong');ch.children[q.answer].classList.add('correct');fb.className='fb show no';fb.innerHTML='<b>Not quite.</b> '+esc(q.explain||'')}
+    if(answered===qs.length)finishQuiz(mi,correct,qs.length,m);
+   };
+   ch.appendChild(btn);
+  });
+  item.appendChild(ch); item.appendChild(fb); wrap.appendChild(item);
+ });
+ main.appendChild(wrap);
+ const res=el('div','block',''); res.id='quizres'; res.style.display='none'; main.appendChild(res);
+ window.scrollTo(0,0);
+}
+
+function renderGoDeeper(m){
+ const resources=m.resources;
+ if(!resources||!resources.length)return null;
+ const div=el('div','go-deeper');
+ div.innerHTML=`<h4>&#128279; Go deeper</h4><div class="ext-note">These are external resources we link to, not Cambium content.</div>`;
+ const ul=el('ul','');
+ resources.forEach(r=>{
+  const li=document.createElement('li');
+  li.innerHTML=`<a href="${esc(r.url)}" target="_blank" rel="noopener">${esc(r.title)}</a> — ${esc(r.org)} (${esc(r.type)})${r.why?`<div class="res-why">${esc(r.why)}</div>`:''}`;
+  ul.appendChild(li);
+ });
+ div.appendChild(ul);
+ return div;
+}
+
+function finishQuiz(mi,correct,total,m){
+ // Pass is based on proportion correct out of total questions answered
+ const pass=correct/total>=0.7; if(pass)store.mastery[mi]=true; save(); renderNav();
+ const res=document.getElementById('quizres'); res.style.display='block';
+ res.innerHTML=`<div class="mastercard"><div class="big">${pass?'&#127881;':'&#128218;'}</div>
+  <h3 style="margin-top:6px">${pass?'Module mastered':'Almost there'}</h3>
+  <div class="scorepill ${pass?'pass':'fail'}">${correct} / ${total} correct</div>
+  <p style="margin-top:14px;color:var(--mut)">${pass?'You can explain this module in your own words and answer cold. That is real understanding, not recognition.':'Revisit the lessons you found shaky, then retake. Mastery means 70% or better, cold.'}</p>
+  ${mi<LAB.modules.length-1?`<div class="row" style="justify-content:center"><button class="btn" onclick="cur={m:${mi+1},l:0};save();renderAll()">Start next module &rarr;</button></div>`:'<p style="margin-top:10px;color:var(--gold2)">That was the last module. Nicely done.</p>'}</div>`;
+ // Append Go Deeper panel
+ if(m&&m.resources&&m.resources.length){
+  const deeper=renderGoDeeper(m);
+  if(deeper)res.appendChild(deeper);
+ }
+ res.scrollIntoView({behavior:'smooth'});
+}
+
+function goNext(){
+ const m=LAB.modules[cur.m];
+ if(cur.l==='quiz'){ if(cur.m<LAB.modules.length-1){cur={m:cur.m+1,l:0}} else return; }
+ else if(cur.l+1<m.lessons.length){cur={m:cur.m,l:cur.l+1}}
+ else {cur={m:cur.m,l:'quiz'}}
+ save();renderAll();
+}
+function goPrev(){
+ if(cur.l==='quiz'){cur={m:cur.m,l:LAB.modules[cur.m].lessons.length-1}}
+ else if(cur.l>0){cur={m:cur.m,l:cur.l-1}}
+ else if(cur.m>0){cur={m:cur.m-1,l:'quiz'}}
+ save();renderAll();
+}
+function renderAll(){ renderNav(); if(cur.l==='quiz')renderQuiz(cur.m); else renderLesson(cur.m,cur.l); }
+function resetProgress(){ if(confirm('Clear all your progress on this lab?')){store={done:{},cards:{},mastery:{}};cur={m:0,l:0};save();renderAll()} }
+renderAll();
+</script>
+</body>
+</html>

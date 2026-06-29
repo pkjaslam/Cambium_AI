@@ -46,8 +46,31 @@ body {
   overflow-x: hidden;
 }
 
-/* ── Utility ── */
-.wrap        { max-width: 1160px; margin: 0 auto; padding: 0 22px; }
+/* skip link for accessibility */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--gold);
+  color: #11161f;
+  padding: 8px 16px;
+  z-index: 1000;
+  transition: top 0.3s;
+}
+.skip-link:focus {
+  top: 0;
+}
+/* focus indicators */
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
 .gold        { color: var(--gold); }
 .mut         { color: var(--mut); }
 .mono        { font-family: ui-monospace, "Cascadia Code", monospace; }
@@ -570,15 +593,16 @@ footer {
 </style>
 </head>
 <body>
+<a href="#hero" class="skip-link">Skip to main content</a>
 
 <!-- ── NAV ── -->
 <nav>
   <div class="nav-inner">
-    <a class="nav-brand" href="#hero">
-      <div class="nav-seal">🌲</div>
+    <a class="nav-brand" href="#hero" aria-label="Cambium home">
+      <div class="nav-seal" aria-hidden="true">🌲</div>
       Cambium
     </a>
-    <ul class="nav-links">
+    <ul class="nav-links" role="menubar" aria-label="Main navigation">
       <li><a href="#what">What it is</a></li>
       <li><a href="#lifecycle">Lifecycle</a></li>
       <li><a href="#councils">Org</a></li>
@@ -592,7 +616,7 @@ footer {
 </nav>
 
 <!-- ── HERO ── -->
-<section id="hero">
+<section id="hero" tabindex="-1">
   <div class="wrap">
     <div class="hero-seal reveal">🌲</div>
     <p class="hero-kicker reveal">Cambium</p>
@@ -1010,12 +1034,12 @@ footer {
   <div class="footer-inner">
     <ul class="footer-links">
       <li><a href="README.md">README</a></li>
-      <li><a href="INSTITUTE.md">INSTITUTE.md</a></li>
-      <li><a href="AI_GOVERNANCE.md">AI Governance</a></li>
-      <li><a href="ROLES.md">Roles</a></li>
-      <li><a href="GETTING_STARTED.md">Getting Started</a></li>
-      <li><a href="OUTPUT_CONTRACT.md">Output Contract</a></li>
-      <li><a href="FACULTY_ROSTER.md">Faculty Roster</a></li>
+      <li><a href="docs/concepts/INSTITUTE.md">INSTITUTE.md</a></li>
+      <li><a href="docs/governance/AI_GOVERNANCE.md">AI Governance</a></li>
+      <li><a href="docs/concepts/ROLES.md">Roles</a></li>
+      <li><a href="docs/start-here/GETTING_STARTED.md">Getting Started</a></li>
+      <li><a href="docs/governance/OUTPUT_CONTRACT.md">Output Contract</a></li>
+      <li><a href="docs/concepts/FACULTY_ROSTER.md">Faculty Roster</a></li>
       <li><a href="governance/GATES.md">Gate Ledger</a></li>
       <li><a href="dashboard.html">Dashboard</a></li>
       <li><a href="academy/index.html">Academy</a></li>

@@ -153,5 +153,7 @@ PHILOSOPHY if any claim moved and runs tests/doctor; Janitor checks for stray fi
 `templates/CLOSEOUT_CHECKLIST.md`. **Then `python3 tools/closeout.py` MUST exit 0** — it fails close-out if a
 forward doc drifted behind the latest CHANGELOG. Close-out is not "done" until it passes.
 
+**The learn step is now enforced.** Every build or analysis run delivers a learning packet to the Director by default — a plain-language explainer, glossary, flashcards, and a short quiz written to `agent_outputs/learning_packet.md` and presented in chat, not just filed. The full interactive Learning Lab (tools/gen_learning_lab.py) is always offered as the next step. `tools/learning_delivery.py` is the deterministic check that makes this non-skippable: close-out fails if no filled learning packet or lab was delivered to the Director during the run.
+
 Then show the **final board** with every phase ✓ and a 3–5 line "what shipped" summary
 (`--board --phase <last>`), and in Cowork a final dashboard u

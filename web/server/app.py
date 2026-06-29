@@ -19,9 +19,13 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import engine
 
+# CORS: default to localhost in dev; set CAMBIUM_CORS_ORIGINS=comma,separated,list for production
+_CORS_ORIGINS = os.environ.get("CAMBIUM_CORS_ORIGINS", "http://localhost:3000,http://localhost:5173,http://localhost:8000,http://127.0.0.1:8000")
+CORS_ORIGINS = [o.strip() for o in _CORS_ORIGINS.split(",") if o.strip()]
+
 app = FastAPI(title="Cambium Bridge API", version="1.0.0",
               description="Drive a real, gated Cambium institute run from a web front-end.")
-app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
+app.add_middleware(CORSMiddleware, allow_origins=CORS_ORIGINS, allow_methods=["*"], allow_headers=["*"])
 
 class RunReq(BaseModel):
     task: str

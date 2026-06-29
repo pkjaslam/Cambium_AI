@@ -20,10 +20,17 @@ and testable — strictly stronger than "the orchestrator promised to check."
 
 Exit: 0 ok · 1 blocked/failed.
 """
-import argparse, hashlib, json, os, subprocess, sys, time
+import argparse, hashlib, json, os, subprocess, sys, time, secrets
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TOKDIR = os.path.join(ROOT, "governance", "gate_tokens")
-SECRET = "cambium-gate-v1"  # not a security secret; a tamper-evidence salt so hand-edits invalidate the token
+
+# Salt: read from env for production; generate a random one at first import if missing.
+# In production, set CAMBIUM_GATE_SALT to a long random string and persist it.
+SECRET = os.environ.get("CAMBIUM_GATE_SALT")
+if not SECRET:
+    SECRET = secrets.token_hex(32)
+    sys.stderr.write("[gate_lock] WARNING: CAMBIUM_GATE_SALT not set. Using a one-time random salt. "
+                       "Set CAMBIUM_GATE_SALT in your environment for token persistence across restarts.\n")
 
 def _sha(*parts):
     return hashlib.sha256(("\x1f".join(str(p) for p in parts) + SECRET).encode()).hexdigest()

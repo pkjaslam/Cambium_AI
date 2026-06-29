@@ -105,13 +105,14 @@ function setDone(k){var el=bid(k);if(el){el.classList.remove('working');el.class
 function flow(cs){var f=document.getElementById('flow');[].slice.call(f.querySelectorAll('path')).forEach(function(p){p.remove();});var o=POS.Orchestration;
  cs.forEach(function(k){var x=POS[k][0],y=POS[k][1];var p=document.createElementNS('http://www.w3.org/2000/svg','path');p.setAttribute('d','M'+o[0]+' '+o[1]+' Q '+((o[0]+x)/2)+' '+(((o[1]+y)/2)-60)+' '+x+' '+y);f.appendChild(p);});}
 function clearFlow(){var f=document.getElementById('flow');[].slice.call(f.querySelectorAll('path')).forEach(function(p){p.remove();});}
-function tick(who,fd,g){var t=document.getElementById('ticker');var d=document.createElement('div');d.className='tk';d.innerHTML='<div class="who '+(g||'')+'">'+who+'</div>'+(fd?'<div class="fd">'+fd+'</div>':'');t.appendChild(d);t.scrollTop=t.scrollHeight;}
+function tick(who,fd,g){var t=document.getElementById('ticker');var d=document.createElement('div');d.className='tk';d.innerHTML='<div class="who '+(g||'')+'">'+esc(who)+'</div>'+(fd?'<div class="fd">'+esc(fd)+'</div>':'');t.appendChild(d);t.scrollTop=t.scrollHeight;}
+function esc(s){var div=document.createElement('div');div.textContent=String(s);return div.innerHTML;}
 function show(id){['landing','campus','done'].forEach(function(s){document.getElementById(s).classList.toggle('on',s===id);});}
 
 var EX=["Write an NSF proposal on post-wildfire forest recovery","Design a camera-trap study for a wildlife corridor","Verify the results in this analysis","Write the quarterly progress report"];
 function chips(){var c=document.getElementById('chips');EX.forEach(function(x){var s=document.createElement('span');s.className='chip';s.textContent=x;s.onclick=function(){document.getElementById('req').value=x;};c.appendChild(s);});}
 
-async function enter(){var v=document.getElementById('req').value.trim()||EX[0];document.getElementById('reqshow').innerHTML='<span>request:</span> '+v;document.getElementById('ticker').innerHTML='';show('campus');var w=document.getElementById('world');w.classList.add('zoom');setTimeout(function(){w.classList.remove('zoom');},1400);
+async function enter(){var v=document.getElementById('req').value.trim()||EX[0];document.getElementById('reqshow').innerHTML='<span>request:</span> '+esc(v);document.getElementById('ticker').innerHTML='';show('campus');var w=document.getElementById('world');w.classList.add('zoom');setTimeout(function(){w.classList.remove('zoom');},1400);
  if(MODE==='offline'){return localSim(v);}
  try{var r=await fetch(API+'/api/run',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({task:v})});var j=await r.json();RUN=j.run_id;buildCampus(j.plan.active);openStream(j.run_id);}
  catch(e){MODE='offline';localSim(v);}}
@@ -132,8 +133,8 @@ function openGate(id,q,d){document.getElementById('gateId').textContent=id;docum
 async function decide(d){document.getElementById('scrim').classList.remove('on');
  if(MODE==='offline'){return localDecide(d);}
  try{await fetch(API+'/api/gate/'+RUN+'/decide',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({decision:d})});}catch(e){tick('connection','decide failed');}}
-function finish(sum,rej){var s=document.getElementById('summary');var gates=(sum.gates||[]).map(function(g){return g.gate+': '+g.decision;}).join(' · ')||'—';
- s.innerHTML='<div class="row"><span>Request</span><b>'+sum.task.slice(0,44)+(sum.task.length>44?'…':'')+'</b></div><div class="row"><span>Track</span><b>'+sum.kind+'</b></div><div class="row"><span>Councils mobilized</span><b>'+sum.councils+' of 11</b></div><div class="row"><span>Gates you decided</span><b>'+gates+'</b></div><div class="row"><span>Revisions</span><b>'+(sum.revises||0)+'</b></div>';
+function finish(sum,rej){var s=document.getElementById('summary');var gates=(sum.gates||[]).map(function(g){return esc(g.gate)+': '+esc(g.decision);}).join(' · ')||'—';
+ s.innerHTML='<div class="row"><span>Request</span><b>'+esc(sum.task.slice(0,44)+(sum.task.length>44?'…':''))+'</b></div><div class="row"><span>Track</span><b>'+esc(sum.kind)+'</b></div><div class="row"><span>Councils mobilized</span><b>'+esc(sum.councils)+' of 11</b></div><div class="row"><span>Gates you decided</span><b>'+gates+'</b></div><div class="row"><span>Revisions</span><b>'+esc(sum.revises||0)+'</b></div>';
  document.getElementById('doneH').textContent=rej?'Stopped at your gate.':(MODE==='offline'?"That's the plan.":'Delivered.');
  document.getElementById('doneTag').textContent=rej?'You rejected — the institute stopped exactly where you said.':(MODE==='offline'?'Local preview — no work ran. Start the bridge server to run it for real.':'The institute ran your request with a human decision at every gate.');
  show('done');burst();}

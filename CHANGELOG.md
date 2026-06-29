@@ -1,5 +1,24 @@
 # Changelog
 
+## 1.17.0 - 2026-06-28 — Teaching is now enforced, not optional (gate G-learn-enforce)
+
+A user ran Cambium, something got built, and no learning happened until they complained. The pieces existed
+(the teaching-assistant, the Academy, the lab generator) but nothing forced them to fire, so teaching was
+reactive. This makes it load-bearing.
+
+- **New `tools/learning_delivery.py`.** A deterministic check: a build or analysis run cannot close cleanly
+  without delivering a real learning artifact. It reads the run plan, decides if the run is a build/analysis
+  run, and requires either a filled `agent_outputs/learning_packet.md` or a generated lab. A stub still
+  counts as missing. Registered in the deterministic-checks registry and called from `closeout.py`, the same
+  pattern as the evidence and pace checks.
+- **New `templates/LEARNING_PACKET.md`.** The lighter enforced default that ships on every build/analysis
+  run: a plain explainer, a glossary, flashcards, and a short quiz. The full interactive Learning Lab is the
+  offered next step, not the minimum.
+- **Duty + contract updated.** The teaching-assistant must now produce the filled packet AND deliver it to
+  the Director in chat, never just file it (`agents/17` + `.claude/agents/17`, and PRESENTATION.md Act IV).
+- Proven live: a build run with no packet fails (exit 1), passes once delivered, a stub fails, a memo is
+  exempt. +26 tests. Honest limit: the check guarantees a packet is produced and flagged if missing; warm
+  in-chat delivery is enforced by duty, not by the checker.
 ## 1.16.0 - 2026-06-28 — Honest README + a README that keeps itself in sync (gate G-readme)
 
 The README now reflects the Academy work without overselling it, and it no longer drifts out of date by hand.

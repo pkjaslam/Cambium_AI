@@ -71,6 +71,20 @@ def main():
     print(CHECKLIST)
     if unref: print("  (advisory) tools not named in any doc: " + ", ".join(unref))
     print(f"  latest CHANGELOG date: {latest_changelog_date()} · ROADMAP last-updated: {doc_last_updated('docs/reference/ROADMAP.md')}")
+
+    # Learning delivery gate: check that build/analysis runs delivered a learning artifact.
+    ld_script = os.path.join(ROOT, "tools", "learning_delivery.py")
+    ld_result = subprocess.run(
+        [sys.executable, ld_script, "check", "--root", ROOT],
+        capture_output=True, text=True
+    )
+    print(ld_result.stdout.rstrip())
+    if ld_result.returncode != 0:
+        problems.append(
+            "learning not delivered — teaching is required on a build/analysis run "
+            "(run the teaching-assistant or fill templates/LEARNING_PACKET.md -> agent_outputs/learning_packet.md)"
+        )
+
     if problems:
         print("\n[closeout] DRIFT / FAILURES (close-out is NOT done):")
         for p in problems: print("  ✗ " + p)

@@ -933,7 +933,475 @@
     "foundation": "Pass the cold mastery check for this module.",
     "practitioner": "Produce the matching artifact in a real Learning Lab run (e.g. a gate record, a data inventory, a model info sheet)."
    }
+  },
+  {
+   "id": "grant",
+   "title": "Grant Writing with Cambium",
+   "summary": "Hands-on: from RFP to submitted proposal.",
+   "lessons": [
+    {
+     "id": "rfp",
+     "title": "Reading an RFP like an analyst",
+     "subtitle": "Extract requirements, criteria, and budget before you write.",
+     "blocks": [
+      {
+       "type": "concept",
+       "title": "The RFP anatomy",
+       "html": "<p>Every RFP has a hidden structure: <b>eligibility</b> (who can apply), <b>scope</b> (what they fund), <b>criteria</b> (how they score), <b>budget</b> (what they will pay), and <b>deadline</b> (when it is due). Cambium's RFP-Analyst extracts these automatically, but you must verify them.</p>",
+       "why": "Missing one eligibility rule kills a proposal faster than a weak idea."
+      },
+      {
+       "type": "flashcards",
+       "cards": [
+        {
+         "front": "Eligibility",
+         "back": "Who can apply. Institution type, career stage, prior awards."
+        },
+        {
+         "front": "Scope",
+         "back": "What the funder will actually pay for."
+        },
+        {
+         "front": "Criteria",
+         "back": "How proposals are scored. Usually innovation, feasibility, team, impact."
+        },
+        {
+         "front": "Budget ceiling",
+         "back": "The maximum amount you can request."
+        }
+       ]
+      },
+      {
+       "type": "worked",
+       "title": "Parse an RFP in 5 minutes",
+       "steps": [
+        "Open the RFP and search for 'eligible' — note every restriction.",
+        "Search for 'scope' or 'areas' — highlight the exact topics.",
+        "Find the evaluation criteria and their weights.",
+        "Note the budget ceiling and any cost-sharing requirements.",
+        "Put the deadline in your calendar with two reminders."
+       ],
+       "yourturn": {
+        "prompt": "You have an RFP open. What is the FIRST thing you should check before reading the rest?",
+        "hint": "If you are not eligible, nothing else matters.",
+        "solution": "<p>Eligibility. If your institution, career stage, or project type does not qualify, the rest of the RFP is irrelevant. Check eligibility first, every time.</p>"
+       }
+      }
+     ]
+    },
+    {
+     "id": "aims",
+     "title": "Writing Specific Aims",
+     "subtitle": "The single most important page of your proposal.",
+     "blocks": [
+      {
+       "type": "concept",
+       "title": "Aims are a promise, not a summary",
+       "html": "<p>The Specific Aims page is the only page every reviewer reads. It must answer: <b>What</b> (the gap), <b>Why</b> (the significance), and <b>How</b> (the approach) — in one page. Each aim must be specific, measurable, and feasible within the budget and timeline.</p>",
+       "why": "A vague aim ('understand climate change') kills a proposal. A specific aim ('quantify soil carbon loss under three tillage regimes') gets funded."
+      },
+      {
+       "type": "predict",
+       "q": "Which aim is stronger?",
+       "choices": [
+        "Study forest health.",
+        "Quantify post-fire tree mortality across 500 plots in the Northern Rockies using UAV imagery.",
+        "Understand climate impacts.",
+        "Do research on ecosystems."
+       ],
+       "answer": 1,
+       "explain": "It names the variable (mortality), the scale (500 plots), the location (Northern Rockies), and the method (UAV imagery). Reviewers can picture it."
+      },
+      {
+       "type": "explain",
+       "prompt": "Rewrite this aim to be specific: 'We will study water quality.'",
+       "model": "<p>Something like: 'We will measure dissolved nitrogen and phosphorus concentrations in 12 headwater streams monthly for two years, comparing agricultural, urban, and forested catchments to identify the dominant land-use driver of nutrient loading.' It names the variables, the sites, the frequency, and the comparison.</p>"
+      }
+     ]
+    }
+   ],
+   "quiz": [
+    {
+     "q": "What is the first thing to check in any RFP?",
+     "choices": [
+      "The budget ceiling",
+      "Eligibility",
+      "The review criteria",
+      "The deadline"
+     ],
+     "answer": 1,
+     "explain": "Eligibility first. If you do not qualify, nothing else matters."
+    },
+    {
+     "q": "A strong Specific Aims page answers:",
+     "choices": [
+      "What, Why, and How",
+      "Just What",
+      "The full budget",
+      "All references"
+     ],
+     "answer": 0,
+     "explain": "What (gap), Why (significance), How (approach)."
+    },
+    {
+     "q": "Which aim is more fundable?",
+     "choices": [
+      "Study forest health broadly",
+      "Quantify post-fire mortality across 500 plots using UAV imagery",
+      "Do research on trees",
+      "Understand ecosystems"
+     ],
+     "answer": 1,
+     "explain": "Specific, measurable, and feasible."
+    }
+   ],
+   "pillars": [
+    "Research integrity",
+    "Responsible-AI reasoning"
+   ],
+   "tier": "Practitioner",
+   "resources": [
+    {
+     "title": "Grant Writing for Scientists",
+     "org": "Nature Masterclasses",
+     "url": "https://www.nature.com/nature-masterclasses",
+     "type": "course",
+     "why": "Professional grant-writing training from the publisher."
+    }
+   ],
+   "badge": {
+    "foundation": "Pass the cold mastery check for this module.",
+    "practitioner": "Produce a real Specific Aims page or RFP analysis in a Cambium run."
+   }
+  },
+  {
+   "id": "data",
+   "title": "Data Stewardship Workshop",
+   "summary": "Hands-on: provenance, privacy, and reproducible data handling.",
+   "lessons": [
+    {
+     "id": "provenance",
+     "title": "Tracking where data came from",
+     "subtitle": "Every dataset needs a birth certificate.",
+     "blocks": [
+      {
+       "type": "concept",
+       "title": "The Data Provenance Checklist",
+       "html": "<p>Before you analyze any dataset, document: <b>Source</b> (who collected it), <b>Method</b> (how it was collected), <b>Consent</b> (what the subjects agreed to), <b>License</b> (what you are allowed to do with it), <b>Date</b> (when it was collected), and <b>Version</b> (which file you have). Cambium's Data-Steward agent generates this automatically.</p>",
+       "why": "Without provenance, you cannot trust the data, reproduce the analysis, or defend it in peer review."
+      },
+      {
+       "type": "worked",
+       "title": "Document a dataset in 5 minutes",
+       "steps": [
+        "Open the data file and note the filename, size, and date.",
+        "Find the source: a paper, a repository, a colleague, or your own collection.",
+        "Record the collection method: sensor, survey, experiment, simulation.",
+        "Check for a license or terms of use. If none, ask the owner.",
+        "Write a one-paragraph description and save it as a README."
+       ],
+       "yourturn": {
+        "prompt": "You receive a CSV file from a collaborator with no documentation. What do you do first?",
+        "hint": "You need two things before you can use it: where it came from, and whether you are allowed to.",
+        "solution": "<p>Email the collaborator asking: (1) how the data was collected, (2) what license it is under, and (3) whether there are any restrictions on use. Do not analyze until you have answers. Document everything in a README.</p>"
+       }
+      }
+     ]
+    },
+    {
+     "id": "pii",
+     "title": "Finding and handling PII",
+     "subtitle": "Protect people before you protect pixels.",
+     "blocks": [
+      {
+       "type": "concept",
+       "title": "PII is not just names and emails",
+       "html": "<p>Direct identifiers: name, address, phone, email, SSN, student ID. Quasi-identifiers: zip code, birth date, gender, ethnicity — combinations of these can re-identify individuals. Cambium's data-scan tool flags both. You must remove or pseudonymize direct identifiers before analysis, and assess re-identification risk from quasi-identifiers.</p>",
+       "why": "FERPA, GDPR, and IRB rules all require that you protect identifiable information. A leak can end a career."
+      },
+      {
+       "type": "predict",
+       "q": "Which field is most dangerous to leave in a dataset?",
+       "choices": [
+        "Height (in cm)",
+        "Student email address",
+        "Age (in years)",
+        "Test score"
+       ],
+       "answer": 1,
+       "explain": "Email is a direct identifier. It links the record to a real person instantly."
+      }
+     ]
+    }
+   ],
+   "quiz": [
+    {
+     "q": "What is the first thing to document about any dataset?",
+     "choices": [
+      "The mean value",
+      "The source and license",
+      "The file size",
+      "The color scheme"
+     ],
+     "answer": 1,
+     "explain": "Source and license determine whether you can use it and how."
+    },
+    {
+     "q": "A direct identifier is:",
+     "choices": [
+      "Age in years",
+      "Zip code",
+      "Email address",
+      "Gender"
+     ],
+     "answer": 2,
+     "explain": "Email directly identifies a person."
+    },
+    {
+     "q": "Before analyzing any dataset with human subjects, you should:",
+     "choices": [
+      "Start modeling immediately",
+      "Screen for PII and document provenance",
+      "Share it with collaborators",
+      "Delete it"
+     ],
+     "answer": 1,
+     "explain": "PII screening and provenance documentation are required before analysis."
+    }
+   ],
+   "pillars": [
+    "Research integrity",
+    "Open science"
+   ],
+   "tier": "Practitioner",
+   "resources": [
+    {
+     "title": "NIH Data Management and Sharing Policy",
+     "org": "NIH",
+     "url": "https://sharing.nih.gov/data-management-and-sharing-policy",
+     "type": "guide",
+     "why": "Federal standard for data stewardship."
+    }
+   ],
+   "badge": {
+    "foundation": "Pass the cold mastery check for this module.",
+    "practitioner": "Create a real data provenance record and PII screening log in a Cambium run."
+   }
+  },
+  {
+   "id": "repro",
+   "title": "Reproducibility in Practice",
+   "summary": "Make your analysis runnable by anyone, including future you.",
+   "lessons": [
+    {
+     "id": "env",
+     "title": "Environment reproducibility",
+     "subtitle": "Code that runs on your machine should run on theirs.",
+     "blocks": [
+      {
+       "type": "concept",
+       "title": "The reproducibility stack",
+       "html": "<p>Reproducible research has four layers: <b>Code</b> (version-controlled, commented), <b>Environment</b> (dependencies pinned), <b>Data</b> (provenance documented, available), <b>Compute</b> (hardware/OS noted, or containerized). Cambium's Research-Engineer agent checks all four and flags gaps.</p>",
+       "why": "A beautiful result that only runs on your laptop is not science. It is a demo."
+      },
+      {
+       "type": "worked",
+       "title": "Make a script reproducible in 10 minutes",
+       "steps": [
+        "Add a README with: what the script does, what data it needs, and how to run it.",
+        "List all dependencies with exact versions (pip freeze > requirements.txt).",
+        "Replace hardcoded paths with relative paths or command-line arguments.",
+        "Set a random seed so the output is deterministic.",
+        "Run it in a fresh environment and verify it produces the same result."
+       ],
+       "yourturn": {
+        "prompt": "Your collaborator says 'the script does not work on my machine.' What is the most likely cause?",
+        "hint": "Think about what differs between your machine and theirs.",
+        "solution": "<p>Most likely: missing dependencies, different versions, or hardcoded paths. The fix is a requirements.txt with pinned versions, and relative paths. Second most likely: a different OS or Python version. Document both.</p>"
+       }
+      }
+     ]
+    }
+   ],
+   "quiz": [
+    {
+     "q": "What makes research reproducible?",
+     "choices": [
+      "Pretty charts",
+      "Code, environment, data, and compute documented",
+      "A long paper",
+      "Famous authors"
+     ],
+     "answer": 1,
+     "explain": "All four layers must be documented."
+    },
+    {
+     "q": "The most common reproducibility failure is:",
+     "choices": [
+      "Wrong theory",
+      "Missing or mismatched dependencies",
+      "Bad grammar",
+      "Too short"
+     ],
+     "answer": 1,
+     "explain": "Dependency mismatches are the #1 cause of 'it works on my machine.'"
+    }
+   ],
+   "pillars": [
+    "Open science",
+    "Research integrity"
+   ],
+   "tier": "Practitioner",
+   "resources": [
+    {
+     "title": "Reproducible Research",
+     "org": "Inria / FUN-MOOC",
+     "url": "https://www.fun-mooc.fr/",
+     "type": "course",
+     "why": "Structured course on reproducible research practices."
+    }
+   ],
+   "badge": {
+    "foundation": "Pass the cold mastery check for this module.",
+    "practitioner": "Produce a reproducible analysis package (code + requirements + README) in a Cambium run."
+   }
+  },
+  {
+   "id": "custom",
+   "title": "Designing Custom Agents",
+   "summary": "Build agents that fit your specific research domain.",
+   "lessons": [
+    {
+     "id": "spec",
+     "title": "The Agent Specification",
+     "subtitle": "What every agent needs to be useful and safe.",
+     "blocks": [
+      {
+       "type": "concept",
+       "title": "An agent is a contract, not just a prompt",
+       "html": "<p>A Cambium agent has: <b>name</b> (unique, memorable), <b>description</b> (what it does), <b>model</b> (inherit, opus, sonnet, or haiku), <b>tools</b> (what it can call), <b>prompt</b> (the system instruction), <b>output contract</b> (severity + evidence tier), and <b>tests</b> (how you verify it works). The agent spec is a YAML frontmatter block in a markdown file. Every agent lives in <code>.claude/agents/</code>.</p>",
+       "why": "A vague agent ('help with science') fails. A specific agent ('review statistical assumptions in a methods section') succeeds."
+      },
+      {
+       "type": "worked",
+       "title": "Write a custom agent in 15 minutes",
+       "steps": [
+        "Pick a single, narrow task (e.g., 'check for ANOVA assumptions').",
+        "Write a 2-3 sentence description.",
+        "Choose the right model: opus for deep reasoning, sonnet for routine, haiku for quick checks.",
+        "Write the system prompt with clear instructions, examples, and the output contract.",
+        "Add a test: a sample input and the expected output structure.",
+        "Save as <code>.claude/agents/99-my-agent.md</code> and run <code>tools/check_agents.py</code>."
+       ],
+       "yourturn": {
+        "prompt": "Design an agent for a specific task in your field. What is its name, model, and one-sentence description?",
+        "hint": "The narrower the task, the better the agent.",
+        "solution": "<p>Example: 'soil-carbon-estimator' (sonnet) — 'Given a land-use map and soil sampling design, estimate total soil carbon stock and uncertainty using stratified random sampling.' It is specific, measurable, and uses a defined method.</p>"
+       }
+      }
+     ]
+    }
+   ],
+   "quiz": [
+    {
+     "q": "A good agent specification includes:",
+     "choices": [
+      "Just a name",
+      "Name, description, model, tools, prompt, output contract, and tests",
+      "A long essay",
+      "Only the prompt"
+     ],
+     "answer": 1,
+     "explain": "All seven fields are needed for a reliable, testable agent."
+    }
+   ],
+   "pillars": [
+    "Responsible-AI reasoning"
+   ],
+   "tier": "Expert",
+   "resources": [
+    {
+     "title": "Agent Specification Guide",
+     "org": "Cambium",
+     "url": "docs/concepts/ROLES.md",
+     "type": "guide",
+     "why": "The canonical reference for Cambium agent authoring."
+    }
+   ],
+   "badge": {
+    "foundation": "Pass the cold mastery check for this module.",
+    "practitioner": "Write a custom agent spec and test it with check_agents.py.",
+    "expert": "Teach someone else to write an agent, then review their spec for completeness."
+   }
+  },
+  {
+   "id": "teach",
+   "title": "Teaching Research with Cambium",
+   "summary": "Use Cambium as a teaching tool for research methods courses.",
+   "lessons": [
+    {
+     "id": "classroom",
+     "title": "Cambium in the Classroom",
+     "subtitle": "How to use the institute as a teaching assistant.",
+     "blocks": [
+      {
+       "type": "concept",
+       "title": "Cambium as a teaching tool",
+       "html": "<p>Cambium is not just for research — it is a platform for teaching research. Students can run a proposal, see the verification process, and learn why gates matter. The Academy provides the theory; the institute provides the practice. Use <code>/cambium-mode solo</code> for quick exercises, and full runs for capstone projects.</p>",
+       "why": "Students learn research integrity by doing it, not by reading about it."
+      },
+      {
+       "type": "worked",
+       "title": "Design a research-methods assignment",
+       "steps": [
+        "Choose a learning objective (e.g., 'write a falsifiable hypothesis').",
+        "Pick a Cambium mode: solo for quick practice, full run for deep learning.",
+        "Set the gate as the grading checkpoint: students must explain their decision.",
+        "Use the Learning Lab output as the deliverable.",
+        "Grade on decision quality, not just output quality."
+       ],
+       "yourturn": {
+        "prompt": "Design one assignment where students use Cambium to learn a research skill. What is the skill, and where is the gate?",
+        "hint": "The gate is where the learning happens.",
+        "solution": "<p>Example: 'Design a study to test X.' Students run Cambium to generate a design, then at Gate G2 (design approval) they must write a 200-word justification for their chosen approach. Grade them on the rigor of their justification, not the elegance of the design.</p>"
+       }
+      }
+     ]
+    }
+   ],
+   "quiz": [
+    {
+     "q": "The best place to assess student learning in Cambium is:",
+     "choices": [
+      "The final output",
+      "The gate decision with justification",
+      "The number of agents used",
+      "The speed of completion"
+     ],
+     "answer": 1,
+     "explain": "The gate decision reveals whether the student understood the trade-offs."
+    }
+   ],
+   "pillars": [
+    "Research integrity",
+    "Responsible-AI reasoning"
+   ],
+   "tier": "Expert",
+   "resources": [
+    {
+     "title": "Teaching Research Integrity",
+     "org": "ORI",
+     "url": "https://ori.hhs.gov/",
+     "type": "guide",
+     "why": "Federal guidance on teaching responsible conduct of research."
+    }
+   ],
+   "badge": {
+    "foundation": "Pass the cold mastery check for this module.",
+    "practitioner": "Run a Cambium-based assignment with at least 3 students.",
+    "expert": "Publish or present your Cambium teaching methodology."
+   }
   }
  ],
- "tiers_note": "Foundation = these courses. Practitioner = earn it on a real run in the Learning Lab. Expert = teach it back and verify someone else's work."
+ "tiers_note": "Foundation = conceptual understanding. Practitioner = hands-on skill with real artifacts. Expert = teach others and design new systems."
 }

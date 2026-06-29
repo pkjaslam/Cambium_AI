@@ -5,7 +5,7 @@
 <br>
 
 <a href="https://github.com/IFC-UIDAHO/Cambium_AI/actions"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/IFC-UIDAHO/Cambium_AI/validate.yml?style=flat-square&label=CI&color=16C079"></a>
-<a href="CHANGELOG.md"><img alt="Version" src="https://img.shields.io/badge/version-1.16.0-16C079?style=flat-square"></a>
+<a href="CHANGELOG.md"><img alt="Version" src="https://img.shields.io/badge/version-1.17.0-16C079?style=flat-square"></a>
 <img alt="Agents" src="https://img.shields.io/badge/agents-46-16C079?style=flat-square">
 <img alt="Human gates" src="https://img.shields.io/badge/human_gates-8-0E8E5B?style=flat-square">
 <img alt="Doctor grade" src="https://img.shields.io/badge/doctor%20--grade-A-16C079?style=flat-square">
@@ -147,7 +147,7 @@ We hold ourselves to the same standard. We graded Cambium against the field's te
 ## What's in the box
 
 <!-- CAMBIUM:STATS -->
-25 skills, 46 tools, 6 MCP tools, 18 templates, and a set of worked examples. All field-agnostic, all runnable.
+25 skills, 47 tools, 6 MCP tools, 19 templates, and a set of worked examples. All field-agnostic, all runnable.
 <!-- /CAMBIUM:STATS -->
 
 - **Skills** are the verbs: `/cambium`, `rfp-intake`, `proposal`, `run-lab`, `verification`, `reporting`, `budget`, `statistics`, `citations`, `data-management`, `reproducibility`, `research-ethics`, and more. If a task needs expertise that isn't there yet, the skill-provisioner grows it on the spot.
@@ -207,7 +207,7 @@ Soon: actually run the v1 enforcement study, the powered, human-judged version. 
 ### Recent updates
 
 <!-- CAMBIUM:WHATSNEW -->
+- **1.17.0**: Teaching is now enforced, not optional (gate G-learn-enforce)
 - **1.16.0**: Honest README + a README that keeps itself in sync (gate G-readme)
 - **1.15.0**: Academy upgraded the Cambium way (gates G-plan, G-build)
-- **1.14.0**: Cambium Academy + interactive Learning Lab (gate G-learn)
 <!-- /CAMBIUM:WHATSNEW -->
