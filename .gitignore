@@ -48,3 +48,6 @@ web/frontend-r3f/node_modules/
 
 # local scratch moved out of the public tree (Director cleanup 2026-06-28)
 cambium_temp/
+
+# in-house semantic recall index cache (memory_recall.py; never commit)
+.cambium_memory/

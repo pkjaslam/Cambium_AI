@@ -1,5 +1,27 @@
 # Changelog
 
+## 1.19.0 - 2026-06-29 - We asked whether to adopt MemPalace, and built our own instead (gate G-fit)
+
+The Director asked whether to integrate MemPalace, an external memory-palace tool (a local MCP server over a
+ChromaDB vector store). Run the Cambium way, Scouts plus Verification plus Faculty plus Governance reviewed
+it, and the gate decision was no. MemPalace is about three months old with 875+ open issues, its headline
+benchmarks were publicly contested and walked back, and it stores conversation text verbatim, which can index
+pasted secrets. But the gap it pointed at was real: Cambium could not search its own past findings. So we
+adopted the capability, not the dependency.
+
+- **New `tools/memory_recall.py`.** A dependency-light semantic-recall layer that indexes only Cambium's
+  already-committed curated records (the findings ledger, GATES.md, the contribution ledger, agent notes,
+  docs) and ranks them with a pure-stdlib BM25 scorer. An optional local-embedding rerank engages only if
+  sentence-transformers is installed, with a graceful fallback otherwise. Every result carries provenance:
+  source file, line, and a snippet.
+- Because it indexes only curated, committed records and never raw transcripts, there is no verbatim-secret
+  risk. The index cache lives at `.cambium_memory/` and is gitignored, never committed.
+- **New `skills/memory-recall/SKILL.md`** tells agents, the record-keeper especially, to query past findings
+  before starting related work. +9 tests.
+- Honest status: the code is complete and verified by inspection; the live recall run was deferred to a clean
+  machine because the build sandbox's filesystem mount blocked execution. Reproduce with
+  `python3 tools/memory_recall.py index` then `python3 tools/memory_recall.py query "..."`.
+
 ## 1.18.0 - 2026-06-29 — Three outside ideas, integrated honestly (gates G-integrate, G-build)
 
 We took a Loop Engineering paper, Meta's V-JEPA, and Google's Open Knowledge Format and asked, the Cambium
