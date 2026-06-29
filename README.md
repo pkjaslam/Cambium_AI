@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/logo_page.png" alt="Cambium, a responsible-AI research institute. Use AI to expand scientific capacity and keep human judgment responsible for validity, ethics, and decisions." width="880">
+<img src="assets/hero.svg" alt="Cambium, a responsible-AI research institute. Use AI to expand scientific capacity and keep human judgment responsible for validity, ethics, and decisions." width="880">
 
 <br>
 
@@ -47,7 +47,7 @@ Under the hood it's a Claude Code and Cowork plugin with an MCP server. It works
 When a run starts, the institute comes to life in the chat. Agents wake up, do their piece, and report back. Then the whole thing pauses at a gate and waits for you.
 
 <div align="center">
-<img src="assets/run_board.gif" alt="The Cambium run board. Agents move from queued to working to done with one-line findings, and an Approve, Revise, or Reject card appears between phases." width="760">
+<img src="assets/run_board.svg" alt="The Cambium run board. Agents move from queued to working to done with one-line findings, and an Approve, Revise, or Reject card appears between phases." width="760">
 </div>
 
 <div align="center">
