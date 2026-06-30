@@ -54,5 +54,12 @@
     "built": "A TaMPER record + Four-Pillars self-check, a FAIR data-package descriptor, and a Vandalizer handoff schema",
     "note": "tamper_record.py, fair_descriptor.py, rules_handoff.py - speaks the RA community's language",
     "status": "adopted"
+  },
+  {
+    "source": "Microsoft Presidio",
+    "meta": "MIT, optional and heavy",
+    "built": "A local PII screener with a stdlib regex fallback",
+    "note": "pii_screen.py - Presidio if installed, else regex, no raw PII echoed",
+    "status": "adopted"
   }
 ]

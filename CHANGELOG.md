@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.26.0 - 2026-06-30 - Local PII screening (AI4RA Security pillar)
+
+Their first pillar is Security: research administration handles confidential and personally identifiable
+information. Added a local PII screener so sensitive data is flagged before a document is handled or shared.
+
+- **New `tools/pii_screen.py`.** Screens text for likely PII and reports the entity type, character span,
+  confidence, and a masked snippet. Uses Microsoft Presidio if installed (rich, multi-entity), otherwise a
+  stdlib regex screener: email, US phone, US SSN, credit card (Luhn-checked), and IP address. Supports a
+  `--redact` mode that writes a cleaned copy.
+- **Security-critical invariant, tested:** the report and the redacted copy never echo the raw PII value.
+- **Honest framing:** it is a screen, not a guarantee. It does not promise to catch everything, and a human
+  must review before any document is shared.
+- **`requirements-ai4ra.txt`** gains the optional, heavy `presidio-analyzer` (plus a spaCy model). Cambium stays
+  stdlib-first: the regex fallback runs with zero new dependencies.
+- **Tests:** `tests/test_pii_screen.py` (14 tests, run green in the sandbox), including the no-raw-leak invariant.
+
 ## 1.25.0 - 2026-06-30 - AI4RA alignment: speak the research-administration community's language (gate G1)
 
 Scoped against AI4RA's published framework (NSF award 2427549): their three objectives (FAIR open data,

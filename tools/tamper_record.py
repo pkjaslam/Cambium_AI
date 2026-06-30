@@ -173,7 +173,8 @@ def build_record(root: str, title: str, model_override: str = "") -> dict:
         "security": {
             "status": "addressed by design",
             "mechanism": "Local-first writes via cambium_io.data_home; stdlib-first tools make no "
-                         "cloud calls. Model hosting is the operator's choice (see TaMPER M).",
+                         "cloud calls; tools/pii_screen.py flags sensitive data before it is shared. "
+                         "Model hosting is the operator's choice (see TaMPER M).",
         },
         "accuracy": {
             "status": "enforced as a post-hoc check",

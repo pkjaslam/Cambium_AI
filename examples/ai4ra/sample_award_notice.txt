@@ -1,0 +1,18 @@
+ILLUSTRATIVE SAMPLE. All names and numbers below are fake, for demonstration only.
+
+NOTICE OF AWARD
+
+Recipient: Northern Plains State University
+Principal Investigator: Dr. Jordan Avery
+PI email: jordan.avery@example.edu
+PI phone: (208) 555-0147
+Department contact SSN on file: 123-45-6789
+
+Award number: NPSU-2026-0417
+Total award: $498,750 over 36 months
+Indirect (F&A) rate applied: 0.52
+
+Payment will be issued to account routing through host 192.168.10.24.
+A backup p-card on file ends in 4111 1111 1111 1111.
+
+Questions: contact the Office of Sponsored Programs at osp@example.edu.

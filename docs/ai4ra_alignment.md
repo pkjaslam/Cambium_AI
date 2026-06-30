@@ -22,7 +22,7 @@ which is AI4RA's own Objective 2.
 
 | Pillar | Mechanism in Cambium | Status |
 |---|---|---|
-| Security | Local-first writes via `cambium_io.data_home`; stdlib-first tools make no cloud calls; model hosting is the operator's choice | Addressed by design |
+| Security | Local-first writes via `cambium_io.data_home`; stdlib-first tools make no cloud calls; model hosting is the operator's choice; `pii_screen.py` flags personal and sensitive data (Presidio if installed, else a stdlib regex screener) | Addressed by design |
 | Accuracy | Evidence contract (Proved / Code-verified / Asserted / Open) plus `finding_audit.py` flag any claim beyond its tier | Enforced as a post-hoc check |
 | Reproducibility | Deterministic stdlib tools, a test suite, pinned optional extras (`requirements-ai4ra.txt`) | Supported |
 | Flexibility | `tamper_record.py --format json`, `ai_disclosure.py --format json`, `fair_descriptor.py`, `okf_export.py`, the `rules_handoff` schema | Supported |
@@ -44,6 +44,8 @@ which is AI4RA's own Objective 2.
 - `tools/rules_handoff.py` and `examples/ai4ra/vandalizer_handoff.schema.json` - a validated handoff so an
   extractor's solicitation rules feed `budget_review.py` directly.
 - `tools/ai_disclosure.py --format json` - a schema-aligned AI-use disclosure export.
+- `tools/pii_screen.py` - a local PII screener (Presidio if installed, else a stdlib regex screener) that
+  flags personal and sensitive data before a document is handled or shared, and never echoes the raw value.
 
 All four adopted libraries (jsonschema, frictionless, prov, pip-tools) are optional. Each tool runs and
 produces a useful result without them, and reports which path it used.
