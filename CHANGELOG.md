@@ -1,5 +1,40 @@
 # Changelog
 
+## 1.28.0 - 2026-06-30 - UI/UX skill deepened from the best open design skills
+
+Folded the durable, open ideas from the top UI/UX agent-skill repositories into `skills/ui-ux-design`, with
+credit and no code copied.
+
+- **DTCG design tokens.** The skill now recommends the Design Tokens Community Group JSON format so tokens
+  are portable across Figma, Style Dictionary, and code, not hand-copied. (Idea from ux-ui-agent-skills.)
+- **Design-system presets.** Start from an open, battle-tested system (Material 3, IBM Carbon, Adobe Spectrum,
+  Shopify Polaris, GitHub Primer, GOV.UK) and override the brand layer, rather than inventing tokens per project.
+- **Toolbelt additions.** `docs/web_ui_toolbelt.md` gains a "UI/UX design skills to learn from" table
+  (ui-ux-pro-max, ux-ui-agent-skills, LibreUIUX, the official frontend-design skill) and a design-token
+  standard and open-design-systems section.
+- **Attribution.** `ATTRIBUTION.md` credits ux-ui-agent-skills (plugin87), LibreUIUX-Claude-Code (HermeticOrmus),
+  ui-ux-pro-max-skill (nextlevelbuilder), and the DTCG. Ideas adopted, no files copied; verify each license
+  before adapting any file.
+
+## 1.27.0 - 2026-06-30 - Web development and UI/UX design skills
+
+Cambium had one narrow front-end skill (cinematic-frontend, a 3D showcase) and no general web or design
+skill. Added two, so the institute can build ordinary web work well, not just a "wow" scene.
+
+- **New skill `web-development`.** Chooses the right stack instead of defaulting to a framework (plain HTML,
+  Astro, React or Next.js, SvelteKit), sets up styling and components (Tailwind, shadcn/ui on Radix), holds
+  a Core Web Vitals budget (LCP, INP, CLS), and tests with Vitest, Playwright, and axe. Honest about judging
+  the result in a real browser and the Cowork artifact storage limits.
+- **New skill `ui-ux-design`.** Accessibility-first (WCAG 2.2 AA, contrast, keyboard, focus, no bad ARIA),
+  three-tier design tokens, mobile-first layout, the full set of interaction states, form usability, and
+  Nielsen's 10 heuristics as a review checklist. Advises and flags; the human designer decides.
+- Both skills name their sources (W3C/WCAG, MDN, web.dev, Nielsen Norman Group, and the tools' own docs) and
+  pair with each other. The skills count updates itself on the next generate.
+- **New `docs/web_ui_toolbelt.md`,** a curated shortlist of the proven, most-starred web and UI/UX
+  repositories (frameworks, styling, component libraries, icons and animation, and the top learning and
+  reference lists), with when-to-use notes and honest caveats. These are references to install per project,
+  not Cambium dependencies; popularity is treated as a signal, not a reason.
+
 ## 1.26.0 - 2026-06-30 - Local PII screening
 
 Their first pillar is Security: research administration handles confidential and personally identifiable

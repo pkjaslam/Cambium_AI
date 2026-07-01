@@ -21,6 +21,16 @@ Cambium is MIT-licensed. It incorporates ideas adapted from the following work.
   `tools/tamper_record.py` produces the record their framework calls for. TaMPER is their contribution, not
   Cambium's; the tool names and credits them in its output.
 
+## UI/UX design skills (ideas adopted into skills/ui-ux-design)
+- **ux-ui-agent-skills** by plugin87 - https://github.com/plugin87/ux-ui-agent-skills - the DTCG design-token
+  and design-system-preset approach. Idea adopted, no files copied. Verify license before adapting any file.
+- **LibreUIUX-Claude-Code** by HermeticOrmus - https://github.com/HermeticOrmus/LibreUIUX-Claude-Code - the
+  shared design-vocabulary and tested-prompt review approach. Idea adopted, no files copied.
+- **ui-ux-pro-max-skill** by nextlevelbuilder - https://github.com/nextlevelbuilder/ui-ux-pro-max-skill - the
+  searchable design-knowledge-base concept. Referenced for a wider style vocabulary.
+- **Design Tokens Community Group (DTCG) format** - https://designtokens.org - the open token JSON standard
+  the skill recommends for portable tokens.
+
 *Per the MIT license, copyright protects expression, not ideas, so adopting a structural pattern in our own
 words does not trigger a notice requirement. We credit the source anyway as good practice. Copying or
 closely adapting an actual file would require carrying the upstream MIT notice with that file.*
