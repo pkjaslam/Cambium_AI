@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.31.0 - 2026-06-30 - One version, stamped everywhere (no more plugin-update drift)
+
+The plugin version had drifted: `plugin.json` sat at 1.18.0 while the project moved to 1.30.0. So
+`/plugin update` never saw a new version, and selecting a command failed with "unknown skill/plugin." Fixed
+the drift and automated it so it cannot recur.
+
+- **New `tools/sync_version.py`** reads the latest version from CHANGELOG.md and stamps it into the three
+  manifests that must agree: `.claude-plugin/plugin.json`, `.claude-plugin/marketplace.json`, and
+  `mcp_server/pyproject.toml`. Idempotent, targeted edits (no reformatting), with a `--check` mode for CI.
+- **`push_cambium.bat`** now runs `sync_version.py` before committing, so every release advertises its new
+  version number, `/plugin update` always registers it, and the CI version-consistency check passes.
+- Guard test in `tests/test_sync_version.py`.
+
 ## 1.30.0 - 2026-06-30 - Assigned duties become structure, not enforcement (governance)
 
 A run exposed two gaps: the orchestrator skipped the router's assigned toolsmith provision phase and the
