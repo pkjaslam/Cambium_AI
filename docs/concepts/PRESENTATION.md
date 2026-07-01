@@ -77,6 +77,15 @@ speed?" — and honor their answer. Never switch to solo silently.
 - Agents in the same phase that are independent are dispatched **in parallel** (one message, multiple
   Task calls).
 
+**Consult the routed plan.** The router (`tools/task_router.py` `route()`) produces the plan and names the
+duties assigned to the task type — including the provision phase (toolsmith, "reuse beats rebuild") for
+software and tool/skill work, the learning brief (teaching-assistant), and the close-out (Support, now
+including Outreach for the README refresh). The Orchestrator should **consult this routed plan and dispatch
+the agents it names**, rather than improvising a different set. The plan is guidance held with judgment,
+not a rigid check: deviating is allowed when the Orchestrator has a real reason, but the deviation must be
+stated plainly to the Director on the board or in chat — never done silently. Structure guides, the
+Orchestrator reasons, and the human stays the one who owns the outcome.
+
 **Per-phase narration (mandatory).** At the start of every phase, re-emit the LIVE board so the Director
 sees ✓/▶/○ advance:
 - Text: `python3 tools/run_trace.py --board "<request>"`
@@ -150,10 +159,18 @@ what lets the support staff "just sit" and the docs drift): Record-Keeper append
 GATES; **Outreach refreshes the forward docs — README counts + roadmap paragraph, ROADMAP.md (+ bump
 `Last updated:`), USE_CAMBIUM / FAQ / COMPARISON if user-facing**; Integrity-Officer updates POSITIONING /
 PHILOSOPHY if any claim moved and runs tests/doctor; Janitor checks for stray files. Follow
-`templates/CLOSEOUT_CHECKLIST.md`. **Then `python3 tools/closeout.py` MUST exit 0** — it fails close-out if a
-forward doc drifted behind the latest CHANGELOG. Close-out is not "done" until it passes.
+`templates/CLOSEOUT_CHECKLIST.md`.
 
-**The learn step is now enforced.** Every build or analysis run delivers a learning packet to the Director by default — a plain-language explainer, glossary, flashcards, and a short quiz written to `agent_outputs/learning_packet.md` and presented in chat, not just filed. The full interactive Learning Lab (tools/gen_learning_lab.py) is always offered as the next step. `tools/learning_delivery.py` is the deterministic check that makes this non-skippable: close-out fails if no filled learning packet or lab was delivered to the Director during the run.
+**Close-out is a review, then a judgment — not a rigid pass/fail gate.** The Orchestrator runs the
+close-out review (`python3 tools/closeout.py`) and reads its **advisory signals**: README version and
+skills freshness, whether toolsmith was consulted, and whether the learning packet was delivered. These
+signals inform the Orchestrator; they do not automatically fail the run. The Orchestrator then **decides
+with judgment what still needs doing** — refreshing a forward doc that drifted, dispatching a duty the
+routed plan named that was skipped, or noting plainly why a signal is safe to leave as-is. As everywhere in
+this contract, a deviation from the routed close-out is stated to the Director, not done silently: structure
+guides, the Orchestrator reasons, and the human owns the outcome.
+
+**The learn step is a default, delivered every time.** Every build or analysis run delivers a learning packet to the Director — a plain-language explainer, glossary, flashcards, and a short quiz written to `agent_outputs/learning_packet.md` and presented in chat, not just filed. The full interactive Learning Lab (tools/gen_learning_lab.py) is always offered as the next step. `tools/learning_delivery.py` is the deterministic check that a filled learning packet or lab was actually delivered to the Director during the run; the Orchestrator reads its signal at close-out and, if the packet was missed, delivers it before shipping.
 
 Then show the **final board** with every phase ✓ and a 3–5 line "what shipped" summary
 (`--board --phase <last>`), and in Cowork a final dashboard u

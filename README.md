@@ -5,7 +5,7 @@
 <br>
 
 <a href="https://github.com/pkjaslam/Cambium_AI/actions"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/pkjaslam/Cambium_AI/validate.yml?style=flat-square&label=CI&color=16C079"></a>
-<a href="CHANGELOG.md"><img alt="Version" src="https://img.shields.io/badge/version-1.24.0-16C079?style=flat-square"></a>
+<a href="CHANGELOG.md"><img alt="Version" src="https://img.shields.io/badge/version-1.29.0-16C079?style=flat-square"></a>
 <img alt="Agents" src="https://img.shields.io/badge/agents-46-16C079?style=flat-square">
 <img alt="Human gates" src="https://img.shields.io/badge/human_gates-8-0E8E5B?style=flat-square">
 <img alt="Doctor grade" src="https://img.shields.io/badge/doctor%20--grade-A-16C079?style=flat-square">
@@ -160,6 +160,8 @@ This is where the work lives. The engineering is traceable to specific files.
 **Learning system.** `tools/learning_delivery.py` generates a per-run learning brief and enforces the Learning Gate: a build or analysis run cannot close without producing one. `tools/gen_learning_lab.py` produces an interactive per-run Learning Lab as a self-contained HTML file. The Cambium Academy (`academy/index.html`) is ten interactive modules across three tiers, built on evidence-based instructional design: predict-first, spaced repetition, explain-it-back.
 
 **Research-administration tools.** `tools/ai_disclosure.py` assembles an AI-use disclosure and audit summary from records Cambium already keeps (gate decisions, approvers, which agents ran). It documents what AI did and that a human signed off; it does not certify compliance. `tools/budget_review.py` is a deterministic budget-to-solicitation review that flags issues (F&A cap, cost ceiling, period, required sections, disallowed categories, cost-share) against a solicitation-rules file. Both are advisory by design: the final call stays with a human in sponsored programs.
+
+**Full-stack engineering.** Nine skills added in v1.29.0 cover the software engineering lifecycle: ai-application-engineering, backend-api-design, databases-and-data-modeling, software-architecture, software-testing-qa, debugging-observability, devops-cicd, cloud-deployment, and security-engineering. These skills advise and generate code that a human reviews and runs; Cambium does not deploy to production, hold secrets, or perform security audits. Shared conventions and the reasoning behind each skill live in [`docs/engineering_conventions.md`](docs/engineering_conventions.md).
 
 ---
 
