@@ -42,3 +42,18 @@ def test_sync_ignores_stale_files_from_earlier_runs():
         assert "old-agent" not in st["findings"], "stale prior-run file must be ignored"
     finally:
         shutil.rmtree(d, ignore_errors=True)
+
+
+def test_phase_prints_repaint_reminder():
+    """`phase N` must print a RE-PAINT banner so the in-chat board never silently goes stale."""
+    d = tempfile.mkdtemp()
+    try:
+        os.makedirs(os.path.join(d, "agent_outputs"))
+        r = _run(d, "phase", "2", "--note", "Scouts surveying")
+        assert "RE-PAINT THE BOARD NOW" in r.stdout
+        # existing phase-update output must still be present (no removal of prior behavior)
+        assert "phase=2" in r.stdout
+        st = json.load(open(os.path.join(d, "agent_outputs", "run_state.json")))
+        assert st["phase"] == 2
+    finally:
+        shutil.rmtree(d, ignore_errors=True)

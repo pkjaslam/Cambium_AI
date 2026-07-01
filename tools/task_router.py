@@ -89,7 +89,7 @@ def _grant():
     return [
       ph("intake",[grp("intake",C("preaward","rfp-radar","rfp-analyst"))],{"id":"G1","decision":"pursue this RFP?"}),
       ph("ideation",[grp("scouts",C("scout")),grp("ideate",C("preaward","ideation-facilitator","idea-tournament"),False),grp("faculty",C("faculty"),False)],{"id":"G2","decision":"which idea advances?"}),
-      ph("proposal",[grp("PI",C("preaward","principal-investigator"),False),grp("write",C("preaward","proposal-writer","budget-officer","grants-compliance")+C("partner","collaborator-scout","convener")+C("support","librarian","figures")),grp("review",C("verify","referee")+C("gov"),False)],{"id":"G3","decision":"finalize & submit?"}),
+      ph("proposal",[grp("PI",C("preaward","principal-investigator"),False),grp("write",C("preaward","proposal-writer","budget-officer","grants-compliance")+C("partner","collaborator-scout","partnership-liaison","convener")+C("support","librarian","figures")),grp("review",C("verify","referee")+C("gov"),False)],{"id":"G3","decision":"finalize & submit?"}),
     ]
 def _software():
     return [
@@ -124,9 +124,18 @@ def _video():
       ph("produce",[grp("reporting",C("reporting")),grp("media",C("support","figures","outreach"),False)],{"id":"G5","decision":"release the video?"}),
       ph("publish",[grp("conduct",C("gov"))],{"id":"G6","decision":"publish / external?"}),
     ]
+def _project():
+    # POST-AWARD project management: the grant has already been won; this is
+    # running the awarded work (work breakdown, milestone schedule, subaward
+    # coordination, reporting deadlines) -- distinct from _grant() (pre-award,
+    # winning the funding) and _report() (a single written deliverable).
+    return [
+      ph("plan",[grp("plan",C("partner","program-manager","convener"),False)],{"id":"G-plan","decision":"approve the project plan?"}),
+    ]
 
 TYPES = [
  ("grant",      ["grant","proposal","rfp","nofo","funding","solicitation","afri","nsf","nih","usda","biosketch","budget justification"], _grant),
+ ("project",    ["awarded project","manage the project","post-award","subaward","work breakdown","milestone schedule","deliverables register","project kickoff","project plan","monthly report","progress meeting","manage the awarded"], _project),
  ("review",     ["review","audit","harden","qa","security","vulnerab","refactor","bug","fix the","lint","test the","check the","penetration"], _review),
  ("software",   ["app","web app","website","software","build a","develop","frontend","back-end","backend","ui","ux","deploy","feature","api","dashboard","tool"], _software),
  ("video",      ["video","video abstract","explainer video","animated explainer","render video","video pitch","grant video","results explainer","teaser","trailer","montage","reel","make a video"], _video),
@@ -191,6 +200,10 @@ def plan_for_type(typ):
         phases = phases + [_release_gate()]
     if typ in ("software","research","data"):
         phases = phases + [_learn()]
+    # "project" (post-award management) keeps it simple: plan phase + gate above,
+    # then the shared _closeout() below. No _writeup/_release_gate/_learn --
+    # those are for generative research/report/data deliverables, not for
+    # running an already-awarded project's work breakdown and schedule.
     return phases + [_closeout()]
 
 def route(task):

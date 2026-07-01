@@ -86,6 +86,12 @@ not a rigid check: deviating is allowed when the Orchestrator has a real reason,
 stated plainly to the Director on the board or in chat — never done silently. Structure guides, the
 Orchestrator reasons, and the human stays the one who owns the outcome.
 
+**Before building anything new, consult `tools/TOOL_INDEX.md`.** It is the auto-generated inventory of every
+tool already in the repo, one line each. Reach for an existing tool before writing a new one, and reach for
+the real named agents before doing the work inline. If the routed plan named a provision phase (toolsmith),
+run it, do not skip to improvising. Naming which councils and tools you used, and any you deliberately did
+not, is part of keeping the run honest.
+
 **Per-phase narration (mandatory).** At the start of every phase, re-emit the LIVE board so the Director
 sees ✓/▶/○ advance:
 - Text: `python3 tools/run_trace.py --board "<request>"`

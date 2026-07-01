@@ -1,5 +1,49 @@
 # Changelog
 
+## 1.35.0 - 2026-06-30 - Orchestrator fidelity: every agent has a job, and skips are visible
+
+The recurring problem that the orchestrator does not always send the routed agents got its real fix, designed
+and audited the Cambium way, then built and tested live.
+
+- **No more orphan agents.** partnership-liaison is now dispatched in the grant path, and a new post-award
+  `project` task type routes program-manager (work breakdown, milestones, subawards). Every roster agent
+  except the orchestrator (the conductor) is now reachable by some route, checked by a test.
+- **Execute a plan, do not invent one.** New `tools/dispatch_plan.py` turns `route(task)` into the literal
+  agent calls to make per phase, with stop-at-gate lines.
+- **Skips are visible.** New `tools/run_fidelity.py` prints a close-out scorecard comparing the routed plan
+  against what actually happened (agent coverage, phase progress, gate recorded, learning delivered).
+  Advisory and post-hoc; it never blocks, it puts the gap in front of the human.
+- **Real enforcement for every task type.** `tools/cambium_run.py` can now build its phases from `route()`
+  (`--from-router`, auto when no phases.yml), so the strict runner's unforgeable gate tokens cover software,
+  review, data, report, and project runs, not just grants. The gate-token minting is untouched; only the
+  phase source changed. The phases.yml path still works.
+- **Honest two modes.** New `docs/concepts/RUN_MODES.md`: chat /cambium is convenient best-effort (helped by
+  the dispatch plan and the scorecard); the programmatic runner is strict and guaranteed.
+- Also fixed two bugs the live test run caught: a real HTML-escaping hole in the gate-card renderer (a
+  script is now escaped, a safe table still passes) and a stale README tool count.
+- Tests: new suites for the router orphan fix, dispatch_plan, run_fidelity, and the runner-to-router adapter,
+  all passing here; resume and gate enforcement confirmed unbroken.
+
+## 1.34.0 - 2026-06-30 - Run experience: a gate you can click, a board that stays live (gate G1)
+
+A UX and orchestration-fidelity review (Verification and Faculty councils) found the real causes of the rough
+spots the Director reported, and Execution fixed all five.
+
+- **Clickable gate.** The dead, non-interactive gate buttons in `tools/gen_board_pro.py` are now real
+  `<button onclick="sendPrompt(...)">` controls matching `gen_inline_board.py`, with a "you can also type it"
+  fallback. Approve, Revise, and Reject now actually submit the decision.
+- **Never a thin gate.** New `tools/gen_gate_card.py` renders the full eight-section gate one-pager with the
+  working buttons, so a gate is never rendered empty.
+- **Live board.** `tools/run_state.py phase N` now prints a repaint reminder and the current board fragment,
+  so the board no longer freezes after Act I.
+- **Learning delivered, not just filed.** `tools/learning_delivery.py` gains a `deliver` subcommand that
+  prints the packet body, making delivery and the check a single action.
+- **Fidelity.** New `tools/gen_tool_index.py` builds `tools/TOOL_INDEX.md`, an inventory of every tool, and
+  `docs/concepts/PRESENTATION.md` now tells the Orchestrator to consult it and use the routed councils and
+  existing tools before improvising. Wired into the push script.
+- **Tests** added across the five. They run on the developer machine via the push hook; the sandbox folder
+  was unmounted during the build, so the fixes were verified by inspection here.
+
 ## 1.33.0 - 2026-06-30 - Assets and README badge kept current automatically
 
 The run-board GIF and the version badge had gone stale because nothing regenerated or stamped them on

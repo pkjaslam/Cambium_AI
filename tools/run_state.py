@@ -22,6 +22,9 @@ Typical loop the Orchestrator runs each phase:
   # … dispatch the real agents; they each write agent_outputs/<name>.md …
   python3 tools/run_state.py sync --phase 2          # lifts each agent's Decision line into the board
   python3 tools/run_trace.py --board "<request>"     # auto-reads run_state.json
+
+Note: `phase` also prints a "RE-PAINT THE BOARD NOW" reminder (and the board fragment itself, when
+tools/gen_inline_board.py is importable) so the in-chat board never silently goes stale after phase 1.
 """
 import sys, os, json, glob, re, time
 import cambium_io  # noqa: F401 — reconfigures stdout/stderr to UTF-8 on Windows
@@ -57,6 +60,28 @@ def save(path, st):
 
 def _agent_from_file(p):
     return os.path.basename(p)[:-3].replace("_", "-")
+
+
+def print_repaint_reminder(path):
+    """After a phase update, the in-chat board must be repainted or it goes stale.
+
+    Prints a short banner. If tools/gen_inline_board.py is importable and exposes render(),
+    also prints the rendered board fragment (ready to pass straight to show_widget). If it is
+    only usable as a CLI (import fails for any reason), falls back to printing the exact
+    command to run instead. Never raises — this is a best-effort UX nudge, not core logic.
+    """
+    print("\n[run_state] === RE-PAINT THE BOARD NOW ===")
+    tools_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)))
+    try:
+        if tools_dir not in sys.path:
+            sys.path.insert(0, tools_dir)
+        import gen_inline_board as gib
+        frag = gib.render(path, "")
+        print("[run_state] board fragment below — pass straight to show_widget:\n")
+        print(frag)
+    except Exception:
+        print("[run_state] run this to get the board fragment for show_widget:")
+        print("  python3 tools/gen_inline_board.py")
 
 
 def _decision_line(md):
@@ -145,6 +170,9 @@ def main():
     save(path, st)
     print(f"[run_state] {path} · phase={st['phase']} · {len(st['findings'])} finding(s)"
           + (" · gate armed" if st.get('gate') else ""))
+
+    if cmd == "phase":
+        print_repaint_reminder(path)
 
 
 if __name__ == "__main__":

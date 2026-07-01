@@ -5,7 +5,7 @@
 <br>
 
 <a href="https://github.com/pkjaslam/Cambium_AI/actions"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/pkjaslam/Cambium_AI/validate.yml?style=flat-square&label=CI&color=16C079"></a>
-<a href="CHANGELOG.md"><img alt="Version" src="https://img.shields.io/badge/version-1.33.0-16C079?style=flat-square"></a>
+<a href="CHANGELOG.md"><img alt="Version" src="https://img.shields.io/badge/version-1.35.0-16C079?style=flat-square"></a>
 <img alt="Agents" src="https://img.shields.io/badge/agents-46-16C079?style=flat-square">
 <img alt="Human gates" src="https://img.shields.io/badge/human_gates-8-0E8E5B?style=flat-square">
 <img alt="Doctor grade" src="https://img.shields.io/badge/doctor%20--grade-A-16C079?style=flat-square">
@@ -50,7 +50,7 @@ Most tools answer this worry with a policy page. Cambium answers it with plumbin
 | Audience | What Cambium offers |
 |---|---|
 | **Researchers and PIs** | Run a project end to end, from RFP to publish, with a human at every gate and a named agent for every role |
-| **Research administrators and sponsored programs** | Pre-award proposal drafting, an advisory budget-to-solicitation review that flags issues against funder rules, and an AI-use disclosure builder for federal proposals (addresses NIH NOT-OD-25-132 and similar requirements) |
+| **Research administrators and sponsored programs** | Pre-award proposal drafting, an advisory budget-to-solicitation review that flags issues against funder rules, an AI-use disclosure builder for federal proposals (addresses NIH NOT-OD-25-132 and similar requirements), and a set of generic proposal-support helpers (budget-narrative consistency check, checklist builder, deadline planner, plain-language solicitation summary) |
 | **Developers and contributors** | A Claude Code / Cowork plugin with an MCP server, a large stdlib toolkit, a full test suite, and clean extension points for new councils and skills |
 | **Institutions and funders** | MIT-licensed, local-first, data-sovereign; every gate decision is logged to a markdown ledger that any auditor can read without special tooling |
 | **Educators and learners** | An interactive Academy with ten modules across three tiers, plus a per-run Learning Lab generated automatically at the close of every build |
@@ -125,7 +125,7 @@ Cambium covers the whole life of a project, and it puts a human checkpoint every
 
 At each gate the run stops, shows you a one-page summary, and waits. A quick "looks fine" doesn't get through. The Learning Gate asks for a real contribution from you, and the system spaces out back-to-back decisions so you can't rubber-stamp a project at full speed.
 
-Human gates are enforced by approval-token checks (in `tools/gate_lock.py`) and the run contract in each agent's prompt. They are not a hard pipeline halt in the sense of an OS-level lock; a determined user could bypass them. The contract is prompt-level plus logged: every gate decision is written to the contribution ledger and the audit log, so the record is clear.
+Human gates are enforced by approval-token checks (in `tools/gate_lock.py`) and the run contract in each agent's prompt. They are not a hard pipeline halt in the sense of an OS-level lock; a determined user could bypass them. The contract is prompt-level plus logged: every gate decision is written to the contribution ledger and the audit log, so the record is clear. Gate cards render as real clickable Approve, Revise, and Reject buttons (`tools/gen_gate_card.py` builds the full one-pager), with a type-it fallback if buttons aren't available in your client.
 
 ---
 
@@ -149,7 +149,7 @@ This is where the work lives. The engineering is traceable to specific files.
 <img src="assets/capabilities.svg" alt="A map of Cambium's engineered capabilities grouped into five areas: orchestration and routing, human-gate machinery and audit, evidence contract and integrity, memory and knowledge graph, and learning and research-administration tools. Each area points to its primary source file." width="900">
 </div>
 
-**Orchestration and task routing.** The Orchestrator calls the right councils for each task and merges what comes back. The task router (`tools/task_router.py`) maps incoming requests to council sets and handles parallel dispatch. The run-board tools (`tools/gen_inline_board.py`, `tools/gen_board_pro.py`) render a live agent board in-chat and as a standalone HTML file, so you can always see which agent is active and what it found.
+**Orchestration and task routing.** The Orchestrator calls the right councils for each task and merges what comes back. The task router (`tools/task_router.py`) maps incoming requests to council sets and handles parallel dispatch. The run-board tools (`tools/gen_inline_board.py`, `tools/gen_board_pro.py`) render a live agent board in-chat and as a standalone HTML file, so you can always see which agent is active and what it found. `tools/run_state.py` reprints the board fragment at each phase change so it stays live instead of freezing after the first act.
 
 **Human-gate machinery and the audit trail.** Gate logic lives in `tools/gate_lock.py`, which writes approval tokens to the run ledger and blocks downstream steps until they are present. The contribution ledger (`governance/GATES.md`) records every gate decision: who approved, when, and what the summary said. `tools/audit_log.py` appends a structured entry for every significant agent action. Records are plain markdown, not cryptographically signed, and the enforcement is prompt-level plus token-checked, not a hard OS lock.
 
@@ -157,9 +157,11 @@ This is where the work lives. The engineering is traceable to specific files.
 
 **Memory and a local knowledge graph.** `tools/memory_recall.py` stores and retrieves session context from a gitignored cache. `tools/concept_graph.py` builds a fully-local knowledge graph over Cambium's own curated records (findings, gates, agents, concepts) using typed edges. Multi-hop queries (neighbors, shortest path, what-supports, what-contradicts) work on top of it. The graph uses networkx when present and a pure-stdlib adjacency fallback otherwise. No external database is required; the graph lives with the project. Writable caches are routed through `data_home()` in `tools/cambium_io.py` so an installed (read-only) plugin writes to the user's project directory, not into the plugin itself.
 
-**Learning system.** `tools/learning_delivery.py` generates a per-run learning brief and enforces the Learning Gate: a build or analysis run cannot close without producing one. `tools/gen_learning_lab.py` produces an interactive per-run Learning Lab as a self-contained HTML file. The Cambium Academy (`academy/index.html`) is ten interactive modules across three tiers, built on evidence-based instructional design: predict-first, spaced repetition, explain-it-back.
+**Learning system.** `tools/learning_delivery.py` generates a per-run learning brief and enforces the Learning Gate: a build or analysis run cannot close without producing one; a `deliver` subcommand prints the packet straight into the chat instead of only filing it. `tools/gen_learning_lab.py` produces an interactive per-run Learning Lab as a self-contained HTML file. The Cambium Academy (`academy/index.html`) is ten interactive modules across three tiers, built on evidence-based instructional design: predict-first, spaced repetition, explain-it-back.
 
-**Research-administration tools.** `tools/ai_disclosure.py` assembles an AI-use disclosure and audit summary from records Cambium already keeps (gate decisions, approvers, which agents ran). It documents what AI did and that a human signed off; it does not certify compliance. `tools/budget_review.py` is a deterministic budget-to-solicitation review that flags issues (F&A cap, cost ceiling, period, required sections, disallowed categories, cost-share) against a solicitation-rules file. Both are advisory by design: the final call stays with a human in sponsored programs.
+**Research-administration tools.** `tools/ai_disclosure.py` assembles an AI-use disclosure and audit summary from records Cambium already keeps (gate decisions, approvers, which agents ran). It documents what AI did and that a human signed off; it does not certify compliance. `tools/budget_review.py` is a deterministic budget-to-solicitation review that flags issues (F&A cap, cost ceiling, period, required sections, disallowed categories, cost-share) against a solicitation-rules file. Four more generic, advisory helpers round this out: `tools/budget_narrative_match.py` flags where a budget and its justification narrative disagree, `tools/checklist_builder.py` turns a solicitation's rules into a submission checklist, `tools/proposal_timeline.py` backwards-plans a proposal's deadlines and tasks, and `tools/solicitation_explainer.py` renders a solicitation into a plain-language summary. All are advisory by design: the final call stays with a human in sponsored programs.
+
+**Run fidelity and self-inventory.** `tools/gen_tool_index.py` builds `tools/TOOL_INDEX.md`, an auto-generated inventory of every tool in the repo, so the Orchestrator (and you) can check what already exists before improvising something new. `tools/sync_version.py` stamps one version number into every manifest and the README badge, and the push script regenerates the run-board GIF and other visual assets on release, so neither drifts stale between updates.
 
 **Full-stack engineering.** Nine skills added in v1.29.0 cover the software engineering lifecycle: ai-application-engineering, backend-api-design, databases-and-data-modeling, software-architecture, software-testing-qa, debugging-observability, devops-cicd, cloud-deployment, and security-engineering. These skills advise and generate code that a human reviews and runs; Cambium does not deploy to production, hold secrets, or perform security audits. Shared conventions and the reasoning behind each skill live in [`docs/engineering_conventions.md`](docs/engineering_conventions.md).
 
@@ -173,12 +175,13 @@ Cambium is honest about what is original engineering and what borrows from prior
 
 - The council architecture and the named specialist agents (46 agents across 11 councils, each scoped to one role)
 - The task router and Orchestrator dispatch logic
-- The gate machinery: approval-token checks, the contribution ledger, the audit log
+- The gate machinery: approval-token checks, the contribution ledger, the audit log, and clickable gate cards with a type-it fallback
 - The four-tier evidence contract as an integration: the tier system, the CI validator, and the finding audit
 - Memory and the local knowledge graph: session recall plus a structured, multi-hop-queryable graph over run records, deliberately lightweight and dependency-minimal
 - The learning system: per-run Learning Lab generation, the enforced Learning Gate, and the ten-module Academy
 - The writable-data resolver (`data_home()`) that makes the plugin work as a read-only install without breaking run state
-- The research-administration tools: AI-use disclosure builder and the deterministic budget reviewer
+- The research-administration tools: the AI-use disclosure builder, the deterministic budget reviewer, and the four generic proposal-support helpers (budget-narrative match, checklist builder, timeline planner, solicitation explainer)
+- The release-hygiene automation: one version stamped everywhere, visual assets regenerated on push, and an auto-generated tool index
 
 ### Adopted, with attribution
 
@@ -219,10 +222,10 @@ The live web mode (the FastAPI bridge in `web/server/app.py`) is the only web in
 ## Capacity and strength
 
 <!-- CAMBIUM:STATS -->
-40 skills, 67 tools, 6 MCP tools, 19 templates, and a set of worked examples. All field-agnostic, all runnable.
+40 skills, 71 tools, 6 MCP tools, 19 templates, and a set of worked examples. All field-agnostic, all runnable.
 <!-- /CAMBIUM:STATS -->
 
-Those numbers reflect what is in the repo today. The skills cover the full research lifecycle from intake to publish, plus domain specialties (statistics, ML, optimization, health, citations, ethics). The tools cover orchestration, gating, evidence, memory, learning, research-administration, and self-grading. The MCP server exposes six core operations so any MCP-capable client can drive the institute. The templates give every project a consistent paper trail from RFP brief to closeout checklist.
+Those numbers reflect what is in the repo today. The skills cover the full research lifecycle from intake to publish, plus domain specialties (statistics, ML, optimization, health, citations, ethics). The tools cover orchestration, gating, evidence, memory, learning, research-administration, and self-grading, and `tools/TOOL_INDEX.md` is an auto-generated inventory you can browse instead of guessing what exists. The MCP server exposes six core operations so any MCP-capable client can drive the institute. The templates give every project a consistent paper trail from RFP brief to closeout checklist.
 
 What they enable: one researcher can run a structured, multi-agent, gate-controlled research project without writing any orchestration code. The councils handle parallelism. The gates handle accountability. The learning system means the work also teaches. The test suite confirms the machinery holds under changes.
 
@@ -232,7 +235,7 @@ What they enable: one researcher can run a structured, multi-agent, gate-control
 
 A research institute should also teach. The [Cambium Academy](academy/index.html) is ten interactive modules across three tiers. The five Foundation modules cover the ideas you need to run the institute well: the Cambium way, evidence tiers and honest claims, why a human gate beats full autonomy, verifying a result without fooling yourself, and research ethics and data stewardship. On top of those sit Practitioner modules (grant writing, a data-stewardship workshop, reproducibility in practice) and Expert modules (designing custom agents, teaching research with Cambium).
 
-The mechanics are borrowed from evidence-based instructional design: you predict before you see the answer, flip spaced-repetition flashcards, click through the architecture instead of staring at a wall of text, do a small change yourself, and explain each idea back in your own words. External "Go deeper" links point to real courses at Coursera, the Princeton leakage and reproducibility workshop, OHRP, and others. We link out to those, we don't copy them. Every run also produces a per-run Learning Lab, and teaching is enforced: a build or analysis run cannot close without delivering one.
+The mechanics are borrowed from evidence-based instructional design: you predict before you see the answer, flip spaced-repetition flashcards, click through the architecture instead of staring at a wall of text, do a small change yourself, and explain each idea back in your own words. External "Go deeper" links point to real courses at Coursera, the Princeton leakage and reproducibility workshop, OHRP, and others. We link out to those, we don't copy them. Every run also produces a per-run Learning Lab, and teaching is enforced: a build or analysis run cannot close without delivering one, straight into the chat.
 
 Two honest limits worth knowing. The Practitioner badge is designed and wired to the course logic, but it does not yet mint automatically from a run's artifacts. And the spacing schedule is stored per browser, not per account, so if you switch devices mid-sequence you'll need to restart. Everything else runs today.
 
@@ -273,9 +276,9 @@ Soon: actually run the v1 enforcement study, the powered, human-judged version. 
 ### Recent updates
 
 <!-- CAMBIUM:WHATSNEW -->
+- **1.35.0**: Orchestrator fidelity: every agent has a job, and skips are visible
+- **1.34.0**: Run experience: a gate you can click, a board that stays live (gate G1)
 - **1.33.0**: Assets and README badge kept current automatically
-- **1.32.0**: Four research-administration helper tools
-- **1.31.0**: One version, stamped everywhere (no more plugin-update drift)
 <!-- /CAMBIUM:WHATSNEW -->
 
 ---

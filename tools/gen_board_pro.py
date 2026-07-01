@@ -101,11 +101,16 @@ def render(state_path, title):
                         if p.get("gate") and status_of(i, cur) == "now"), None)
     gatecard = ""
     if active_gate:
+        agid = esc(active_gate.get("id"))
         gatecard = (
-          f'<div class="activegate"><div class="ag-h">⛩ GATE {esc(active_gate.get("id"))} — your decision</div>'
+          f'<div class="activegate"><div class="ag-h">⛩ GATE {agid} - your decision</div>'
           f'<div class="ag-q">{esc(active_gate.get("decision"))}</div>'
-          f'<div class="ag-b"><span class="approve">APPROVE</span><span class="revise">REVISE</span><span class="reject">REJECT</span></div>'
-          f'<div class="ag-hint">Type your choice in chat — nothing finalizes without it.</div></div>')
+          f'<div class="ag-b">'
+          f'<button class="gbtn approve" onclick="sendPrompt(\'APPROVE {agid}\')">Approve</button>'
+          f'<button class="gbtn revise" onclick="sendPrompt(\'REVISE {agid}: \')">Revise</button>'
+          f'<button class="gbtn reject" onclick="sendPrompt(\'REJECT {agid}\')">Reject</button>'
+          f'</div>'
+          f'<div class="ag-hint">If a button does nothing, type APPROVE, REVISE, or REJECT.</div></div>')
 
     feed_items = []
     for i, p in enumerate(phases):
@@ -168,8 +173,12 @@ TEMPLATE = """<!doctype html><html lang="en"><head><meta charset="utf-8">
  .gaterow.cleared{{border-style:solid;border-color:var(--emer);color:var(--emer)}} .gaterow.cleared em{{color:var(--emer)}}
  .activegate{{margin:16px 0;border:1px solid var(--forest);border-radius:16px;padding:18px;background:linear-gradient(135deg,#eafaf0,#ffffff)}}
  .ag-h{{color:var(--forest);font-weight:800;font-size:14px}} .ag-q{{margin-top:6px;font-size:16px;font-weight:600}}
- .ag-b{{margin-top:13px;display:flex;gap:9px}} .ag-b span{{padding:9px 18px;border-radius:10px;font-weight:800;font-size:12.5px}}
- .approve{{background:var(--forest);color:#fff}} .revise{{border:1px solid var(--mut);color:var(--ink)}} .reject{{border:1px solid #b65; color:#a14040}}
+ .ag-b{{margin-top:13px;display:flex;gap:9px;flex-wrap:wrap}}
+ .gbtn{{cursor:pointer;padding:9px 18px;border-radius:10px;font-weight:800;font-size:12.5px;border:none;font-family:inherit}}
+ .gbtn.approve{{background:#16C079;color:#fff}}
+ .gbtn.revise{{background:#E0B24A;color:#10241c}}
+ .gbtn.reject{{background:#FF6B5E;color:#fff}}
+ .gbtn:hover{{filter:brightness(1.08)}}
  .ag-hint{{margin-top:9px;color:var(--mut);font-size:11px}}
  .complete{{margin:14px 0;border:1px solid var(--emer);border-radius:14px;padding:14px 16px;background:linear-gradient(135deg,#eafaf0,#ffffff);color:var(--emer);font-weight:700;font-size:13.5px}}
  .feed{{margin:16px 0;border:1px solid var(--edge);border-radius:14px;padding:14px 16px;background:var(--card)}}

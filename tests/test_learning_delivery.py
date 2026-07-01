@@ -57,6 +57,15 @@ def _cli(root, extra_args=None):
     return r.returncode, r.stdout + r.stderr
 
 
+def _cli_deliver(root, extra_args=None):
+    """Run `python3 learning_delivery.py deliver --root <root>` and return (returncode, stdout)."""
+    cmd = [sys.executable, SCRIPT, "deliver", "--root", root]
+    if extra_args:
+        cmd.extend(extra_args)
+    r = subprocess.run(cmd, capture_output=True, text=True)
+    return r.returncode, r.stdout + r.stderr
+
+
 # ---------------------------------------------------------------------------
 # is_build_run unit tests
 # ---------------------------------------------------------------------------
@@ -309,5 +318,55 @@ def test_cli_custom_state_path():
         rc, out = _cli(d, ["--state", custom_state])
         assert rc == 0, f"expected exit 0, got {rc}. output: {out}"
         assert "OK" in out
+    finally:
+        shutil.rmtree(d, ignore_errors=True)
+
+
+# ---------------------------------------------------------------------------
+# deliver subcommand tests
+# ---------------------------------------------------------------------------
+
+def test_deliver_prints_packet_body():
+    d = _make_root()
+    try:
+        packet = os.path.join(d, "agent_outputs", "learning_packet.md")
+        _write(packet, "# Learning Packet\n\nWe built a pipeline that processes data.\n")
+        rc, out = _cli_deliver(d)
+        assert rc == 0, f"expected exit 0, got {rc}. output: {out}"
+        assert "We built a pipeline that processes data." in out
+    finally:
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def test_deliver_missing_artifact_exits_1_with_clear_message():
+    d = _make_root()
+    try:
+        rc, out = _cli_deliver(d)
+        assert rc == 1, f"expected exit 1, got {rc}. output: {out}"
+        assert "Cannot deliver" in out
+    finally:
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def test_deliver_stub_with_fill_exits_1():
+    d = _make_root()
+    try:
+        packet = os.path.join(d, "agent_outputs", "learning_packet.md")
+        _write(packet, "# Learning Packet\n\n__FILL__\n")
+        rc, out = _cli_deliver(d)
+        assert rc == 1, f"expected exit 1, got {rc}. output: {out}"
+        assert "Cannot deliver" in out
+    finally:
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def test_check_behavior_unchanged_after_deliver_added():
+    """Regression guard: adding `deliver` must not alter `check`'s existing exit codes/output."""
+    d = _make_root()
+    try:
+        _run_state(d, [{"id": "build"}], "build a pipeline")
+        rc, out = _cli(d)
+        assert rc == 1
+        assert "FAILED" in out
     finally:
         shutil.rmtree(d, ignore_errors=True)

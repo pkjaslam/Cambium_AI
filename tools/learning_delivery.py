@@ -10,14 +10,19 @@ demo/learning_lab.html or academy/labs/*.html.
 
 Usage:
   python3 tools/learning_delivery.py check [--state agent_outputs/run_state.json] [--root .]
+  python3 tools/learning_delivery.py deliver [--root .]     # print the packet body to stdout
+                                                             # so the orchestrator can deliver it in chat
 
 Exit:
-  0 = not a build/analysis run, OR learning was delivered.
-  1 = IS a build/analysis run AND no filled artifact exists (close-out must be blocked).
+  check:   0 = not a build/analysis run, OR learning was delivered.
+           1 = IS a build/analysis run AND no filled artifact exists (close-out must be blocked).
+  deliver: 0 = artifact found and printed.
+           1 = no filled artifact to deliver (missing or still has __FILL__).
 
 Importable functions (used by tests):
   is_build_run(plan)            -> bool
   learning_delivered(root)      -> (bool, str)   (delivered?, artifact_path_or_reason)
+  deliver_learning(root)        -> (bool, str)   (delivered?, body_or_reason) — body is the full artifact text
 """
 from __future__ import annotations
 import argparse, glob, json, os, re, sys
@@ -128,6 +133,24 @@ def learning_delivered(root: str) -> tuple[bool, str]:
     return (False, "\n".join(reasons) + "\n" + fix_msg)
 
 
+def deliver_learning(root: str) -> tuple[bool, str]:
+    """Return (True, full_artifact_text) if a filled artifact exists under *root*, else (False, reason).
+
+    This is the "delivery" counterpart to learning_delivered(): where that function only
+    confirms an artifact exists, this one hands back the actual body so the caller (the CLI's
+    `deliver` subcommand, or the orchestrator programmatically) can print/post it in chat --
+    so "filed" and "delivered" become the same action instead of two steps that can drift apart.
+    """
+    ok, artifact_or_reason = learning_delivered(root)
+    if not ok:
+        return (False, artifact_or_reason)
+    try:
+        body = open(artifact_or_reason, encoding="utf-8", errors="replace").read()
+    except OSError as exc:
+        return (False, f"  - {artifact_or_reason} could not be read: {exc}")
+    return (True, body)
+
+
 # ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
@@ -165,7 +188,34 @@ def main(argv=None):
         default=cambium_io.data_home(),
         help="Root to search for run data and artifacts (default: data_home(), the writable run-data dir)",
     )
+
+    dlv = sub.add_parser(
+        "deliver",
+        help="Print the full learning packet/lab body to stdout so the orchestrator can deliver it in chat.",
+    )
+    dlv.add_argument(
+        "--root",
+        default=cambium_io.data_home(),
+        help="Root to search for the learning artifact (default: data_home(), the writable run-data dir)",
+    )
+    dlv.add_argument(
+        "--print",
+        dest="print_flag",
+        action="store_true",
+        help="Same as running `deliver` (kept for the --print spelling some callers expect).",
+    )
+
     a = ap.parse_args(argv)
+
+    if a.cmd == "deliver":
+        root = os.path.abspath(a.root)
+        ok, body_or_reason = deliver_learning(root)
+        if ok:
+            print(body_or_reason)
+            return 0
+        print("[learning] Cannot deliver -- no filled learning artifact found:")
+        print(body_or_reason)
+        return 1
 
     if a.cmd != "check":
         ap.print_help()
