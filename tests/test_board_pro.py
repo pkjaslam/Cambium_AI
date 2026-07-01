@@ -27,7 +27,7 @@ def test_status_done_now_waiting():
 
 def test_active_gate_card_shown_when_pending():
     h = _render()
-    assert "GATE G-test — your decision" in h and "Ship it?" in h
+    assert "GATE G-test - your decision" in h and "Ship it?" in h
     assert "APPROVE" in h and "REVISE" in h and "REJECT" in h
 
 def test_agent_finding_rendered():
