@@ -35,8 +35,8 @@
     "status": "declined-heavy"
   },
   {
-    "source": "Research-administration practice",
-    "meta": "open frameworks, optional extras",
+    "source": "TaMPER framework",
+    "meta": "Overton et al., U. Idaho, arXiv:2504.01037",
     "built": "A disclosure record, a FAIR data catalog, a rules handoff",
     "note": "tamper_record.py, fair_descriptor.py, rules_handoff.py",
     "status": "adopted"
