@@ -1,5 +1,26 @@
 # Changelog
 
+## 1.29.0 - 2026-06-30 - Full-stack AI engineer: nine engineering skills (gates G1, G4)
+
+Run the Cambium way (Scouts + Faculty scoped it, Execution built it, Verification audited it, the Director
+approved at G1 and G4). Cambium goes from 31 to 40 skills and can now act as a full-stack AI engineer.
+
+- **Nine new skills** under the software-engineering set: `ai-application-engineering` (RAG, agents, evals,
+  guardrails), `backend-api-design`, `databases-and-data-modeling`, `software-architecture`,
+  `software-testing-qa`, `debugging-observability`, `devops-cicd`, `cloud-deployment`, and
+  `security-engineering`. Each has trigger-rich frontmatter, an opinionated body, honest guardrails, and cited
+  sources.
+- **Honest boundaries, enforced by review.** Verification (integrity-officer + verify-domain) confirmed zero
+  em dashes and that each skill states its limits: security guidance is not an audit, cloud never provisions or
+  holds credentials, and AI features need evals plus a human. Fixes applied: python-jose replaced with PyJWT,
+  destructive-DDL wording made precise, unsourced figures removed, star counts marked point-in-time.
+- **Shared conventions.** New `docs/engineering_conventions.md`: progressive-disclosure authoring, a
+  four-dimension definition-of-done scorecard (security, performance, tests, docs), architecture-first ADRs,
+  and the shared honest boundary. Ideas adopted with credit from jeffallan/claude-skills (MIT),
+  ui-ux-pro-max (MIT), and the senior full-stack engineer suite (idea only, no license found); see ATTRIBUTION.md.
+- The skills count updates itself on the next generate. Note: three skills were briefly authored into the parent
+  folder and moved into the repo; delete the stray copies under the parent `Cambium/skills/` on your machine.
+
 ## 1.28.0 - 2026-06-30 - UI/UX skill deepened from the best open design skills
 
 Folded the durable, open ideas from the top UI/UX agent-skill repositories into `skills/ui-ux-design`, with

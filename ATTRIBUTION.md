@@ -31,6 +31,16 @@ Cambium is MIT-licensed. It incorporates ideas adapted from the following work.
 - **Design Tokens Community Group (DTCG) format** - https://designtokens.org - the open token JSON standard
   the skill recommends for portable tokens.
 
+## Full-stack engineering skill conventions (ideas adopted into docs/engineering_conventions.md and the skills)
+- **jeffallan/claude-skills** by Jeff Allan - https://github.com/jeffallan/claude-skills - MIT - the
+  progressive-disclosure authoring pattern (thin frontmatter, body on demand), lifecycle and
+  skill-combination conventions. Ideas adopted, no files copied.
+- **Senior full-stack engineer suite** (mcpmarket / claudepluginhub listings) - no license found - the
+  four-dimension definition-of-done scorecard (security, performance, tests, docs) and the architecture-first
+  (ADR before scaffolding) stance. Ideas only; nothing copied because no license was found.
+- **nextlevelbuilder/ui-ux-pro-max-skill** by nextlevelbuilder - https://github.com/nextlevelbuilder/ui-ux-pro-max-skill -
+  MIT - the brief-first design step and versioned design-knowledge-base concept (also credited above under UI/UX).
+
 *Per the MIT license, copyright protects expression, not ideas, so adopting a structural pattern in our own
 words does not trigger a notice requirement. We credit the source anyway as good practice. Copying or
 closely adapting an actual file would require carrying the upstream MIT notice with that file.*
