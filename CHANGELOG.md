@@ -1,5 +1,26 @@
 # Changelog
 
+## 1.30.0 - 2026-06-30 - Assigned duties become structure, not enforcement (governance)
+
+A run exposed two gaps: the orchestrator skipped the router's assigned toolsmith provision phase and the
+Support README refresh, and the README drifted. The Director asked for a meaningful fix, not a rigid lock:
+the orchestrator should reason from a clear structure and the human should see and own the outcome. So we
+fixed the structure and added an honest mirror, not a gate.
+
+- **Routing (structural).** `outreach` is now in `_closeout()` in `tools/task_router.py`, so refreshing the
+  README is a named Support duty in every routed plan, not an afterthought.
+- **Advisory review, not a gate.** `tools/closeout.py` is broadened into an honest close-out review: version
+  badge versus the latest CHANGELOG, skills count, an undescribed-skill signal, plus the existing tool-count
+  and CHANGELOG checks. It is clearly labeled advisory and informs the orchestrator's judgment; no new
+  run-failing deterministic check was added.
+- **Contract as principle.** `docs/concepts/PRESENTATION.md` (Act II and Act IV) now states the posture:
+  the orchestrator consults the routed plan and dispatches the agents it names, reads the close-out review,
+  decides with judgment, and states any deliberate deviation to the Director. Structure guides, the
+  orchestrator reasons, the human owns the outcome. Also fixed a pre-existing truncated final sentence.
+- **Tests:** `tests/test_closeout.py` extended (outreach in the close-out plan, version-badge drift, the
+  undescribed-skill signal). Verified on the developer machine via the push hook; the sandbox mount could not
+  run the freshly written file.
+
 ## 1.29.0 - 2026-06-30 - Full-stack AI engineer: nine engineering skills (gates G1, G4)
 
 Run the Cambium way (Scouts + Faculty scoped it, Execution built it, Verification audited it, the Director

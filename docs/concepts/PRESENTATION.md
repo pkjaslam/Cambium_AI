@@ -172,5 +172,5 @@ guides, the Orchestrator reasons, and the human owns the outcome.
 
 **The learn step is a default, delivered every time.** Every build or analysis run delivers a learning packet to the Director — a plain-language explainer, glossary, flashcards, and a short quiz written to `agent_outputs/learning_packet.md` and presented in chat, not just filed. The full interactive Learning Lab (tools/gen_learning_lab.py) is always offered as the next step. `tools/learning_delivery.py` is the deterministic check that a filled learning packet or lab was actually delivered to the Director during the run; the Orchestrator reads its signal at close-out and, if the packet was missed, delivers it before shipping.
 
-Then show the **final board** with every phase ✓ and a 3–5 line "what shipped" summary
-(`--board --phase <last>`), and in Cowork a final dashboard u
+Then show the **final board** with every phase done and a 3 to 5 line "what shipped" summary
+(`--board --phase <last>`), and in Cowork a final dashboard update pushed to the same artifact so the Director can reopen the finished run.

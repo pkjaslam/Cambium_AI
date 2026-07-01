@@ -167,7 +167,8 @@ def _release_gate():
 def _closeout():
     # Support council housekeeping after EVERY task; no human gate (automatic close-out).
     # office-manager compiles the run digest; feedback-router routes any REVISE feedback to the right agents.
-    return ph("closeout",[grp("close-out",C("support","record-keeper","office-manager","feedback-router","integrity-officer","janitor"))])
+    # outreach is included so README refresh is a named duty in every routed plan.
+    return ph("closeout",[grp("close-out",C("support","record-keeper","office-manager","feedback-router","integrity-officer","janitor","outreach"))])
 
 def _learn():
     # learning-by-doing: after a build/analysis, the teaching-assistant explains what was made and why,

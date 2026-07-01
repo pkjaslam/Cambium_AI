@@ -5,7 +5,7 @@
 <br>
 
 <a href="https://github.com/pkjaslam/Cambium_AI/actions"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/pkjaslam/Cambium_AI/validate.yml?style=flat-square&label=CI&color=16C079"></a>
-<a href="CHANGELOG.md"><img alt="Version" src="https://img.shields.io/badge/version-1.29.0-16C079?style=flat-square"></a>
+<a href="CHANGELOG.md"><img alt="Version" src="https://img.shields.io/badge/version-1.30.0-16C079?style=flat-square"></a>
 <img alt="Agents" src="https://img.shields.io/badge/agents-46-16C079?style=flat-square">
 <img alt="Human gates" src="https://img.shields.io/badge/human_gates-8-0E8E5B?style=flat-square">
 <img alt="Doctor grade" src="https://img.shields.io/badge/doctor%20--grade-A-16C079?style=flat-square">
@@ -273,9 +273,9 @@ Soon: actually run the v1 enforcement study, the powered, human-judged version. 
 ### Recent updates
 
 <!-- CAMBIUM:WHATSNEW -->
+- **1.30.0**: Assigned duties become structure, not enforcement (governance)
 - **1.29.0**: Full-stack AI engineer: nine engineering skills (gates G1, G4)
 - **1.28.0**: UI/UX skill deepened from the best open design skills
-- **1.27.0**: Web development and UI/UX design skills
 <!-- /CAMBIUM:WHATSNEW -->
 
 ---
