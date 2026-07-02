@@ -29,29 +29,101 @@ _SHORT2TITLE = {"orch":"Orchestration","preaward":"Pre-Award","partner":"Partner
  "support":"Support","gov":"Governance"}
 
 def _routed_phases(task):
+    """Fallback plan when run_state.json has no plan block: route via the SAME canonical
+    planner the state uses (task_router.plan_phases), so a board rendered from a bare state
+    matches the plan a fresh reset would write. Agent ids are BARE (a[2]); the dispatch
+    string is composed for display only."""
     import task_router
-    a2c = {a: _SHORT2TITLE.get(c, c.title()) for c, ags in task_router.CMAP.items() for a in ags}
+    return task_router.plan_phases(task or "a Cambium run")
+
+def _merge_live(phases, findings, status):
+    """Return a copy of *phases* with each agent's live finding (from the findings map)
+    and status (from the agent_status map) merged in. This is what makes a `finding`
+    recorded via run_state.py actually surface on the board (audit #1/#2). Each agent
+    tuple becomes [council, role, id, finding, status].
+
+    Shape-robust by AGENT ID: findings/status are looked up from the top-level maps keyed
+    by the BARE agent id (a[2]) -- the shape run_state.py `_route_plan` actually writes, where
+    agents are 3-tuples [council, role, id] and finding/status live in the separate
+    d["findings"] / d["agent_status"] maps. If a finding/status is instead embedded in the
+    tuple (a[3]/a[4] -- the older shape some unit tests hand-build), that value is the
+    fallback, so BOTH shapes render. status defaults to "queued"."""
     out = []
-    for ph in task_router.route(task or "a Cambium run").get("phases", []):
+    for ph in phases:
         agents = []
-        for grp in ph.get("groups", []):
-            for a in grp.get("agents", []):
-                council = a2c.get(a, "Support")
-                role = a.replace("-", " ").title()
-                agents.append([council, role, "cambium-institute:" + a])
-        council = agents[0][0] if agents else "Support"
-        out.append({"council": council, "label": ph.get("id", "phase").replace("-", " ").title(),
-                    "agents": agents, "gate": ph.get("gate")})
+        for a in ph.get("agents", []):
+            council = a[0] if len(a) > 0 else ""
+            role = a[1] if len(a) > 1 else ""
+            aid = a[2] if len(a) > 2 else role
+            # resolve by id from the maps first; fall back to any embedded a[3]/a[4].
+            finding = findings.get(aid, a[3] if len(a) > 3 else "")
+            ast = status.get(aid, a[4] if len(a) > 4 else "queued")
+            agents.append([council, role, aid, finding, ast])
+        out.append({"council": ph.get("council", ""), "label": ph.get("label", ""),
+                    "gate": ph.get("gate"), "agents": agents})
     return out
 
+
+def _norm_cur(phase, n_phases):
+    """Reconcile the phase cursor run_state.py writes with the 1-based cursor every board
+    renders. `status_of(i, cur)` treats phase index i as "now" when cur == i+1 (1-based:
+    the first phase is cur==1). But run_state.py `phase N` stores N verbatim, and the
+    Orchestrator drives it 0-BASED (the intake phase is `phase 0`). Left unmapped, a real
+    `phase 0` state classifies every phase as "waiting", so the running phase's agents (and
+    their findings) never render on EITHER HTML board -- the exact gap the e2e repro hits.
+
+    Fix at the single load boundary: a cursor of 0 (impossible under the 1-based convention,
+    where the minimum live phase is 1) is the driver's 0-based first phase -> shift to 1.
+    A cursor already in [1, n_phases] is a valid 1-based "now" and is left untouched (this
+    is what the hand-built unit tests and run_trace already rely on), as is None (not started)
+    and an out-of-range value (e.g. cur > n_phases signals a completed run)."""
+    if phase == 0 and n_phases:
+        return 1
+    return phase
+
+
 def load(state):
+    """Read run_state.json and return (state, MERGED phases, current-phase, note).
+
+    Single source of truth: the plan comes from run_state.json["plan"]["phases"] (written
+    by run_state.py from task_router.plan_state). If it is absent (older/bare state), we
+    route from the note via the SAME canonical planner so counts still match the other
+    surfaces. Findings recorded through run_state.py finding <agent> "..." and per-agent
+    status are merged in here, so a done agent shows its finding and a working/queued agent
+    shows its live state on BOTH HTML boards. The returned phase cursor is normalized
+    (see _norm_cur) so the 0-based `phase` run_state.py writes renders correctly."""
     d = json.load(open(state, encoding="utf-8"))
-    phases = d.get("plan", {}).get("phases", [])
+    plan = d.get("plan") or {}
+    phases = plan.get("phases", []) if isinstance(plan, dict) else []
     if not phases:
-        task = d.get("note") or d.get("plan", {}).get("request") or ""
-        try: phases = _routed_phases(task)
-        except Exception: phases = []
-    return d, phases, d.get("phase"), d.get("note", "")
+        task = d.get("note") or (plan.get("request") if isinstance(plan, dict) else "") or ""
+        try:
+            phases = _routed_phases(task)
+        except Exception:
+            phases = []
+    phases = _merge_live(phases, d.get("findings") or {}, d.get("agent_status") or {})
+    # Normalize the phase cursor to the 1-based convention every board renders (so a
+    # driver-written 0-based `phase 0` state surfaces its running phase + findings).
+    cur = _norm_cur(d.get("phase"), len(phases))
+    return d, phases, cur, d.get("note", "")
+
+def _eff_status(phase_status, agent_status):
+    """Effective per-agent status. A finished phase -> every agent done; a not-yet-started
+    phase -> every agent queued; the CURRENT phase -> the agent's own recorded status
+    (queued|working|done), defaulting to working since the phase is live. This is what lets
+    a done agent inside the running phase show a check + finding while its neighbors still
+    read working/queued (audit #1/#2)."""
+    if phase_status == "done":
+        return "done"
+    if phase_status == "waiting":
+        return "queued"
+    # phase is "now"
+    return agent_status if agent_status in ("queued", "working", "done") else "working"
+
+
+_AGLYPH = {"done": "✓", "working": "▶", "queued": "○", "waiting": "○"}
+_ALABEL = {"done": "done", "working": "working", "queued": "queued", "waiting": "queued"}
+
 
 def render(state_path, title):
     d, phases, cur, note = load(state_path)
@@ -61,7 +133,7 @@ def render(state_path, title):
     done = sum(1 for i, _ in enumerate(phases) if status_of(i, cur) == "done")
     total = len(phases) or 1
     pct = round(100 * done / total)
-    req = title or d.get("plan", {}).get("request") or note or "Cambium run"
+    req = title or (d.get("plan") or {}).get("request") or note or "Cambium run"
 
     rail = []
     for i, p in enumerate(phases):
@@ -70,22 +142,41 @@ def render(state_path, title):
         if i < len(phases) - 1:
             rail.append(f'<div class="conn {("done" if st=="done" else "")}"></div>')
 
+    # Render started phases (done + the current one) in full; collapse not-yet-started
+    # phases into a compact "Up next" strip so a large queued roster does not emit one
+    # card per queued agent (audit #4).
+    seen_ids = set()   # no duplicate live chip in a single rendered view (audit #7)
+    fmap = d.get("findings") or {}
+    smap = d.get("agent_status") or {}
     cards = []
+    upnext = []
     for i, p in enumerate(phases):
         st = status_of(i, cur)
+        if st == "waiting":
+            upnext.append(p)
+            continue
         hue = COUNCIL_HUE.get(p.get("council"), 150)
         agents = []
         for a in p.get("agents", []):
-            council, role, atype = (a + ["", "", ""])[:3]
+            council, role, aid = (a + ["", "", ""])[:3]
+            # resolve finding/status by AGENT ID from the top-level maps (the shape
+            # run_state.py writes); fall back to any value merged onto the tuple (a[3]/a[4]).
+            finding = fmap.get(aid, a[3] if len(a) > 3 else "")
+            arec = smap.get(aid, a[4] if len(a) > 4 else "queued")
+            eff = _eff_status(st, arec)
+            if aid in seen_ids:
+                continue
+            seen_ids.add(aid)
             ah = COUNCIL_HUE.get(council, 150)
-            finding = a[3] if len(a) > 3 else ""
-            glyph = {"done": "✓", "now": "▶", "waiting": "○"}[st]
+            show_find = bool(finding) and eff in ("done", "working")
+            glyph = _AGLYPH[eff]
             agents.append(
-                f'<div class="agent {st}" style="--h:{ah}">'
+                f'<div class="agent {eff}" style="--h:{ah}">'
                 f'<div class="atop"><span class="badge">{glyph}</span>'
-                f'<span class="acouncil">{esc(council)}</span><span class="arole">{esc(role)}</span></div>'
-                + (f'<div class="afind">{esc(finding)}</div>' if finding else "")
-                + f'<div class="atype">{esc(atype)}</div></div>')
+                f'<span class="acouncil">{esc(council)}</span><span class="arole">{esc(role)}</span>'
+                f'<span class="astate">{_ALABEL[eff]}</span></div>'
+                + (f'<div class="afind">{esc(finding)}</div>' if show_find else "")
+                + f'<div class="atype">cambium-institute:{esc(aid)}</div></div>')
         gate = ""
         if p.get("gate"):
             g = p["gate"]; gst = "cleared" if st == "done" else ("pending" if st == "now" else "upcoming")
@@ -96,6 +187,14 @@ def render(state_path, title):
             f'<h3><span class="pn">Phase {i+1}</span> {esc(p.get("label",""))}'
             f'<span class="pstate">{st}</span></h3>'
             f'<div class="agents">{"".join(agents)}</div>{gate}</section>')
+
+    # compact "Up next" strip: one chip per not-yet-started phase, "<council> (n)" (audit #4)
+    upnext_html = ""
+    if upnext:
+        chips = "  →  ".join(
+            f'<span class="unchip"><span class="undot"></span>{esc(p.get("council",""))} ({len(p.get("agents", []))})</span>'
+            for p in upnext)
+        upnext_html = (f'<div class="upnext"><span class="unlbl">Up next</span>{chips}</div>')
 
     active_gate = next((p["gate"] for i, p in enumerate(phases)
                         if p.get("gate") and status_of(i, cur) == "now"), None)
@@ -129,8 +228,8 @@ def render(state_path, title):
 
     nowline = note or ("complete" if (cur and cur > total) else "running")
     return TEMPLATE.format(req=esc(req), pct=pct, done=done, total=total, n_ag=n_ag, n_co=n_co, n_gt=n_gt,
-                           rail="".join(rail), cards="".join(cards), gatecard=gatecard, nowline=esc(nowline),
-                           feed=feed, complete=complete)
+                           rail="".join(rail), cards="".join(cards) + upnext_html, gatecard=gatecard,
+                           nowline=esc(nowline), feed=feed, complete=complete)
 
 TEMPLATE = """<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1"><title>Cambium - run board</title>
@@ -163,6 +262,14 @@ TEMPLATE = """<!doctype html><html lang="en"><head><meta charset="utf-8">
  .agents{{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:9px}}
  .agent{{border:1px solid var(--edge);border-radius:11px;padding:10px 11px;background:#fbfdfc}}
  .agent.now{{border-color:hsl(var(--h) 55% 50%)}}
+ .agent.done{{border-color:hsl(var(--h) 45% 60%)}} .agent.queued{{opacity:.62}}
+ .astate{{margin-left:auto;font-size:9.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--mut)}}
+ .agent.now .astate,.agent.working .astate{{color:var(--forest)}} .agent.done .astate{{color:var(--emer)}}
+ .agent.working .badge{{animation:pulse 1.4s infinite}}
+ .upnext{{margin-top:6px;border:1px dashed var(--edge);border-radius:12px;padding:11px 14px;background:var(--card);display:flex;flex-wrap:wrap;align-items:center;gap:8px;color:var(--mut);font-size:12px}}
+ .upnext .unlbl{{font-weight:800;color:var(--forest);text-transform:uppercase;letter-spacing:.6px;font-size:11px;margin-right:4px}}
+ .unchip{{display:inline-flex;align-items:center;gap:6px;color:var(--ink);font-weight:600}}
+ .undot{{width:8px;height:8px;border-radius:50%;border:1.5px solid var(--dim)}}
  .atop{{display:flex;align-items:center;gap:7px}}
  .badge{{width:19px;height:19px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;background:hsl(var(--h) 50% 95%);color:hsl(var(--h) 45% 38%);border:1px solid hsl(var(--h) 40% 85%)}}
  .acouncil{{color:hsl(var(--h) 35% 45%);font-size:11px;font-weight:600}} .arole{{font-weight:700;font-size:12.5px}}
@@ -210,13 +317,29 @@ def main(argv=None):
     ap.add_argument("--state", default=os.path.join(cambium_io.data_home(), "agent_outputs", "run_state.json"))
     ap.add_argument("--out", default=os.path.join(cambium_io.data_home(), "agent_outputs", "run_board.html"))
     ap.add_argument("--title", default="")
+    ap.add_argument("--stdout", action="store_true",
+                    help="print the rendered board HTML to stdout instead of writing --out "
+                         "(so `gen_board_pro.py --state ... | grep ...` works)")
     a = ap.parse_args(argv)
     if not os.path.exists(a.state):
         print("[gen_board_pro] no run state at %s" % a.state); return 1
+    html_doc = render(a.state, a.title)
+    # `--out -` emits ONLY the HTML to stdout (no file), matching the inline board's stdout mode.
+    if a.out == "-":
+        sys.stdout.write(html_doc)
+        return 0
     # Resolve relative --out against data_home(), not ROOT, so plugin writes stay writable.
     out = a.out if os.path.isabs(a.out) else os.path.join(cambium_io.data_home(), a.out)
     os.makedirs(os.path.dirname(out), exist_ok=True)
-    open(out, "w", encoding="utf-8").write(render(a.state, a.title))
+    open(out, "w", encoding="utf-8").write(html_doc)
+    # The reopenable artifact is ALWAYS written (PRESENTATION.md contract). Additionally, when
+    # the caller is piping us (stdout is not a TTY) or asks with --stdout, echo the rendered
+    # HTML to stdout so `gen_board_pro.py --state ... | grep "..."` finds the board content,
+    # exactly like the inline board. On a real terminal we keep the concise "wrote <path>" line.
+    piped = a.stdout or not sys.stdout.isatty()
+    if piped:
+        sys.stdout.write(html_doc)
+        return 0
     try:
         shown = os.path.relpath(out, ROOT)
     except ValueError:   # out and ROOT on different drives (Windows): show the absolute path

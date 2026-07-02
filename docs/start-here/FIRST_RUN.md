@@ -18,10 +18,12 @@ You'll get the **run board** up front — the councils that will work and the ga
 The institute moves through phases; **it stops at each gate and waits for you.** At every gate you'll see a
 one-page card (Decision · Where we are · Options · Risks · Evidence · Recommendation) and three choices:
 
-- **APPROVE** — you agree; it continues. *(Tip: a real APPROVE asks for your one-line reasoning — that's the
-  Learning Gate. Say why, briefly. A blank approval is blocked on purpose.)*
-- **REVISE** — tell it what to change; it redoes that step and returns to the gate.
-- **REJECT** — stop here. Nothing ships without you.
+- **APPROVE**: you agree, and it continues. *(Tip: a real APPROVE asks you to say, in a couple of sentences and
+  in your own words, what you expect and why, which option you pick, and a one-line answer to the single
+  question it asks back. That is the Learning Gate, and it goes on the record as your call. It is quick, but a
+  blank approval is blocked on purpose.)*
+- **REVISE**: tell it what to change, and it redoes that step and returns to the gate.
+- **REJECT**: stop here. Nothing ships without you.
 
 Typical gates: **G1** pursue this RFP? · **G2** which idea? · **G3** finalize & submit? (Director-only) ·
 **G4** accept the results? · **G5** release the report?

@@ -221,28 +221,33 @@ def board_text(task, cur_phase=None, note=None, state=None):
             out.append(gl)
         out.append("")
 
-    # council strip
+    # council strip.
+    # The not-started glyph is the Unicode WHITE CIRCLE "○" (U+25CB), NOT "·": a middot glyph
+    # collides with the "  ·  " separator and makes the strip read blank, e.g.
+    # "Orchestration · · Labs" (audit #7). "○" is visually distinct from the separator, so
+    # every council's state is legible whether the run is live or not.
+    NOT_STARTED = "○"
     strip = []
     for c in ["Orchestration", "Scouts", "Labs", "Execution", "Verification", "Support", "Governance"]:
         present = any(a[0] == c for ph in P for a in ph["agents"]) or c == "Orchestration"
         if not present:
             continue
         if not live:
-            s = "·"
+            s = NOT_STARTED
         else:
             phs = [ph["n"] for ph in P if any(a[0] == c for a in ph["agents"])]
             if c == "Orchestration":
                 s = "✓"
             elif not phs:
-                s = "·"
+                s = NOT_STARTED
             elif cur_phase > max(phs):
                 s = "✓"
             elif cur_phase < min(phs):
-                s = "○"
+                s = NOT_STARTED
             else:
                 s = "▶"
         strip.append(f"{c} {s}")
-    out.append("  Councils:  " + "  ·  ".join(strip))
+    out.append("  Councils:  " + "   ·   ".join(strip))
 
     if live and 1 <= cur_phase <= len(P):
         cp = P[cur_phase - 1]

@@ -177,7 +177,7 @@ def generate_whatsnew_content(changelog_text: str) -> str:
     entries = parse_changelog_top3(changelog_text)
     if not entries:
         return "_(no CHANGELOG entries found)_"
-    lines = [f"- **{v}**: " + h.replace("\u2014","-").replace("\u2013","-") for v, h in entries]
+    lines = [f"- **{v}**: " + h.replace("—","-").replace("–","-") for v, h in entries]
     return "\n".join(lines)
 
 

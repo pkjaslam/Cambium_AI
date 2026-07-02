@@ -7,8 +7,10 @@ WITHOUT hand-editing JSON. The headline win is `sync`: it reads each agent's own
 one-line finding automatically, so the board fills in as agents report back.
 
 Subcommands (state file defaults to agent_outputs/run_state.json; override with --file PATH):
+  plan "<task>"                                (re)route <task> and write the plan into run_state.json (SSOT)
   phase N [--note "..."]                       set the current phase (+ optional now-note)
-  finding <agent> "<one-line>"                 record one agent's headline finding
+  finding <agent> "<one-line>" [--status S]    record one agent's finding (S=done by default); marks it done
+  status <agent> <queued|working|done>         set one agent's live status without a finding
   loop <position>                              set loop_position (intra-phase iterate cursor, for handoff)
   gate <ID> "<decision>" [--rec R] [--kind K]  arm the gate banner (K = GATE | Checkpoint)
   cleargate                                    remove the gate banner (after APPROVE)
@@ -23,8 +25,9 @@ Typical loop the Orchestrator runs each phase:
   python3 tools/run_state.py sync --phase 2          # lifts each agent's Decision line into the board
   python3 tools/run_trace.py --board "<request>"     # auto-reads run_state.json
 
-Note: `phase` also prints a "RE-PAINT THE BOARD NOW" reminder (and the board fragment itself, when
-tools/gen_inline_board.py is importable) so the in-chat board never silently goes stale after phase 1.
+Note: `phase` prints a ONE-LINE "RE-PAINT THE BOARD NOW" nudge plus the exact repaint command, so the
+in-chat board never silently goes stale after phase 1 WITHOUT dumping a 16KB HTML fragment into the
+transcript. Pass `--emit` to `phase` when you actually want the rendered board fragment inline.
 """
 import sys, os, json, glob, re, time
 import cambium_io  # noqa: F401 — reconfigures stdout/stderr to UTF-8 on Windows
@@ -48,7 +51,8 @@ def load(path):
     if os.path.exists(path):
         with open(path, encoding="utf-8") as fh:
             return json.load(fh)
-    return {"phase": None, "note": None, "findings": {}, "leaderboard": [], "gate": None, "loop_position": None}
+    return {"phase": None, "note": None, "plan": None, "findings": {}, "agent_status": {},
+            "leaderboard": [], "gate": None, "loop_position": None}
 
 
 def save(path, st):
@@ -62,26 +66,29 @@ def _agent_from_file(p):
     return os.path.basename(p)[:-3].replace("_", "-")
 
 
-def print_repaint_reminder(path):
+def print_repaint_reminder(path, emit=False):
     """After a phase update, the in-chat board must be repainted or it goes stale.
 
-    Prints a short banner. If tools/gen_inline_board.py is importable and exposes render(),
-    also prints the rendered board fragment (ready to pass straight to show_widget). If it is
-    only usable as a CLI (import fails for any reason), falls back to printing the exact
-    command to run instead. Never raises — this is a best-effort UX nudge, not core logic.
-    """
-    print("\n[run_state] === RE-PAINT THE BOARD NOW ===")
-    tools_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)))
+    QUIET by default (audit #9): prints a ONE-LINE nudge plus the exact command to
+    repaint. It does NOT dump the ~16KB HTML board fragment into the transcript. Pass
+    emit=True (CLI: `phase ... --emit`) only when the caller actually wants the rendered
+    fragment inline (e.g. to pipe straight into show_widget). Never raises."""
+    rel = os.path.relpath(path, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    print("\n[run_state] RE-PAINT THE BOARD NOW: "
+          "python3 tools/gen_inline_board.py --state %s   (or gen_board_pro.py for the sidebar board)"
+          % rel)
+    if not emit:
+        return
+    tools_dir = os.path.dirname(os.path.abspath(__file__))
     try:
         if tools_dir not in sys.path:
             sys.path.insert(0, tools_dir)
         import gen_inline_board as gib
         frag = gib.render(path, "")
-        print("[run_state] board fragment below — pass straight to show_widget:\n")
+        print("[run_state] --emit: board fragment below (pass straight to show_widget):\n")
         print(frag)
     except Exception:
-        print("[run_state] run this to get the board fragment for show_widget:")
-        print("  python3 tools/gen_inline_board.py")
+        print("[run_state] --emit requested but gen_inline_board is not importable; run the command above.")
 
 
 def _decision_line(md):
@@ -122,6 +129,45 @@ def cmd_sync(st, args):
     return st
 
 
+def _route_plan(task):
+    """Build the canonical plan block from task_router (the ONE planner). Best-effort:
+    returns None if routing fails so a fresh run still starts (boards handle plan=None)."""
+    tools_dir = os.path.dirname(os.path.abspath(__file__))
+    if tools_dir not in sys.path:
+        sys.path.insert(0, tools_dir)
+    try:
+        import task_router
+        return task_router.plan_state(task)
+    except Exception:
+        return None
+
+
+def merged_plan(st):
+    """Return the plan's phases with each agent's live finding + status merged in — the
+    single shape every board renders. Each agent becomes [council, role, id, finding];
+    status per id is available via the returned status map. Read-only (does not mutate st).
+
+    findings: st["findings"] maps bare-id -> one-line string (set by the `finding` cmd).
+    status:   st["agent_status"] maps bare-id -> queued|working|done (queued if absent).
+    """
+    plan = st.get("plan") or {}
+    phases = plan.get("phases") or []
+    findings = st.get("findings") or {}
+    status = st.get("agent_status") or {}
+    out = []
+    for ph in phases:
+        agents = []
+        for a in ph.get("agents", []):
+            council = a[0] if len(a) > 0 else ""
+            role = a[1] if len(a) > 1 else ""
+            aid = a[2] if len(a) > 2 else role
+            finding = findings.get(aid, a[3] if len(a) > 3 else "")
+            agents.append([council, role, aid, finding])
+        out.append({"council": ph.get("council", ""), "label": ph.get("label", ""),
+                    "gate": ph.get("gate"), "agents": agents})
+    return out, {aid: status.get(aid, "queued") for ph in phases for a in ph.get("agents", []) for aid in [a[2] if len(a) > 2 else (a[1] if len(a) > 1 else "")]}
+
+
 def main():
     a = sys.argv[1:]
     if not a:
@@ -133,8 +179,12 @@ def main():
     if cmd == "reset":
         # Fresh per-run state. `started_at` lets `sync` ignore stale agent_outputs/*.md left by
         # earlier runs (this is what kept cross-run findings leaking onto the board).
-        st = {"phase": None, "note": _opt(a, "--note"), "findings": {}, "leaderboard": [], "gate": None,
-              "loop_position": None, "started_at": time.time()}
+        note = _opt(a, "--note")
+        # SSOT: route the task now and write the plan into run_state.json so every surface
+        # (text board + both HTML boards) renders the SAME phases/agents/gates/counts.
+        plan = _route_plan(note) if note else None
+        st = {"phase": None, "note": note, "plan": plan, "findings": {}, "agent_status": {},
+              "leaderboard": [], "gate": None, "loop_position": None, "started_at": time.time()}
     elif cmd == "phase":
         st["phase"] = int(a[1])
         note = _opt(a, "--note")
@@ -142,8 +192,16 @@ def main():
             st["note"] = note
     elif cmd == "loop":
         st["loop_position"] = a[1]
+    elif cmd == "plan":
+        # (re)route a task into the plan block without wiping findings/progress.
+        st["plan"] = _route_plan(a[1])
+        if st.get("note") in (None, ""):
+            st["note"] = a[1]
     elif cmd == "finding":
         st["findings"][a[1]] = a[2]
+        st.setdefault("agent_status", {})[a[1]] = _opt(a, "--status", "done")
+    elif cmd == "status":
+        st.setdefault("agent_status", {})[a[1]] = a[2]
     elif cmd == "gate":
         st["gate"] = {"id": a[1], "decision": a[2],
                       "kind": _opt(a, "--kind", "GATE"),
@@ -172,7 +230,7 @@ def main():
           + (" · gate armed" if st.get('gate') else ""))
 
     if cmd == "phase":
-        print_repaint_reminder(path)
+        print_repaint_reminder(path, emit=("--emit" in a))
 
 
 if __name__ == "__main__":

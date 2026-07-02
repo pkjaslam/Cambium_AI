@@ -128,28 +128,89 @@ def check_phase_progress(root: str) -> dict:
     }
 
 
+def _run_identity(state: dict | None) -> str | None:
+    """A short, lowercased identifier for THIS run, used to scope GATES.md rows to the
+    current run instead of counting the repo's whole approval history (audit #6). Derived
+    from the run_state's plan request or note. Returns None if the run cannot be identified,
+    in which case the caller keeps the legacy 'any dated row = recorded' behavior."""
+    if not state:
+        return None
+    plan = state.get("plan") if isinstance(state.get("plan"), dict) else {}
+    ident = (plan.get("request") or state.get("note") or "").strip().lower()
+    return ident or None
+
+
+def _current_gate_ids(state: dict | None) -> set:
+    """Gate ids that belong to THIS run's plan (+ any armed gate), for scoped matching."""
+    ids = set()
+    if not state:
+        return ids
+    plan = state.get("plan") if isinstance(state.get("plan"), dict) else {}
+    for ph in plan.get("phases", []) or []:
+        g = ph.get("gate")
+        if isinstance(g, dict) and g.get("id"):
+            ids.add(str(g["id"]))
+    armed = state.get("gate")
+    if isinstance(armed, dict) and armed.get("id"):
+        ids.add(str(armed["id"]))
+    return ids
+
+
 def check_gate_recorded(root: str) -> dict:
-    """A gate decision is present, either in run_state.json's 'gate' block
-    (armed = pending, not yet a recorded decision) or as a dated row in
-    governance/GATES.md's Approvals log (a real recorded decision)."""
+    """Is THIS run's gate recorded? (audit #6 scope fix.)
+
+    A gate decision is present, either as an armed decision in run_state.json's 'gate'
+    block or as a dated row in governance/GATES.md's Approvals log. Crucially, when the
+    current run can be identified (a plan request / note in run_state.json), only GATES.md
+    rows that belong to THIS run are counted -- so a brand-new user's run does not read the
+    repo's 60+ historical approvals from other runs as its own gate. When the run cannot be
+    identified, the legacy behavior (any dated row counts) is kept so existing callers and
+    tests are unchanged. This never edits GATES.md; it only scopes what it reads."""
     state = _load_run_state(root)
     state_gate = (state or {}).get("gate")
+    run_id = _run_identity(state)
+    gate_ids = _current_gate_ids(state)
 
     gates_path = os.path.join(root, "governance", "GATES.md")
-    approvals_rows = 0
+    dated_rows = []
     if os.path.exists(gates_path):
         try:
             text = open(gates_path, encoding="utf-8", errors="replace").read()
         except OSError:
             text = ""
-        # Approvals log rows look like: | 2026-06-26 | G2 | ... | APPROVE ... |
-        approvals_rows = len(re.findall(r"\|\s*\d{4}-\d{2}-\d{2}\s*\|", text))
+        # Approvals log rows look like: | G2 | 2026-06-26 | Director | APPROVE | run: <id> ... |
+        for line in text.splitlines():
+            if re.search(r"\|\s*\d{4}-\d{2}-\d{2}\s*\|", line):
+                dated_rows.append(line)
 
-    if approvals_rows > 0:
+    # Count only rows that belong to THIS run when we can identify it (scoped);
+    # otherwise fall back to the total (legacy behavior, keeps old tests green).
+    if run_id or gate_ids:
+        _STOP = {"the", "a", "an", "and", "or", "for", "to", "of", "on", "in", "my",
+                 "our", "with", "build", "make", "run", "new", "brand"}
+        run_tokens = {w for w in re.split(r"[^a-z0-9]+", run_id or "")
+                      if len(w) >= 4 and w not in _STOP}
+
+        def _row_matches(row: str) -> bool:
+            low = row.lower()
+            if run_id and run_id in low:                     # exact run identity present
+                return True
+            m = re.search(r"run:\s*([a-z0-9\-_ ]+)", low)     # explicit "run: <id>" marker
+            if m and run_tokens and any(t in m.group(1) for t in run_tokens):
+                return True
+            return False
+        scoped_rows = [r for r in dated_rows if _row_matches(r)]
+        n_rows = len(scoped_rows)
+        scope_note = " for this run" 
+    else:
+        n_rows = len(dated_rows)
+        scope_note = ""
+
+    if n_rows > 0:
         return {
             "check": "Gate recorded",
             "status": "pass",
-            "detail": f"governance/GATES.md Approvals log has {approvals_rows} dated row(s).",
+            "detail": f"governance/GATES.md Approvals log has {n_rows} dated row(s){scope_note}.",
         }
     if state_gate:
         return {
@@ -157,7 +218,7 @@ def check_gate_recorded(root: str) -> dict:
             "status": "gap",
             "detail": (
                 f"run_state.json has an armed gate ({state_gate.get('id', '?')}) "
-                "but no dated decision found in governance/GATES.md Approvals log."
+                "but no dated decision found in governance/GATES.md Approvals log for this run."
             ),
         }
     if state is None and not os.path.exists(gates_path):
@@ -169,9 +230,8 @@ def check_gate_recorded(root: str) -> dict:
     return {
         "check": "Gate recorded",
         "status": "gap",
-        "detail": "no gate decision found in run_state.json or governance/GATES.md.",
+        "detail": "no gate decision found in run_state.json or governance/GATES.md for this run.",
     }
-
 
 def check_learning_delivered(root: str) -> dict:
     """Reuse learning_delivery.py's own check -- single source of truth, not re-implemented here."""

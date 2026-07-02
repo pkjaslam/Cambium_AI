@@ -57,3 +57,75 @@ def test_phase_prints_repaint_reminder():
         assert st["phase"] == 2
     finally:
         shutil.rmtree(d, ignore_errors=True)
+
+
+# --- SSOT plan writing + findings/status + quiet repaint (audit #1/#2/#9) ---
+
+def test_reset_writes_the_routed_plan():
+    """reset --note TASK routes TASK and writes the plan into run_state.json, making it the
+    single source of truth for plan + progress + findings (audit #1)."""
+    d = tempfile.mkdtemp()
+    try:
+        os.makedirs(os.path.join(d, "agent_outputs"))
+        _run(d, "reset", "--note", "Build a web app dashboard")
+        st = json.load(open(os.path.join(d, "agent_outputs", "run_state.json")))
+        assert st.get("plan"), "reset must write a plan block"
+        assert st["plan"]["type"] == "software"
+        assert len(st["plan"]["phases"]) >= 3
+        # each phase carries council + agents [council, role, id]
+        p0 = st["plan"]["phases"][0]
+        assert "council" in p0 and "agents" in p0
+        assert len(p0["agents"][0]) >= 3
+        assert "agent_status" in st and "findings" in st
+    finally:
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def test_finding_sets_status_done_and_status_cmd_sets_state():
+    """`finding <agent> "..."` records the finding AND marks the agent done; `status` sets a
+    live status without a finding (audit #2)."""
+    d = tempfile.mkdtemp()
+    try:
+        os.makedirs(os.path.join(d, "agent_outputs"))
+        _run(d, "reset", "--note", "Build a web app dashboard")
+        _run(d, "finding", "lab-methods", "Chose a component-driven architecture")
+        _run(d, "status", "lab-domain", "working")
+        st = json.load(open(os.path.join(d, "agent_outputs", "run_state.json")))
+        assert st["findings"]["lab-methods"] == "Chose a component-driven architecture"
+        assert st["agent_status"]["lab-methods"] == "done"
+        assert st["agent_status"]["lab-domain"] == "working"
+    finally:
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def test_phase_repaint_is_quiet_by_default():
+    """`phase N` prints a ONE-LINE repaint nudge with the exact command, NOT the full HTML
+    board fragment (audit #9). The fragment only appears with --emit."""
+    d = tempfile.mkdtemp()
+    try:
+        os.makedirs(os.path.join(d, "agent_outputs"))
+        r = _run(d, "phase", "2")
+        # the nudge and the command are present
+        assert "RE-PAINT THE BOARD NOW" in r.stdout
+        assert "gen_inline_board.py" in r.stdout
+        # but NOT the HTML fragment (no board markup dumped into the transcript)
+        for marker in ("<div", "<style", "cb-ag", "<!doctype"):
+            assert marker not in r.stdout, f"quiet repaint leaked HTML marker: {marker}"
+        # and the whole output stays small (a nudge, not a 16KB fragment)
+        assert len(r.stdout) < 800
+    finally:
+        shutil.rmtree(d, ignore_errors=True)
+
+
+def test_phase_emit_flag_prints_fragment():
+    """With --emit, the caller explicitly opts into the inline board fragment."""
+    d = tempfile.mkdtemp()
+    try:
+        os.makedirs(os.path.join(d, "agent_outputs"))
+        _run(d, "reset", "--note", "Build a web app dashboard")
+        r = _run(d, "phase", "2", "--emit")
+        assert "RE-PAINT THE BOARD NOW" in r.stdout
+        # the fragment (or its container) is present when explicitly requested
+        assert ("cb-ag" in r.stdout) or ("board fragment" in r.stdout)
+    finally:
+        shutil.rmtree(d, ignore_errors=True)

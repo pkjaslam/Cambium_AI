@@ -64,7 +64,7 @@ Tools indexed: 119
 | `gen_dashboard.py` | regenerate assets/benchmark_dashboard.html from LIVE tool output. |
 | `gen_demo_gif.py` | Generate assets/demo.gif from current counts (read from agent_cards.json). |
 | `gen_example_gif.py` | record `cambium_run.py example` into a scrolling terminal GIF for the README demo. |
-| `gen_gate_card.py` | never present a thin gate. |
+| `gen_gate_card.py` | never present a thin gate, and never a cold one. |
 | `gen_inline_board.py` | the IN-CHAT live Cambium run board (a show_widget fragment). |
 | `gen_learning_lab.py` | turn a learning spec into an interactive Cambium Learning Lab page. |
 | `gen_lifecycle.py` | emit assets/lifecycle.svg |

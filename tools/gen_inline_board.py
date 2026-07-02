@@ -34,6 +34,10 @@ STYLE = """<style>
 .cb-gb.ap{border-color:var(--border-success);color:var(--text-success)}
 .cb-gb.rv{border-color:var(--border-warning);color:var(--text-warning)}
 .cb-gb.rj{border-color:var(--border-danger);color:var(--text-danger)}
+.cb-upnext{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:11px 14px;border:0.5px dashed var(--border);border-radius:12px;background:var(--surface-1);margin-top:6px;font-size:12.5px;color:var(--text-secondary)}
+.cb-un-lbl{font-weight:600;color:var(--text-accent);text-transform:uppercase;letter-spacing:.5px;font-size:11px;margin-right:4px}
+.cb-un-chip{display:inline-flex;align-items:center;gap:6px;color:var(--text-primary);font-weight:500}
+.cb-un-chip::before{content:"";width:8px;height:8px;border-radius:50%;border:1.5px solid var(--text-muted)}
 </style>"""
 
 def render(state_path, title):
@@ -50,22 +54,38 @@ def render(state_path, title):
             (f"Phase {cur} of {total}" if cur else "Convening"))
 
     boxes = []
+    upnext = []
+    seen_ids = set()   # no duplicate live chip in a single rendered view (audit #7)
+    fmap = d.get("findings") or {}
+    smap = d.get("agent_status") or {}
     for i, p in enumerate(phases):
         st = P.status_of(i, cur)            # done / now / waiting
+        if st == "waiting":
+            upnext.append(p)                # collapse not-yet-started phases (audit #4)
+            continue
         for a in p.get("agents", []):
             council, role = (a + ["", ""])[:2]
-            finding = a[3] if len(a) > 3 else ""
-            if st == "done":
+            aid = a[2] if len(a) > 2 else role
+            # resolve finding/status by AGENT ID from the top-level maps (the shape
+            # run_state.py writes: agents are 3-tuples, finding/status live in the maps);
+            # fall back to any value embedded on the tuple (a[3]/a[4]) so the old shape works.
+            finding = fmap.get(aid, a[3] if len(a) > 3 else "")
+            arec = smap.get(aid, a[4] if len(a) > 4 else "queued")
+            if aid in seen_ids:
+                continue
+            seen_ids.add(aid)
+            eff = P._eff_status(st, arec)   # per-agent live status inside the running phase
+            if eff == "done":
                 stht = '<div class="cb-st" style="color:var(--text-success)"><i class="ti ti-check" aria-hidden="true"></i>done</div>'
                 show_find = bool(finding)
-            elif st == "now":
+            elif eff == "working":
                 stht = '<div class="cb-st" style="color:var(--text-warning)"><span style="width:8px;height:8px;border-radius:50%;background:var(--text-warning);animation:cbps 1s infinite"></span>working</div>'
                 show_find = bool(finding)
             else:
                 stht = '<div class="cb-st" style="color:var(--text-muted)"><i class="ti ti-clock" aria-hidden="true"></i>queued</div>'
                 show_find = False
             boxes.append(
-                f'<div class="cb-ag {"wait" if st=="waiting" else ""}">'
+                f'<div class="cb-ag">'
                 f'<div class="cb-ic"><i class="ti ti-user-cog" aria-hidden="true"></i></div>'
                 f'<div style="flex:1;min-width:0">'
                 f'<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">'
@@ -73,6 +93,15 @@ def render(state_path, title):
                 f'<span style="font-weight:600;font-size:14.5px">{esc(role)}</span></div>'
                 + (f'<div class="cb-find">{esc(finding)}</div>' if show_find else "")
                 + f'</div>{stht}</div>')
+
+    # compact "Up next" strip for not-yet-started councils (audit #4): one chip per phase,
+    # "<council> (n)", never one card per queued agent.
+    upnext_html = ""
+    if upnext:
+        chips = "  ->  ".join(
+            f'<span class="cb-un-chip">{esc(p.get("council",""))} ({len(p.get("agents", []))})</span>'
+            for p in upnext)
+        upnext_html = (f'<div class="cb-upnext"><span class="cb-un-lbl">Up next</span>{chips}</div>')
 
     # active gate (the pending one)
     gatecard = ""
@@ -111,7 +140,7 @@ def render(state_path, title):
       f'<div style="font-size:12px;color:var(--text-muted)">{n_ag} agents · {n_co} councils · {n_gt} gate(s)</div></div></div>'
       f'<div style="height:6px;background:var(--surface-1);border-radius:999px;overflow:hidden;margin-bottom:1rem">'
       f'<div style="height:100%;width:{pct}%;background:var(--text-accent);transition:width .5s"></div></div>'
-      + gatecard + "".join(boxes) + done_banner)
+      + gatecard + "".join(boxes) + upnext_html + done_banner)
     return frag
 
 def main(argv=None):

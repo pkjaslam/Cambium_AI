@@ -1,5 +1,44 @@
 # Changelog
 
+## 1.39.0 - 2026-07-02 - The board comes alive: one source of truth, findings that stream, a gate you never scroll for
+
+A full UX pass driven by an end-to-end audit of the real first-run experience, then built and integrated
+the Cambium way. The terminal always kept the promise the README GIF sells; now the in-chat visual board
+keeps it too.
+
+- **One plan, one state, every surface agrees.** run_state.json is the single source of truth: the routed
+  plan (phases, groups, agents, gate per phase) is written once by task_router, and the text board plus both
+  HTML boards render from it. For the same run they now report identical counts (22 specialists, 6 councils,
+  3 gates for a software run), ending the old contradiction where two planners fed two faces different numbers.
+- **Findings come alive.** Each agent's one-line finding surfaces the moment it reports (run_state.py finding
+  and status subcommands write to a per-agent map; both boards merge it by agent id). A done agent shows a
+  check and its finding, a working agent shows working, queued stays quiet. Findings are HTML-escaped.
+- **The queued wall is gone.** Started phases render in full, then a compact "Up next: Execution (4) ->
+  Verification (6)" strip stands in for not-yet-started councils, cutting the inline fragment from ~12KB to
+  ~5KB and removing 18 identical queued cards.
+- **Clean and de-duplicated.** The councils status strip uses a distinct not-started glyph so
+  "Orchestration o . Labs o" never reads blank, and an agent that recurs across phases is not drawn twice in
+  one view.
+- **Quiet repaint.** run_state.py phase now prints a one-line nudge plus the exact repaint command instead of
+  dumping a 16KB HTML fragment into the transcript; the fragment is opt-in with --emit.
+- **The gate you never scroll for.** gen_gate_card.py gained a decision bar at the very top (Approve / Revise
+  / Reject visible without scrolling), CSS-variable theming so it adapts to light and dark chat instead of a
+  hard-coded dark slab, a coaching-voice contribution prompt aligned with FIRST_RUN's promise, and a
+  plain-words glossary (gate, evidence tiers, P0/P1/P2, F&A). Empty sections are suppressed so a sparse gate
+  stays short. User text stays escaped.
+- **Per-run gate scope.** run_fidelity now scopes gate status to the current run, so a brand-new user's
+  close-out no longer shows 60+ historical approvals from the project's own dev history as their run's gates.
+- **Caught at the finish line, not after.** The first board build passed its unit tests but rendered no
+  findings when driven end to end (a 0-based vs 1-based phase-cursor mismatch the hand-built test dicts hid).
+  Rendering the real board caught it; the fix ships with new end-to-end tests that drive run_state.py the real
+  way so it cannot regress.
+- **The demo asset matches the product.** assets/run_board.gif was rebuilt to depict the v1.39 behavior:
+  started councils show streaming findings, not-yet-started councils collapse into an Up-next strip, and the
+  gate card leads with the Approve / Revise / Reject decision bar. Verified frame by frame. The assets CI
+  workflow now regenerates the canonical README-quality GIF last so it can never be clobbered by the older
+  PNG generator (both historically wrote the GIF). All generated diagrams (capabilities, org-chart, lifecycle)
+  regenerated and confirmed at 46 agents, 11 councils, 120 tools, 40 skills, 8 gates.
+
 ## 1.38.0 - 2026-07-01 - Measurement becomes the boss: consolidation, golden routing, red-team, frozen budget
 
 Everything from the frontier-lab gap assessment that needs no external help, built in one governed run

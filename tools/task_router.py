@@ -206,6 +206,89 @@ def plan_for_type(typ):
     # running an already-awarded project's work breakdown and schedule.
     return phases + [_closeout()]
 
+# ---- canonical normalized plan (the ONE shape every surface renders) ----
+#
+# route() returns the raw plan (phases -> groups -> agents). Boards and the text
+# trace all need the SAME normalized, per-phase-deduped, orchestrator-excluded
+# roster with a stable council label and dispatchable id, or their counts drift
+# (audit #3/#5). plan_phases() is that single normalizer: run_state.py writes its
+# output into run_state.json["plan"]["phases"], and every surface reads THAT.
+#
+# Normalized phase shape (JSON-serializable, the schema on disk):
+#   {"council": "Labs", "label": "Design",
+#    "gate": {"id": "G-build", "decision": "accept the build?", "kind": "GATE"|"Checkpoint"} | None,
+#    "agents": [["Labs", "Lab Methods", "lab-methods"], ...]}   # [council, role, bare-id]
+# Each agent tuple is [council_title, role_title, bare_agent_id]; a 4th element
+# (a one-line finding) may be appended by the live layer. The bare id is the key
+# used for findings and status, so it MUST be the bare agent name (not the
+# "cambium-institute:<id>" dispatch string).
+
+_COUNCIL_TITLE = {"orch": "Orchestration", "preaward": "Pre-Award", "partner": "Partnerships",
+ "faculty": "Faculty", "scout": "Scouts", "lab": "Labs", "verify": "Verification",
+ "exec": "Execution", "reporting": "Reporting", "support": "Support", "gov": "Governance"}
+_AGENT_COUNCIL = {a: c for c, ags in CMAP.items() for a in ags}
+_COUNCIL_ORDER = list(_COUNCIL_TITLE)
+_GATE_IDS = ("G0", "G1", "G2", "G3", "G3a", "G4", "G5", "G6")
+
+
+def _council_lead(agent_ids):
+    """The council that leads a phase: most-represented council, ties broken by roster order."""
+    from collections import Counter
+    if not agent_ids:
+        return "Orchestration"
+    cnt = Counter(_AGENT_COUNCIL.get(a, "orch") for a in agent_ids)
+    key = max(cnt, key=lambda c: (cnt[c], -_COUNCIL_ORDER.index(c)))
+    return _COUNCIL_TITLE.get(key, "Orchestration")
+
+
+def _pretty_role(agent):
+    """agent id -> human role, dropping the council prefix (scout-landscape -> Landscape)."""
+    role = agent
+    for pre in ("scout-", "lab-", "verify-", "exec-"):
+        if role.startswith(pre):
+            role = role[len(pre):]
+            break
+    return role.replace("-", " ").title()
+
+
+def plan_phases(task):
+    """Canonical normalized phase list for *task* (the single source every surface renders).
+
+    Dedups agents within each phase (keeping first-seen order), drops the orchestrator
+    (it is the conductor, never a worker chip), and stamps each phase's lead council and
+    normalized gate. Returns a list of JSON-serializable phase dicts (see module docstring).
+    """
+    out = []
+    for i, p in enumerate(route(task)["phases"], 1):
+        seen, agents = set(), []
+        for g in p.get("groups", []):
+            for a in g.get("agents", []):
+                if a == "orchestrator" or a in seen:
+                    continue
+                seen.add(a)
+                council = _COUNCIL_TITLE.get(_AGENT_COUNCIL.get(a, "orch"), "Orchestration")
+                agents.append([council, _pretty_role(a), a])
+        gate = None
+        if p.get("gate"):
+            gid = p["gate"]["id"]
+            gate = {"id": gid, "decision": p["gate"].get("decision", "your decision"),
+                    "kind": "GATE" if gid in _GATE_IDS else "Checkpoint"}
+        out.append({"council": _council_lead([a[2] for a in agents]),
+                    "label": p["id"].replace("_", " ").replace("-", " ").title(),
+                    "agents": agents, "gate": gate})
+    return out
+
+
+def plan_state(task):
+    """The plan block written into run_state.json: type, request, and normalized phases.
+
+    This is what makes run_state.json the single source of truth for the plan. Surfaces
+    read run_state.json["plan"]["phases"] and render identically; counts cannot drift
+    because they iterate the same list.
+    """
+    return {"type": classify(task)[0], "request": task, "phases": plan_phases(task)}
+
+
 def route(task):
     """Route a task to a multi-phase plan.
 

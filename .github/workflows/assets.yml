@@ -1,8 +1,10 @@
 # CI: Cambium — keep the run-board imagery fresh
 #
-# Regenerates assets/run_board.png + assets/run_board.gif from tools/gen_board_image.py so the README
-# board never goes stale as the roster / router changes. Runs on every published release and on demand;
-# commits the refreshed assets back only if they actually changed.
+# assets/run_board.png comes from tools/gen_board_image.py; assets/run_board.gif is the README-quality
+# demo and comes from assets/gen/gen_runboard_gif.py (the v1.39 live-board style: Up-next collapse,
+# streaming findings, top decision bar). Both generators historically wrote the GIF, so the canonical
+# generator runs LAST and wins. Runs on every published release and on demand; commits refreshed assets
+# only if they actually changed.
 
 name: Refresh run-board assets
 
@@ -14,6 +16,7 @@ on:
     branches: [main]
     paths:
       - "tools/gen_board_image.py"
+      - "assets/gen/gen_runboard_gif.py"
       - "tools/run_trace.py"
       - "tools/task_router.py"
       - "agent_cards.json"
@@ -38,7 +41,9 @@ jobs:
         run: pip install pillow imageio
 
       - name: Regenerate run-board imagery
-        run: python3 tools/gen_board_image.py
+        run: |
+          python3 tools/gen_board_image.py
+          python3 assets/gen/gen_runboard_gif.py
 
       - name: Commit refreshed assets (only if changed)
         run: |

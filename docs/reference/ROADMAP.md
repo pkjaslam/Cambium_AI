@@ -117,5 +117,18 @@ assets. Resume by building the front-end in a previewing tool (Lovable/bolt/v0) 
   their tests; the debt is surface area, not correctness. Plan: janitor proposes a keep/merge/retire
   table per pair (feature superset wins, tests migrate, retired name prints a pointer for one release),
   Director decides at a gate, nothing is deleted without approval.
+- **Consolidate the two run-board GIF generators.** tools/gen_board_image.py (run_board.png plus an
+  old-style GIF) and assets/gen/gen_runboard_gif.py (the canonical v1.39 README GIF) both write
+  run_board.gif; v1.39 made the CI workflow run the canonical one last so it wins, but the cleaner fix is
+  to have gen_board_image.py own only the PNG and delete its GIF path. Low risk, deferred to the same
+  consolidation gate.
 
-*Last updated: 2026-07-01. Roadmap reflects the maintainer's current intentions; priorities may shift based on user feedback and available capacity.*
+## Recently shipped (2026-07-02, v1.39.0)
+
+- **The in-chat board comes alive.** One run_state.json source of truth so text and both HTML boards agree
+  on counts; agent findings stream as each reports; queued collapsed to an Up-next strip; councils strip
+  legible; quiet repaint. The gate card gained a top decision bar, host theming, a coaching contribution
+  prompt, and a plain-words glossary. Per-run gate scope. An end-to-end phase-cursor defect the unit tests
+  hid was caught by rendering the real board and fixed with new e2e tests.
+
+*Last updated: 2026-07-02. Roadmap reflects the maintainer's current intentions; priorities may shift based on user feedback and available capacity.*

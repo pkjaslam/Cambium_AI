@@ -43,21 +43,24 @@ Reply with one of:
 - ✏️ **REVISE** — {say what to change}; I will re-present this same one-pager.
 - ⛔ **REJECT / HOLD** — stop here.
 
-## 8. Director contribution   *(required — the decision is not recorded until this is answered)*
-This is the half only you can do. Approval is not a signature — it is your thinking, on the record. A bare
+## 8. Your contribution   *(the gate does not record until this is answered)*
+Before you sign: what do you expect to happen here, and why? A few sentences in your own words is plenty.
+This is the half only you can do. Approval is not a signature, it is your thinking on the record, and a bare
 "APPROVE" does not advance the run.
 
-- **Your hypothesis / interpretation** — what do *you* think this result means, or expect next?
-  *(≥ 40 words, in your own words — not pasted from the AI summary above.)*
-- **Your reasoning** — why do you believe that; what evidence or principle supports it? *(≥ 40 words.)*
-- **Your choice + justification** — which option (A / B / C) do you choose, and why? *(selection + a sentence.)*
-- **Socratic check** — answer the one phase-specific question the Orchestrator poses here:
-  *"{auto-generated question probing one assumption in your answer above}"* — a blank answer blocks ADVANCE.
+Just tell us, in your voice:
+- **What you think** this result means, or expect next. *(A short paragraph. Your words, not the AI summary
+  above; the tool looks for about forty words so there is something real to stand behind.)*
+- **Why you believe it**: the evidence or the principle behind your read. *(Another short paragraph.)*
+- **Which option you pick** (A / B / C), and the one reason it wins.
+- **One question back.** The Orchestrator asks a single question about your reasoning here:
+  *"{auto-generated question probing one assumption in your answer above}"* Answer it in a line. Leaving it
+  blank is the one thing that blocks ADVANCE.
 
-These entries are appended — timestamped and immutable — to the **Contribution Ledger**
-(`governance/CONTRIBUTION_LEDGER.csv`) alongside the gate record, with a copy-from-AI similarity flag.
-`tools/learning_gate.py` verifies them before the gate can open. *(Per PHILOSOPHY.md §5 — this is what makes
-the gate evidence of thinking, not just presence.)*
+None of this is a form. It is the record of your call, kept honest: what you write is appended, timestamped
+and immutable, to the **Contribution Ledger** (`governance/CONTRIBUTION_LEDGER.csv`) alongside the gate
+record, with a copy-from-AI similarity flag. `tools/learning_gate.py` checks it before the gate can open.
+*(Per PHILOSOPHY.md §5: this is what makes the gate evidence of thinking, not just presence.)*
 
 ---
 

@@ -196,3 +196,57 @@ def test_cli_prints_scorecard(capsys):
     captured = capsys.readouterr()
     assert "Run fidelity scorecard" in captured.out
     assert "Agent coverage" in captured.out
+
+
+# ---------------------------------------------------------------------------
+# Gate-recorded SCOPE to the current run (audit #6): a brand-new user's run must
+# not read the repo's historical approvals from OTHER runs as its own gate.
+# ---------------------------------------------------------------------------
+
+def _write_history(d, run_id="agentic-os-adoption"):
+    """A GATES.md with many dated rows, all belonging to a DIFFERENT, named prior run."""
+    rows = "\n".join(
+        f"| G{g} | 2026-06-2{g%9} | Director | APPROVE | run: {run_id}; historical decision {g} |"
+        for g in range(1, 40)
+    )
+    open(os.path.join(d, "governance", "GATES.md"), "w", encoding="utf-8").write(
+        "# Gates\n\n| Gate | Date | Approver | Decision | Notes |\n|---|---|---|---|---|\n" + rows + "\n"
+    )
+
+
+def test_gate_recorded_fresh_run_ignores_historical_other_run_rows():
+    d = _mk_root()
+    _write_history(d, run_id="agentic-os-adoption")
+    # a brand-new run whose identity appears NOWHERE in the ledger
+    state_path = os.path.join(d, "agent_outputs", "run_state.json")
+    json.dump({"phase": 2, "note": "Build a widget catalog for startup zzyzx",
+               "plan": {"request": "Build a widget catalog for startup zzyzx", "phases": []},
+               "gate": None}, open(state_path, "w", encoding="utf-8"))
+    r = F.check_gate_recorded(d)
+    assert r["status"] in ("gap", "unknown"), (
+        "a fresh run must NOT count another run's historical approvals as its gate; "
+        f"got {r['status']}: {r['detail']}")
+
+
+def test_gate_recorded_matches_only_this_runs_rows():
+    d = _mk_root()
+    _write_history(d, run_id="agentic-os-adoption")
+    # this run IS the historical one -> its rows count (scoped), and the count is scoped,
+    # not the full ledger of unrelated rows.
+    state_path = os.path.join(d, "agent_outputs", "run_state.json")
+    json.dump({"phase": 2, "note": "agentic-os-adoption",
+               "plan": {"request": "agentic-os-adoption", "phases": []}, "gate": None},
+              open(state_path, "w", encoding="utf-8"))
+    r = F.check_gate_recorded(d)
+    assert r["status"] == "pass"
+    assert "for this run" in r["detail"]
+
+
+def test_gate_recorded_legacy_when_run_cannot_be_identified():
+    """No run identity (no run_state) -> legacy behavior: any dated row counts (unchanged)."""
+    d = _mk_root()
+    open(os.path.join(d, "governance", "GATES.md"), "w", encoding="utf-8").write(
+        "| Gate | Date | Approver | Decision |\n|---|---|---|---|\n"
+        "| G2 | 2026-06-26 | Director | APPROVE |\n")
+    r = F.check_gate_recorded(d)
+    assert r["status"] == "pass"
