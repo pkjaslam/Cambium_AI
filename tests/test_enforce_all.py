@@ -7,7 +7,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 def _run(tool, *a):
     return subprocess.run([sys.executable, os.path.join(ROOT, "tools", tool), *a],
-                          capture_output=True, text=True)
+                          capture_output=True, text=True, encoding="utf-8", errors="replace")
 
 # ---- pace_check (#8) -------------------------------------------------------
 def _toks(d, pairs):

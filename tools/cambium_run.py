@@ -28,6 +28,7 @@ Usage:
   python3 tools/cambium_run.py "build a dashboard" --from-router  # plan from route(), any task type
 """
 import os, sys, json, time, csv, subprocess, concurrent.futures as cf
+import cambium_io  # noqa: F401 -- reconfigures stdout/stderr to UTF-8 on Windows (glyph-safe printing)
 # approx USD per 1M tokens (input, output) — update as model pricing changes
 PRICE = {"claude-opus-4-8": (15.0, 75.0), "claude-sonnet-4-6": (3.0, 15.0), "claude-haiku-4-5-20251001": (0.80, 4.0)}
 def estimate_cost(model, usage):

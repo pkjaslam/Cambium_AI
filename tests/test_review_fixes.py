@@ -4,7 +4,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 def _run(tool, *a, **kw):
     return subprocess.run([sys.executable, os.path.join(ROOT, "tools", tool), *a],
-                          cwd=ROOT, capture_output=True, text=True, **kw)
+                          cwd=ROOT, capture_output=True, text=True, encoding="utf-8", errors="replace", **kw)
 
 # ---- cambium_start: one-command first paint -------------------------------
 def test_cambium_start_paints_board_and_banner():

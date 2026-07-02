@@ -18,6 +18,9 @@ Built and tested (offline, real):
   offline injection seam and fixture tests. Tool budget bumped 120 to 121 for cite_export.
 - **SECURITY.md contact fixed (eval 12).** The [your contact] placeholder is now a real private email; a
   vulnerability is reported privately, not in a public issue.
+- **Windows encoding fix (caught by the new Windows CI matrix).** cambium_run.py now imports cambium_io so
+  it prints UTF-8 glyphs safely on a cp1252 console instead of crashing; three test helpers decode subprocess
+  output as UTF-8. Reproduced on Linux by forcing cp1252, fixed, and re-verified.
 
 Prepared to one human action (external, honest about the gate):
 - **PyPI publish (eval 04, 08, 12).** publish.yml builds the installable mcp_server package (cambium-mcp)

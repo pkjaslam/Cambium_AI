@@ -5,7 +5,7 @@ Proves the runner refuses to continue past a gate without a valid gate_lock toke
 import json, os, subprocess, sys, tempfile
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 def _tool(t, *a): return subprocess.run([sys.executable, os.path.join(ROOT, "tools", t), *a],
-                                         cwd=ROOT, capture_output=True, text=True, timeout=40)
+                                         cwd=ROOT, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=40)
 
 _CONTRIB = {
  "hypothesis": ("My hypothesis for this gate is that connectivity across the three largest habitat patches "
