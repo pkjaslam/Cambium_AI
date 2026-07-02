@@ -73,7 +73,12 @@ def print_repaint_reminder(path, emit=False):
     repaint. It does NOT dump the ~16KB HTML board fragment into the transcript. Pass
     emit=True (CLI: `phase ... --emit`) only when the caller actually wants the rendered
     fragment inline (e.g. to pipe straight into show_widget). Never raises."""
-    rel = os.path.relpath(path, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    try:
+        rel = os.path.relpath(path, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    except ValueError:
+        # Windows raises ValueError when path and repo are on different drives (repo on D:,
+        # a temp run_state.json on C:). The absolute path is still a valid --state argument.
+        rel = os.path.abspath(path)
     print("\n[run_state] RE-PAINT THE BOARD NOW: "
           "python3 tools/gen_inline_board.py --state %s   (or gen_board_pro.py for the sidebar board)"
           % rel)

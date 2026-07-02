@@ -32,6 +32,11 @@ keeps it too.
   findings when driven end to end (a 0-based vs 1-based phase-cursor mismatch the hand-built test dicts hid).
   Rendering the real board caught it; the fix ships with new end-to-end tests that drive run_state.py the real
   way so it cannot regress.
+- **Windows cross-drive fix (caught by the pre-push guard).** run_state.py's repaint reminder called
+  os.path.relpath(state, repo), which raises ValueError on Windows when the temp state file is on C: and the
+  repo is on D:. The Linux CI never hit it; the Windows pre-push test run did, exactly as designed. Guarded to
+  fall back to the absolute path, with a regression test that forces the cross-drive ValueError so Linux CI
+  guards it too.
 - **The demo asset matches the product.** assets/run_board.gif was rebuilt to depict the v1.39 behavior:
   started councils show streaming findings, not-yet-started councils collapse into an Up-next strip, and the
   gate card leads with the Approve / Revise / Reject decision bar. Verified frame by frame. The assets CI

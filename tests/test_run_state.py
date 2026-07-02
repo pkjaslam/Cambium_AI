@@ -44,6 +44,20 @@ def test_sync_ignores_stale_files_from_earlier_runs():
         shutil.rmtree(d, ignore_errors=True)
 
 
+def test_repaint_reminder_survives_cross_drive_relpath(monkeypatch, capsys):
+    """Windows raises ValueError from os.path.relpath when the state file and the repo are on
+    different drives (repo on D:, a tmp run_state.json on C:). The reminder must fall back to the
+    absolute path and still print the banner, never crash. Regression for the v1.39 push failure."""
+    sys.path.insert(0, os.path.join(ROOT, "tools"))
+    import run_state as RSMOD
+    def _boom(*a, **k):
+        raise ValueError("path is on mount 'C:', start on mount 'D:'")
+    monkeypatch.setattr(os.path, "relpath", _boom)
+    RSMOD.print_repaint_reminder(os.path.join("C:\\tmp", "agent_outputs", "run_state.json"), emit=False)
+    out = capsys.readouterr().out
+    assert "RE-PAINT THE BOARD NOW" in out
+
+
 def test_phase_prints_repaint_reminder():
     """`phase N` must print a RE-PAINT banner so the in-chat board never silently goes stale."""
     d = tempfile.mkdtemp()
