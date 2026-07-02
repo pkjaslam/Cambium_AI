@@ -40,15 +40,38 @@ SCOUTS = (25, 192, 166)
 LABS = (61, 139, 255)
 VERIFY = (255, 107, 94)
 
-FONTDIR = "/usr/share/fonts/truetype/dejavu/"
+# Font candidates by platform so a hand-run renders cleanly on Linux, Windows, or macOS. First hit wins;
+# only if none resolve do we fall back to Pillow's bitmap default (readable but plain). This keeps a
+# regenerated GIF looking the same wherever the maintainer runs it.
+_FONT_CANDIDATES = {
+    False: [
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf",
+        "C:\\Windows\\Fonts\\arial.ttf",
+        "C:\\Windows\\Fonts\\segoeui.ttf",
+        "/System/Library/Fonts/Supplemental/Arial.ttf",
+        "/Library/Fonts/Arial.ttf",
+        "DejaVuSans.ttf",
+        "Arial.ttf",
+    ],
+    True: [
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+        "C:\\Windows\\Fonts\\arialbd.ttf",
+        "C:\\Windows\\Fonts\\segoeuib.ttf",
+        "/System/Library/Fonts/Supplemental/Arial Bold.ttf",
+        "/Library/Fonts/Arial Bold.ttf",
+        "DejaVuSans-Bold.ttf",
+        "Arial Bold.ttf",
+    ],
+}
 
 
 def font(size, bold=False):
-    name = "DejaVuSans-Bold.ttf" if bold else "DejaVuSans.ttf"
-    try:
-        return ImageFont.truetype(os.path.join(FONTDIR, name), size)
-    except Exception:
-        return ImageFont.load_default()
+    for path in _FONT_CANDIDATES[bool(bold)]:
+        try:
+            return ImageFont.truetype(path, size)
+        except Exception:
+            continue
+    return ImageFont.load_default()
 
 
 F_TITLE = font(18, True)

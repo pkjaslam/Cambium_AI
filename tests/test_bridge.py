@@ -52,18 +52,27 @@ def test_reject_stops_the_run():
     assert r.summary()["gates"][-1]["decision"] == "REJECT"
 
 # ---- REST endpoints (no WS interleave -> no TestClient deadlock) ----
-def _client():
+# The bridge now enforces deny-by-default API-key auth (see web/server/security.py and
+# tests/test_web_security.py for the auth/rate-limit behavior). These endpoint tests target the
+# request-validation logic, so they configure a key and send it; the auth contract itself is
+# covered separately.
+_TEST_KEY = "bridge-test-key"
+_AUTH = {"X-API-Key": _TEST_KEY}
+
+def _client(monkeypatch):
     pytest.importorskip("fastapi"); pytest.importorskip("httpx")
+    monkeypatch.setenv("CAMBIUM_API_KEY", _TEST_KEY)
     from fastapi.testclient import TestClient
     import app
+    app.security.limiter.reset()
     return TestClient(app.app)
 
-def test_health_and_run_and_validation():
-    c = _client()
-    h = c.get("/api/health").json()
+def test_health_and_run_and_validation(monkeypatch):
+    c = _client(monkeypatch)
+    h = c.get("/api/health").json()                      # health stays unauthenticated
     assert h["ok"] and h["mode"] in ("simulation", "live")
-    r = c.post("/api/run", json={"task": "verify these results"}).json()
+    r = c.post("/api/run", json={"task": "verify these results"}, headers=_AUTH).json()
     assert "run_id" in r and r["plan"]["kind"]
-    assert c.post("/api/run", json={"task": ""}).status_code == 400
-    assert c.post("/api/gate/nope/decide", json={"decision": "APPROVE"}).status_code == 404
-    assert c.post("/api/gate/%s/decide" % r["run_id"], json={"decision": "MAYBE"}).status_code == 400
+    assert c.post("/api/run", json={"task": ""}, headers=_AUTH).status_code == 400
+    assert c.post("/api/gate/nope/decide", json={"decision": "APPROVE"}, headers=_AUTH).status_code == 404
+    assert c.post("/api/gate/%s/decide" % r["run_id"], json={"decision": "MAYBE"}, headers=_AUTH).status_code == 400

@@ -142,7 +142,10 @@ TEMPLATE = r"""<!doctype html><html lang="en" data-cambium-version="{version}"><
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cambium — evaluation & benchmark dashboard</title>
 <style>
- :root{{--bg:#07231A;--panel:#0E3326;--panel2:#0A271D;--edge:#1F4D3B;--lime:#B7F36A;--emer:#16C079;--ink:#F4F7F2;--mute:#8AA197;--dim:#5E7468;--amber:#E8B84B;--red:#E58A8A}}
+ :root{{--bg:#07231A;--panel:#0E3326;--panel2:#0A271D;--edge:#1F4D3B;--lime:#B7F36A;--emer:#16C079;--ink:#F4F7F2;--mute:#8AA197;--dim:#7E9488;--amber:#E8B84B;--red:#E58A8A}}
+ .sr-only{{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}}
+ @media (prefers-reduced-motion: reduce){{*{{animation:none !important;transition:none !important}}}}
+ a:focus-visible,button:focus-visible{{outline:2px solid var(--lime,#B7F36A);outline-offset:2px}}
  *{{box-sizing:border-box}} body{{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 Inter,system-ui,Segoe UI,sans-serif}}
  .wrap{{max-width:1080px;margin:0 auto;padding:26px}}
  .hero{{border:1px solid var(--edge);border-radius:16px;padding:20px 22px;background:linear-gradient(135deg,#0a2a1f,#07231a)}}
@@ -165,7 +168,7 @@ TEMPLATE = r"""<!doctype html><html lang="en" data-cambium-version="{version}"><
  footer{{margin-top:22px;color:var(--dim);font-size:11px;text-align:center}}
  a{{color:var(--lime)}}
 </style></head>
-<body><div class="wrap">
+<body><div class="wrap" role="region" aria-label="Cambium evaluation and benchmark dashboard"><p class="sr-only">Cambium evaluation and benchmark dashboard: repo-verified health metrics, a north-star scoreboard, and the pre-registered enforcement A/B study whose result is reported honestly as Open. Every number is generated from live tool output.</p>
  <div class="hero">
    <div class="brand"><span class="hex">⬢</span> CAMBIUM · evaluation &amp; benchmark dashboard</div>
    <div class="sub">Auto-generated from live tool output by <code>tools/gen_dashboard.py</code> — every number here is reproducible.

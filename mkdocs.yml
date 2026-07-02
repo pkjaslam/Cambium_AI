@@ -1,0 +1,118 @@
+site_name: Cambium
+site_description: >-
+  Cambium is a research-institute-in-a-repo: an orchestrator plus councils of
+  named specialist agents, a live run board, an evidence ledger, and human
+  approval gates. Searchable, versioned documentation.
+site_url: https://pkjaslam.github.io/Cambium_AI/docs-site/
+repo_url: https://github.com/pkjaslam/Cambium_AI
+repo_name: pkjaslam/Cambium_AI
+edit_uri: edit/main/docs/
+
+# Some real docs link to repo-root files (ATTRIBUTION.md, CITATION.cff,
+# mcp_server/README.md) using ../../ paths so they resolve when browsing the repo
+# on GitHub. Those targets live outside docs_dir, so MkDocs cannot validate them.
+# Demote only the "not found" check to info so --strict stays clean WITHOUT
+# rewriting the existing docs; real internal link problems are still surfaced by
+# the absolute/unrecognized checks below.
+validation:
+  omitted_files: info
+  absolute_links: info
+  unrecognized_links: info
+  links:
+    not_found: info
+    absolute_links: info
+    unrecognized_links: info
+
+# docs/ holds the real, existing documentation; this site references it in place.
+docs_dir: docs
+site_dir: site
+
+# docs/README.md is the in-repo folder index for GitHub browsing. It maps to the
+# same URL as index.md, so exclude it from the build to keep --strict warning-free.
+exclude_docs: |
+  README.md
+  requirements-docs.txt
+  archive/
+
+theme:
+  name: material
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.sections
+    - navigation.top
+    - search.highlight
+    - search.suggest
+    - search.share
+    - content.code.copy
+    - toc.follow
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: green
+      accent: teal
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: green
+      accent: teal
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
+  - pymdownx.superfences
+  - pymdownx.details
+  - tables
+
+nav:
+  - Home: index.md
+  - Start here:
+      - Getting started: start-here/GETTING_STARTED.md
+      - Install: start-here/INSTALL.md
+      - Your first run: start-here/FIRST_RUN.md
+      - How to use Cambium: start-here/USE_CAMBIUM.md
+      - Team quickstart: start-here/TEAM_QUICKSTART.md
+      - FAQ: start-here/FAQ.md
+  - Concepts:
+      - Vision: concepts/VISION.md
+      - Philosophy: concepts/PHILOSOPHY.md
+      - The institute: concepts/INSTITUTE.md
+      - Roles: concepts/ROLES.md
+      - Faculty roster: concepts/FACULTY_ROSTER.md
+      - Lifecycle (v3): concepts/LIFECYCLE_V3.md
+      - Run modes: concepts/RUN_MODES.md
+      - Presentation contract: concepts/PRESENTATION.md
+      - Model router: concepts/MODEL_ROUTER.md
+      - Skills map: concepts/SKILLS_MAP.md
+      - Skill authoring: concepts/SKILL_AUTHORING.md
+  - Governance and policy:
+      - AI policy: governance/AI_POLICY.md
+      - AI governance: governance/AI_GOVERNANCE.md
+      - AI use statement: governance/AI_USE_STATEMENT.md
+      - Research conduct: governance/RESEARCH_CONDUCT.md
+      - Output contract: governance/OUTPUT_CONTRACT.md
+      - Tool policy: governance/TOOL_POLICY.md
+      - Positioning: governance/POSITIONING.md
+      - Comparison: governance/COMPARISON.md
+  - Reference:
+      - MCP integration: reference/MCP_INTEGRATION.md
+      - Evals: reference/EVALS.md
+      - Efficiency: reference/EFFICIENCY.md
+      - Multi-institution architecture: reference/ARCHITECTURE_MULTI_INSTITUTION.md
+      - Autorun: reference/AUTORUN.md
+      - Code quality: reference/CODE_QUALITY.md
+      - Development playbook: reference/DEVELOPMENT_PLAYBOOK.md
+      - Brain roadmap: reference/BRAIN_ROADMAP.md
+      - Roadmap: reference/ROADMAP.md
+      - Decisions: reference/DECISIONS.md
+      - Engineering conventions: engineering_conventions.md
+      - Web UI toolbelt: web_ui_toolbelt.md

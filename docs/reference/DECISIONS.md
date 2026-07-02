@@ -666,3 +666,10 @@ production work — named, not hidden. Proven against a real uvicorn server.
 **Decision.** Add `tools/gen_inline_board.py`, which renders the live run from `run_state.json` as a claude-native `show_widget` fragment (agent boxes, progress rail, findings, clickable gate). Upgrade `templates/INLINE_GATE_CARD.html` to an icon-led Approve/Revise/Reject card. Add a findings feed + completion summary to `tools/gen_board_pro.py` (the reopenable sidebar board). Wire both into `PRESENTATION.md` and `commands/cambium.md` so every run paints the in-chat board and the reopenable sidebar artifact, refreshed each phase, with the clickable gate at every stop.
 **Honest ceiling.** This is the premium experience within the in-chat rendering limits (flat, claude-native design system — no neon/3D). The cinematic 3D front-end stays on the roadmap, not shipped. Both boards read the SAME run_state so they never disagree.
 **Consequence.** A `/cambium` run now looks like the institute working, in chat, with real gates — not plain text. Version → 1.9.0.
+
+## Architecture Decision Records (ADRs)
+
+Longer structural decisions live as ADRs under `docs/reference/adr/`:
+
+- ADR-0001: multi-tenancy, a database layer, and horizontal scale (proposed, specced, deferred until a consortium need is real).
+- ADR-0002: LMS/LTI integration and single sign-on (proposed, specced, deferred until an identity provider is available to build and test against).

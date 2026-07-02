@@ -1,16 +1,22 @@
-"""Cambium Bridge API — the server a web front-end calls to drive a real Cambium run.
+"""Cambium Bridge API - the server a web front-end calls to drive a real Cambium run.
 
 Endpoints (full OpenAPI at /docs):
-  GET  /api/health
-  POST /api/run                      {task}              -> {run_id, plan}
-  WS   /api/stream/{run_id}                              -> event stream (phase/agent/gate/done)
-  POST /api/gate/{run_id}/decide     {decision}          -> {ok}   (APPROVE | REVISE | REJECT)
+  GET  /health                                           -> {status} (unauthenticated liveness probe)
+  GET  /api/health                                       -> {ok, mode, active_runs} (unauthenticated)
+  POST /api/run                      {task}              -> {run_id, plan}   (auth + rate-limited)
+  WS   /api/stream/{run_id}          ?key=...            -> event stream (phase/agent/gate/done) (auth)
+  POST /api/gate/{run_id}/decide     {decision}          -> {ok}   (APPROVE | REVISE | REJECT) (auth + rate-limited)
+
+Auth: set CAMBIUM_API_KEY on the server. Callers send it as the X-API-Key header or
+Authorization: Bearer <key> (the WebSocket accepts it as a ?key= query param too). If
+CAMBIUM_API_KEY is unset the protected endpoints are LOCKED (503), never open. Rate limit
+is CAMBIUM_RATE_PER_MIN requests/min/client (default 60); over-limit callers get 429.
 
 Run it:  uvicorn web.server.app:app --reload --port 8000   (from the repo root)
-The front-end (web/frontend/index.html) connects to this; so can any Lovable/Stitch app — see web/API.md.
+The front-end (web/frontend/index.html) connects to this; so can any Lovable/Stitch app - see web/API.md.
 """
-import asyncio, os
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException
+import asyncio, hmac, os
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
@@ -18,6 +24,7 @@ from pydantic import BaseModel
 import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import engine
+import security  # deny-by-default API-key auth + in-process rate limiting
 
 # CORS: default to localhost in dev; set CAMBIUM_CORS_ORIGINS=comma,separated,list for production
 _CORS_ORIGINS = os.environ.get("CAMBIUM_CORS_ORIGINS", "http://localhost:3000,http://localhost:5173,http://localhost:8000,http://127.0.0.1:8000")
@@ -39,7 +46,13 @@ def health():
     return {"ok": True, "mode": "live" if (os.environ.get("CAMBIUM_LIVE") == "1" and os.environ.get("ANTHROPIC_API_KEY")) else "simulation",
             "active_runs": len(engine.RUNS)}
 
-@app.post("/api/run")
+@app.get("/health")
+def health_plain():
+    """Unauthenticated liveness probe (status only). Used by the Docker HEALTHCHECK and load balancers."""
+    return {"status": "ok"}
+
+
+@app.post("/api/run", dependencies=[Depends(security.require_key), Depends(security.rate_limit)])
 async def start_run(req: RunReq):
     if not req.task.strip():
         raise HTTPException(400, "task is required")
@@ -47,7 +60,7 @@ async def start_run(req: RunReq):
     asyncio.create_task(r.drive())   # background loop; events drain over the WebSocket
     return {"run_id": r.id, "plan": r.plan}
 
-@app.post("/api/gate/{run_id}/decide")
+@app.post("/api/gate/{run_id}/decide", dependencies=[Depends(security.require_key), Depends(security.rate_limit)])
 async def decide(run_id: str, req: GateReq):
     r = engine.get_run(run_id)
     if not r:
@@ -60,6 +73,20 @@ async def decide(run_id: str, req: GateReq):
 @app.websocket("/api/stream/{run_id}")
 async def stream(ws: WebSocket, run_id: str):
     await ws.accept()
+    # Deny-by-default auth for the event stream too. WebSocket dependencies do not surface
+    # HTTPException as a clean HTTP status, so check the key here and close with a policy code.
+    expected = os.environ.get(security.API_KEY_ENV)
+    presented = ws.headers.get("x-api-key") or ws.query_params.get("key") or ""
+    if not presented:
+        auth = ws.headers.get("authorization", "")
+        if auth.lower().startswith("bearer "):
+            presented = auth[7:].strip()
+    if not expected:
+        await ws.send_json({"type": "error", "message": "server auth not configured: set CAMBIUM_API_KEY"})
+        await ws.close(code=1011); return
+    if not presented or not hmac.compare_digest(presented, expected):
+        await ws.send_json({"type": "error", "message": "invalid or missing API key"})
+        await ws.close(code=1008); return
     r = engine.get_run(run_id)
     if not r:
         await ws.send_json({"type": "error", "message": "no such run"}); await ws.close(); return

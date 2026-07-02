@@ -1,22 +1,20 @@
-# CI: Cambium — keep the run-board imagery fresh
+# CI: Cambium - keep the static run-board PNG fresh.
 #
-# assets/run_board.png comes from tools/gen_board_image.py; assets/run_board.gif is the README-quality
-# demo and comes from assets/gen/gen_runboard_gif.py (the v1.39 live-board style: Up-next collapse,
-# streaming findings, top decision bar). Both generators historically wrote the GIF, so the canonical
-# generator runs LAST and wins. Runs on every published release and on demand; commits refreshed assets
-# only if they actually changed.
+# assets/run_board.png is regenerated from tools/gen_board_image.py when the roster or router changes.
+# assets/run_board.gif (the animated README demo) is intentionally NOT touched here: it is a committed
+# artifact owned by assets/gen/gen_runboard_gif.py in the v1.39 live-board style (Up-next collapse,
+# streaming findings, top decision bar), regenerated only by hand so GitHub always shows exactly the
+# committed version and no push or CI run can re-render it with different fonts. Commits the PNG only
+# if it actually changed.
 
-name: Refresh run-board assets
+name: Refresh run-board PNG
 
 on:
-  release:
-    types: [published]
   workflow_dispatch:
   push:
     branches: [main]
     paths:
       - "tools/gen_board_image.py"
-      - "assets/gen/gen_runboard_gif.py"
       - "tools/run_trace.py"
       - "tools/task_router.py"
       - "agent_cards.json"
@@ -26,7 +24,7 @@ permissions:
 
 jobs:
   render:
-    name: Render board PNG + GIF
+    name: Render board PNG
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -40,19 +38,17 @@ jobs:
       - name: Install render deps
         run: pip install pillow imageio
 
-      - name: Regenerate run-board imagery
-        run: |
-          python3 tools/gen_board_image.py
-          python3 assets/gen/gen_runboard_gif.py
+      - name: Regenerate run-board PNG
+        run: python3 tools/gen_board_image.py
 
-      - name: Commit refreshed assets (only if changed)
+      - name: Commit refreshed PNG (only if changed)
         run: |
-          if [ -n "$(git status --porcelain assets/run_board.png assets/run_board.gif)" ]; then
+          if [ -n "$(git status --porcelain assets/run_board.png)" ]; then
             git config user.name  "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
-            git add assets/run_board.png assets/run_board.gif
-            git commit -m "chore(assets): refresh run-board imagery [skip ci]"
+            git add assets/run_board.png
+            git commit -m "chore(assets): refresh run-board PNG [skip ci]"
             git push
           else
-            echo "run-board assets already up to date."
+            echo "run-board PNG already up to date."
           fi

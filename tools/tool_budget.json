@@ -1,5 +1,5 @@
 {
-  "budget": 120,
-  "rationale": "Frozen at v1.38.0 per the measurement-first rule: growing the toolkit requires bumping this budget in the same commit and naming, in the CHANGELOG entry, the eval or check the new tool moves.",
-  "set": "2026-07-01"
+  "budget": 121,
+  "rationale": "Bumped from 120 to 121 on 2026-07-02: adds tools/cite_export.py (net +1 tool), which exports findings/citations to BibTeX and RIS for eval 04. Per the measurement-first rule, growing the toolkit requires bumping this budget in the same change and naming, in the CHANGELOG entry, the eval the new tool moves; doctor check [9] enforces tools/*.py count <= budget.",
+  "set": "2026-07-02"
 }

@@ -1,0 +1,134 @@
+# CI: Cambium - Code Quality
+#
+# This workflow adds the code-quality gates that complement validate.yml
+# (which enforces the honesty/governance contract). It is deliberately explicit
+# about what BLOCKS a merge (gating) and what only INFORMS (advisory). The full
+# rationale, and why each advisory tool is advisory, lives in
+# docs/reference/CODE_QUALITY.md.
+#
+#   GATING  (a red result fails the build):
+#     - tests-os-matrix : the pytest suite on ubuntu AND windows, Python 3.11 + 3.12.
+#                         This is the high-value piece: it is what catches
+#                         cross-platform bugs (e.g. a Windows cross-drive relpath
+#                         crash) in CI instead of on someone's push.
+#     - ruff            : lint with the pragmatic ruleset in pyproject.toml
+#                         [tool.ruff]; the current tree passes it with no code edits.
+#
+#   ADVISORY (continue-on-error; reported, never blocks):
+#     - black --check   : formatting diff (the repo is intentionally not black-formatted)
+#     - mypy            : type notes over tools/
+#     - bandit          : security scan of tools/ and web/
+#     - pip-audit       : known-CVE audit of declared dependencies
+#     - coverage        : coverage number, printed, with a low non-failing floor
+#
+# Nothing here edits source under tools/, web/, or tests/, and no autofix runs.
+
+name: Code Quality
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: quality-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ------------------------------------------------------------------ GATING
+  tests-os-matrix:
+    name: Tests (${{ matrix.os }}, py${{ matrix.python-version }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python-version: ["3.11", "3.12"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install test dependencies (pinned via constraints)
+        run: |
+          python -m pip install --upgrade pip
+          pip install -c constraints.txt pytest pyyaml
+
+      - name: Run test suite
+        run: python -m pytest tests/ -q
+
+  # ------------------------------------------------------------------ GATING
+  ruff:
+    name: Ruff (lint, gating)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install ruff
+        run: pip install "ruff>=0.6"
+      - name: Ruff check (config in pyproject.toml [tool.ruff])
+        run: ruff check . --output-format=github
+
+  # ---------------------------------------------------------------- ADVISORY
+  advisory-quality:
+    name: Advisory (black, mypy, bandit, pip-audit)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install advisory tools
+        run: pip install black mypy bandit pip-audit
+
+      - name: black --check (advisory - formatting diff only)
+        continue-on-error: true
+        run: black --check --diff . --exclude 'web/frontend-r3f|web/frontend'
+
+      - name: mypy over tools/ (advisory - type notes)
+        continue-on-error: true
+        run: mypy tools/
+
+      - name: bandit security scan of tools/ and web/ (advisory)
+        continue-on-error: true
+        run: bandit -r tools/ web/ -x web/frontend-r3f,web/frontend
+
+      - name: pip-audit of declared dependencies (advisory)
+        continue-on-error: true
+        run: pip-audit -r requirements.txt
+
+  # ---------------------------------------------------------------- ADVISORY
+  coverage:
+    name: Coverage (advisory floor)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install test deps + coverage
+        run: |
+          python -m pip install --upgrade pip
+          pip install -c constraints.txt pytest pyyaml
+          pip install "pytest-cov>=5.0" "coverage[toml]>=7.0"
+
+      - name: Run tests with coverage (low floor; does not block)
+        continue-on-error: true
+        run: |
+          python -m pytest tests/ -q \
+            --cov --cov-report=term-missing:skip-covered \
+            --cov-fail-under=40

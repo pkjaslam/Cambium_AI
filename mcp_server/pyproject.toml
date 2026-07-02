@@ -1,11 +1,31 @@
 [project]
 name = "cambium-mcp"
-version = "1.39.0"
+version = "1.42.0"
 description = "MCP server exposing the Cambium research-institute tools (plan, provision, validate, doctor, grade, agents, dispatch, fidelity, recall, graph)."
 requires-python = ">=3.10"
 dependencies = ["mcp>=1.0", "PyYAML>=6.0"]
 authors = [{ name = "M. Jaslam (University of Idaho · Intermountain Forestry Cooperative)" }]
 license = { text = "MIT" }
+readme = "README.md"
+keywords = ["mcp", "cambium", "research", "agents", "llm", "orchestration", "governance"]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Intended Audience :: Science/Research",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+[project.urls]
+Homepage = "https://github.com/pkjaslam/Cambium_AI"
+Repository = "https://github.com/pkjaslam/Cambium_AI"
+Documentation = "https://pkjaslam.github.io/Cambium_AI/docs-site/"
+Issues = "https://github.com/pkjaslam/Cambium_AI/issues"
 
 [project.scripts]
 cambium-mcp = "cambium_mcp.server:main"

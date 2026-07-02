@@ -163,10 +163,7 @@ def build_checklist(rules: dict, rules_path: str) -> str:
     lines.append("")
     lines.append(f"**Generated:** {now}")
 
-    try:
-        rel_rules = os.path.relpath(rules_path)
-    except ValueError:
-        rel_rules = rules_path
+    rel_rules = cambium_io.safe_relpath(rules_path)
     lines.append(f"**Rules file:** {rel_rules}")
     lines.append("")
     lines.append("---")

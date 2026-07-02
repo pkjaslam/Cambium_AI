@@ -2,3 +2,15 @@ fastapi>=0.110
 uvicorn[standard]>=0.29
 pydantic>=2.0
 websockets>=12.0
+
+# Security / operations environment variables (read by web/server/app.py + security.py):
+#   CAMBIUM_API_KEY       Required to unlock the state-changing / work-triggering endpoints
+#                         (/api/run, /api/gate/{id}/decide, WS /api/stream). Callers send it as
+#                         the X-API-Key header or Authorization: Bearer <key> (the WebSocket also
+#                         accepts ?key=). If UNSET, those endpoints are LOCKED (HTTP 503), never
+#                         open -- an unconfigured deploy is closed, not wide open. GET /health and
+#                         GET /api/health stay unauthenticated.
+#   CAMBIUM_RATE_PER_MIN  Per-client (IP + key) request cap for the protected endpoints.
+#                         Default 60 requests/min; over-limit callers get HTTP 429. Enforced by a
+#                         zero-dependency in-process token bucket (no extra package required).
+#   CAMBIUM_CORS_ORIGINS  Comma-separated allowed origins (defaults to localhost dev ports).

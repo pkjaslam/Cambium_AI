@@ -1,14 +1,19 @@
 #!/usr/bin/env python3
-"""provenance — a machine-checkable provenance manifest for Code-verified claims.
+"""provenance -- a machine-checkable provenance manifest for Code-verified claims.
 
 Each `Code-verified` claim in a findings ledger must carry a rerun command (an `evidence`/`action`
 field containing `cmd: <command>`). This tool RE-RUNS each such command, hashes the command + any
 referenced script file + the captured output, and writes a manifest linking claim -> rerun + hashes.
-`--check` re-runs everything and FAILS (exit 1) if any output hash drifts — turning "Code-verified by
+`--check` re-runs everything and FAILS (exit 1) if any output hash drifts -- turning "Code-verified by
 convention" into "Code-verified by reproduction".
 
 Ledger schema (CSV): id,issue,agents,severity,claim_tier,evidence,status,action  (extra columns ok).
-Rerun command: put `cmd: <shell command>` in the row's `evidence` or `action` cell.
+Rerun command: put `cmd: <command>` in the row's `evidence` or `action` cell. The command
+is parsed with shlex.split (POSIX) and run WITHOUT a shell (shell=False), so it must be a
+plain argv line (e.g. `python3 tools/foo.py --x 1`). Shell features -- pipes, `;`, `&&`,
+redirection, globbing, variable expansion -- are NOT supported and are treated as literal
+argument tokens, not interpreted. This is a deliberate security boundary: a manifest
+command can never spawn a shell or a second process.
 
 Usage:
   python3 tools/provenance.py build <ledger.csv> [--out manifest.json] [--cwd DIR]
@@ -35,7 +40,24 @@ def _script_hashes(cmd, cwd):
     return out
 
 def _run(cmd, cwd):
-    r=subprocess.run(cmd, shell=True, cwd=cwd, capture_output=True, text=True, timeout=120)
+    """Run a rerun command as an argv list (shell=False) so no shell can interpret it.
+
+    The command string is split with shlex.split(posix=True) into an argv list and executed
+    directly. Shell metacharacters (`;`, `&&`, `|`, redirection, globbing, variable expansion)
+    are therefore NOT interpreted -- they are passed through as literal argument tokens. This is
+    the security fix: a manifest command can never spawn a shell or a second process. If the
+    program named by the first token does not exist, the run fails (non-zero exit) rather than
+    executing anything, which is the intended, safe behavior.
+    """
+    argv=shlex.split(cmd, posix=True)
+    if not argv:
+        return 127, ""
+    try:
+        r=subprocess.run(argv, shell=False, cwd=cwd, capture_output=True, text=True, timeout=120)
+    except (FileNotFoundError, NotADirectoryError, PermissionError, OSError):
+        # No such program (or the first token is not runnable). Fail closed; do not fall back
+        # to a shell. A command containing shell metacharacters lands here rather than executing.
+        return 127, ""
     return r.returncode, (r.stdout or "")
 
 def build(ledger, out, cwd):
@@ -57,7 +79,7 @@ def build(ledger, out, cwd):
     manifest={"schema":"cambium-provenance-1","ledger":os.path.basename(ledger),"cwd":cwd,"entries":entries}
     json.dump(manifest, open(out,"w"), indent=2)
     ok=sum(1 for e in entries if e.get("exit_code")==0)
-    print(f"[provenance] wrote {out} — {len(entries)} Code-verified claim(s), {ok} reran exit 0")
+    print(f"[provenance] wrote {out} -- {len(entries)} Code-verified claim(s), {ok} reran exit 0")
     return 0 if all(e.get("exit_code",1)==0 for e in entries if "exit_code" in e) else 1
 
 def check(manifest, cwd):

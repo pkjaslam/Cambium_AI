@@ -52,6 +52,31 @@ _ROOT = os.path.dirname(_TOOLS_DIR)
 
 
 # ---------------------------------------------------------------------------
+# safe_relpath() -- cross-drive-safe relative path for display strings
+# ---------------------------------------------------------------------------
+
+def safe_relpath(path: str, start: str = None) -> str:
+    """Return os.path.relpath(path[, start]), falling back to os.path.abspath(path).
+
+    os.path.relpath raises ValueError on Windows when *path* and *start* live on
+    different drives (e.g. the input file is on D: while the current working
+    directory is on C:), because no relative path can span drives.  Every caller
+    here uses the result only as a human-readable label in report text, so the
+    absolute path is a safe, cosmetic fallback that never crashes the tool.
+
+    Behavior:
+      - Normal case: identical to os.path.relpath(path) / os.path.relpath(path, start).
+      - Cross-drive (ValueError): returns os.path.abspath(path).
+    """
+    try:
+        if start is None:
+            return os.path.relpath(path)
+        return os.path.relpath(path, start)
+    except ValueError:
+        return os.path.abspath(path)
+
+
+# ---------------------------------------------------------------------------
 # data_home() -- the single source of truth for where run data is written
 # ---------------------------------------------------------------------------
 

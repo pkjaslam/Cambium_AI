@@ -1,0 +1,61 @@
+# Cambium Institute - local pre-commit hooks (developer machines, not CI).
+#
+# Enable once per clone:   pre-commit install
+# Run on everything:       pre-commit run --all-files
+# Bypass in an emergency:  git commit --no-verify
+#
+# These mirror the checks in .github/workflows/quality.yml so problems are
+# caught before a push. ruff runs in CHECK-ONLY mode here (no --fix): pre-commit
+# never rewrites your tracked source without you asking. black is --check only,
+# because this codebase is intentionally not black-formatted (see
+# docs/reference/CODE_QUALITY.md). The whitespace/end-of-file fixers and the
+# no-em-dash / no-emoji guards act on the files YOU stage.
+
+# The frontend and generated trees are not Python and are excluded everywhere.
+exclude: '^(web/frontend-r3f/|web/frontend/|assets/gen/.*\.(png|gif|svg)$|\.git/)'
+
+repos:
+  # ---- Ruff: the GATING linter (same config as CI, from pyproject.toml) ----
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.15.20
+    hooks:
+      - id: ruff
+        name: ruff (lint, check-only - no autofix)
+        args: ["check", "--no-fix"]
+
+  # ---- Black: ADVISORY format check (diff only, never applied) ----
+  - repo: https://github.com/psf/black
+    rev: 26.5.1
+    hooks:
+      - id: black
+        name: black (--check only, advisory)
+        args: ["--check", "--diff"]
+        exclude: '^(web/frontend-r3f/|web/frontend/)'
+        # Advisory: a failure here is a heads-up, not a wall. The repo is not
+        # black-formatted on purpose; do not commit a mass reformat.
+
+  # ---- Hygiene fixers (act on staged files) ----
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: '\.(md|csv)$'
+      - id: end-of-file-fixer
+        exclude: '\.(csv)$'
+      - id: check-yaml
+        args: ["--allow-multiple-documents"]
+      - id: check-added-large-files
+        args: ["--maxkb=1024"]
+      - id: check-merge-conflict
+
+  # ---- House rules: no em dashes (pygrep - no extra script needed) ----
+  # These use pre-commit's built-in "pygrep" language: the hook FAILS if the
+  # forbidden pattern is found in a staged file. No file under tools/ is added.
+  - repo: local
+    hooks:
+      - id: no-em-dash
+        name: no em dash (house rule)
+        language: pygrep
+        entry: "\u2014"
+        types: [text]
+        exclude: '^(CHANGELOG\.md|docs/reference/DECISIONS\.md|.*\.csv|package-lock\.json)$'

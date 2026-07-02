@@ -1,0 +1,71 @@
+name: Publish cambium-mcp to PyPI
+
+# Builds the mcp_server package (cambium-mcp) and publishes it to PyPI using
+# PyPI Trusted Publishing (OIDC). No API token lives in this repository: the
+# pypa/gh-action-pypi-publish action mints a short-lived token from the GitHub
+# OIDC identity, which PyPI trusts once the maintainer has configured this
+# repository + workflow as a trusted publisher (see PUBLISHING.md).
+#
+# Trigger: publishing a GitHub Release (the canonical, human-gated moment), or a
+# manual workflow_dispatch for a dry rebuild/verification.
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build sdist and wheel
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install build backend
+        run: python -m pip install --upgrade build
+
+      - name: Build distributions
+        working-directory: mcp_server
+        run: python -m build --outdir dist
+
+      - name: Verify metadata with twine
+        working-directory: mcp_server
+        run: |
+          python -m pip install --upgrade twine
+          python -m twine check dist/*
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: cambium-mcp-dist
+          path: mcp_server/dist/*
+
+  publish:
+    name: Publish to PyPI (Trusted Publishing)
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/project/cambium-mcp/
+    permissions:
+      id-token: write   # REQUIRED for OIDC trusted publishing; no token stored
+    steps:
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: cambium-mcp-dist
+          path: dist
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: dist

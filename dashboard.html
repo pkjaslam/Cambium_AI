@@ -2,6 +2,9 @@
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Cambium — Command Center</title>
 <style>
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+@media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important}}
+.filters button:focus-visible,.card:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 :root{--bg:#07231A;--panel:#0E3326;--panel2:#15402F;--ink:#F4F7F2;--mut:#8AA197;--gold:#16C079;--line:#1F4D3B;
 --scout:#19C0A6;--lab:#3D8BFF;--verify:#FF6B5E;--exec:#16C079;--orch:#7C5CFF;--support:#E08A4A;
 --preaward:#2BB8C4;--faculty:#FF7AA8;--reporting:#E0B24A;--partner:#37C97E;--gov:#9b8cff;}
@@ -34,13 +37,13 @@ code{background:#0a271d;border:1px solid var(--line);padding:2px 8px;border-radi
 @media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}.pres{margin-left:0}}
 .rv{display:flex;flex-direction:column;gap:7px;max-width:620px}
 .rv .nb{font-size:12px;font-weight:800;color:#B7F36A;background:#103a2b;border:1px solid #1F4D3B;border-radius:8px;padding:8px 12px;margin-bottom:5px}
-.rv .step{display:flex;align-items:center;gap:10px;border-radius:9px;padding:9px 12px;border:1px solid var(--line);background:#0a271d;color:#5E7468;font-size:13px;transition:all .3s}
+.rv .step{display:flex;align-items:center;gap:10px;border-radius:9px;padding:9px 12px;border:1px solid var(--line);background:#0a271d;color:#8AA197;font-size:13px;transition:all .3s}
 .rv .step .mk{width:14px;text-align:center;font-weight:800}
-.rv .step .who{margin-left:auto;font-size:11px;color:#4d6358}
+.rv .step .who{margin-left:auto;font-size:11px;color:#8AA197}
 .rv .step.done{background:var(--panel);border-color:#2A5A45;color:var(--mut)}.rv .step.done .who{color:var(--mut)}
 .rv .step.now{background:#0f3f2d;border:2px solid #B7F36A;color:var(--ink);box-shadow:0 0 0 3px #B7F36A22}.rv .step.now .who{color:#B7F36A}
 .rv .step.gate{font-weight:700}.rv .step.gate.now,.rv .step.gate.done{color:#B7F36A}
-</style></head><body><div class="wrap">
+</style></head><body><div class="wrap" role="region" aria-label="Cambium command center"><p class="sr-only">Cambium command center: an interactive directory of 46 AI research agents across 11 councils with 8 human gates, plus a live example run. Select an agent card to expand its role.</p>
 
 <div class="hero">
   <div class="seal">🌲</div>
@@ -67,7 +70,7 @@ code{background:#0a271d;border:1px solid var(--line);padding:2px 8px;border-radi
   <button data-f="reporting">Reporting</button><button data-f="support">Support</button>
   <button data-f="governance">Governance</button>
 </div>
-<div class="grid" id="roster"></div>
+<div class="grid" id="roster" role="group" aria-label="Agent roster"></div>
 
 <h2>How Cambium picks the team (Task Router)</h2>
 <table>
@@ -80,7 +83,7 @@ code{background:#0a271d;border:1px solid var(--line);padding:2px 8px;border-radi
 
 <h2>What a run looks like — live</h2>
 <div class="tag" style="margin:-4px 0 12px">Cambium shows this as it works: ✓ done · ▶ now working (which council) · ○ waiting. Example: a grant proposal.</div>
-<div class="rv" id="runview"><div class="nb" id="rvNow"></div><div id="rvSteps"></div></div>
+<div class="rv" id="runview" role="region" aria-label="Example run timeline"><div class="nb" id="rvNow" aria-live="polite"></div><div id="rvSteps" role="list"></div></div>
 
 <div class="foot">Cambium v3.9 · created by M. Jaslam (University of Idaho · Intermountain Forestry Cooperative) · MIT · 46 agents / 11 councils<br><b style="color:var(--gold)">Human-in-the-loop at every gate.</b> · LIFECYCLE_V3.md · TOOL_POLICY.md · AI_GOVERNANCE.md</div>
 </div>
@@ -135,7 +138,7 @@ const A=[
 ];
 const CN={orch:"Orchestration",preaward:"Pre-Award",partner:"Partnerships",faculty:"Faculty",scout:"Scouts",lab:"Labs",verify:"Verification",exec:"Execution",reporting:"Reporting",support:"Support",governance:"Governance"};
 const r=document.getElementById('roster');
-function render(f){r.innerHTML='';A.filter(a=>f==='all'||a.c===f).forEach(a=>{const el=document.createElement('div');el.className='card';el.style.setProperty('--c',`var(${a.col})`);el.innerHTML=`<div class="top"><span class="nm">${a.nm}</span><span class="badge b-${a.m}">${a.m}</span></div><div class="id">#${a.id}</div><div class="role">${a.role}</div><span class="council-pill" style="background:var(${a.col})22;color:var(${a.col})">${CN[a.c]}</span><div class="desc">${a.d}</div>`;el.onclick=()=>el.classList.toggle('open');r.appendChild(el);});}
+function render(f){r.innerHTML='';A.filter(a=>f==='all'||a.c===f).forEach(a=>{const el=document.createElement('div');el.className='card';el.style.setProperty('--c',`var(${a.col})`);el.innerHTML=`<div class="top"><span class="nm">${a.nm}</span><span class="badge b-${a.m}">${a.m}</span></div><div class="id">#${a.id}</div><div class="role">${a.role}</div><span class="council-pill" style="background:var(${a.col})22;color:var(${a.col})">${CN[a.c]}</span><div class="desc">${a.d}</div>`;el.setAttribute('role','button');el.tabIndex=0;el.setAttribute('aria-expanded','false');const tog=()=>{const op=el.classList.toggle('open');el.setAttribute('aria-expanded',op?'true':'false');};el.onclick=tog;el.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();tog();}};r.appendChild(el);});}
 render('all');
 document.querySelectorAll('#filters button').forEach(b=>{b.onclick=()=>{document.querySelectorAll('#filters button').forEach(x=>x.classList.remove('active'));b.classList.add('active');render(b.dataset.f);};});
 
@@ -161,7 +164,7 @@ function paintRun(){
     let mk=st==='done'?'\u2713':(st==='now'?'\u25B6':'\u25CB');
     if(s.k==='you'&&st!=='todo'){st='done';mk='\u2713';}
     const el=document.createElement('div');
-    el.className='step '+(s.k==='gate'?'gate ':'')+st;
+    el.className='step '+(s.k==='gate'?'gate ':'')+st;el.setAttribute('role','listitem');
     el.innerHTML='<span class="mk">'+mk+'</span><span>'+s.t+'</span>'+(s.w?'<span class="who">'+s.w+'</span>':'');
     rvS.appendChild(el);
   });
@@ -169,5 +172,5 @@ function paintRun(){
   rvN.textContent=(rvCur===RUN.length-1)?'\u2705 Delivered':(c.k==='gate'?'\uD83D\uDEA6 Waiting for your decision: '+c.t:'\u25B6 NOW: '+c.t+(c.w?' \u2014 '+c.w:''));
 }
 paintRun();
-setInterval(function(){rvCur++; if(rvCur>RUN.length-1) rvCur=1; paintRun();},1200);
+if(!window.matchMedia||!matchMedia('(prefers-reduced-motion: reduce)').matches){setInterval(function(){rvCur++; if(rvCur>RUN.length-1) rvCur=1; paintRun();},1200);}
 </script></body></html>

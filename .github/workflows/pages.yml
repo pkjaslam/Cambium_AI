@@ -1,5 +1,13 @@
 name: Deploy to GitHub Pages
 
+# Single Pages deployment for the whole site. GitHub Pages allows only ONE
+# deployment per environment, so the landing page and the MkDocs docs site are
+# assembled into ONE artifact here rather than deployed by two racing workflows:
+#   /            -> the existing landing page (index.html + assets, unchanged)
+#   /docs-site/  -> the searchable, versioned MkDocs Material documentation
+# The raw docs/*.md files stay in place so the landing page's direct .md links
+# keep working exactly as before.
+
 on:
   push:
     branches: [main]
@@ -23,14 +31,44 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install docs dependencies
+        run: pip install -r docs/requirements-docs.txt
+
+      - name: Build MkDocs site (strict)
+        run: mkdocs build --strict --site-dir docs-site
+
+      - name: Assemble Pages artifact
+        run: |
+          # Stage the repo (landing page + assets + raw docs) and mount the built
+          # docs site at /docs-site. rsync excludes VCS metadata and the staging
+          # dir itself to avoid recursion.
+          mkdir -p _site
+          rsync -a --delete \
+            --exclude '.git' \
+            --exclude '_site' \
+            ./ _site/
+          rm -rf _site/docs-site
+          mkdir -p _site/docs-site
+          cp -a docs-site/. _site/docs-site/
+          echo "Top-level of _site:" && ls _site
+          echo "docs-site index present:" && ls _site/docs-site/index.html
+
       - name: Configure Pages (auto-enable)
         uses: actions/configure-pages@v5
         with:
           enablement: true
+
       - name: Upload site artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: _site
+
       - name: Deploy to Pages
         id: deployment
         uses: actions/deploy-pages@v4

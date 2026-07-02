@@ -1,0 +1,4 @@
+# Documentation site build dependencies (MkDocs + Material theme).
+# Pinned for reproducible `mkdocs build --strict` in CI and locally.
+mkdocs==1.6.1
+mkdocs-material==9.6.14

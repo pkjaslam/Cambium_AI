@@ -278,14 +278,8 @@ def build_report(budget: dict, narrative: str, budget_path: str, narrative_path:
     lines.append("")
     lines.append(f"**Generated:** {now}")
 
-    try:
-        rel_budget = os.path.relpath(budget_path)
-    except ValueError:
-        rel_budget = budget_path
-    try:
-        rel_narrative = os.path.relpath(narrative_path)
-    except ValueError:
-        rel_narrative = narrative_path
+    rel_budget = cambium_io.safe_relpath(budget_path)
+    rel_narrative = cambium_io.safe_relpath(narrative_path)
 
     lines.append(f"**Budget file:** {rel_budget}")
     lines.append(f"**Narrative file:** {rel_narrative}")

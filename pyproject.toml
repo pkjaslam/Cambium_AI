@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cambium-institute"
-version = "1.39.0"
+version = "1.42.0"
 description = "Cambium gives one researcher a team of 46 AI specialists across 11 councils to scout, draft, and check, with 8 human gates so the researcher, not the model, makes every call that matters."
 readme = "README.md"
 license = {text = "MIT"}
@@ -63,3 +63,130 @@ python_functions = ["test_*"]
 
 [tool.setuptools.package-data]
 "*" = ["*.md", "*.yml", "*.yaml", "*.json", "*.html", "*.css", "*.js", "*.svg", "*.png"]
+
+# ---------------------------------------------------------------------------
+# Code-quality tool configuration (added by the quality-CI workstream).
+# GATING vs ADVISORY and the rationale for every choice below live in
+# docs/reference/CODE_QUALITY.md. Nothing here edits source under tools/,
+# web/, or tests/; green is achieved by rule selection and scoped ignores.
+# ---------------------------------------------------------------------------
+
+[tool.ruff]
+# Ruff is GATING. It runs on the CURRENT tree without a single code edit.
+# We target Python 3.10 (the repo floor) so version-specific lints are honest.
+target-version = "py310"
+line-length = 100
+extend-exclude = [
+    ".git",
+    "__pycache__",
+    ".pytest_cache",
+    "node_modules",
+    "web/frontend-r3f",   # Vite/JS front-end, not Python
+    "web/frontend",       # static assets
+]
+
+[tool.ruff.lint]
+# What we GATE on and why (full reasoning in CODE_QUALITY.md):
+#   E, W  pycodestyle    - real structural issues (minus the cosmetic ones ignored below)
+#   F     pyflakes       - correctness: undefined names (F821), redefinitions (F811),
+#                          identity/tuple bugs (F632/F631), bad format strings, etc.
+#                          Every high-value F-code is already ZERO in this repo.
+#   I     isort          - import ORDER is checked, but auto-sorting is disabled
+#                          (we never rewrite files); the noisy I001 is ignored below.
+select = ["E", "W", "F", "I"]
+
+# Ignored codes are PURE STYLE, not bugs. The codebase is intentionally not
+# black/isort-formatted (black is advisory-only), so gating on these would force
+# a reformat we are explicitly not doing. This keeps the genuinely dangerous
+# lints (undefined name, redefinition, tuple-assert, ...) fully gating.
+ignore = [
+    "E501",  # line-too-long (3508 pre-existing; formatting, not a defect)
+    "E701",  # multiple-statements-on-one-line (colon) - dense but valid
+    "E702",  # multiple-statements-on-one-line (semicolon)
+    "E703",  # useless-semicolon
+    "E401",  # multiple-imports-on-one-line
+    "E402",  # module-import-not-at-top (guarded sys.path shims in tools/)
+    "E722",  # bare-except (7 pre-existing; reviewed, non-critical scripts)
+    "E731",  # lambda-assignment
+    "E741",  # ambiguous-variable-name (l/I/O) - stylistic
+    "W291",  # trailing-whitespace
+    "W292",  # no-newline-at-end-of-file
+    "W293",  # blank-line-with-whitespace
+    "I001",  # unsorted-imports (order reported by isort ruleset; not auto-fixed here)
+]
+
+[tool.ruff.lint.per-file-ignores]
+# The only remaining F-codes are cosmetic (unused import / empty f-string /
+# unused local) and live entirely in scripts, tests, generators and eval code.
+# We waive them WHERE THEY OCCUR instead of editing the files, so the same
+# checks stay GATING for any new core module.
+"tests/*" = ["F401", "F811", "F841", "F541"]
+"tools/*" = ["F401", "F841", "F541"]
+"evals/*" = ["F401", "F841", "F541"]
+"assets/*" = ["F401", "F841", "F541"]
+"scripts/*" = ["F401", "F841", "F541"]
+"academy/*" = ["F401", "F841", "F541"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["tools", "governance", "mcp_server"]
+
+# ---------------------------------------------------------------------------
+[tool.mypy]
+# Mypy is ADVISORY (continue-on-error in CI). Non-strict, third-party stubs
+# ignored; run over tools/ only. It reports type notes, it does not gate.
+python_version = "3.10"
+ignore_missing_imports = true
+follow_imports = "silent"
+warn_unused_ignores = false
+warn_return_any = false
+warn_redundant_casts = false
+disallow_untyped_defs = false
+check_untyped_defs = false
+no_implicit_optional = false
+strict = false
+exclude = [
+    "web/frontend-r3f",
+    "web/frontend",
+    "build",
+    "dist",
+    # deterministic_checks.py carries a documentation line that begins "# type:"
+    # which mypy misreads as a PEP 484 type comment and rejects as invalid syntax.
+    # CPython 3.10 parses the file fine (ruff and pytest both pass on it); this is a
+    # mypy-parser quirk, and mypy is advisory, so we skip just this one file.
+    "tools/deterministic_checks.py",
+]
+
+[[tool.mypy.overrides]]
+# Skip FOLLOWING the doc-comment file from importers too (gen_dashboard imports it),
+# so its "# type:" documentation line never aborts a mypy run. Advisory tool; the
+# file is validated by ruff + pytest instead.
+module = ["deterministic_checks", "tools.deterministic_checks"]
+follow_imports = "skip"
+ignore_errors = true
+
+# ---------------------------------------------------------------------------
+[tool.coverage.run]
+# Coverage measures the tools/ + governance packages that the tests exercise.
+branch = true
+source = ["tools", "governance", "mcp_server", "web/server"]
+omit = [
+    "*/__pycache__/*",
+    "*/node_modules/*",
+    "web/frontend-r3f/*",
+    "web/frontend/*",
+    "tests/*",
+]
+
+[tool.coverage.report]
+# Threshold is intentionally LOW and set in CI (--cov-fail-under=40) so coverage
+# is informative, not blocking. skip_empty keeps the report readable.
+show_missing = false
+skip_empty = true
+precision = 1
+exclude_also = [
+    "def __repr__",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "@(abc\\.)?abstractmethod",
+]

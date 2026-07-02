@@ -31,7 +31,7 @@ def test_queued_wall_collapsed_inline():
     an 'Up next' strip (audit #4)."""
     h = _render()
     # real agent cards are <div class="cb-ag"> (not the .cb-ag CSS rule)
-    n_cards = len(re.findall(r'<div class="cb-ag">', h))
+    n_cards = len(re.findall(r'<div class="cb-ag"[ >]', h))
     # only phase 1 (1 agent) + phase 2 (3 agents) render as cards; the rest collapse.
     assert n_cards == 4, f"expected 4 rendered cards, got {n_cards}"
     assert ">queued</div>" not in h        # no queued cards at all in this state
@@ -48,7 +48,7 @@ def test_per_agent_status_inline():
 def test_no_duplicate_chip_inline():
     """lab-domain recurs across phases but renders once in a single view (audit #7)."""
     h = _render()
-    assert len(re.findall(r'cb-ag">.*?>Domain<', h, re.S)) == 1
+    assert len(re.findall(r'cb-ag".*?>Domain<', h, re.S)) == 1
 
 
 def test_zero_findings_start_does_not_crash_inline():

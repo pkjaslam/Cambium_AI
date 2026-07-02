@@ -148,7 +148,7 @@ def _decision_bar(gate_id, question):
         f'<span class="gc-bar-gate">Gate {esc(gate_id)}</span>'
         f'<span class="gc-bar-q">{esc(question)}</span>'
         f'</div>'
-        f'<div class="gc-bar-btns">{_decision_buttons(gate_id)}</div>'
+        f'<div class="gc-bar-btns" role="group" aria-label="Gate decision">{_decision_buttons(gate_id)}</div>'
         f'</div>'
     )
 
@@ -156,7 +156,7 @@ def _decision_bar(gate_id, question):
 def _bottom_actions(gate_id):
     """Repeat the buttons at the foot of a long card, plus the type-it fallback line."""
     return (
-        f'<div class="gc-buttons">{_decision_buttons(gate_id)}</div>'
+        f'<div class="gc-buttons" role="group" aria-label="Gate decision">{_decision_buttons(gate_id)}</div>'
         f'<div class="gc-hint">If a button does nothing, type APPROVE, REVISE, or REJECT.</div>'
     )
 
@@ -180,6 +180,9 @@ def _glossary_html():
 # variable vocabulary used in templates/INLINE_GATE_CARD.html.
 _STYLE = """
 <style>
+ .gate-card .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+ @media (prefers-reduced-motion: reduce){.gate-card *{animation:none !important;transition:none !important}}
+ .gate-card .gbtn:focus-visible{outline:2px solid var(--text-accent,#16C079);outline-offset:2px}
  .gate-card{font-family:var(--font-sans,Inter,system-ui,Segoe UI,sans-serif);max-width:640px;
    margin:0 auto;background:var(--surface-1,#0E3326);color:var(--text-primary,#F4F7F2);
    border:1px solid var(--border-accent,#1F4D3B);border-radius:16px;overflow:hidden}
@@ -265,7 +268,8 @@ def build_gate_card(gate_id, question, sections):
 
     return (
         f'{_STYLE}\n'
-        f'<div class="gate-card">'
+        f'<div class="gate-card" role="group" aria-label="Gate {esc(gate_id)} decision card">'
+        f'<p class="sr-only">Approval gate {esc(gate_id)}: {esc(question)} Choose Approve, Revise, or Reject; nothing finalizes without your decision.</p>'
         f'{_decision_bar(gate_id, question)}'
         f'<div class="gc-inner">'
         f'<div class="gc-sub">Nothing finalizes without you. This is the full one-pager, not a summary.</div>'

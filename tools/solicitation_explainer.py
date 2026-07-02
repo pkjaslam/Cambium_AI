@@ -108,10 +108,7 @@ def build_explainer(rules: dict, rules_path: str) -> str:
     required_documents = rules.get("required_documents", [])
     deadline = rules.get("deadline") or "not stated"
 
-    try:
-        rel_rules = os.path.relpath(rules_path)
-    except ValueError:
-        rel_rules = rules_path
+    rel_rules = cambium_io.safe_relpath(rules_path)
 
     lines: list[str] = []
 

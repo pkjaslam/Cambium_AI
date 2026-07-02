@@ -23,6 +23,9 @@ def esc(s): return html.escape(str(s or ""))
 
 STYLE = """<style>
 @keyframes cbps{0%,100%{opacity:1}50%{opacity:.25}}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+@media (prefers-reduced-motion: reduce){*{animation:none !important;transition:none !important}}
+.cb-gb:focus-visible{outline:2px solid var(--text-accent);outline-offset:2px}
 .cb-ag{display:flex;gap:12px;align-items:flex-start;padding:13px 15px;border:0.5px solid var(--border);border-radius:12px;background:var(--surface-2);margin-bottom:9px}
 .cb-ag.wait{opacity:.55}
 .cb-ic{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--bg-accent);color:var(--text-accent);flex:none}
@@ -85,7 +88,7 @@ def render(state_path, title):
                 stht = '<div class="cb-st" style="color:var(--text-muted)"><i class="ti ti-clock" aria-hidden="true"></i>queued</div>'
                 show_find = False
             boxes.append(
-                f'<div class="cb-ag">'
+                f'<div class="cb-ag" role="listitem">'
                 f'<div class="cb-ic"><i class="ti ti-user-cog" aria-hidden="true"></i></div>'
                 f'<div style="flex:1;min-width:0">'
                 f'<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">'
@@ -116,7 +119,7 @@ def render(state_path, title):
           f'<i class="ti ti-shield-check" aria-hidden="true"></i>Gate {esc(gid)} — your decision</div>'
           f'<div style="font-size:13px;color:var(--text-secondary);margin:6px 0 14px;line-height:1.5">{esc(gq)} '
           f'Nothing finalizes without you.</div>'
-          f'<div style="display:flex;gap:8px;flex-wrap:wrap">'
+          f'<div style="display:flex;gap:8px;flex-wrap:wrap" role="group" aria-label="Gate decision">'
           f'<button class="cb-gb ap" onclick="sendPrompt(\'APPROVE {esc(gid)}\')"><i class="ti ti-check" aria-hidden="true"></i> Approve</button>'
           f'<button class="cb-gb rv" onclick="sendPrompt(\'REVISE {esc(gid)}: \')"><i class="ti ti-rotate" aria-hidden="true"></i> Revise</button>'
           f'<button class="cb-gb rj" onclick="sendPrompt(\'REJECT {esc(gid)}\')"><i class="ti ti-x" aria-hidden="true"></i> Reject</button></div></div>')
@@ -140,7 +143,7 @@ def render(state_path, title):
       f'<div style="font-size:12px;color:var(--text-muted)">{n_ag} agents · {n_co} councils · {n_gt} gate(s)</div></div></div>'
       f'<div style="height:6px;background:var(--surface-1);border-radius:999px;overflow:hidden;margin-bottom:1rem">'
       f'<div style="height:100%;width:{pct}%;background:var(--text-accent);transition:width .5s"></div></div>'
-      + gatecard + "".join(boxes) + upnext_html + done_banner)
+      + gatecard + f'<div class="cb-list" role="list" aria-live="polite" aria-label="Agent activity">' + "".join(boxes) + f'</div>' + upnext_html + done_banner)
     return frag
 
 def main(argv=None):

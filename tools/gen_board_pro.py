@@ -171,7 +171,7 @@ def render(state_path, title):
             show_find = bool(finding) and eff in ("done", "working")
             glyph = _AGLYPH[eff]
             agents.append(
-                f'<div class="agent {eff}" style="--h:{ah}">'
+                f'<div class="agent {eff}" role="listitem" style="--h:{ah}">'
                 f'<div class="atop"><span class="badge">{glyph}</span>'
                 f'<span class="acouncil">{esc(council)}</span><span class="arole">{esc(role)}</span>'
                 f'<span class="astate">{_ALABEL[eff]}</span></div>'
@@ -186,7 +186,7 @@ def render(state_path, title):
             f'<section class="phase {st}" style="--h:{hue}">'
             f'<h3><span class="pn">Phase {i+1}</span> {esc(p.get("label",""))}'
             f'<span class="pstate">{st}</span></h3>'
-            f'<div class="agents">{"".join(agents)}</div>{gate}</section>')
+            f'<div class="agents" role="list">{"".join(agents)}</div>{gate}</section>')
 
     # compact "Up next" strip: one chip per not-yet-started phase, "<council> (n)" (audit #4)
     upnext_html = ""
@@ -204,7 +204,7 @@ def render(state_path, title):
         gatecard = (
           f'<div class="activegate"><div class="ag-h">⛩ GATE {agid} - your decision</div>'
           f'<div class="ag-q">{esc(active_gate.get("decision"))}</div>'
-          f'<div class="ag-b">'
+          f'<div class="ag-b" role="group" aria-label="Gate decision">'
           f'<button class="gbtn approve" onclick="sendPrompt(\'APPROVE {agid}\')">Approve</button>'
           f'<button class="gbtn revise" onclick="sendPrompt(\'REVISE {agid}: \')">Revise</button>'
           f'<button class="gbtn reject" onclick="sendPrompt(\'REJECT {agid}\')">Reject</button>'
@@ -234,7 +234,10 @@ def render(state_path, title):
 TEMPLATE = """<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1"><title>Cambium - run board</title>
 <style>
- :root{{color-scheme:light;--bg:#f4f8f5;--card:#ffffff;--edge:#e2ebe5;--ink:#10241c;--mut:#5b6f66;--dim:#9aa9a1;--forest:#176c34;--lime:#3a9d4e;--emer:#0f8a4f}}
+ :root{{color-scheme:light;--bg:#f4f8f5;--card:#ffffff;--edge:#e2ebe5;--ink:#10241c;--mut:#5b6f66;--dim:#5f7268;--forest:#176c34;--lime:#3a9d4e;--emer:#0f8a4f}}
+ .sr-only{{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}}
+ @media (prefers-reduced-motion: reduce){{*{{animation:none !important;transition:none !important}}}}
+ .gbtn:focus-visible{{outline:2px solid var(--forest,#176c34);outline-offset:2px}}
  *{{box-sizing:border-box}} body{{margin:0;background:var(--bg);color:var(--ink);font:14px/1.55 Inter,system-ui,Segoe UI,sans-serif}}
  .wrap{{max-width:1000px;margin:0 auto;padding:20px}}
  .hero{{border:1px solid var(--edge);border-radius:18px;padding:20px 22px;background:linear-gradient(135deg,#ffffff,#eef5f0)}}
@@ -294,7 +297,7 @@ TEMPLATE = """<!doctype html><html lang="en"><head><meta charset="utf-8">
  .feed li{{font-size:12.5px;color:var(--ink);line-height:1.5;border-left:2px solid var(--emer);padding-left:9px}}
  .feed .fc{{font-weight:700;color:var(--forest)}}
  footer{{margin-top:18px;color:var(--dim);font-size:11px;text-align:center}}
-</style></head><body><div class="wrap">
+</style></head><body><div class="wrap" role="region" aria-label="Cambium run board" aria-live="polite"><p class="sr-only">Cambium run board for {req}: {n_ag} specialists across {n_co} councils, {n_gt} human gate(s), {done} of {total} phases complete. Agent statuses and findings update as the run proceeds.</p>
  <div class="hero">
    <div class="brand"><span class="hex">⬢</span> CAMBIUM INSTITUTE <span class="tag">· the Cambium way</span></div>
    <div class="req">{req}</div>

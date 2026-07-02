@@ -1,5 +1,92 @@
 # Changelog
 
+## 1.42.0 - 2026-07-02 - Priority-2 polish, and the external items prepared to one human action
+
+The Priority-2 backlog items shipped for real, and the account/people/funding-gated items prepared so
+each is a single human action away. The two heaviest architecture items are specced as ADRs rather than
+half-built, because they need infrastructure to build and test honestly.
+
+Built and tested (offline, real):
+- **Searchable docs site (eval 09).** New mkdocs.yml (Material theme, search) builds the existing docs
+  into a rendered, searchable site; the Pages workflow now deploys the landing page and the docs site
+  together (mkdocs build --strict is clean). docs/requirements-docs.txt pins the toolchain.
+- **Citation export (eval 04).** New tools/cite_export.py turns a refs.bib or a findings CSV into
+  well-formed BibTeX or RIS, deterministically; it reformats and exports only, it does not fetch or verify
+  (that stays paper_search plus the citations skill). Nine offline tests.
+- **arXiv and PubMed in paper search (eval 04).** tools/paper_search.py now queries arXiv and PubMed
+  alongside OpenAlex, Crossref, and Semantic Scholar, each degrading to a skip on network failure, with an
+  offline injection seam and fixture tests. Tool budget bumped 120 to 121 for cite_export.
+- **SECURITY.md contact fixed (eval 12).** The [your contact] placeholder is now a real private email; a
+  vulnerability is reported privately, not in a public issue.
+
+Prepared to one human action (external, honest about the gate):
+- **PyPI publish (eval 04, 08, 12).** publish.yml builds the installable mcp_server package (cambium-mcp)
+  and publishes via PyPI Trusted Publishing on a GitHub Release; python -m build plus twine check PASS
+  locally. PUBLISHING.md gives the one-time trusted-publisher setup and the release steps. The account and
+  the trusted-publisher config are the human actions; the rest is automated.
+- **Efficacy study recruiting (eval 06).** evals/enforcement_study/RECRUITING.md adds a recruiting log and
+  an ordered runbook over the already-built harness; the runs and the human raters remain the external step.
+- **Maintainership (eval 12).** New GOVERNANCE.md states how the project is run and how a second maintainer
+  joins, to reduce the single-maintainer bus-factor. New docs/paper/PREPRINT_OUTLINE.md is a systems-paper
+  outline that invents no results and is publishable whichever way the study lands.
+
+Specced, not built (need real infrastructure to verify):
+- **ADR-0001 multi-tenancy and a database layer**, and **ADR-0002 LMS/LTI and SSO**, under
+  docs/reference/adr/, record the intended design and the honest reason each is deferred until a consortium
+  need or an identity provider makes it testable. Indexed from docs/reference/DECISIONS.md.
+
+## 1.41.0 - 2026-07-02 - Priority 1: code-quality CI with a Windows matrix, and a full accessibility pass
+
+The two Priority-1 items from the 12-evaluation backlog, built the Cambium way by parallel councils and
+integrated behind one gauntlet.
+
+- **Code-quality CI (eval 05, 08).** New .github/workflows/quality.yml adds a real quality gate. The pytest
+  matrix now runs on ubuntu-latest AND windows-latest across Python 3.11 and 3.12, so a cross-platform bug
+  like the Windows cross-drive relpath crash is caught in CI instead of on a push. ruff is GATING and passes
+  at 0 issues on the current code (achieved by a pragmatic ruleset and per-file ignores, not by rewriting
+  code). black --check, mypy, bandit, and pip-audit run ADVISORY (non-blocking) with their real numbers
+  reported; coverage runs advisory at the observed 54.7 percent with a low non-failing floor. A
+  .pre-commit-config.yaml wires ruff, black --check, whitespace fixers, and a no-em-dash guard for local
+  use. What gates versus what is advisory, and why, is documented honestly in docs/reference/CODE_QUALITY.md.
+- **Accessibility pass, WCAG 2.1 AA (eval 03, 10).** All five HTML surfaces (the gate card, both run boards,
+  the generated dashboard, and the static dashboard.html) gained: a visually-hidden screen-reader summary,
+  a prefers-reduced-motion reset so motion-sensitive users are respected (the static dashboard also gates
+  its auto-advance on the media query), focus-visible outlines and keyboard operability on the
+  Approve/Revise/Reject buttons and the interactive cards, list and region roles with aria-live="polite" on
+  the live boards so streaming findings are announced, status conveyed by text not color alone, and small
+  contrast nudges to meet AA. The v1.39 look is unchanged. New templates/ACCESSIBILITY_CHECKLIST.md is a
+  standing, enforceable checklist and tests/test_accessibility.py (23 tests) guards every feature so it
+  cannot silently regress.
+
+## 1.40.0 - 2026-07-02 - Priority-0 security hardening + the run board is a frozen artifact
+
+Executed the five Priority-0 items from the 12-evaluation backlog the Cambium way (parallel build
+councils, disjoint file scopes, one integration gauntlet), plus froze the README run-board GIF so it
+can no longer drift between what you build and what GitHub shows.
+
+- **Web bridge: authentication, deny-by-default** (eval 01, 11). New web/server/security.py adds a
+  require_key dependency: it reads CAMBIUM_API_KEY and checks X-API-Key or Authorization: Bearer with
+  hmac.compare_digest. If the key is unset the protected endpoints return 503 (locked), never open, so an
+  unconfigured deploy is closed by default. POST /api/run, the gate-decision endpoint, and the WebSocket
+  stream now require the key; a single unauthenticated GET /health remains for probes.
+- **Web bridge: rate limiting** (eval 01, 02). A zero-dependency in-process token bucket keyed by client
+  IP plus key, sized by CAMBIUM_RATE_PER_MIN (default 60), returns 429 when exceeded. Auth runs before
+  rate limiting, so unauthenticated floods cost no tokens.
+- **Web bridge: non-root Docker + healthcheck** (eval 01). web/server/Dockerfile now creates and runs as a
+  non-root user (uid 10001) and adds a HEALTHCHECK against /health.
+- **provenance.py no longer uses a shell** (eval 01). The reproduce/check command now runs via
+  shlex.split + shell=False, so a manifest command cannot inject through the shell (a ';' or '&&' becomes
+  inert argv, proven by tests). Commands must be plain argv; the worked example still reproduces bit for bit.
+- **Cross-drive relpath guards** (self-found during the v1.39 push). New cambium_io.safe_relpath falls back
+  to the absolute path when os.path.relpath raises the Windows cross-drive ValueError; wired into
+  budget_review, budget_narrative_match, checklist_builder, and solicitation_explainer so a user passing an
+  input file on another drive no longer crashes.
+- **The run-board GIF is a committed artifact now.** assets/run_board.gif is regenerated only by hand via
+  assets/gen/gen_runboard_gif.py; the push script, the assets CI workflow, and gen_board_image.py no longer
+  re-render it, so every push keeps the exact committed GIF and GitHub always shows the canonical v1.39
+  live-board style (Up-next collapse, streaming findings, top decision bar). The generator gained a
+  multi-OS font fallback so a hand-run renders cleanly on Linux, Windows, or macOS.
+
 ## 1.39.0 - 2026-07-02 - The board comes alive: one source of truth, findings that stream, a gate you never scroll for
 
 A full UX pass driven by an end-to-end audit of the real first-run experience, then built and integrated
