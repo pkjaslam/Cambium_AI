@@ -1,3 +1,8 @@
+---
+name: knowledge-graph
+description: Walk Cambium's local concept graph to answer multi-hop questions over its own curated records: what connects to a topic, what supports or contradicts a finding, and how a decision was derived. Use before building on a prior result and when tracing evidence chains. Trigger on "what connects to", "multi-hop", "derived from", "contradicts", "which findings relate to", "trace the path", "what supports", "concept graph", "knowledge graph". Fully offline over already-committed records; contradiction edges are flagged, never auto-resolved. Operated via python3 tools/concept_graph.py.
+---
+
 # Skill: Knowledge Graph (concept-graph)
 
 **Type:** Reference skill (light anatomy)

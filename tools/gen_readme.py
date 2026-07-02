@@ -91,9 +91,21 @@ def count_templates() -> int:
 
 def read_mcp_from_readme(readme_text: str) -> int:
     """
-    Extract the MCP count from the existing README STATS block, or scan the
-    broader text for the 'N MCP tools' pattern. Falls back to 6.
+    Count the MCP tools from the source of truth: @mcp.tool() decorators in
+    mcp_server/cambium_mcp/server.py. Falls back to the README STATS block /
+    'N MCP tools' pattern (older behavior, self-referential) only if the
+    server file is unavailable, and finally to 6.
     """
+    srv = os.path.join(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+        "mcp_server", "cambium_mcp", "server.py",
+    )
+    try:
+        n = open(srv, encoding="utf-8").read().count("@mcp.tool()")
+        if n:
+            return n
+    except OSError:
+        pass
     # Try to read from the existing STATS block first
     stats_match = re.search(
         r"<!--\s*CAMBIUM:STATS\s*-->(.*?)<!--\s*/CAMBIUM:STATS\s*-->",

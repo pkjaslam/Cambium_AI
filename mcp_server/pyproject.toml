@@ -1,7 +1,7 @@
 [project]
 name = "cambium-mcp"
-version = "1.35.0"
-description = "MCP server exposing the Cambium research-institute tools (plan, provision, validate, doctor, grade, agents)."
+version = "1.36.0"
+description = "MCP server exposing the Cambium research-institute tools (plan, provision, validate, doctor, grade, agents, dispatch, fidelity, recall, graph)."
 requires-python = ">=3.10"
 dependencies = ["mcp>=1.0", "PyYAML>=6.0"]
 authors = [{ name = "M. Jaslam (University of Idaho · Intermountain Forestry Cooperative)" }]

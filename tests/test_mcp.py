@@ -15,3 +15,16 @@ def test_plan_software():
 def test_validate_blocks_fake():
     bad = "id,issue,agents,severity,claim_tier,evidence,status\nF1,x,a,P2,Code-verified,no command,closed"
     assert S.cambium_validate(bad)["ok"] is False
+
+def test_power_tools_registered():
+    names = {t.name for t in asyncio.run(S.mcp.list_tools())}
+    assert {"cambium_dispatch","cambium_fidelity","cambium_recall","cambium_graph"} <= names
+    assert len(names) >= 10
+
+def test_dispatch_emits_literal_plan():
+    out = S.cambium_dispatch("write a research paper on soil health")
+    assert out["ok"] is True and len(out["output"]) > 200  # a real per-phase dispatch script, not a stub
+
+def test_fidelity_runs_advisory():
+    out = S.cambium_fidelity("write a research paper on soil health")
+    assert out["ok"] is True  # advisory scorecard: reports, never blocks

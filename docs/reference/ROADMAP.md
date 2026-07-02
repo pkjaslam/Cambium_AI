@@ -6,7 +6,7 @@
 
 ---
 
-## Current version: 1.00.0
+## Current version: 1.36.0
 
 **What works today (shipped in this repo):** 46 agents across 11 councils; full pre-award + post-award
 lifecycle; 8 human-approval gates with a recorded ledger; the 4-tier evidence contract enforced by
@@ -94,4 +94,14 @@ front-end (`web/frontend/`), the `cinematic-frontend` skill, `tools/gen_3d.py`, 
 assets. Resume by building the front-end in a previewing tool (Lovable/bolt/v0) against the bridge API
 (`web/API.md`), or hire art direction. Not a core blocker — Cambium runs fully via CLI/Cowork today.
 
-*Last updated: 2026-06-30. Roadmap reflects the maintainer's current intentions; priorities may shift based on user feedback and available capacity.*
+## Recently shipped (2026-07-01, v1.36.0)
+
+- **Independent-review closeout.** Every P1/P2 from the cross-model FABLE review fixed AND made
+  structurally unrepeatable: ledger format check, dashboard version-stamp check, full-repo parse
+  coverage with null-byte detection, all-manifest version sync, pinned CI. MCP surface 6 -> 10 tools
+  (dispatch, fidelity, recall, graph added).
+- **Next real milestone (unchanged, highest value): run the A/B efficacy study.** The infrastructure
+  (102 tasks, blinded raters, pre-registered analysis) is built; the result is still an honest null
+  until it runs.
+
+*Last updated: 2026-07-01. Roadmap reflects the maintainer's current intentions; priorities may shift based on user feedback and available capacity.*

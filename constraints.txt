@@ -1,0 +1,12 @@
+# CI constraints — pins the exact test-environment versions so a green build is
+# reproducible (reproducibility skill applied to our own CI). requirements.txt keeps
+# floors for users; CI installs with `pip install -c constraints.txt ...` so the same
+# solver result is used on every run. Refresh deliberately, not by accident:
+#   pip install -U pytest pyyaml && pip freeze | grep -iE "pytest|pyyaml|pluggy|iniconfig|packaging|exceptiongroup|tomli" > constraints.txt
+exceptiongroup==1.3.1
+iniconfig==2.3.0
+packaging==26.2
+pluggy==1.6.0
+pytest==9.1.1
+PyYAML==6.0.3
+tomli==2.4.1

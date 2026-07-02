@@ -2,10 +2,11 @@
 """sync_version -- stamp the latest CHANGELOG version into the three manifests.
 
 The release version lives in one place: the newest "## X.Y.Z" heading in CHANGELOG.md.
-Three files must agree with it, or the plugin will not update and CI fails:
+Four files must agree with it, or the plugin will not update and CI fails:
   .claude-plugin/plugin.json        ("version": "...")
   .claude-plugin/marketplace.json   (plugins[0].version, "version": "...")
   mcp_server/pyproject.toml         (version = "...")
+  pyproject.toml                    (root package; version = "...")
 
 This tool reads the CHANGELOG version and writes it into all three, using a targeted
 regex replace so the files are not reformatted. It is idempotent: if a file already
@@ -26,6 +27,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 _PLUGIN = os.path.join(ROOT, ".claude-plugin", "plugin.json")
 _MARKET = os.path.join(ROOT, ".claude-plugin", "marketplace.json")
 _PYPROJECT = os.path.join(ROOT, "mcp_server", "pyproject.toml")
+_PYPROJECT_ROOT = os.path.join(ROOT, "pyproject.toml")
 _README = os.path.join(ROOT, "README.md")
 
 
@@ -106,6 +108,7 @@ def main(argv=None):
         _apply(_PLUGIN, _json_version_sub, version, check),
         _apply(_MARKET, _json_version_sub, version, check),
         _apply(_PYPROJECT, _toml_version_sub, version, check),
+        _apply(_PYPROJECT_ROOT, _toml_version_sub, version, check),
         _apply(_README, _readme_badge_sub, version, check),
     ]
     drifted = any(d for _, d in results)

@@ -38,15 +38,52 @@ for f in html_files():
     elif s.count("<script")!=s.count("</script>"): fail(rel+" unbalanced <script>"); h_ok=False
     else: good(rel+" intact")
 print("\n[5] Python parses"); p_ok=True
-for f in sorted(glob.glob(os.path.join(ROOT,"tools","*.py"))+glob.glob(os.path.join(ROOT,"governance","*.py"))):
+_py=(glob.glob(os.path.join(ROOT,"tools","*.py"))+glob.glob(os.path.join(ROOT,"governance","*.py"))
+     +glob.glob(os.path.join(ROOT,"tests","*.py"))+glob.glob(os.path.join(ROOT,"scripts","*.py"))
+     +glob.glob(os.path.join(ROOT,"evals","**","*.py"),recursive=True)
+     +glob.glob(os.path.join(ROOT,"mcp_server","**","*.py"),recursive=True))
+for f in sorted(p for p in _py if "__pycache__" not in p):
     rel=os.path.relpath(f,ROOT)
-    try: ast.parse(open(f,encoding="utf-8").read()); good(rel)
+    try:
+        src=open(f,"rb").read()
+        if b"\x00" in src: raise ValueError("null bytes (truncated write)")
+        ast.parse(src.decode("utf-8")); good(rel)
     except Exception as e: fail(rel+" -> "+str(e)[:60]); p_ok=False
 print("\n[6] derived in sync"); nf=n_agents()
 d_ok=True
 if exists("agent_cards.json"):
     n=json.load(open(os.path.join(ROOT,"agent_cards.json")))["count"]; (good if n==nf else fail)("agent_cards %d==%d agents"%(n,nf)); d_ok=d_ok and n==nf
 else: fail("agent_cards.json missing"); d_ok=False
+print("\n[7] gate ledger format"); g_ok=True
+_gp=os.path.join(ROOT,"governance","GATES.md")
+if not os.path.exists(_gp): fail("governance/GATES.md missing"); g_ok=False
+else:
+    _gl=open(_gp,encoding="utf-8",errors="replace").read().splitlines()
+    _st=next((i for i,l in enumerate(_gl) if l.strip().lower().startswith("## approvals log")),None)
+    if _st is None: fail("GATES.md: '## Approvals log' section missing"); g_ok=False
+    else:
+        _badrow=[]
+        for _n,_l in ((i+1,l) for i,l in enumerate(_gl[_st:],_st) if l.strip().startswith("|")):
+            _cells=len(_l.split("|"))-2
+            if _cells!=5: _badrow.append("GATES.md:%d has %d cells (want 5): fused or truncated row"%(_n,_cells))
+        if _badrow:
+            g_ok=False
+            for _b in _badrow[:6]: fail(_b)
+        else: good("approvals log: every row has 5 cells (no fused/truncated rows)")
+print("\n[8] version stamps"); s_ok=True
+_pv=json.load(open(os.path.join(ROOT,".claude-plugin","plugin.json"),encoding="utf-8"))["version"]
+_rp=os.path.join(ROOT,"pyproject.toml")
+if os.path.exists(_rp):
+    _m=re.search(r'(?m)^version\s*=\s*"(\d+\.\d+\.\d+)"',open(_rp,encoding="utf-8").read())
+    if not _m: fail("root pyproject.toml has no version field"); s_ok=False
+    elif _m.group(1)!=_pv: fail("root pyproject.toml %s != plugin %s (run tools/sync_version.py)"%(_m.group(1),_pv)); s_ok=False
+    else: good("root pyproject.toml matches plugin (%s)"%_pv)
+_db=os.path.join(ROOT,"assets","benchmark_dashboard.html")
+if os.path.exists(_db):
+    _m=re.search(r'data-cambium-version="(\d+\.\d+\.\d+)"',open(_db,encoding="utf-8",errors="replace").read())
+    if not _m: fail("dashboard has no version stamp (regenerate: python3 tools/gen_dashboard.py)"); s_ok=False
+    elif _m.group(1)!=_pv: fail("dashboard stamped %s != plugin %s (stale; regenerate)"%(_m.group(1),_pv)); s_ok=False
+    else: good("benchmark dashboard stamped %s (fresh for this release)"%_pv)
 
 # ---------- self-grade ----------
 if GRADE:
@@ -62,6 +99,8 @@ if GRADE:
       "HTML integrity": 1.0 if h_ok else 0.0,
       "Code parses": 1.0 if p_ok else 0.0,
       "Derived in sync": 1.0 if d_ok else 0.0,
+      "Ledger format": 1.0 if g_ok else 0.0,
+      "Version stamps": 1.0 if s_ok else 0.0,
       "Governance coverage": frac(gov),
       "Tooling completeness": frac(tools),
       "Docs present": frac(docs),

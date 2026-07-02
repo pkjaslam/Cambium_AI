@@ -1,4 +1,8 @@
-# HANDOFF: orchestrator-fidelity fix (resume here)
+# HANDOFF: orchestrator-fidelity fix (RESOLVED: nothing to resume)
+
+> **RESOLVED 2026-07-01 (v1.36.0).** This handoff completed: the four-piece fidelity design plus the
+> orphan routing shipped in v1.35.0 (gate G-fidelity), and the independent-review closeout that followed
+> shipped in v1.36.0 (gates G-ledger-repair, G-dashboard-amend). Kept for the record only.
 
 Written 2026-06-30 before a session restart to reconnect the folder mount so tests can run live.
 All work is on disk. The design from this run is in agent_outputs/research-engineer.md and

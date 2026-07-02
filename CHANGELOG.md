@@ -1,5 +1,41 @@
 # Changelog
 
+## 1.36.0 - 2026-07-01 - Review closeout: every FABLE finding fixed and made unrepeatable; MCP surface grows to 10
+
+An independent review by a different model family (FABLE_REVIEW.md, Claude Fable 5) graded the repo A- with
+three P1 findings, each an instance of Cambium's own standards applied to itself. This release closes every
+P1 and P2 from that review, extends the deterministic checks so each failure class cannot recur unseen, and
+grows the MCP surface so external clients can drive the fidelity loop and the institute's memory.
+
+- **Ledger repaired, and now machine-checked.** The two fused rows in governance/GATES.md (G-readme/G-landing,
+  G-build/G-fit) are split, with truncation points marked in place; lost text was NOT reinvented. The approvals
+  log is normalized to one canonical column order (Gate/Date/Approver/Decision/Notes). Doctor gained check [7]:
+  any row without exactly 5 cells fails the health check, so a malformed audit row can never sit unnoticed
+  again. Recorded as G-ledger-repair.
+- **Dashboard drift: overclaim retracted, enforceable guarantee built.** G-dashboard-auto recorded "CI
+  regenerates + git-diffs so the dashboard can never drift" while validate.yml said the opposite; carrying
+  both was the one thing Cambium says it never does. The claim is retracted (G-dashboard-amend). The mechanism
+  that IS enforceable everywhere: gen_dashboard stamps data-cambium-version into the HTML and doctor check [8]
+  goes RED when the stamp does not match plugin.json, which forces a regenerate every release. Regenerated now.
+- **Version drift can no longer hide.** Root pyproject.toml sat at 1.20.0 for fifteen releases because
+  sync_version.py never covered it. It is in the sync list now (four manifests + README badge), doctor [8]
+  cross-checks it, and CI's version step is `sync_version.py --check` over all of them at once.
+- **Doctor sees the whole repo.** Python parse coverage extended from tools/ + governance/ to tests/, evals/,
+  scripts/, and mcp_server/, with an explicit null-byte detector for truncated writes, the exact failure class
+  that made the test suite uncollectable during the review (a doctor blind spot at the time). 161 files
+  parsed, up from 80.
+- **Reproducible CI.** New constraints.txt pins the test environment; CI installs with `-c constraints.txt`,
+  so a green build means the same thing on every machine.
+- **MCP surface: 6 to 10 tools.** cambium_dispatch (literal per-phase dispatch script), cambium_fidelity
+  (close-out scorecard), cambium_recall (semantic memory over curated findings), and cambium_graph (multi-hop
+  concept graph) join the original six. gen_readme now counts MCP tools from the @mcp.tool() decorators in the
+  server itself instead of reading the README's own claim back to it.
+- **knowledge-graph skill is now discoverable.** It was the one skill shipping without YAML frontmatter, so
+  plugin clients showed an empty description. It has a proper name and description now.
+- Verified on release (clean Linux sandbox, pinned env): pytest 644 passed + 1 skipped; doctor 163 ok /
+  0 problems, self-grade A (100%), no risks; consistency check OK; sync_version --check clean across all
+  manifests; enforcement gauntlet ALL CONTROLS PASS; 46 agents valid; dashboard regenerated and stamped.
+
 ## 1.35.0 - 2026-06-30 - Orchestrator fidelity: every agent has a job, and skips are visible
 
 The recurring problem that the orchestrator does not always send the routed agents got its real fix, designed

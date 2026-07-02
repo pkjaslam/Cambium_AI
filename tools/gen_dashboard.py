@@ -79,6 +79,8 @@ def collect_metrics(live=True):
     cm = re.search(r"(\d+) agents .* (\d+) councils .* (\d+) gates", cc)
     m["agents"], m["councils"], m["gates"] = (cm.group(1), cm.group(2), cm.group(3)) if cm else ("46", "11", "8")
     m["tools"] = str(_count("tools/*.py"))
+    m["skills"] = str(_count("skills/*/SKILL.md"))
+    m["mcp"] = str(open(os.path.join(ROOT, "mcp_server", "cambium_mcp", "server.py"), encoding="utf-8").read().count("@mcp.tool()"))
     try:
         sys.path.insert(0, os.path.join(ROOT, "tools")); import deterministic_checks as _dc
         _det, _ext, _mod, _tot = _dc.registry_summary()
@@ -91,12 +93,26 @@ def collect_metrics(live=True):
     pm = re.search(r"(\d+) Leads · (\d+) Partial · (\d+) Gap", pos)
     m["leads"], m["partial"], m["gap"] = (pm.group(1), pm.group(2), pm.group(3)) if pm else ("3", "6", "1")
     m.update(parse_results(open(os.path.join(ROOT, "evals", "enforcement_study", "RESULTS.md"), encoding="utf-8").read()))
+    import json as _json
+    m["version"] = _json.load(open(os.path.join(ROOT, ".claude-plugin", "plugin.json"), encoding="utf-8"))["version"]
     return m
 
 def render(m):
+    # Default the repo-derived fields when absent so older callers/tests keep working;
+    # collect_metrics() supplies all of these on a normal regenerate.
+    missing = {"version", "skills", "mcp"} - set(m)
+    if missing:
+        m = dict(m)
+        if "version" in missing:
+            import json as _json
+            m["version"] = _json.load(open(os.path.join(ROOT, ".claude-plugin", "plugin.json"), encoding="utf-8"))["version"]
+        if "skills" in missing:
+            m["skills"] = str(_count("skills/*/SKILL.md"))
+        if "mcp" in missing:
+            m["mcp"] = str(open(os.path.join(ROOT, "mcp_server", "cambium_mcp", "server.py"), encoding="utf-8").read().count("@mcp.tool()"))
     return TEMPLATE.format(**m)
 
-TEMPLATE = r"""<!doctype html><html lang="en"><head><meta charset="utf-8">
+TEMPLATE = r"""<!doctype html><html lang="en" data-cambium-version="{version}"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cambium — evaluation & benchmark dashboard</title>
 <style>
@@ -141,7 +157,7 @@ TEMPLATE = r"""<!doctype html><html lang="en"><head><meta charset="utf-8">
    <div class="card"><div class="n">{tools}</div><div class="l">Tools</div><div class="s">consistency_check.py</div></div>
    <div class="card"><div class="n">{policy_enforced}/10</div><div class="l">AI-Policy points enforced</div><div class="s">AI_POLICY.md</div></div>
    <div class="card"><div class="n">{grounded}/{checks_total}</div><div class="l">Grounded checks <span class="s">no LLM needed</span></div><div class="s">deterministic + external · CHECKS.md</div></div>
-   <div class="card"><div class="n">25</div><div class="l">Skills · 6 MCP tools · 18 templates</div><div class="s">field-agnostic</div></div>
+   <div class="card"><div class="n">{skills}</div><div class="l">Skills · {mcp} MCP tools</div><div class="s">field-agnostic · counted from the repo</div></div>
  </div>
 
  <h2>Pre-registered enforcement A/B — does hard enforcement beat soft prompting?</h2>

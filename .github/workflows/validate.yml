@@ -41,7 +41,7 @@ jobs:
 
       - name: Framework tests (pytest)
         run: |
-          pip install pytest pyyaml
+          pip install -c constraints.txt pytest pyyaml
           python3 -m pytest tests/ -q
 
       - name: Cambium doctor (full health - counts, HTML integrity, parses, derived sync)
@@ -53,15 +53,12 @@ jobs:
       - name: Consistency check (counts)
         run: python3 tools/consistency_check.py
 
-      # Step 1c: Version consistency - manifest must match the MCP package.
-      # Fails (RED) if .claude-plugin/plugin.json and mcp_server/pyproject.toml
-      # declare different versions.
-      - name: Version consistency (plugin.json == mcp_server)
-        run: |
-          PLUGIN_V=$(python3 -c "import json;print(json.load(open('.claude-plugin/plugin.json'))['version'])")
-          MCP_V=$(grep -m1 '^version' mcp_server/pyproject.toml | sed -E 's/.*"([^"]+)".*/\1/')
-          echo "plugin.json=$PLUGIN_V  mcp_server=$MCP_V"
-          test "$PLUGIN_V" = "$MCP_V" || { echo "::error::version drift: plugin.json=$PLUGIN_V mcp_server=$MCP_V"; exit 1; }
+      # Step 1c: Version consistency - every version-bearing file must match CHANGELOG.
+      # Fails (RED) on drift in plugin.json, marketplace.json, mcp_server/pyproject.toml,
+      # the ROOT pyproject.toml, or the README badge. (The root pyproject drifted unseen
+      # for 15 releases before this covered it; see FABLE_REVIEW finding 3.)
+      - name: Version consistency (all manifests == CHANGELOG)
+        run: python3 tools/sync_version.py --check
 
       # Step 1d: Packaging guard - exactly one plugin.json in the artifact.
       - name: Packaging guard (one plugin.json)
@@ -83,11 +80,13 @@ jobs:
           AI_MODEL: cambium-ci
         run: python3 tools/enforce.py --ledger tools/ci_ledger.csv
 
-      # The benchmark dashboard is a generated display artifact; we do NOT gate the build on it.
-      # Its test count depends on which optional deps are installed, so byte-matching it across
-      # environments is impossible. The numbers that matter (agents, councils, gates) are guarded
-      # by the consistency-check step above. Refresh the display locally with:
-      #   python3 tools/gen_dashboard.py
+      # Benchmark dashboard: byte-matching it in CI is impossible (its test count depends on
+      # which optional deps are installed), so the anti-drift guarantee is SEMANTIC instead:
+      # the doctor step above fails RED if the dashboard's stamped data-cambium-version does
+      # not match plugin.json, which forces a regenerate every release; counts inside it are
+      # guarded by the consistency-check step. Recorded in GATES.md as G-dashboard-amend
+      # (retracts the unshipped "CI git-diffs it" claim from G-dashboard-auto).
+      # Refresh locally with:  python3 tools/gen_dashboard.py
 
       # Step 3: Demo ledger - informational only (intentional open P0).
       - name: Show demo ledger (informational - open P0 expected)

@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Cambium MCP server — exposes Cambium's tools to any MCP client (Claude Desktop/Code, Cursor, …).
 
-Tools: cambium_plan, cambium_provision, cambium_agents, cambium_doctor, cambium_grade, cambium_validate.
+Tools: cambium_plan, cambium_provision, cambium_agents, cambium_doctor, cambium_grade, cambium_validate,
+       cambium_dispatch, cambium_fidelity, cambium_recall, cambium_graph.
 Run (stdio):  python -m cambium_mcp.server   |   uvx cambium-mcp
 """
 import os, sys, json, tempfile, subprocess
@@ -51,6 +52,26 @@ def cambium_validate(ledger_csv: str) -> dict:
     finally:
         try: os.remove(path)
         except Exception: pass
+
+@mcp.tool()
+def cambium_dispatch(task: str) -> dict:
+    """Turn the routed plan into a literal, copy-ready dispatch script: the exact agent calls per phase with stop-at-gate lines, so an orchestrator executes the plan instead of inventing one."""
+    return _run("tools/dispatch_plan.py", task)
+
+@mcp.tool()
+def cambium_fidelity(task: str) -> dict:
+    """Close-out scorecard for a run: did the routed agents actually get dispatched, did phases progress, was the gate recorded, was learning delivered? Advisory and post-hoc; makes skips visible, never blocks."""
+    return _run("tools/run_fidelity.py", task)
+
+@mcp.tool()
+def cambium_recall(query: str, k: int = 5) -> dict:
+    """Semantic recall over Cambium's own curated findings, gate decisions, and agent outputs, so related work starts from what is already known instead of rediscovering it."""
+    return _run("tools/memory_recall.py", "query", query, "-k", str(k))
+
+@mcp.tool()
+def cambium_graph(query: str, hops: int = 2) -> dict:
+    """Multi-hop query over the local concept graph built from Cambium's curated records: what connects to a topic, what supports it, and where contradiction edges are flagged (never auto-resolved)."""
+    return _run("tools/concept_graph.py", "--root", ".", "query", query, "-k", str(hops))
 
 def main():
     mcp.run()   # stdio transport
