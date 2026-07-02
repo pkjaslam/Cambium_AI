@@ -10,6 +10,10 @@ Usage:
         --description "Plan and check forest inventory sampling designs, plot layout, and expansion factors." \
         [--root DIR] [--force]
 
+Option-like names (ported from the retired tools/agent_scaffold.py): a --name
+value starting with a hyphen (e.g. "-bad") is folded to --name=... so it fails
+the kebab-case lint with exit 1; argparse usage errors return exit 2.
+
 Lints enforced before writing (exit 1 on violation):
     - name is kebab-case and becomes the directory name (so they always match)
     - description is one line, at least 40 characters, and has no em dash
@@ -73,7 +77,22 @@ def main(argv=None) -> int:
                     help="one-line description, minimum {} characters".format(MIN_DESC))
     ap.add_argument("--root", default=repo_root(), help="repo root to write into (default: this repo)")
     ap.add_argument("--force", action="store_true", help="overwrite an existing SKILL.md")
-    args = ap.parse_args(argv)
+
+    # Ported from the retired tools/agent_scaffold.py: fold "--name X" into
+    # "--name=X" so option-like values such as "-bad" reach the kebab check and
+    # fail there with rc 1 instead of an argparse usage error. Other argparse
+    # usage errors return 2 so main() keeps returning an int in-process.
+    argv = list(sys.argv[1:] if argv is None else argv)
+    for i, tok in enumerate(argv):
+        if tok == "--name" and i + 1 < len(argv):
+            argv[i:i + 2] = ["--name=" + argv[i + 1]]
+            break
+    try:
+        args = ap.parse_args(argv)
+    except SystemExit as exc:
+        if exc.code == 0:  # --help: let the clean exit propagate
+            raise
+        return 2  # argparse already printed its usage error to stderr
 
     name = args.name.strip()
     if not KEBAB.match(name):

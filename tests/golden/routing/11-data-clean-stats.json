@@ -1,0 +1,107 @@
+{
+  "all_agents_sorted": [
+    "data-steward",
+    "document-office",
+    "feedback-router",
+    "figures",
+    "integrity-officer",
+    "janitor",
+    "lab-statistics",
+    "librarian",
+    "office-manager",
+    "outreach",
+    "record-keeper",
+    "research-assistant",
+    "research-conduct-officer",
+    "teaching-assistant",
+    "toolsmith",
+    "verify-evidence",
+    "verify-methodology"
+  ],
+  "phases": [
+    {
+      "agents_by_group": {
+        "toolsmith": [
+          "toolsmith"
+        ]
+      },
+      "gate_id_or_null": "G-provision",
+      "id": "provision"
+    },
+    {
+      "agents_by_group": {
+        "data": [
+          "data-steward",
+          "research-assistant"
+        ]
+      },
+      "gate_id_or_null": null,
+      "id": "prep"
+    },
+    {
+      "agents_by_group": {
+        "stats": [
+          "lab-statistics"
+        ]
+      },
+      "gate_id_or_null": null,
+      "id": "analyze"
+    },
+    {
+      "agents_by_group": {
+        "verify": [
+          "verify-evidence",
+          "verify-methodology"
+        ]
+      },
+      "gate_id_or_null": "G4",
+      "id": "verify"
+    },
+    {
+      "agents_by_group": {
+        "write-up": [
+          "document-office",
+          "figures",
+          "librarian"
+        ]
+      },
+      "gate_id_or_null": null,
+      "id": "writeup"
+    },
+    {
+      "agents_by_group": {
+        "conduct+integrity": [
+          "integrity-officer",
+          "research-conduct-officer"
+        ]
+      },
+      "gate_id_or_null": "G-release",
+      "id": "release"
+    },
+    {
+      "agents_by_group": {
+        "learning brief": [
+          "teaching-assistant"
+        ]
+      },
+      "gate_id_or_null": null,
+      "id": "learn"
+    },
+    {
+      "agents_by_group": {
+        "close-out": [
+          "feedback-router",
+          "integrity-officer",
+          "janitor",
+          "office-manager",
+          "outreach",
+          "record-keeper"
+        ]
+      },
+      "gate_id_or_null": null,
+      "id": "closeout"
+    }
+  ],
+  "task": "Clean the dataset and run statistics on the yield measurements",
+  "type": "data"
+}

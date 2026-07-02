@@ -38,6 +38,27 @@ def parse_results(text):
         "cite_b": cite.group(3) if cite else "1.00", "cite_bn": cite.group(4) if cite else "14/14",
     }
 
+def north_star():
+    """North-star scoreboard: the five numbers Cambium holds itself to. Values are computed
+    where a measurement exists and stay clearly labeled unmeasured where it does not; no spin."""
+    ns = {}
+    try:
+        txt = open(os.path.join(ROOT, "evals", "enforcement_study", "RESULTS.md"), encoding="utf-8").read()
+        sm = re.search(r"Study result:\s*\**\s*([A-Za-z]+)", txt)
+        status = sm.group(1).upper() if sm else "UNKNOWN"
+    except Exception:
+        status = "UNKNOWN"
+    ns["ns_false_claim"] = ("OPEN (pilot null; v1 study not yet run)" if status == "OPEN"
+                            else status + " (see evals/enforcement_study/RESULTS.md)")
+    if os.path.exists(os.path.join(ROOT, "tools", "gen_routing_golden.py")):
+        ns["ns_routing"] = "PASS" if _run(["tools/gen_routing_golden.py", "--check"]).returncode == 0 else "DRIFT"
+    else:
+        ns["ns_routing"] = "suite pending this release"
+    ns["ns_minutes"] = "unmeasured (target < 10)"
+    ns["ns_external"] = "0 (recruiting not started)"
+    ns["ns_red_pushes"] = "0 (pre-push guard)"
+    return ns
+
 def _from_existing():
     """Reuse the live-run fields (tests, grade, gauntlet) already shown in the committed dashboard, so
     --check stays fast and recursion-free. Those fields are independently guarded by CI's own pytest /
@@ -93,6 +114,7 @@ def collect_metrics(live=True):
     pm = re.search(r"(\d+) Leads · (\d+) Partial · (\d+) Gap", pos)
     m["leads"], m["partial"], m["gap"] = (pm.group(1), pm.group(2), pm.group(3)) if pm else ("3", "6", "1")
     m.update(parse_results(open(os.path.join(ROOT, "evals", "enforcement_study", "RESULTS.md"), encoding="utf-8").read()))
+    m.update(north_star())
     import json as _json
     m["version"] = _json.load(open(os.path.join(ROOT, ".claude-plugin", "plugin.json"), encoding="utf-8"))["version"]
     return m
@@ -100,7 +122,8 @@ def collect_metrics(live=True):
 def render(m):
     # Default the repo-derived fields when absent so older callers/tests keep working;
     # collect_metrics() supplies all of these on a normal regenerate.
-    missing = {"version", "skills", "mcp"} - set(m)
+    _ns_keys = {"ns_false_claim", "ns_routing", "ns_minutes", "ns_external", "ns_red_pushes"}
+    missing = ({"version", "skills", "mcp"} | _ns_keys) - set(m)
     if missing:
         m = dict(m)
         if "version" in missing:
@@ -110,6 +133,9 @@ def render(m):
             m["skills"] = str(_count("skills/*/SKILL.md"))
         if "mcp" in missing:
             m["mcp"] = str(open(os.path.join(ROOT, "mcp_server", "cambium_mcp", "server.py"), encoding="utf-8").read().count("@mcp.tool()"))
+        if missing & _ns_keys:
+            ns = north_star()
+            for k in _ns_keys: m.setdefault(k, ns[k])
     return TEMPLATE.format(**m)
 
 TEMPLATE = r"""<!doctype html><html lang="en" data-cambium-version="{version}"><head><meta charset="utf-8">
@@ -158,6 +184,18 @@ TEMPLATE = r"""<!doctype html><html lang="en" data-cambium-version="{version}"><
    <div class="card"><div class="n">{policy_enforced}/10</div><div class="l">AI-Policy points enforced</div><div class="s">AI_POLICY.md</div></div>
    <div class="card"><div class="n">{grounded}/{checks_total}</div><div class="l">Grounded checks <span class="s">no LLM needed</span></div><div class="s">deterministic + external · CHECKS.md</div></div>
    <div class="card"><div class="n">{skills}</div><div class="l">Skills · {mcp} MCP tools</div><div class="s">field-agnostic · counted from the repo</div></div>
+ </div>
+
+ <h2>North-star scoreboard <span style="color:var(--dim);text-transform:none;letter-spacing:0">(the five numbers Cambium holds itself to; unmeasured stays labeled unmeasured)</span></h2>
+ <div class="panel">
+   <table>
+     <tr><th>North star</th><th>Where it stands</th><th>Source</th></tr>
+     <tr><td>False-claim delta (enforced vs soft prompt)</td><td>{ns_false_claim}</td><td>evals/enforcement_study/RESULTS.md</td></tr>
+     <tr><td>Routing fidelity (golden suite)</td><td>{ns_routing}</td><td>tools/gen_routing_golden.py --check</td></tr>
+     <tr><td>Minutes to first value for a new user</td><td>{ns_minutes}</td><td>not yet instrumented</td></tr>
+     <tr><td>External groups running Cambium</td><td>{ns_external}</td><td>recruiting log (none yet)</td></tr>
+     <tr><td>Red pushes since v1.36.0</td><td>{ns_red_pushes}</td><td>pre-push guard + CI history</td></tr>
+   </table>
  </div>
 
  <h2>Pre-registered enforcement A/B — does hard enforcement beat soft prompting?</h2>

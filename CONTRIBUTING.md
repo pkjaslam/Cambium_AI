@@ -123,6 +123,14 @@ python -m http.server 8080
 - Claims that exceed their evidence tier
 - Solutions that remove human gates
 
+### Features must move a number
+
+Every PR that adds a tool or capability names, in the PR description and the CHANGELOG entry, the eval, check, or measured outcome it improves. "Seemed useful" is not a number.
+
+The tool budget keeps this deliberate: `tools/tool_budget.json` freezes the toolkit size, and `python tools/doctor.py` fails when `tools/*.py` grows past it. Growing the toolkit means bumping the budget in the same commit and saying what the new tool moves.
+
+Deletion and consolidation are celebrated. A PR that removes or merges tools and keeps the suite green is at least as welcome as one that adds; shrink the budget when you do.
+
 ---
 
 ## Agent Guidelines

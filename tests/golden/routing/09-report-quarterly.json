@@ -1,0 +1,54 @@
+{
+  "all_agents_sorted": [
+    "deck-builder",
+    "document-office",
+    "feedback-router",
+    "figures",
+    "integrity-officer",
+    "janitor",
+    "librarian",
+    "office-manager",
+    "outreach",
+    "record-keeper",
+    "reporting-officer"
+  ],
+  "phases": [
+    {
+      "agents_by_group": {
+        "reporting": [
+          "deck-builder",
+          "reporting-officer"
+        ]
+      },
+      "gate_id_or_null": "G5",
+      "id": "report"
+    },
+    {
+      "agents_by_group": {
+        "write-up": [
+          "document-office",
+          "figures",
+          "librarian"
+        ]
+      },
+      "gate_id_or_null": null,
+      "id": "writeup"
+    },
+    {
+      "agents_by_group": {
+        "close-out": [
+          "feedback-router",
+          "integrity-officer",
+          "janitor",
+          "office-manager",
+          "outreach",
+          "record-keeper"
+        ]
+      },
+      "gate_id_or_null": null,
+      "id": "closeout"
+    }
+  ],
+  "task": "Write the quarterly progress report for the funder",
+  "type": "report"
+}

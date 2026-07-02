@@ -105,3 +105,50 @@ def test_missing_reviews_file_exits_1(tmp_path):
 def test_no_em_dash_in_source():
     with open(TOOL, encoding="utf-8") as fh:
         assert "\u2014" not in fh.read()
+
+
+# ---------------------------------------------------------------------------
+# Ported from the retired tools/revision_matrix.py test suite
+# ---------------------------------------------------------------------------
+
+TWO_REVIEWER_FIXTURE = (
+    "Reviewer 1\n"
+    "1. The methodology section needs more detail on the sampling procedure.\n"
+    "2. Figure 3 axis labels are too small to read.\n"
+    "\n"
+    "Referee 2\n"
+    "1. Please clarify the statistical test used in Table 2.\n"
+)
+
+
+def test_reviewer_sections_attributed(tmp_path):
+    reviews = tmp_path / "reviews.txt"
+    reviews.write_text(TWO_REVIEWER_FIXTURE, encoding="utf-8")
+    result = run_tool("--reviews", str(reviews))
+    assert result.returncode == 0, result.stderr
+    assert "- Points parsed: 3" in result.stdout
+    assert "| Reviewer 1 |" in result.stdout
+    assert "| Referee 2 |" in result.stdout
+    assert "sampling procedure" in result.stdout
+    assert "Table 2" in result.stdout
+
+
+def test_single_block_falls_back_to_reviewer_1(tmp_path):
+    reviews = tmp_path / "reviews.txt"
+    reviews.write_text(
+        "Thanks for the submission. A few notes below.\n\n"
+        "The introduction could use one more citation.\n\n"
+        "The discussion section is a bit long.\n",
+        encoding="utf-8")
+    result = run_tool("--reviews", str(reviews))
+    assert result.returncode == 0, result.stderr
+    assert "- Points parsed: 3" in result.stdout
+    assert result.stdout.count("| Reviewer 1 |") == 3
+
+
+def test_empty_reviews_file_exits_2(tmp_path):
+    reviews = tmp_path / "empty.txt"
+    reviews.write_text("   \n\n", encoding="utf-8")
+    result = run_tool("--reviews", str(reviews))
+    assert result.returncode == 2
+    assert "empty" in result.stderr.lower()

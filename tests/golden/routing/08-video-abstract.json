@@ -1,0 +1,65 @@
+{
+  "all_agents_sorted": [
+    "deck-builder",
+    "feedback-router",
+    "figures",
+    "integrity-officer",
+    "janitor",
+    "office-manager",
+    "outreach",
+    "record-keeper",
+    "reporting-officer",
+    "research-conduct-officer",
+    "toolsmith"
+  ],
+  "phases": [
+    {
+      "agents_by_group": {
+        "toolsmith": [
+          "toolsmith"
+        ]
+      },
+      "gate_id_or_null": "G-provision",
+      "id": "provision"
+    },
+    {
+      "agents_by_group": {
+        "media": [
+          "figures",
+          "outreach"
+        ],
+        "reporting": [
+          "deck-builder",
+          "reporting-officer"
+        ]
+      },
+      "gate_id_or_null": "G5",
+      "id": "produce"
+    },
+    {
+      "agents_by_group": {
+        "conduct": [
+          "research-conduct-officer"
+        ]
+      },
+      "gate_id_or_null": "G6",
+      "id": "publish"
+    },
+    {
+      "agents_by_group": {
+        "close-out": [
+          "feedback-router",
+          "integrity-officer",
+          "janitor",
+          "office-manager",
+          "outreach",
+          "record-keeper"
+        ]
+      },
+      "gate_id_or_null": null,
+      "id": "closeout"
+    }
+  ],
+  "task": "Make a video abstract for the published study",
+  "type": "video"
+}

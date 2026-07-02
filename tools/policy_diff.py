@@ -61,6 +61,13 @@ BULLET_RE = re.compile(r"^\s*(?:[-*]|\d+[.)])\s+")
 SENTENCE_SPLIT_RE = re.compile(r"(?<=[.!?])\s+")
 PAIR_THRESHOLD = 0.4  # minimum Jaccard token overlap to call two units a changed pair
 
+# Bound the O(n*m) requirement-pairing scan on pathological inputs (thousands of
+# unmatched requirement sentences with no exact match). Above this product cap the
+# pairing step is skipped and every unmatched unit is reported as removed/added; the
+# report notes the truncation, keeping runtime bounded (see the closing note).
+PAIRING_PRODUCT_CAP = 2_000_000
+PAIRING_TRUNCATED = False
+
 
 # ---------------------------------------------------------------------------
 # Loader
@@ -152,6 +159,14 @@ def diff_requirements(old_units: list[str], new_units: list[str]) -> tuple[list,
             matched_new[hit] = True
     new_left = [j for j in range(len(new_reqs)) if not matched_new[j]]
 
+    global PAIRING_TRUNCATED
+    PAIRING_TRUNCATED = False
+    if len(old_left) * len(new_left) > PAIRING_PRODUCT_CAP:
+        PAIRING_TRUNCATED = True
+        removed_all = [old_reqs[i] for i in old_left]
+        added_all = [new_reqs[j] for j in new_left]
+        return added_all, removed_all, []
+
     candidates = []
     for i in old_left:
         toks_i = _tokens(old_norm[i])
@@ -184,6 +199,7 @@ def build_report(old_text: str, new_text: str, old_path: str, new_path: str) -> 
     old_units = split_units(old_text)
     new_units = split_units(new_text)
     added, removed, changed = diff_requirements(old_units, new_units)
+    pairing_truncated = PAIRING_TRUNCATED
     n_old_reqs = sum(1 for u in old_units if is_requirement(u))
     n_new_reqs = sum(1 for u in new_units if is_requirement(u))
 
@@ -231,6 +247,12 @@ def build_report(old_text: str, new_text: str, old_path: str, new_path: str) -> 
     lines.append("")
     lines.append("---")
     lines.append("")
+    if pairing_truncated:
+        lines.append("> NOTE: the two versions had too many unmatched requirement ")
+        lines.append("> sentences to pair within the tool bounded-time budget, so changed- ")
+        lines.append("> sentence pairing was skipped and every unmatched unit is listed as ")
+        lines.append("> added or removed above. Read the unified diff appendix below for detail.")
+        lines.append("")
     lines.append("## Unified diff appendix (full raw text)")
     lines.append("")
     lines.append("```diff")

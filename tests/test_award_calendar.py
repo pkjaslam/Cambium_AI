@@ -108,3 +108,62 @@ def test_help_exits_zero():
                           capture_output=True, text=True)
     assert proc.returncode == 0
     assert "--ics" in proc.stdout
+
+
+# ---------------------------------------------------------------------------
+# Ported from the retired tools/deadline_radar.py test suite
+# ---------------------------------------------------------------------------
+
+def test_ics_contains_valarm_default_14_days(tmp_path):
+    path = _write(tmp_path, _award())
+    ics_path = tmp_path / "a.ics"
+    assert A.main(["--award", path, "--today", "2026-01-01",
+                   "--ics", str(ics_path), "--out", str(tmp_path / "s.md")]) == 0
+    ics = ics_path.read_text(encoding="utf-8")
+    assert "BEGIN:VALARM" in ics
+    assert "TRIGGER:-P14D" in ics
+    assert ics.count("BEGIN:VALARM") == ics.count("BEGIN:VEVENT")
+
+
+def test_ics_alarm_days_flag_changes_trigger(tmp_path):
+    path = _write(tmp_path, _award())
+    ics_path = tmp_path / "a.ics"
+    assert A.main(["--award", path, "--today", "2026-01-01", "--alarm-days", "3",
+                   "--ics", str(ics_path), "--out", str(tmp_path / "s.md")]) == 0
+    assert "TRIGGER:-P3D" in ics_path.read_text(encoding="utf-8")
+
+
+def test_multi_award_files_merge_and_dedupe(tmp_path):
+    p1 = _write(tmp_path, _award())
+    p2 = tmp_path / "award2.yml"
+    p2.write_text(yaml.safe_dump(_award(reports=[
+        {"type": "RPPR", "frequency": "annual", "due_days_after_period_end": 60}])),
+        encoding="utf-8")
+    out = tmp_path / "s.md"
+    # p1 given twice: its 4 quarterly rows must dedupe; p2 adds 1 annual row.
+    assert A.main(["--award", p1, p1, str(p2), "--today", "2026-01-01",
+                   "--out", str(out)]) == 0
+    text = out.read_text(encoding="utf-8")
+    assert "**Scheduled items:** 5" in text
+    assert "RPPR" in text and "Financial report" in text
+
+
+def test_add_one_time_items_with_dedupe(tmp_path):
+    path = _write(tmp_path, _award())
+    out = tmp_path / "s.md"
+    assert A.main(["--award", path, "--today", "2026-01-01",
+                   "--add", "item=IRB renewal,date=2026-05-05",
+                   "--add", "item=IRB renewal,date=2026-05-05",
+                   "--out", str(out)]) == 0
+    text = out.read_text(encoding="utf-8")
+    assert "IRB renewal" in text and "one-time" in text
+    assert "**Scheduled items:** 5" in text  # 4 quarterly + 1 deduped one-time
+
+
+def test_malformed_add_entries_exit_1(tmp_path):
+    path = _write(tmp_path, _award())
+    for bad in ("item=No date here", "date=2026-05-05",
+                "item=X,date=2026-13-40", "noequals"):
+        with pytest.raises(SystemExit) as exc:
+            A.main(["--award", path, "--today", "2026-01-01", "--add", bad])
+        assert exc.value.code == 1

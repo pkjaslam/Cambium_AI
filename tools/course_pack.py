@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """course_pack - assemble a markdown course pack from learning packets and refs.
 
+Scope split: this tool assembles the CONTENT PACK (readings, objectives, labs); the dated session schedule with calendar export lives in tools/syllabus_builder.py.
+
 Purpose:
   Build one instructor-ready markdown course pack: a syllabus header, one
   section per week (topic, objectives auto-drawn from packet headings,

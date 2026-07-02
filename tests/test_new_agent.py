@@ -88,3 +88,34 @@ def test_help_exits_zero():
     r = run_tool("--help")
     assert r.returncode == 0
     assert "--council" in r.stdout
+
+
+# ---------------------------------------------------------------------------
+# Ported from the retired tools/agent_scaffold.py test suite
+# ---------------------------------------------------------------------------
+
+def test_kebab_case_enforced_including_option_like_names(tmp_path):
+    # "-bad" exercises the ported --name folding: argparse must not choke;
+    # the kebab check rejects it with rc 1 like every other bad name.
+    for bad_name in ("Bad_Name", "bad name", "-bad", "bad-", "bad--name", "UPPER"):
+        r = scaffold(tmp_path, name=bad_name)
+        assert r.returncode == 1, "expected rejection for %r" % bad_name
+        assert "kebab" in r.stderr.lower()
+
+
+def test_bad_model_value_exits_1_and_writes_nothing(tmp_path):
+    r = scaffold(tmp_path, extra=("--model", "gpt5"))
+    assert r.returncode == 1
+    assert "model" in r.stderr.lower()
+    assert not (tmp_path / "agents" / "soil-scientist.md").exists()
+
+
+def test_inherit_model_accepted_and_passes_repo_validator(tmp_path):
+    r = scaffold(tmp_path, extra=("--model", "inherit"))
+    assert r.returncode == 0, r.stderr
+    fm = frontmatter(tmp_path / "agents" / "soil-scientist.md")
+    assert fm["model"] == "inherit"
+    check = subprocess.run(
+        [sys.executable, str(CHECKER), str(tmp_path / ".claude" / "agents")],
+        capture_output=True, text=True)
+    assert check.returncode == 0, check.stdout + check.stderr

@@ -22,6 +22,15 @@ def html_files():
     return sorted(glob.glob(os.path.join(ROOT,"*.html"))+glob.glob(os.path.join(ROOT,"app","*.html"))+glob.glob(os.path.join(ROOT,"demo","*.html")))
 def n_agents():
     return len([p for p in glob.glob(os.path.join(ROOT,".claude","agents","*.md")) if os.path.basename(p).upper()!="README.MD"])
+def tool_budget_status(root=ROOT):
+    """tools/*.py count vs the frozen budget in tools/tool_budget.json (measurement-first rule)."""
+    n = len(glob.glob(os.path.join(root, "tools", "*.py")))
+    bp = os.path.join(root, "tools", "tool_budget.json")
+    if not os.path.exists(bp): return False, "tools/tool_budget.json missing (toolkit is budget-frozen; see CONTRIBUTING.md)"
+    try: b = int(json.load(open(bp, encoding="utf-8"))["budget"])
+    except Exception as e: return False, "tools/tool_budget.json malformed -> " + str(e)[:60]
+    if n > b: return False, "%d tools > budget %d: remove tools or deliberately bump tools/tool_budget.json" % (n, b)
+    return True, "%d/%d tools within budget" % (n, b)
 
 print("== Cambium doctor ==")
 if FIX:
@@ -84,6 +93,7 @@ if os.path.exists(_db):
     if not _m: fail("dashboard has no version stamp (regenerate: python3 tools/gen_dashboard.py)"); s_ok=False
     elif _m.group(1)!=_pv: fail("dashboard stamped %s != plugin %s (stale; regenerate)"%(_m.group(1),_pv)); s_ok=False
     else: good("benchmark dashboard stamped %s (fresh for this release)"%_pv)
+print("\n[9] tool budget"); t_ok,t_t = tool_budget_status(); (good if t_ok else fail)(t_t[:90])
 
 # ---------- self-grade ----------
 if GRADE:
@@ -101,6 +111,7 @@ if GRADE:
       "Derived in sync": 1.0 if d_ok else 0.0,
       "Ledger format": 1.0 if g_ok else 0.0,
       "Version stamps": 1.0 if s_ok else 0.0,
+      "Tool budget": 1.0 if t_ok else 0.0,
       "Governance coverage": frac(gov),
       "Tooling completeness": frac(tools),
       "Docs present": frac(docs),

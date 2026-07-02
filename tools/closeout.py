@@ -121,6 +121,32 @@ def check_skills_coverage():
     undescribed = [s for s in skill_names if s not in prose]
     return len(skill_names), undescribed
 
+ADR_WORDS = ("new council", "new gate", "execution path", "protocol", "retire", "consolidat")
+
+def check_adr_signal():
+    """Advisory: an architectural-sounding release should leave an ADR in DECISIONS.md.
+
+    If the top CHANGELOG entry mentions architectural words (new council, new gate,
+    execution path, protocol, retire, consolidat...) and docs/reference/DECISIONS.md is
+    older on disk than CHANGELOG.md, suggest recording an ADR (templates/ADR.md). This is
+    a suggestion for the orchestrator and the researcher to weigh; it never fails the review.
+    """
+    cl = os.path.join(ROOT, "CHANGELOG.md")
+    dm = os.path.join(ROOT, "docs", "reference", "DECISIONS.md")
+    if not (os.path.exists(cl) and os.path.exists(dm)):
+        return None
+    m = re.search(r"^## .*?(?=^## |\Z)", open(cl, encoding="utf-8").read(), re.M | re.S)
+    if not m:
+        return None
+    top = m.group(0).lower()
+    hits = sorted(w for w in ADR_WORDS if w in top)
+    if not hits:
+        return None
+    if os.path.getmtime(dm) >= os.path.getmtime(cl):
+        return None
+    return ("top CHANGELOG entry sounds architectural (" + ", ".join(hits) + ") but DECISIONS.md "
+            "is older than CHANGELOG.md; consider recording an ADR (templates/ADR.md -> docs/reference/DECISIONS.md).")
+
 def main():
     print("=" * 70)
     print("Close-out review (advisory)")
@@ -146,6 +172,11 @@ def main():
     if undescribed_skills:
         print("  (advisory) skills not mentioned in README or docs prose: " + ", ".join(undescribed_skills))
         print("  Note: undescribed skills are a signal to consider documentation, not a hard error.")
+
+    # ADR discipline (advisory only, never added to problems)
+    adr = check_adr_signal()
+    if adr:
+        print("  (advisory) " + adr)
 
     print(CHECKLIST)
     if unref: print("  (advisory) tools not named in any doc: " + ", ".join(unref))

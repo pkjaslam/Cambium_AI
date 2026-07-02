@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """subaward_register -- subaward and invoice tracking with contemporaneous records.
 
+Scope split: this tool is the POST-AWARD monitoring register (subawards and invoices on an active award); the PRE-AWARD multi-site budget roll-up lives in tools/subaward_consolidator.py.
+
 Maintains a CSV register of subawards and a CSV log of invoices against them,
 then computes burn (invoiced / total) per subaward and flags items that look
 like they need a human's attention: over-invoicing, invoices dated outside

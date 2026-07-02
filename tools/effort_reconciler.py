@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """effort_reconciler -- person-months commitment reconciler across projects (advisory).
 
+Scope split: this tool does the cross-project PERSON-MONTHS MATH (commitments vs availability); the per-person certification record with an audit line lives in tools/effort_cert.py.
+
 Motivation: 2 CFR 200.430 (Compensation - personal services) requires that
 compensation charged to federal awards reflects work actually performed, so
 institutions track committed effort against what is available. That regulation

@@ -1,0 +1,98 @@
+{
+  "all_agents_sorted": [
+    "budget-officer",
+    "collaborator-scout",
+    "convener",
+    "faculty-expert",
+    "feedback-router",
+    "figures",
+    "grants-compliance",
+    "idea-tournament",
+    "ideation-facilitator",
+    "integrity-officer",
+    "janitor",
+    "librarian",
+    "office-manager",
+    "outreach",
+    "partnership-liaison",
+    "principal-investigator",
+    "proposal-writer",
+    "record-keeper",
+    "referee",
+    "research-conduct-officer",
+    "rfp-analyst",
+    "rfp-radar",
+    "scout-landscape",
+    "scout-methods",
+    "scout-prior-art"
+  ],
+  "phases": [
+    {
+      "agents_by_group": {
+        "intake": [
+          "rfp-analyst",
+          "rfp-radar"
+        ]
+      },
+      "gate_id_or_null": "G1",
+      "id": "intake"
+    },
+    {
+      "agents_by_group": {
+        "faculty": [
+          "faculty-expert"
+        ],
+        "ideate": [
+          "idea-tournament",
+          "ideation-facilitator"
+        ],
+        "scouts": [
+          "scout-landscape",
+          "scout-methods",
+          "scout-prior-art"
+        ]
+      },
+      "gate_id_or_null": "G2",
+      "id": "ideation"
+    },
+    {
+      "agents_by_group": {
+        "PI": [
+          "principal-investigator"
+        ],
+        "review": [
+          "referee",
+          "research-conduct-officer"
+        ],
+        "write": [
+          "budget-officer",
+          "collaborator-scout",
+          "convener",
+          "figures",
+          "grants-compliance",
+          "librarian",
+          "partnership-liaison",
+          "proposal-writer"
+        ]
+      },
+      "gate_id_or_null": "G3",
+      "id": "proposal"
+    },
+    {
+      "agents_by_group": {
+        "close-out": [
+          "feedback-router",
+          "integrity-officer",
+          "janitor",
+          "office-manager",
+          "outreach",
+          "record-keeper"
+        ]
+      },
+      "gate_id_or_null": null,
+      "id": "closeout"
+    }
+  ],
+  "task": "Win an NSF grant on soil health for Idaho rangelands",
+  "type": "grant"
+}

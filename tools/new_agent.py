@@ -10,6 +10,13 @@ Usage:
         --description "Reviews soil sampling designs and lab protocols." \
         [--model sonnet] [--tools "Read, Grep, Glob, Write"] [--root DIR] [--force]
 
+Ported from the retired tools/agent_scaffold.py (one release as a stub):
+    - option-like --name values (e.g. "-bad") are folded to --name=... so they
+      fail the kebab-case check with exit 1 instead of an argparse usage error
+    - --model accepts the full tools/check_agents.py set, including "inherit",
+      and a bad model exits 1 with a clear message
+    - argparse usage errors return exit 2 from main()
+
 Honest limits:
     - Scaffolds the two card files only. It does NOT update roster docs,
       agent_cards.json, or the org chart; run the printed next steps.
@@ -28,6 +35,9 @@ import cambium_io  # noqa: F401
 
 KEBAB = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 EM_DASH = "\u2014"
+# Same allowed model set as tools/check_agents.py (ported from the retired
+# tools/agent_scaffold.py, which also accepted "inherit").
+VALID_MODELS = {"inherit", "opus", "sonnet", "haiku"}
 
 
 def repo_root() -> str:
@@ -73,13 +83,30 @@ def main(argv=None) -> int:
     ap.add_argument("--name", required=True, help="agent name, kebab-case (e.g. soil-scientist)")
     ap.add_argument("--council", required=True, help="council the agent belongs to (e.g. Labs)")
     ap.add_argument("--description", required=True, help="one-line description for the frontmatter")
-    ap.add_argument("--model", default="sonnet", choices=["haiku", "sonnet", "opus"],
-                    help="model tier (default: sonnet)")
+    ap.add_argument("--model", default="sonnet",
+                    help="model tier: inherit/opus/sonnet/haiku (default: sonnet)")
     ap.add_argument("--tools", default="Read, Grep, Glob, Write",
                     help='comma list of tools (default: "Read, Grep, Glob, Write")')
     ap.add_argument("--root", default=repo_root(), help="repo root to write into (default: this repo)")
     ap.add_argument("--force", action="store_true", help="overwrite existing card files")
-    args = ap.parse_args(argv)
+
+    # Ported from the retired tools/agent_scaffold.py: names may legitimately
+    # start with a hyphen (a kebab-case violation we want to REPORT, not have
+    # argparse choke on). Fold "--name X" into "--name=X" so option-like values
+    # such as "-bad" reach the kebab check below and fail there with rc 1, like
+    # every other bad name. Other argparse usage errors return 2 so main() keeps
+    # returning an int in-process.
+    argv = list(sys.argv[1:] if argv is None else argv)
+    for i, tok in enumerate(argv):
+        if tok == "--name" and i + 1 < len(argv):
+            argv[i:i + 2] = ["--name=" + argv[i + 1]]
+            break
+    try:
+        args = ap.parse_args(argv)
+    except SystemExit as exc:
+        if exc.code == 0:  # --help: let the clean exit propagate
+            raise
+        return 2  # argparse already printed its usage error to stderr
 
     name = args.name.strip()
     if not KEBAB.match(name):
@@ -96,6 +123,13 @@ def main(argv=None) -> int:
             print("[new_agent] ERROR: " + label + " contains an em dash; use a plain hyphen "
                   "(repo style: no em dashes)", file=sys.stderr)
             return 1
+
+    model = args.model.strip().lower()
+    if model not in VALID_MODELS:
+        print("[new_agent] ERROR: --model " + repr(args.model) + " is not one of "
+              + "/".join(sorted(VALID_MODELS))
+              + " (the set tools/check_agents.py allows)", file=sys.stderr)
+        return 1
 
     tools = ", ".join(t.strip() for t in args.tools.split(",") if t.strip())
     if not tools:
@@ -114,7 +148,7 @@ def main(argv=None) -> int:
                   file=sys.stderr)
         return 1
 
-    card = build_card(name, args.council.strip(), description, args.model, tools)
+    card = build_card(name, args.council.strip(), description, model, tools)
     for t in targets:
         os.makedirs(os.path.dirname(t), exist_ok=True)
         with open(t, "w", encoding="utf-8", newline="\n") as fh:

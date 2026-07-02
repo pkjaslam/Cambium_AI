@@ -1,5 +1,35 @@
 # Changelog
 
+## 1.38.0 - 2026-07-01 - Measurement becomes the boss: consolidation, golden routing, red-team, frozen budget
+
+Everything from the frontier-lab gap assessment that needs no external help, built in one governed run
+by four parallel councils and integrated behind the full gauntlet.
+
+- **Consolidation gate executed.** Six near-duplicate tools retired to pointer stubs for one release
+  (agent_scaffold, glossary_gen, flashcards, deadline_radar, plugin_lint, revision_matrix), every
+  unique feature and its test coverage ported into the keepers first (new_agent/new_skill,
+  glossary_builder, flashcards_export, award_calendar with VALARM + multi-source ics, plugin_smoke
+  now 9 checks, rebuttal_matrix with reviewer sectioning). Three pairs kept deliberately as different
+  jobs, documented in their docstrings.
+- **Routing drift is now a red test.** tests/golden/routing/ freezes 15 canned plans across all 8
+  task types; tests/test_routing_golden.py compares live route() output field by field and names the
+  drift; tools/gen_routing_golden.py regenerates deliberately (--check for CI). Structural invariants
+  included: routed agents must exist, the conductor is never a worker, writeups carry a release gate.
+- **Untrusted text gets a guard and a red team.** tools/intake_guard.py (advisory pattern screen:
+  instruction-override, script vectors, bidi/zero-width, base64 blobs; wrap() fences input as data,
+  not commands; explicitly not a security boundary) plus tests/test_redteam_intakes.py firing an
+  adversarial corpus at nine real intakes. Five real defects found and fixed: crash-to-traceback in
+  solicitation_explainer and flashcards_export, UnicodeDecodeError in three readers, and an unbounded
+  O(n*m) pairing in policy_diff now capped and noted.
+- **The toolkit is frozen at 120.** tools/tool_budget.json + doctor check [9]: growing the count
+  fails the health check unless the budget is bumped in the same commit, and CONTRIBUTING's new rule
+  requires naming the eval or check a new tool moves. Deletion is celebrated.
+- **ADR discipline.** templates/ADR.md + an advisory close-out signal when an architectural release
+  ships without touching DECISIONS.md.
+- **North-star scoreboard on the dashboard.** Five numbers, honest states: false-claim delta OPEN
+  until the v1 study runs, routing fidelity PASS (measured live), minutes-to-first-value unmeasured,
+  external groups 0, red pushes 0.
+
 ## 1.37.0 - 2026-07-01 - Audience power-up: 25 new tools, five for each of the five audiences
 
 The Director approved a 25-item slate (5 net-new capabilities per audience) and a parallel build:

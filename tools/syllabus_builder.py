@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """syllabus_builder -- compose Cambium Academy modules into a dated syllabus.
 
+Scope split: this tool builds the dated SESSION SCHEDULE (weekly calendar and optional .ics); the instructor CONTENT PACK (readings, objectives, labs) lives in tools/course_pack.py.
+
 Reads academy/courses.json (the same file academy/index.html is generated
 from), and lays selected modules onto a weekly calendar starting at a given
 date. Emits a Markdown syllabus (week number, session dates, module title,

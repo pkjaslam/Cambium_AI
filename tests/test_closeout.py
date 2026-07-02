@@ -133,3 +133,66 @@ def test_skills_coverage_no_skills_dir(tmp_path):
 
     assert count == 0
     assert undescribed == []
+
+# ---- ADR discipline (advisory signal) ----
+
+def test_adr_signal_fires_on_architectural_entry_with_stale_decisions(tmp_path):
+    """check_adr_signal(): architectural words in the top CHANGELOG entry + a DECISIONS.md
+    older than CHANGELOG.md on disk => an advisory suggestion to record an ADR."""
+    changelog = tmp_path / "CHANGELOG.md"
+    changelog.write_text(
+        "# Changelog\n\n## 2.0.0 - 2026-07-01 - restructure\n\n"
+        "Added a new council and retired the legacy execution path.\n",
+        encoding="utf-8"
+    )
+    dec_dir = tmp_path / "docs" / "reference"
+    dec_dir.mkdir(parents=True)
+    decisions = dec_dir / "DECISIONS.md"
+    decisions.write_text("# Decisions\n", encoding="utf-8")
+    old = os.path.getmtime(str(changelog)) - 3600
+    os.utime(str(decisions), (old, old))
+
+    orig_root = C.ROOT
+    try:
+        C.ROOT = str(tmp_path)
+        msg = C.check_adr_signal()
+    finally:
+        C.ROOT = orig_root
+
+    assert msg, "Expected an advisory ADR suggestion, got None"
+    assert "ADR" in msg and "new council" in msg and "retire" in msg, msg
+
+
+def test_adr_signal_silent_when_not_architectural_or_decisions_fresh(tmp_path):
+    """check_adr_signal(): no signal on a non-architectural entry, and no signal when
+    DECISIONS.md is at least as fresh as CHANGELOG.md (the ADR was plausibly written)."""
+    changelog = tmp_path / "CHANGELOG.md"
+    dec_dir = tmp_path / "docs" / "reference"
+    dec_dir.mkdir(parents=True)
+    decisions = dec_dir / "DECISIONS.md"
+    decisions.write_text("# Decisions\n", encoding="utf-8")
+
+    orig_root = C.ROOT
+    try:
+        C.ROOT = str(tmp_path)
+
+        # non-architectural entry, stale DECISIONS.md: silent
+        changelog.write_text(
+            "# Changelog\n\n## 2.0.1 - 2026-07-01 - tidy\n\nFixed a typo in the README.\n",
+            encoding="utf-8"
+        )
+        old = os.path.getmtime(str(changelog)) - 3600
+        os.utime(str(decisions), (old, old))
+        assert C.check_adr_signal() is None
+
+        # architectural entry, but DECISIONS.md fresher than CHANGELOG.md: silent
+        changelog.write_text(
+            "# Changelog\n\n## 2.1.0 - 2026-07-01 - protocol change\n\n"
+            "Reworked the handoff protocol between councils.\n",
+            encoding="utf-8"
+        )
+        newer = os.path.getmtime(str(changelog)) + 3600
+        os.utime(str(decisions), (newer, newer))
+        assert C.check_adr_signal() is None
+    finally:
+        C.ROOT = orig_root

@@ -113,3 +113,74 @@ def test_invalid_inputs(tmp_path):
     rc, _, err = _run(["--sources", str(empty)])
     assert rc == 1
     assert "no term/definition patterns" in err
+
+
+# ---------------------------------------------------------------------------
+# Ported from the retired tools/glossary_gen.py test suite
+# ---------------------------------------------------------------------------
+
+SKILL_MD = (
+    "---\n"
+    "name: statistics\n"
+    "description: Rigorous statistical inference done correctly.\n"
+    "---\n\n# Statistics\n"
+)
+
+
+def _write_at(root, rel, content):
+    path = root / rel
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(content, encoding="utf-8")
+    return path
+
+
+def test_default_scan_targets_docs_and_skills(tmp_path):
+    _write_at(tmp_path, "docs/a.md", "A **gate** is a checkpoint where the run pauses.\n")
+    _write_at(tmp_path, "skills/statistics/SKILL.md", SKILL_MD)
+    rc, out, _ = _run(["--root", str(tmp_path)])
+    assert rc == 0
+    assert "- **gate**" in out
+    assert "- **statistics**: Rigorous statistical inference done correctly." in out
+
+
+def test_skill_frontmatter_keys_not_misread_as_terms(tmp_path):
+    _write_at(tmp_path, "skills/statistics/SKILL.md", SKILL_MD)
+    rc, out, _ = _run(["--root", str(tmp_path)])
+    assert rc == 0
+    assert "- **name**" not in out
+    assert "- **description**" not in out
+
+
+def test_empty_default_scan_exits_1(tmp_path):
+    (tmp_path / "docs").mkdir()
+    (tmp_path / "skills").mkdir()
+    rc, _, err = _run(["--root", str(tmp_path)])
+    assert rc == 1
+    assert "no markdown files" in err
+
+
+def test_dash_pattern_at_line_start(tmp_path):
+    f = _write_at(tmp_path, "docs/b.md", "Council - A team of related agents.\n")
+    rc, out, _ = _run(["--sources", str(f)])
+    assert rc == 0
+    assert "- **Council**: A team of related agents." in out
+
+
+def test_dash_pattern_mid_sentence_not_misread(tmp_path):
+    f = _write_at(tmp_path, "docs/c.md",
+                  "This is a long prose sentence about something - "
+                  "and it continues here with more words.\n")
+    rc, _, err = _run(["--sources", str(f)])
+    # The pseudo-term before " - " is over the 6-word cap: nothing may match.
+    assert rc == 1
+    assert "no term/definition patterns" in err
+
+
+def test_dedupe_first_occurrence_wins(tmp_path):
+    _write_at(tmp_path, "docs/a.md", "Gatekeeper - First definition wins here.\n")
+    _write_at(tmp_path, "docs/z.md", "gatekeeper - A different, later definition.\n")
+    rc, out, _ = _run(["--root", str(tmp_path)])
+    assert rc == 0
+    assert out.count("**Gatekeeper**") + out.count("**gatekeeper**") == 1
+    assert "First definition wins here." in out
+    assert "A different, later definition." not in out

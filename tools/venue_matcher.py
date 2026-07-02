@@ -162,7 +162,7 @@ def load_profiles(path: str | None) -> tuple[list[dict], str]:
     if not os.path.exists(path):
         _fail(f"profiles file not found: {path}")
     try:
-        with open(path, encoding="utf-8") as fh:
+        with open(path, encoding="utf-8", errors="replace") as fh:
             data = yaml.safe_load(fh.read())
     except (OSError, yaml.YAMLError) as exc:
         _fail(f"cannot parse profiles file: {path}\n  {exc}")
@@ -291,7 +291,7 @@ def main(argv=None):
     if not os.path.exists(args.abstract):
         _fail(f"abstract file not found: {args.abstract}")
     try:
-        with open(args.abstract, encoding="utf-8") as fh:
+        with open(args.abstract, encoding="utf-8", errors="replace") as fh:
             text = fh.read()
     except OSError as exc:
         _fail(f"cannot read abstract file: {args.abstract}\n  {exc}")

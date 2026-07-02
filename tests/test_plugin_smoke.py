@@ -36,7 +36,9 @@ def make_repo(root):
     for d in ("agents", ".claude/agents"):
         p = root / d
         p.mkdir(parents=True)
-        (p / "librarian.md").write_text("---\nname: librarian\n---\nbody\n", encoding="utf-8")
+        (p / "librarian.md").write_text(
+            "---\nname: librarian\ndescription: Keeps the bibliography clean.\n"
+            "model: sonnet\ntools: Read, Grep\n---\nbody\n", encoding="utf-8")
     sd = root / "skills" / "demo-skill"
     sd.mkdir(parents=True)
     (sd / "SKILL.md").write_text(
@@ -109,3 +111,69 @@ def test_help_exits_zero():
     r = subprocess.run([sys.executable, str(TOOL), "--help"], capture_output=True, text=True)
     assert r.returncode == 0
     assert "--root" in r.stdout
+
+
+# ---------------------------------------------------------------------------
+# Ported from the retired tools/plugin_lint.py test suite
+# ---------------------------------------------------------------------------
+
+GOOD_AGENT = ("---\nname: {name}\ndescription: Does a thing.\n"
+              "model: sonnet\ntools: Read, Write\n---\nBody.\n")
+
+
+def test_agent_missing_description_fails(tmp_path):
+    make_repo(tmp_path)
+    for d in ("agents", ".claude/agents"):
+        (tmp_path / d / "agent-b.md").write_text(
+            "---\nname: agent-b\nmodel: sonnet\ntools: Read\n---\nBody.\n",
+            encoding="utf-8")
+    r = run_tool(tmp_path)
+    assert r.returncode == 1
+    assert "agents-frontmatter" in r.stdout and "description" in r.stdout
+
+
+def test_agent_bad_model_fails(tmp_path):
+    make_repo(tmp_path)
+    for d in ("agents", ".claude/agents"):
+        (tmp_path / d / "agent-c.md").write_text(
+            "---\nname: agent-c\ndescription: x\nmodel: gpt5\ntools: Read\n---\nBody.\n",
+            encoding="utf-8")
+    r = run_tool(tmp_path)
+    assert r.returncode == 1
+    assert "agents-frontmatter" in r.stdout and "model=gpt5" in r.stdout
+
+
+def test_duplicate_agent_name_across_files_fails(tmp_path):
+    # Mirror pairs (same filename in both trees) are exempt; a DIFFERENT
+    # filename reusing the same frontmatter name is a real collision.
+    make_repo(tmp_path)
+    for d in ("agents", ".claude/agents"):
+        (tmp_path / d / "librarian-dupe.md").write_text(
+            GOOD_AGENT.format(name="librarian"), encoding="utf-8")
+    r = run_tool(tmp_path)
+    assert r.returncode == 1
+    assert "agent-names-unique" in r.stdout and "librarian" in r.stdout
+
+
+def test_bad_semver_fails_even_when_versions_match(tmp_path):
+    make_repo(tmp_path)
+    plugin = tmp_path / ".claude-plugin" / "plugin.json"
+    data = json.loads(plugin.read_text(encoding="utf-8"))
+    data["version"] = "not-semver"
+    plugin.write_text(json.dumps(data), encoding="utf-8")
+    (tmp_path / "pyproject.toml").write_text('version = "not-semver"\n', encoding="utf-8")
+    (tmp_path / "mcp_server" / "pyproject.toml").write_text(
+        'version = "not-semver"\n', encoding="utf-8")
+    r = run_tool(tmp_path)
+    assert r.returncode == 1
+    assert "version-semver" in r.stdout
+    assert "PASS   version-match" in r.stdout or "PASS  version-match" in r.stdout
+
+
+def test_broken_plugin_json_fails(tmp_path):
+    make_repo(tmp_path)
+    (tmp_path / ".claude-plugin" / "plugin.json").write_text(
+        "{not valid json", encoding="utf-8")
+    r = run_tool(tmp_path)
+    assert r.returncode == 1
+    assert "plugin-json" in r.stdout

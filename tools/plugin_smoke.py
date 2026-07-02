@@ -10,6 +10,15 @@ Checks, against --root (default: this repo):
      is reported (this repo keeps those files sorted under docs/ subfolders).
   5. agents/*.md and .claude/agents/*.md are the same file set (names).
   6. Every skills/*/SKILL.md has frontmatter with non-empty name + description.
+  7. plugin.json version is valid semver MAJOR.MINOR.PATCH (ported from the
+     retired tools/plugin_lint.py).
+  8. Every agent card in both trees has frontmatter with non-empty name,
+     description, tools, and a model in {inherit, opus, sonnet, haiku}, the
+     set tools/check_agents.py allows (ported from plugin_lint). README.md
+     files in the agent dirs are skipped.
+  9. Agent frontmatter names are unique: two files with DIFFERENT filenames
+     may not declare the same name; the mirror pair agents/x.md and
+     .claude/agents/x.md is exempt by design (ported from plugin_lint).
 
 Usage:
     python3 tools/plugin_smoke.py [--root DIR]
@@ -37,6 +46,9 @@ import sys
 import cambium_io  # noqa: F401
 
 SKIP_DIRS = {".git", "node_modules", "__pycache__", ".venv", "venv"}
+# Same allowed model set as tools/check_agents.py (ported from plugin_lint).
+VALID_MODELS = {"inherit", "opus", "sonnet", "haiku"}
+SEMVER_RE = re.compile(r"^\d+\.\d+\.\d+([-+].+)?$")
 VERSION_RE = re.compile(r'(?m)^version\s*=\s*"([^"]+)"')
 FM_LINE = re.compile(r"^(\w[\w-]*):\s*(.*)$")
 
@@ -180,6 +192,60 @@ def run_checks(root: str):
         else:
             checks.append((True, "skills-frontmatter",
                            "%d skills carry name + description" % len(skill_files)))
+
+    # 7. plugin.json version is valid semver (ported from plugin_lint)
+    version = str((plugin or {}).get("version", ""))
+    checks.append((bool(SEMVER_RE.match(version)), "version-semver",
+                   "version=%r" % version if version else "no version to check"))
+
+    # 8 + 9. agent frontmatter fields valid; names unique across differently
+    # named files (mirror pairs same-filename exempt). Ported from plugin_lint.
+    agent_files = []
+    for sub in ("agents", os.path.join(".claude", "agents")):
+        agent_files.extend(sorted(glob.glob(os.path.join(root, sub, "*.md"))))
+    agent_files = [p for p in agent_files if os.path.basename(p).upper() != "README.MD"]
+    if not agent_files:
+        checks.append((True, "agents-frontmatter", "no agent cards found (nothing to check)"))
+        checks.append((True, "agent-names-unique", "no agent cards found (nothing to check)"))
+    else:
+        offenders, dupes = [], []
+        seen_names = {}  # declared name -> basename of first file that used it
+        for path in agent_files:
+            rel = os.path.relpath(path, root)
+            base = os.path.basename(path)
+            fm = parse_frontmatter(open(path, encoding="utf-8", errors="replace").read())
+            if fm is None:
+                offenders.append(rel + " (no frontmatter)")
+                continue
+            problems = []
+            name = fm.get("name", "").strip()
+            if not name:
+                problems.append("name")
+            if not fm.get("description", "").strip():
+                problems.append("description")
+            model = fm.get("model", "").strip().lower()
+            if model not in VALID_MODELS:
+                problems.append("model=" + (model or "missing"))
+            if not fm.get("tools", "").strip():
+                problems.append("tools")
+            if problems:
+                offenders.append(rel + " (" + ", ".join(problems) + ")")
+            if name:
+                if name in seen_names and seen_names[name] != base:
+                    dupes.append("%r used by %s and %s" % (name, seen_names[name], base))
+                else:
+                    seen_names[name] = base
+        if offenders:
+            checks.append((False, "agents-frontmatter",
+                           "bad or missing fields: " + "; ".join(offenders[:6])))
+        else:
+            checks.append((True, "agents-frontmatter",
+                           "%d cards carry name, description, model, tools" % len(agent_files)))
+        if dupes:
+            checks.append((False, "agent-names-unique", "; ".join(dupes[:6])))
+        else:
+            checks.append((True, "agent-names-unique",
+                           "%d distinct names (mirror pairs exempt)" % len(seen_names)))
 
     return checks
 

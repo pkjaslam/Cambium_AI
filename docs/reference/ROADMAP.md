@@ -104,7 +104,11 @@ assets. Resume by building the front-end in a previewing tool (Lovable/bolt/v0) 
   (102 tasks, blinded raters, pre-registered analysis) is built; the result is still an honest null
   until it runs.
 
-## Janitor backlog (approved for a future consolidation gate, not yet scheduled)
+## Janitor backlog
+
+**DONE (v1.38.0, 2026-07-01):** the duplicate-pair consolidation below was executed at a gate; six tools retired to pointer stubs, features and tests ported to keepers, three pairs kept as documented different jobs.
+
+### Original entry (for the record)
 
 - **Consolidate the duplicate tool pairs from the two parallel v1.37.0 build efforts.** Near-duplicate
   concepts now coexist: agent_scaffold vs new_agent + new_skill, glossary_gen vs glossary_builder,

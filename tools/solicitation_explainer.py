@@ -46,14 +46,18 @@ def _load_json(path: str, label: str) -> dict:
         print(f"[solicitation_explainer] ERROR: {label} file not found: {path}", file=sys.stderr)
         sys.exit(2)
     try:
-        with open(path, encoding="utf-8") as fh:
-            return json.load(fh)
+        with open(path, encoding="utf-8", errors="replace") as fh:
+            data = json.load(fh)
     except json.JSONDecodeError as exc:
         print(f"[solicitation_explainer] ERROR: {label} file is not valid JSON: {path}\n  {exc}", file=sys.stderr)
         sys.exit(2)
     except OSError as exc:
         print(f"[solicitation_explainer] ERROR: cannot read {label} file: {path}\n  {exc}", file=sys.stderr)
         sys.exit(2)
+    if not isinstance(data, dict):
+        print(f"[solicitation_explainer] ERROR: {label} file must be a JSON object (mapping): {path}", file=sys.stderr)
+        sys.exit(2)
+    return data
 
 
 # ---------------------------------------------------------------------------
@@ -81,6 +85,9 @@ def _fmt_rate(value) -> str:
 def _fmt_list(items) -> list[str]:
     if not items:
         return ["none stated"]
+    if not isinstance(items, (list, tuple)):
+        # A scalar was given where a list was expected; show it as a single item.
+        return [str(items)]
     return [str(i) for i in items]
 
 

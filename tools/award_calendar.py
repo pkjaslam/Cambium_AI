@@ -32,18 +32,28 @@ Lead-time display:
     "due within N days" when due within --lead-days (default 30, a display
     threshold of this tool, not a sponsor rule), otherwise "scheduled".
 
+Multi-source ingestion (ported from the retired tools/deadline_radar.py):
+  - --award accepts one or more award YAML files; their schedules are merged.
+  - --add "item=...,date=YYYY-MM-DD" is repeatable and appends one-time items.
+  - identical rows (same item, period, and due date) from any mix of sources
+    are de-duplicated, keeping the first occurrence.
+
 Optional --ics FILE writes a minimal VCALENDAR with one all-day VEVENT per
 due date (text escaped per RFC 5545; DTSTAMP is derived from --today so the
-file is deterministic for a fixed --today).
+file is deterministic for a fixed --today). Each VEVENT carries a display
+VALARM firing --alarm-days before the due date (default 14, ported from
+deadline_radar; a planning aid of this tool, not a sponsor rule).
 
 Exit codes:
   0 -- schedule built
   1 -- invalid input (missing, unreadable, or malformed YAML; unparseable
        dates; end before start; unknown frequency; missing or non-integer
-       due_days_after_period_end; malformed other_deadlines)
+       due_days_after_period_end; malformed other_deadlines or --add entries;
+       negative --lead-days or --alarm-days)
 
 Usage:
   python3 tools/award_calendar.py --award award.yml
+  python3 tools/award_calendar.py --award nsf.yml usda.yml --add "item=IRB renewal,date=2027-03-15"
   python3 tools/award_calendar.py --award award.yml --today 2026-10-01 --lead-days 45
   python3 tools/award_calendar.py --award award.yml --ics award.ics --out schedule.md
 
@@ -168,6 +178,37 @@ def build_schedule(award: dict) -> list[dict]:
     return rows
 
 
+def item_from_add_string(raw: str) -> dict:
+    """Ported from the retired tools/deadline_radar.py --add flag, adapted to
+    this tool's one-time item shape: "item=...,date=YYYY-MM-DD"."""
+    fields = {}
+    for part in raw.split(","):
+        part = part.strip()
+        if not part:
+            continue
+        if "=" not in part:
+            _fail(f"--add entry malformed (expected key=value): {part!r}")
+        key, _, value = part.partition("=")
+        fields[key.strip()] = value.strip()
+    if not fields.get("item") or not fields.get("date"):
+        _fail(f"--add entry needs both 'item' and 'date': {raw!r}")
+    due = _to_date(fields["date"], f"--add {raw!r} (date)")
+    return {"item": fields["item"], "period": "one-time", "period_end": due, "due": due}
+
+
+def merge_and_dedupe(rows: list[dict]) -> list[dict]:
+    """Ported from the retired tools/deadline_radar.py: identical rows (same
+    item, period, due) from multiple sources keep only the first occurrence."""
+    seen, out = set(), []
+    for r in rows:
+        key = (r["item"], r["period"], r["due"].isoformat())
+        if key in seen:
+            continue
+        seen.add(key)
+        out.append(r)
+    return out
+
+
 def _status(due: datetime.date, today: datetime.date, lead_days: int) -> str:
     if due < today:
         return "OVERDUE"
@@ -184,8 +225,9 @@ def _cell(text) -> str:
     return str(text).replace("|", "\\|")
 
 
-def build_report(rows: list[dict], award: dict, src_path: str,
+def build_report(rows: list[dict], sources: list, added: int,
                  today: datetime.date, lead_days: int) -> str:
+    """sources is a list of (path, award_dict) pairs; added counts --add items."""
     lines: list[str] = []
     lines.append("# Award compliance calendar (advisory, derived from your input only)")
     lines.append("")
@@ -195,9 +237,12 @@ def build_report(rows: list[dict], award: dict, src_path: str,
         "the award terms and the sponsor's system of record."
     )
     lines.append("")
-    lines.append(f"**Award file:** {os.path.basename(src_path)}")
-    lines.append(f"**Award period:** {_to_date(award.get('start'), 'start')} to "
-                 f"{_to_date(award.get('end'), 'end')}")
+    for src_path, award in sources:
+        lines.append(f"**Award file:** {os.path.basename(src_path)} "
+                     f"({_to_date(award.get('start'), 'start')} to "
+                     f"{_to_date(award.get('end'), 'end')})")
+    if added:
+        lines.append(f"**One-time items from --add:** {added}")
     lines.append(f"**Today (for status):** {today} | **Lead-time threshold:** {lead_days} days")
     lines.append(f"**Scheduled items:** {len(rows)}")
     lines.append("")
@@ -235,18 +280,26 @@ def ics_escape(text: str) -> str:
             .replace(",", "\\,").replace("\r\n", "\n").replace("\n", "\\n"))
 
 
-def build_ics(rows: list[dict], today: datetime.date) -> str:
-    """Minimal deterministic VCALENDAR: one all-day VEVENT per due date."""
+def build_ics(rows: list[dict], today: datetime.date, alarm_days: int = 14) -> str:
+    """Minimal deterministic VCALENDAR: one all-day VEVENT per due date, each
+    with a display VALARM alarm_days before the due date (VALARM emission
+    ported from the retired tools/deadline_radar.py)."""
     stamp = today.strftime("%Y%m%dT000000Z")
     lines = ["BEGIN:VCALENDAR", "VERSION:2.0",
              "PRODID:-//cambium//award_calendar//EN"]
     for i, r in enumerate(rows, start=1):
+        summary = ics_escape("{0} due ({1})".format(r["item"], r["period"]))
         lines.extend([
             "BEGIN:VEVENT",
             f"UID:cambium-award-calendar-{i:04d}@local",
             f"DTSTAMP:{stamp}",
             f"DTSTART;VALUE=DATE:{r['due'].strftime('%Y%m%d')}",
-            "SUMMARY:" + ics_escape("{0} due ({1})".format(r["item"], r["period"])),
+            "SUMMARY:" + summary,
+            "BEGIN:VALARM",
+            "ACTION:DISPLAY",
+            "DESCRIPTION:" + summary,
+            f"TRIGGER:-P{alarm_days}D",
+            "END:VALARM",
             "END:VEVENT",
         ])
     lines.append("END:VCALENDAR")
@@ -264,7 +317,12 @@ def main(argv=None) -> int:
             "dates from the stated award terms only; encodes no sponsor rules."
         )
     )
-    ap.add_argument("--award", required=True, help="Path to award YAML file.")
+    ap.add_argument("--award", required=True, nargs="+",
+                    help="One or more award YAML files (schedules are merged and "
+                         "de-duplicated; multi-file ingestion ported from deadline_radar).")
+    ap.add_argument("--add", action="append", default=[],
+                    help='Repeatable one-time item: "item=...,date=YYYY-MM-DD" '
+                         "(ported from deadline_radar).")
     ap.add_argument("--today", default=None,
                     help="ISO date used for status and lead-time display "
                          "(default: system date; pass a date for deterministic output).")
@@ -273,17 +331,31 @@ def main(argv=None) -> int:
                          "(default: 30; a display setting of this tool, not a sponsor rule).")
     ap.add_argument("--ics", default=None,
                     help="Optional path to write a minimal iCalendar (.ics) file.")
+    ap.add_argument("--alarm-days", type=int, default=14,
+                    help="Days before each due date the .ics display alarm fires "
+                         "(default: 14, matching the retired deadline_radar; a planning "
+                         "aid of this tool, not a sponsor rule).")
     ap.add_argument("--out", default=None,
                     help="Output path for the Markdown schedule (default: print to stdout).")
     args = ap.parse_args(argv)
 
-    award = _load_yaml(args.award)
     today = _to_date(args.today, "--today") if args.today else datetime.date.today()
     if args.lead_days < 0:
         _fail(f"--lead-days must be >= 0, got {args.lead_days}")
+    if args.alarm_days < 0:
+        _fail(f"--alarm-days must be >= 0, got {args.alarm_days}")
 
-    rows = build_schedule(award)
-    report = build_report(rows, award, args.award, today, args.lead_days)
+    sources = []
+    rows: list[dict] = []
+    for path in args.award:
+        award = _load_yaml(path)
+        sources.append((path, award))
+        rows.extend(build_schedule(award))
+    for raw in args.add:
+        rows.append(item_from_add_string(raw))
+    rows = merge_and_dedupe(rows)
+    rows.sort(key=lambda r: (r["due"].isoformat(), r["item"], r["period"]))
+    report = build_report(rows, sources, len(args.add), today, args.lead_days)
 
     if args.out:
         os.makedirs(os.path.dirname(os.path.abspath(args.out)), exist_ok=True)
@@ -296,7 +368,7 @@ def main(argv=None) -> int:
     if args.ics:
         os.makedirs(os.path.dirname(os.path.abspath(args.ics)), exist_ok=True)
         with open(args.ics, "w", encoding="utf-8", newline="") as fh:
-            fh.write(build_ics(rows, today))
+            fh.write(build_ics(rows, today, args.alarm_days))
         print(f"[award_calendar] wrote {args.ics}")
 
     return 0

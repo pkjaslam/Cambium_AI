@@ -77,3 +77,16 @@ def test_help_exits_zero():
     r = run_tool("--help")
     assert r.returncode == 0
     assert "--description" in r.stdout
+
+
+# ---------------------------------------------------------------------------
+# Ported from the retired tools/agent_scaffold.py test suite
+# ---------------------------------------------------------------------------
+
+def test_option_like_name_folded_to_kebab_error(tmp_path):
+    # "-bad" must reach the kebab lint (rc 1) via the ported --name folding,
+    # not die as an argparse usage error (rc 2).
+    r = scaffold(tmp_path, name="-bad")
+    assert r.returncode == 1
+    assert "kebab" in r.stderr.lower()
+    assert not (tmp_path / "skills").exists()

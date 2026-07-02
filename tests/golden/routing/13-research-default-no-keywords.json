@@ -1,0 +1,140 @@
+{
+  "all_agents_sorted": [
+    "document-office",
+    "exec-ablation",
+    "exec-experiments",
+    "exec-iteration",
+    "feedback-router",
+    "figures",
+    "integrity-officer",
+    "janitor",
+    "lab-domain",
+    "lab-methods",
+    "lab-statistics",
+    "lab-theory",
+    "librarian",
+    "office-manager",
+    "outreach",
+    "record-keeper",
+    "referee",
+    "research-conduct-officer",
+    "research-engineer",
+    "scout-landscape",
+    "scout-methods",
+    "scout-prior-art",
+    "teaching-assistant",
+    "toolsmith",
+    "verify-domain",
+    "verify-evidence",
+    "verify-methodology",
+    "verify-rigor"
+  ],
+  "phases": [
+    {
+      "agents_by_group": {
+        "toolsmith": [
+          "toolsmith"
+        ]
+      },
+      "gate_id_or_null": "G-provision",
+      "id": "provision"
+    },
+    {
+      "agents_by_group": {
+        "scouts": [
+          "scout-landscape",
+          "scout-methods",
+          "scout-prior-art"
+        ]
+      },
+      "gate_id_or_null": "G2",
+      "id": "scout"
+    },
+    {
+      "agents_by_group": {
+        "labs": [
+          "lab-domain",
+          "lab-methods",
+          "lab-statistics",
+          "lab-theory"
+        ]
+      },
+      "gate_id_or_null": null,
+      "id": "build"
+    },
+    {
+      "agents_by_group": {
+        "execution": [
+          "exec-ablation",
+          "exec-experiments",
+          "exec-iteration",
+          "research-engineer"
+        ]
+      },
+      "gate_id_or_null": null,
+      "id": "experiment"
+    },
+    {
+      "agents_by_group": {
+        "conduct": [
+          "research-conduct-officer"
+        ],
+        "verify": [
+          "referee",
+          "verify-domain",
+          "verify-evidence",
+          "verify-methodology",
+          "verify-rigor"
+        ]
+      },
+      "gate_id_or_null": "G4",
+      "id": "verify"
+    },
+    {
+      "agents_by_group": {
+        "write-up": [
+          "document-office",
+          "figures",
+          "librarian"
+        ]
+      },
+      "gate_id_or_null": null,
+      "id": "writeup"
+    },
+    {
+      "agents_by_group": {
+        "conduct+integrity": [
+          "integrity-officer",
+          "research-conduct-officer"
+        ]
+      },
+      "gate_id_or_null": "G-release",
+      "id": "release"
+    },
+    {
+      "agents_by_group": {
+        "learning brief": [
+          "teaching-assistant"
+        ]
+      },
+      "gate_id_or_null": null,
+      "id": "learn"
+    },
+    {
+      "agents_by_group": {
+        "close-out": [
+          "feedback-router",
+          "integrity-officer",
+          "janitor",
+          "office-manager",
+          "outreach",
+          "record-keeper"
+        ]
+      },
+      "gate_id_or_null": null,
+      "id": "closeout"
+    }
+  ],
+  "task": "Help the team with an unusual one-off request",
+  "type": "research"
+}

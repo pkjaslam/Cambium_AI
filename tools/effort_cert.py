@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """effort_cert -- person-month / percent-effort arithmetic with an audit line.
 
+Scope split: this tool produces the per-person CERTIFICATION RECORD (effort arithmetic plus a contemporaneous ledger line); cross-project person-months commitment math lives in tools/effort_reconciler.py.
+
 Converts between percent effort and person-months for the three common
 appointment lengths (calendar 12 months, academic 9 months, summer 3 months),
 and prorates chargeable salary against an optional sponsor salary cap.

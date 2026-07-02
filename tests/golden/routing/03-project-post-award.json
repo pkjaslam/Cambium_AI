@@ -1,0 +1,40 @@
+{
+  "all_agents_sorted": [
+    "convener",
+    "feedback-router",
+    "integrity-officer",
+    "janitor",
+    "office-manager",
+    "outreach",
+    "program-manager",
+    "record-keeper"
+  ],
+  "phases": [
+    {
+      "agents_by_group": {
+        "plan": [
+          "convener",
+          "program-manager"
+        ]
+      },
+      "gate_id_or_null": "G-plan",
+      "id": "plan"
+    },
+    {
+      "agents_by_group": {
+        "close-out": [
+          "feedback-router",
+          "integrity-officer",
+          "janitor",
+          "office-manager",
+          "outreach",
+          "record-keeper"
+        ]
+      },
+      "gate_id_or_null": null,
+      "id": "closeout"
+    }
+  ],
+  "task": "Manage the awarded project: work breakdown, subaward coordination, and the milestone schedule",
+  "type": "project"
+}

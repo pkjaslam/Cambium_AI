@@ -1,0 +1,111 @@
+{
+  "all_agents_sorted": [
+    "exec-ablation",
+    "exec-experiments",
+    "exec-iteration",
+    "faculty-expert",
+    "feedback-router",
+    "integrity-officer",
+    "janitor",
+    "lab-domain",
+    "lab-methods",
+    "office-manager",
+    "outreach",
+    "record-keeper",
+    "referee",
+    "research-conduct-officer",
+    "research-engineer",
+    "teaching-assistant",
+    "toolsmith",
+    "verify-domain",
+    "verify-evidence",
+    "verify-methodology",
+    "verify-rigor"
+  ],
+  "phases": [
+    {
+      "agents_by_group": {
+        "toolsmith": [
+          "toolsmith"
+        ]
+      },
+      "gate_id_or_null": "G-provision",
+      "id": "provision"
+    },
+    {
+      "agents_by_group": {
+        "design": [
+          "lab-domain",
+          "lab-methods"
+        ],
+        "faculty": [
+          "faculty-expert"
+        ]
+      },
+      "gate_id_or_null": null,
+      "id": "design"
+    },
+    {
+      "agents_by_group": {
+        "build": [
+          "exec-ablation",
+          "exec-experiments",
+          "exec-iteration",
+          "research-engineer"
+        ]
+      },
+      "gate_id_or_null": null,
+      "id": "build"
+    },
+    {
+      "agents_by_group": {
+        "ux": [
+          "lab-domain"
+        ],
+        "verify": [
+          "referee",
+          "verify-domain",
+          "verify-evidence",
+          "verify-methodology",
+          "verify-rigor"
+        ]
+      },
+      "gate_id_or_null": "G-build",
+      "id": "verify"
+    },
+    {
+      "agents_by_group": {
+        "conduct": [
+          "research-conduct-officer"
+        ]
+      },
+      "gate_id_or_null": "G-ship",
+      "id": "govern"
+    },
+    {
+      "agents_by_group": {
+        "learning brief": [
+          "teaching-assistant"
+        ]
+      },
+      "gate_id_or_null": null,
+      "id": "learn"
+    },
+    {
+      "agents_by_group": {
+        "close-out": [
+          "feedback-router",
+          "integrity-officer",
+          "janitor",
+          "office-manager",
+          "outreach",
+          "record-keeper"
+        ]
+      },
+      "gate_id_or_null": null,
+      "id": "closeout"
+    }
+  ],
+  "task": "Test the new dashboard feature before deploy",
+  "type": "software"
+}

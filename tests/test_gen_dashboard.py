@@ -42,3 +42,35 @@ def test_check_is_fast_and_no_recursion():
     assert time.time() - t0 < 60            # did not re-run the full pytest suite (~2 min); 60s tolerates a loaded machine
     assert r.returncode in (0, 1)           # ran and decided, no crash/hang
     assert "up to date" in r.stdout or "stale" in r.stdout or "differs" in r.stdout
+
+def _full_stub():
+    return {k: "x" for k in ("grade","tests","skipped","gauntlet","agents","councils","gates","grounded","checks_total","model_judged","tools",
+            "policy_enforced","leads","partial","gap","t_fcr","t_n","t_ci","b_fcr","b_n","b_ci","h","p",
+            "diff","diff_ci","cite_t","cite_tn","cite_b","cite_bn")}
+
+def test_render_fills_north_star_fields_when_absent():
+    """The ns_* keys follow the same fallback pattern as version/skills/mcp: render()
+    computes them when a caller's stub omits them, so older callers keep working."""
+    html = G.render(_full_stub())
+    assert "North-star scoreboard" in html
+    for ph in ("{ns_false_claim}", "{ns_routing}", "{ns_minutes}", "{ns_external}", "{ns_red_pushes}"):
+        assert ph not in html
+    assert "unmeasured" in html          # honest labels survive rendering
+    assert "recruiting not started" in html
+
+def test_north_star_values_are_honest():
+    """north_star() computes what it can and labels the rest unmeasured; routing depends
+    on whether the golden suite shipped, so any of its three honest states is accepted."""
+    ns = G.north_star()
+    assert ns["ns_false_claim"] == "OPEN (pilot null; v1 study not yet run)"
+    assert ns["ns_routing"] in ("PASS", "DRIFT", "suite pending this release")
+    assert ns["ns_minutes"] == "unmeasured (target < 10)"
+    assert ns["ns_external"].startswith("0") and ns["ns_red_pushes"].startswith("0")
+
+def test_render_north_star_injection_wins():
+    stub = _full_stub()
+    stub.update(ns_false_claim="OPEN (pilot null; v1 study not yet run)", ns_routing="PASS",
+                ns_minutes="unmeasured (target < 10)", ns_external="0 (recruiting not started)",
+                ns_red_pushes="0 (pre-push guard)")
+    html = G.render(stub)
+    assert "OPEN (pilot null; v1 study not yet run)" in html and "0 (pre-push guard)" in html

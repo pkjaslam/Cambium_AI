@@ -8,6 +8,13 @@ is advisory, not a certification that any response is adequate. It never
 writes or invents responses: points without a prepared response are marked
 UNADDRESSED.
 
+Reviewer sections (ported from the retired tools/revision_matrix.py): a line
+starting with "Reviewer <n>" or "Referee <n>" (case-insensitive) begins a
+new reviewer section, and every point in it is attributed to that reviewer
+in a Reviewer column. Text before the first header, or a file with no
+headers at all, falls back to "Reviewer 1". Known limit: a continuation
+line that itself starts with "Reviewer <n>" will start a new section.
+
 Point splitting rules (mechanical and deterministic):
   - a blank line ends the current point
   - a line whose first non-space characters are "-", "*", or a number
@@ -29,7 +36,8 @@ Exit codes:
   0  -- matrix built (UNADDRESSED rows are advisory findings)
   1  -- invalid input (missing or unparseable files, or no review points
         found), or --strict with at least one UNADDRESSED point
-  2  -- argparse usage errors (argparse default)
+  2  -- reviews file empty or whitespace-only (ported from the retired
+        revision_matrix), or argparse usage errors (argparse default)
 
 Usage:
   python3 tools/rebuttal_matrix.py --reviews reviews.txt
@@ -53,6 +61,8 @@ except ImportError:  # pyyaml is expected in this repo
 TOOL = "rebuttal_matrix"
 
 MARKER_RE = re.compile(r"^\s*(?:[-*]\s+|\d+\s*[.):]\s*|\d+\s+)")
+# Ported from the retired tools/revision_matrix.py:
+REVIEWER_HEADER_RE = re.compile(r"^\s*(Reviewer|Referee)\s+(\d+)\b", re.IGNORECASE)
 
 
 def _fail(msg: str) -> None:
@@ -63,6 +73,29 @@ def _fail(msg: str) -> None:
 # ---------------------------------------------------------------------------
 # Parsing
 # ---------------------------------------------------------------------------
+
+def split_sections(text: str) -> list[tuple[str, str]]:
+    """Return [(reviewer_label, section_text), ...] (ported from the retired
+    revision_matrix). With no "Reviewer N" / "Referee N" header anywhere, the
+    whole text is one fallback section labeled "Reviewer 1"."""
+    lines = text.splitlines()
+    headers: list[tuple[int, str]] = []
+    for i, line in enumerate(lines):
+        m = REVIEWER_HEADER_RE.match(line)
+        if m:
+            headers.append((i, f"{m.group(1).capitalize()} {m.group(2)}"))
+    if not headers:
+        return [("Reviewer 1", text)]
+    sections: list[tuple[str, str]] = []
+    if headers[0][0] > 0:
+        lead = "\n".join(lines[:headers[0][0]])
+        if lead.strip():
+            sections.append(("Reviewer 1", lead))
+    for idx, (line_no, label) in enumerate(headers):
+        end = headers[idx + 1][0] if idx + 1 < len(headers) else len(lines)
+        sections.append((label, "\n".join(lines[line_no + 1:end])))
+    return sections
+
 
 def split_points(text: str) -> list[str]:
     """Split review text into points on blank lines and bullet/number markers."""
@@ -104,7 +137,7 @@ def load_responses(path: str | None) -> tuple[dict[str, dict], list[str]]:
     if not os.path.exists(path):
         _fail(f"responses file not found: {path}")
     try:
-        with open(path, encoding="utf-8") as fh:
+        with open(path, encoding="utf-8", errors="replace") as fh:
             data = yaml.safe_load(fh.read())
     except (OSError, yaml.YAMLError) as exc:
         _fail(f"cannot parse responses file: {path}\n  {exc}")
@@ -140,18 +173,19 @@ def _cell(text: str) -> str:
     return cleaned if cleaned else "(none)"
 
 
-def build_report(points: list[str], responses: dict[str, dict],
+def build_report(points: list[tuple[str, str]], responses: dict[str, dict],
                  invalid_keys: list[str], reviews_path: str) -> tuple[str, int]:
-    """Return (markdown report, number of UNADDRESSED points)."""
+    """Return (markdown report, number of UNADDRESSED points). points is a
+    list of (reviewer_label, point_text) pairs in global parse order."""
     rows = []
     unaddressed_ids: list[str] = []
-    for i, point in enumerate(points, 1):
+    for i, (reviewer, point) in enumerate(points, 1):
         pid = f"P{i}"
         entry = responses.get(pid, {"response": "", "change_made": "", "evidence": ""})
         status = "filled" if entry["response"] else "UNADDRESSED"
         if status == "UNADDRESSED":
             unaddressed_ids.append(pid)
-        rows.append((pid, point, entry, status))
+        rows.append((pid, reviewer, point, entry, status))
 
     unknown = sorted(
         (pid for pid in responses if int(pid[1:]) > len(points)),
@@ -170,11 +204,11 @@ def build_report(points: list[str], responses: dict[str, dict],
     lines.append("")
     lines.append(f"**Reviews file:** {reviews_path}")
     lines.append("")
-    lines.append("| Point | Reviewer comment | Response | Change made | Evidence | Status |")
-    lines.append("|---|---|---|---|---|---|")
-    for pid, point, entry, status in rows:
+    lines.append("| Point | Reviewer | Reviewer comment | Response | Change made | Evidence | Status |")
+    lines.append("|---|---|---|---|---|---|---|")
+    for pid, reviewer, point, entry, status in rows:
         lines.append(
-            f"| {pid} | {_cell(point)} | {_cell(entry['response'])} | "
+            f"| {pid} | {_cell(reviewer)} | {_cell(point)} | {_cell(entry['response'])} | "
             f"{_cell(entry['change_made'])} | {_cell(entry['evidence'])} | {status} |"
         )
     lines.append("")
@@ -229,12 +263,20 @@ def main(argv=None):
     if not os.path.exists(args.reviews):
         _fail(f"reviews file not found: {args.reviews}")
     try:
-        with open(args.reviews, encoding="utf-8") as fh:
+        with open(args.reviews, encoding="utf-8", errors="replace") as fh:
             text = fh.read()
     except OSError as exc:
         _fail(f"cannot read reviews file: {args.reviews}\n  {exc}")
 
-    points = split_points(text)
+    if not text.strip():
+        # Ported from the retired revision_matrix: an empty comments file is an
+        # input-level problem, distinct from "parsed but found nothing" (rc 1).
+        print(f"[{TOOL}] ERROR: reviews file is empty: {args.reviews}", file=sys.stderr)
+        return 2
+
+    points = [(label, point)
+              for label, section_text in split_sections(text)
+              for point in split_points(section_text)]
     if not points:
         _fail(f"no review points found in {args.reviews}; is the file empty?")
 

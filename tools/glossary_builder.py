@@ -17,7 +17,23 @@ Extraction rules (all regex heuristics, applied in this order per file):
      this repo's learning packet template are skipped (Flashcards, Quick quiz,
      Glossary, Go deeper, In one breath, The picture, and similar).
 
+  4. "term - definition" lines (ported from the retired glossary_gen): a
+     short term at line start, space-hyphen-space, then the definition.
+     Mid-sentence hyphens do not match; the term is capped at 6 words.
+  5. YAML frontmatter (ported from the retired glossary_gen): a file that
+     opens with a --- block (as skills/*/SKILL.md do) contributes one entry
+     from its name: and description: fields, and the block is excluded from
+     the line rules so keys like "name" are not misread as terms.
+
+Default scan target (ported from the retired glossary_gen): when --sources
+is omitted, the tool scans docs/**/*.md plus skills/*/SKILL.md under --root
+(default: current directory).
+
+Exit-on-empty (glossary_gen's semantics, always on here, no flag needed):
+zero extractable terms exits 1, as does an empty file set.
+
 Usage:
+  python3 tools/glossary_builder.py                # docs/ + skills/ default scan
   python3 tools/glossary_builder.py --sources academy/labs docs/notes.md
   python3 tools/glossary_builder.py --sources packet.md --quiz --out GLOSSARY.md
   python3 tools/glossary_builder.py --sources docs/ --min-len 4 --max-terms 50
@@ -45,6 +61,10 @@ BOLD_DEF_RE = re.compile(
 TERM_LINE_RE = re.compile(
     r"^\s*(?:[-*]\s+)?(?:\*\*)?([A-Za-z][A-Za-z0-9 /()'&+._-]{0,58}?)(?:\*\*)?\s*:\s+(\S.+?)\s*$")
 HEADING_RE = re.compile(r"^(#{1,3})\s+(.+?)\s*$")
+# Ported from the retired tools/glossary_gen.py:
+TERM_DASH_RE = re.compile(r"^\s*([A-Za-z][\w /&-]{0,60}?)\s+-\s+(.+?)\s*$")
+FM_NAME_RE = re.compile(r"^name:\s*(.+?)\s*$")
+FM_DESC_RE = re.compile(r"^description:\s*(.+?)\s*$")
 
 LABEL_STOP = {
     "q", "a", "note", "usage", "warning", "example", "tip", "source",
@@ -85,6 +105,29 @@ def extract_terms(text, source, min_len):
         found.append({"term": term, "definition": definition,
                       "source": source, "rule": rule})
 
+    # Rule 0 (ported from glossary_gen): YAML frontmatter name/description as
+    # one entry; the block is then excluded from the line rules below.
+    if lines and lines[0].strip() == "---":
+        fm_end = None
+        for j in range(1, len(lines)):
+            if lines[j].strip() == "---":
+                fm_end = j
+                break
+        if fm_end is not None:
+            fm_name = fm_desc = None
+            for fm_line in lines[1:fm_end]:
+                m = FM_NAME_RE.match(fm_line)
+                if m:
+                    fm_name = m.group(1).strip()
+                    continue
+                m = FM_DESC_RE.match(fm_line)
+                if m:
+                    fm_desc = m.group(1).strip()
+            if fm_name and fm_desc:
+                add(fm_name, fm_desc, "frontmatter")
+            lines = lines[fm_end + 1:]
+            text = "\n".join(lines)
+
     # Rule 1: bold/code term + defining verb
     for g1, g2, verb, rest in BOLD_DEF_RE.findall(text):
         term = (g1 or g2).strip().rstrip(".:")
@@ -97,6 +140,14 @@ def extract_terms(text, source, min_len):
         m = TERM_LINE_RE.match(line)
         if m:
             add(m.group(1), m.group(2), "term-colon")
+
+    # Rule 2b (ported from glossary_gen): "term - definition" at line start
+    for line in lines:
+        if line.strip().startswith("|") or line.strip().startswith("#"):
+            continue
+        m = TERM_DASH_RE.match(line)
+        if m:
+            add(m.group(1), m.group(2), "term-dash")
 
     # Rule 3: heading + first sentence of the paragraph below
     for i, line in enumerate(lines):
@@ -120,6 +171,14 @@ def extract_terms(text, source, min_len):
         if para:
             add(head, _first_sentence(" ".join(para)), "heading")
     return found
+
+
+def default_scan(root):
+    """The retired glossary_gen's default target, ported: docs/**/*.md plus
+    skills/*/SKILL.md under root, deterministic sorted order."""
+    files = glob.glob(os.path.join(root, "docs", "**", "*.md"), recursive=True)
+    files += glob.glob(os.path.join(root, "skills", "*", "SKILL.md"))
+    return sorted(set(f for f in files if os.path.isfile(f)))
 
 
 def collect_sources(paths):
@@ -183,8 +242,12 @@ def render_glossary(entries, files, quiz):
 def main(argv=None):
     ap = argparse.ArgumentParser(
         description="Extract an alphabetized glossary from markdown sources.")
-    ap.add_argument("--sources", nargs="+", required=True,
-                    help="markdown files and/or directories (dirs scanned for **/*.md)")
+    ap.add_argument("--sources", nargs="+", default=None,
+                    help="markdown files and/or directories (dirs scanned for **/*.md); "
+                         "when omitted, scans docs/**/*.md plus skills/*/SKILL.md under --root "
+                         "(the retired glossary_gen's default target)")
+    ap.add_argument("--root", default=".",
+                    help="root for the default docs/ + skills/ scan (default: current directory)")
     ap.add_argument("--quiz", action="store_true",
                     help="also emit fill-in-the-blank questions")
     ap.add_argument("--min-len", type=int, default=3,
@@ -197,15 +260,22 @@ def main(argv=None):
     if a.min_len < 1 or a.max_terms < 1:
         print("[glossary] --min-len and --max-terms must be positive", file=sys.stderr)
         return 1
-    try:
-        files = collect_sources(a.sources)
-    except ValueError as exc:
-        print("[glossary] %s" % exc, file=sys.stderr)
-        return 1
-    if not files:
-        print("[glossary] no markdown files found under: %s" % ", ".join(a.sources),
-              file=sys.stderr)
-        return 1
+    if a.sources:
+        try:
+            files = collect_sources(a.sources)
+        except ValueError as exc:
+            print("[glossary] %s" % exc, file=sys.stderr)
+            return 1
+        if not files:
+            print("[glossary] no markdown files found under: %s" % ", ".join(a.sources),
+                  file=sys.stderr)
+            return 1
+    else:
+        files = default_scan(os.path.abspath(a.root))
+        if not files:
+            print("[glossary] no markdown files found under docs/ or skills/ in: %s"
+                  % os.path.abspath(a.root), file=sys.stderr)
+            return 1
 
     entries = build_glossary(files, a.min_len, a.max_terms)
     if not entries:

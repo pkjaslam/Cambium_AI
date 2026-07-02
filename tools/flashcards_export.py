@@ -18,6 +18,9 @@ Real formats consumed (matching this repo's learning system):
       - the packet's Quick quiz items (numbered question + <details> answer)
       - bold or code terms followed by is/are/means/refers to
       - a heading followed by a prose paragraph (heading front, paragraph back)
+      - "**term**: definition" and "term - definition" lines (ported from the
+        retired tools/flashcards.py; term capped at 6 words, first occurrence
+        of a term wins, case-insensitive)
 
 Usage:
   python3 tools/flashcards_export.py --source agent_outputs/learning_packet.md
@@ -47,7 +50,7 @@ import sys
 import cambium_io  # noqa: F401
 
 INTERVALS = [0, 1, 3, 7, 14, 30]
-AUTO_KINDS = {"bold", "heading", "glossary"}
+AUTO_KINDS = {"bold", "heading", "glossary", "term-line"}
 HEADING_STOP = {
     "flashcards", "quick quiz", "glossary", "go deeper", "contents", "usage",
     "examples", "references", "license", "answer",
@@ -62,6 +65,9 @@ QUIZ_DETAILS_RE = re.compile(
     re.MULTILINE | re.DOTALL,
 )
 HEADING_RE = re.compile(r"^(#{1,3})\s+(.+?)\s*$")
+# Ported from the retired tools/flashcards.py:
+TERM_BOLD_RE = re.compile(r"^\s*\*\*([^*]{1,80})\*\*\s*:\s*(.+?)\s*$")
+TERM_DASH_RE = re.compile(r"^\s*([A-Za-z][\w /&-]{0,60}?)\s+-\s+(.+?)\s*$")
 
 
 def _clean(text):
@@ -106,18 +112,18 @@ def _quiz_card(item, tags, kind):
 def extract_from_lab(lab, base_tag):
     """Cards from a Learning Lab spec dict (modules -> lessons -> blocks)."""
     cards = []
-    for module in lab.get("modules") or []:
+    for module in [m for m in (lab.get("modules") or []) if isinstance(m, dict)]:
         tags = [base_tag, _tagify(module.get("id") or module.get("title") or "module")]
-        for lesson in module.get("lessons") or []:
-            for block in lesson.get("blocks") or []:
+        for lesson in [le for le in (module.get("lessons") or []) if isinstance(le, dict)]:
+            for block in [bl for bl in (lesson.get("blocks") or []) if isinstance(bl, dict)]:
                 btype = block.get("type")
                 if btype == "flashcards":
-                    for c in block.get("cards") or []:
+                    for c in [cx for cx in (block.get("cards") or []) if isinstance(cx, dict)]:
                         cards.append(make_card(c.get("front"), c.get("back"),
                                                tags, "lab-flashcard"))
                 elif btype == "predict":
                     cards.append(_quiz_card(block, tags, "lab-predict"))
-        for item in module.get("quiz") or []:
+        for item in [qi for qi in (module.get("quiz") or []) if isinstance(qi, dict)]:
             cards.append(_quiz_card(item, tags, "lab-quiz"))
     return [c for c in cards if c]
 
@@ -209,6 +215,32 @@ def _extract_headings(lines, tags):
     return cards
 
 
+def _extract_term_lines(lines, tags):
+    """Ported from the retired tools/flashcards.py: "**term**: definition" and
+    "term - definition" line shapes; term <= 6 words; the first occurrence of
+    a term wins (dedupe by term, case-insensitive), keeping source order."""
+    cards, seen = [], set()
+    for raw in lines:
+        line = raw.strip()
+        if not line:
+            continue
+        m = TERM_BOLD_RE.match(line)
+        if not m:
+            m = TERM_DASH_RE.match(line)
+        if not m:
+            continue
+        term = m.group(1).strip().rstrip(":")
+        definition = m.group(2).strip()
+        if not term or not definition or len(term.split()) > 6:
+            continue
+        key = term.casefold()
+        if key in seen:
+            continue
+        seen.add(key)
+        cards.append(make_card(term, definition, tags, "term-line"))
+    return cards
+
+
 def extract_from_markdown(text, base_tag):
     lines = text.splitlines()
     tags = [base_tag]
@@ -218,6 +250,7 @@ def extract_from_markdown(text, base_tag):
     cards += _extract_quiz_details(text, tags)
     cards += _extract_bold_defs(text, tags)
     cards += _extract_headings(lines, tags)
+    cards += _extract_term_lines(lines, tags)
     seen, out = set(), []
     for c in cards:
         if not c:
@@ -319,7 +352,7 @@ def main(argv=None):
         except json.JSONDecodeError as exc:
             print("[flashcards] invalid JSON in %s: %s" % (a.source, exc), file=sys.stderr)
             return 1
-        if not isinstance(lab, dict) or not lab.get("modules"):
+        if not isinstance(lab, dict) or not isinstance(lab.get("modules"), list) or not lab.get("modules"):
             print("[flashcards] %s is not a Learning Lab spec (no modules list)" % a.source,
                   file=sys.stderr)
             return 1
@@ -329,7 +362,8 @@ def main(argv=None):
 
     if not cards:
         print("[flashcards] no flashcard patterns found in %s "
-              "(Q:/A: lines, glossary table, quiz, bold-term definitions, headings)"
+              "(Q:/A: lines, glossary table, quiz, bold-term definitions, headings, "
+              "term: definition or term - definition lines)"
               % a.source, file=sys.stderr)
         return 1
 

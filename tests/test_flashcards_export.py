@@ -163,3 +163,43 @@ def test_invalid_inputs(tmp_path):
     bad.write_text("{not json", encoding="utf-8")
     rc, _, _ = _run(["--source", str(bad)])
     assert rc == 1
+
+
+# ---------------------------------------------------------------------------
+# Ported from the retired tools/flashcards.py test suite (term-line shapes)
+# ---------------------------------------------------------------------------
+
+TERM_LINES_MD = """# Deck source
+
+**Agent**: A named specialist with a single job.
+**Council**: A team of related agents.
+Gate - A checkpoint where a run pauses for a human decision.
+Evidence tier - A label for how well a claim is backed.
+**agent**: A duplicate that must lose to the first Agent card.
+"""
+
+
+def test_term_line_shapes_extracted_first_occurrence_wins(tmp_path):
+    src = tmp_path / "deck.md"
+    src.write_text(TERM_LINES_MD, encoding="utf-8")
+    rc, out, _ = _run(["--source", str(src), "--format", "json"])
+    assert rc == 0
+    cards = json.loads(out)["cards"]
+    term_cards = [c for c in cards if c["kind"] == "term-line"]
+    assert {c["front"] for c in term_cards} == {"Agent", "Council", "Gate", "Evidence tier"}
+    assert len(term_cards) == 4  # duplicate "agent" dropped, first occurrence kept
+    agent = [c for c in term_cards if c["front"] == "Agent"][0]
+    assert agent["back"] == "A named specialist with a single job."
+    assert all("auto-extracted" in c["tags"] for c in term_cards)
+
+
+def test_term_line_tsv_rows_and_determinism(tmp_path):
+    src = tmp_path / "deck.md"
+    src.write_text(TERM_LINES_MD, encoding="utf-8")
+    rc1, out1, _ = _run(["--source", str(src)])
+    rc2, out2, _ = _run(["--source", str(src)])
+    assert rc1 == 0 and rc2 == 0
+    assert out1 == out2  # deterministic: same input, same TSV
+    rows = [line.split("\t") for line in out1.strip().splitlines()]
+    assert all(len(r) == 3 for r in rows)
+    assert any(r[0] == "Gate" for r in rows)

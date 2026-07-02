@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """subaward_consolidator -- multi-site proposal budget roll-up (advisory).
 
+Scope split: this tool is the PRE-AWARD budget roll-up across prime and subaward sites; POST-AWARD subaward and invoice monitoring lives in tools/subaward_register.py.
+
 Rolls up direct and indirect (F&A) costs across a prime site and subaward
 sites, per year and overall, showing every arithmetic step. Advisory only:
 this is a review aid, not a rate agreement, not an institutional approval,

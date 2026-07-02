@@ -269,7 +269,7 @@ def main(argv=None):
         if not os.path.exists(args.input_json):
             _fail(f"fixture file not found: {args.input_json}")
         try:
-            with open(args.input_json, encoding="utf-8") as fh:
+            with open(args.input_json, encoding="utf-8", errors="replace") as fh:
                 raw_map = json.load(fh)
         except (OSError, json.JSONDecodeError) as exc:
             _fail(f"cannot parse fixture file: {args.input_json}\n  {exc}")
