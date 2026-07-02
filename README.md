@@ -276,9 +276,9 @@ Soon: actually run the v1 enforcement study, the powered, human-judged version. 
 ### Recent updates
 
 <!-- CAMBIUM:WHATSNEW -->
+- **1.36.0**: Review closeout: every FABLE finding fixed and made unrepeatable; MCP surface grows to 10
 - **1.35.0**: Orchestrator fidelity: every agent has a job, and skips are visible
 - **1.34.0**: Run experience: a gate you can click, a board that stays live (gate G1)
-- **1.33.0**: Assets and README badge kept current automatically
 <!-- /CAMBIUM:WHATSNEW -->
 
 ---
