@@ -25,8 +25,8 @@
 <g font-family="-apple-system,Segoe UI,sans-serif">
 <!-- row 1 -->
 <g transform="translate(40,178)">
-<rect width="328" height="138" rx="12" fill="#10392a" stroke="#1F4D3B" stroke-left="3"/>
-<rect width="4" height="138" rx="2" fill="#7C5CFF"/>
+<rect width="328" height="138" rx="12" fill="#10392a" stroke="#1F4D3B"/>
+<rect width="4" height="138" rx="2" fill="#7C5CFF"/><rect x="254" y="99" width="58" height="19" rx="9.5" fill="none" stroke="#16C079" stroke-width="1.2"/><text x="283" y="112" text-anchor="middle" font-size="9.3" font-weight="700" fill="#16C079">ACTIVE</text>
 <text x="20" y="32" font-size="16.5" font-weight="700" fill="#eafaf0">Orchestration + router</text>
 <text x="20" y="56" font-size="13" fill="#bcd3c8">Decomposes a goal, dispatches the</text>
 <text x="20" y="74" font-size="13" fill="#bcd3c8">named agents, routes by task type.</text>
@@ -34,7 +34,7 @@
 </g>
 <g transform="translate(386,178)">
 <rect width="328" height="138" rx="12" fill="#10392a" stroke="#1F4D3B"/>
-<rect width="4" height="138" rx="2" fill="#16C079"/>
+<rect width="4" height="138" rx="2" fill="#16C079"/><rect x="238" y="99" width="74" height="19" rx="9.5" fill="none" stroke="#B7F36A" stroke-width="1.2"/><text x="275" y="112" text-anchor="middle" font-size="9.3" font-weight="700" fill="#B7F36A">ENFORCED</text>
 <text x="20" y="32" font-size="16.5" font-weight="700" fill="#eafaf0">Human gates + audit</text>
 <text x="20" y="56" font-size="13" fill="#bcd3c8">Approval-token checks plus a run</text>
 <text x="20" y="74" font-size="13" fill="#bcd3c8">contract, and a hash-chained trail.</text>
@@ -42,7 +42,7 @@
 </g>
 <g transform="translate(732,178)">
 <rect width="328" height="138" rx="12" fill="#10392a" stroke="#1F4D3B"/>
-<rect width="4" height="138" rx="2" fill="#FF6B5E"/>
+<rect width="4" height="138" rx="2" fill="#FF6B5E"/><rect x="238" y="99" width="74" height="19" rx="9.5" fill="none" stroke="#B7F36A" stroke-width="1.2"/><text x="275" y="112" text-anchor="middle" font-size="9.3" font-weight="700" fill="#B7F36A">ENFORCED</text>
 <text x="20" y="32" font-size="16.5" font-weight="700" fill="#eafaf0">Evidence contract</text>
 <text x="20" y="56" font-size="13" fill="#bcd3c8">Four tiers: proved, code-verified,</text>
 <text x="20" y="74" font-size="13" fill="#bcd3c8">asserted, open. Overclaims flagged.</text>
@@ -51,7 +51,7 @@
 <!-- row 2 -->
 <g transform="translate(40,330)">
 <rect width="328" height="138" rx="12" fill="#10392a" stroke="#1F4D3B"/>
-<rect width="4" height="138" rx="2" fill="#3D8BFF"/>
+<rect width="4" height="138" rx="2" fill="#3D8BFF"/><rect x="254" y="99" width="58" height="19" rx="9.5" fill="none" stroke="#16C079" stroke-width="1.2"/><text x="283" y="112" text-anchor="middle" font-size="9.3" font-weight="700" fill="#16C079">ACTIVE</text>
 <text x="20" y="32" font-size="16.5" font-weight="700" fill="#eafaf0">Memory + knowledge graph</text>
 <text x="20" y="56" font-size="13" fill="#bcd3c8">Recall past findings, walk a local</text>
 <text x="20" y="74" font-size="13" fill="#bcd3c8">graph, contradictions flagged not solved.</text>
@@ -59,7 +59,7 @@
 </g>
 <g transform="translate(386,330)">
 <rect width="328" height="138" rx="12" fill="#10392a" stroke="#1F4D3B"/>
-<rect width="4" height="138" rx="2" fill="#E0B24A"/>
+<rect width="4" height="138" rx="2" fill="#E0B24A"/><rect x="238" y="99" width="74" height="19" rx="9.5" fill="none" stroke="#B7F36A" stroke-width="1.2"/><text x="275" y="112" text-anchor="middle" font-size="9.3" font-weight="700" fill="#B7F36A">ENFORCED</text>
 <text x="20" y="32" font-size="16.5" font-weight="700" fill="#eafaf0">Learning system</text>
 <text x="20" y="56" font-size="13" fill="#bcd3c8">Every build teaches you. Ten Academy</text>
 <text x="20" y="74" font-size="13" fill="#bcd3c8">modules and a per-run lab. Enforced.</text>
@@ -67,7 +67,7 @@
 </g>
 <g transform="translate(732,330)">
 <rect width="328" height="138" rx="12" fill="#10392a" stroke="#1F4D3B"/>
-<rect width="4" height="138" rx="2" fill="#2BB8C4"/>
+<rect width="4" height="138" rx="2" fill="#2BB8C4"/><rect x="236" y="99" width="76" height="19" rx="9.5" fill="none" stroke="#E8B84B" stroke-width="1.2"/><text x="274" y="112" text-anchor="middle" font-size="9.3" font-weight="700" fill="#E8B84B">ADVISORY</text>
 <text x="20" y="32" font-size="16.5" font-weight="700" fill="#eafaf0">Research-admin tools</text>
 <text x="20" y="56" font-size="13" fill="#bcd3c8">AI-use disclosure and an advisory</text>
 <text x="20" y="74" font-size="13" fill="#bcd3c8">budget-to-solicitation review.</text>

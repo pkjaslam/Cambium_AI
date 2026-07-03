@@ -1,105 +1,105 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 412" font-family="-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica,Arial,sans-serif" role="img" aria-label="The Cambium research lifecycle: eight phases (Intake, Pre-Award, Design, Submit, Build/Run-Lab, Verify, Report, Publish), each showing the councils that act in it and the human gate that closes it. A named person signs every gate.">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 470" font-family="Inter,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif" role="img" aria-label="The Cambium research lifecycle: eight phases, each showing the councils that act in it, the human gate that closes it, and what the person decides at that gate. Results at G4 are accepted only after every number is reproduced. A named person signs every gate.">
 <defs>
 <linearGradient id="lbg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0b2c20"/><stop offset="100%" stop-color="#07231a"/></linearGradient>
 <linearGradient id="flow" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#16C079"/><stop offset="100%" stop-color="#B7F36A"/></linearGradient>
 </defs>
-<rect width="1080" height="412" rx="18" fill="url(#lbg)"/>
-<rect x="1" y="1" width="1078" height="410" rx="17" fill="none" stroke="#1F4D3B"/>
-<text x="40" y="38" font-size="24" font-weight="800" fill="#F4F7F2">The Cambium research lifecycle</text>
-<text x="40" y="60" font-size="13" fill="#8AA197">Eight human gates. A named person signs each one before work proceeds.</text>
-<line x1="40" y1="206" x2="1040" y2="206" stroke="url(#flow)" stroke-width="5" stroke-linecap="round"/>
-<rect x="46" y="84" width="112" height="72" rx="12" fill="#0E3326" stroke="#1F4D3B"/>
-<text x="102" y="116" text-anchor="middle" font-size="13" font-weight="700" fill="#F4F7F2">Intake</text>
-<text x="102" y="135" text-anchor="middle" font-size="9.5" fill="#8AA197">know the PI and RFP</text>
-<text x="164.5" y="126" text-anchor="middle" font-size="17" fill="#16C079">&#8250;</text>
-<rect x="171" y="84" width="112" height="72" rx="12" fill="#0E3326" stroke="#1F4D3B"/>
-<text x="227" y="116" text-anchor="middle" font-size="13" font-weight="700" fill="#F4F7F2">Pre-Award</text>
-<text x="227" y="135" text-anchor="middle" font-size="9.5" fill="#8AA197">ideas, team, aims</text>
-<text x="289.5" y="126" text-anchor="middle" font-size="17" fill="#16C079">&#8250;</text>
-<rect x="296" y="84" width="112" height="72" rx="12" fill="#0E3326" stroke="#1F4D3B"/>
-<text x="352" y="116" text-anchor="middle" font-size="13" font-weight="700" fill="#F4F7F2">Design</text>
-<text x="352" y="135" text-anchor="middle" font-size="9.5" fill="#8AA197">approach, budget</text>
-<text x="414.5" y="126" text-anchor="middle" font-size="17" fill="#16C079">&#8250;</text>
-<rect x="421" y="84" width="112" height="72" rx="12" fill="#0E3326" stroke="#1F4D3B"/>
-<text x="477" y="116" text-anchor="middle" font-size="13" font-weight="700" fill="#F4F7F2">Submit</text>
-<text x="477" y="135" text-anchor="middle" font-size="9.5" fill="#8AA197">proposal final</text>
-<text x="539.5" y="126" text-anchor="middle" font-size="17" fill="#16C079">&#8250;</text>
-<rect x="546" y="84" width="112" height="72" rx="12" fill="#0E3326" stroke="#1F4D3B"/>
-<text x="602" y="116" text-anchor="middle" font-size="13" font-weight="700" fill="#F4F7F2">Build / Run-Lab</text>
-<text x="602" y="135" text-anchor="middle" font-size="9.5" fill="#8AA197">run the work</text>
-<text x="664.5" y="126" text-anchor="middle" font-size="17" fill="#16C079">&#8250;</text>
-<rect x="671" y="84" width="112" height="72" rx="12" fill="#0E3326" stroke="#1F4D3B"/>
-<text x="727" y="116" text-anchor="middle" font-size="13" font-weight="700" fill="#F4F7F2">Verify</text>
-<text x="727" y="135" text-anchor="middle" font-size="9.5" fill="#8AA197">reproduce numbers</text>
-<text x="789.5" y="126" text-anchor="middle" font-size="17" fill="#16C079">&#8250;</text>
-<rect x="796" y="84" width="112" height="72" rx="12" fill="#0E3326" stroke="#1F4D3B"/>
-<text x="852" y="116" text-anchor="middle" font-size="13" font-weight="700" fill="#F4F7F2">Report</text>
-<text x="852" y="135" text-anchor="middle" font-size="9.5" fill="#8AA197">findings, deck</text>
-<text x="914.5" y="126" text-anchor="middle" font-size="17" fill="#16C079">&#8250;</text>
-<rect x="921" y="84" width="112" height="72" rx="12" fill="#0E3326" stroke="#1F4D3B"/>
-<text x="977" y="116" text-anchor="middle" font-size="13" font-weight="700" fill="#F4F7F2">Publish</text>
-<text x="977" y="135" text-anchor="middle" font-size="9.5" fill="#8AA197">release, closeout</text>
-<rect x="78" y="194" width="48" height="24" rx="7" fill="#B7F36A" stroke="#0B2E22"/>
-<text x="102" y="210" text-anchor="middle" font-size="11" font-weight="800" fill="#062013">G0</text>
-<text x="102" y="240" text-anchor="middle" font-size="11.5" fill="#F4F7F2">intake</text>
-<rect x="203" y="194" width="48" height="24" rx="7" fill="#B7F36A" stroke="#0B2E22"/>
-<text x="227" y="210" text-anchor="middle" font-size="11" font-weight="800" fill="#062013">G1</text>
-<text x="227" y="240" text-anchor="middle" font-size="11.5" fill="#F4F7F2">pursue?</text>
-<rect x="328" y="194" width="48" height="24" rx="7" fill="#B7F36A" stroke="#0B2E22"/>
-<text x="352" y="210" text-anchor="middle" font-size="11" font-weight="800" fill="#062013">G2</text>
-<text x="352" y="240" text-anchor="middle" font-size="11.5" fill="#F4F7F2">approach</text>
-<rect x="453" y="194" width="48" height="24" rx="7" fill="#E0B24A" stroke="#9C7A1E"/>
-<text x="477" y="210" text-anchor="middle" font-size="11" font-weight="800" fill="#062013">G3</text>
-<text x="477" y="240" text-anchor="middle" font-size="11.5" fill="#F4F7F2">submit</text>
-<text x="477" y="254" text-anchor="middle" font-size="9" font-weight="700" fill="#E0B24A">Director only</text>
-<rect x="578" y="194" width="48" height="24" rx="7" fill="#B7F36A" stroke="#0B2E22"/>
-<text x="602" y="210" text-anchor="middle" font-size="11" font-weight="800" fill="#062013">G3a</text>
-<text x="602" y="240" text-anchor="middle" font-size="11.5" fill="#F4F7F2">budget</text>
-<rect x="703" y="194" width="48" height="24" rx="7" fill="#B7F36A" stroke="#0B2E22"/>
-<text x="727" y="210" text-anchor="middle" font-size="11" font-weight="800" fill="#062013">G4</text>
-<text x="727" y="240" text-anchor="middle" font-size="11.5" fill="#F4F7F2">accept</text>
-<rect x="828" y="194" width="48" height="24" rx="7" fill="#B7F36A" stroke="#0B2E22"/>
-<text x="852" y="210" text-anchor="middle" font-size="11" font-weight="800" fill="#062013">G5</text>
-<text x="852" y="240" text-anchor="middle" font-size="11.5" fill="#F4F7F2">release</text>
-<rect x="953" y="194" width="48" height="24" rx="7" fill="#B7F36A" stroke="#0B2E22"/>
-<text x="977" y="210" text-anchor="middle" font-size="11" font-weight="800" fill="#062013">G6</text>
-<text x="977" y="240" text-anchor="middle" font-size="11.5" fill="#F4F7F2">publish</text>
-<text x="40" y="284" font-size="10" letter-spacing="1.5" fill="#8AA197">WHO ACTS IN EACH PHASE</text>
-<rect x="48" y="294" width="108" height="22" rx="11" fill="#7C5CFF" fill-opacity="0.15" stroke="#7C5CFF" stroke-opacity="0.6"/>
-<text x="102" y="309" text-anchor="middle" font-size="9.5" font-weight="700" fill="#7C5CFF">Orchestration</text>
-<rect x="48" y="320" width="108" height="22" rx="11" fill="#E08A4A" fill-opacity="0.15" stroke="#E08A4A" stroke-opacity="0.6"/>
-<text x="102" y="335" text-anchor="middle" font-size="9.5" font-weight="700" fill="#E08A4A">Support</text>
-<rect x="173" y="294" width="108" height="22" rx="11" fill="#2BB8C4" fill-opacity="0.15" stroke="#2BB8C4" stroke-opacity="0.6"/>
-<text x="227" y="309" text-anchor="middle" font-size="9.5" font-weight="700" fill="#2BB8C4">Pre-Award</text>
-<rect x="173" y="320" width="108" height="22" rx="11" fill="#19C0A6" fill-opacity="0.15" stroke="#19C0A6" stroke-opacity="0.6"/>
-<text x="227" y="335" text-anchor="middle" font-size="9.5" font-weight="700" fill="#19C0A6">Scouts</text>
-<rect x="298" y="294" width="108" height="22" rx="11" fill="#2BB8C4" fill-opacity="0.15" stroke="#2BB8C4" stroke-opacity="0.6"/>
-<text x="352" y="309" text-anchor="middle" font-size="9.5" font-weight="700" fill="#2BB8C4">Pre-Award</text>
-<rect x="298" y="320" width="108" height="22" rx="11" fill="#3D8BFF" fill-opacity="0.15" stroke="#3D8BFF" stroke-opacity="0.6"/>
-<text x="352" y="335" text-anchor="middle" font-size="9.5" font-weight="700" fill="#3D8BFF">Labs</text>
-<rect x="423" y="294" width="108" height="22" rx="11" fill="#9B8CFF" fill-opacity="0.15" stroke="#9B8CFF" stroke-opacity="0.6"/>
-<text x="477" y="309" text-anchor="middle" font-size="9.5" font-weight="700" fill="#9B8CFF">Governance</text>
-<rect x="423" y="320" width="108" height="22" rx="11" fill="#7C5CFF" fill-opacity="0.15" stroke="#7C5CFF" stroke-opacity="0.6"/>
-<text x="477" y="335" text-anchor="middle" font-size="9.5" font-weight="700" fill="#7C5CFF">Orchestration</text>
-<rect x="548" y="294" width="108" height="22" rx="11" fill="#3D8BFF" fill-opacity="0.15" stroke="#3D8BFF" stroke-opacity="0.6"/>
-<text x="602" y="309" text-anchor="middle" font-size="9.5" font-weight="700" fill="#3D8BFF">Labs</text>
-<rect x="548" y="320" width="108" height="22" rx="11" fill="#16C079" fill-opacity="0.15" stroke="#16C079" stroke-opacity="0.6"/>
-<text x="602" y="335" text-anchor="middle" font-size="9.5" font-weight="700" fill="#16C079">Execution</text>
-<rect x="673" y="302" width="108" height="22" rx="11" fill="#FF6B5E" fill-opacity="0.15" stroke="#FF6B5E" stroke-opacity="0.6"/>
-<text x="727" y="317" text-anchor="middle" font-size="9.5" font-weight="700" fill="#FF6B5E">Verification</text>
-<rect x="798" y="294" width="108" height="22" rx="11" fill="#E0B24A" fill-opacity="0.15" stroke="#E0B24A" stroke-opacity="0.6"/>
-<text x="852" y="309" text-anchor="middle" font-size="9.5" font-weight="700" fill="#E0B24A">Reporting</text>
-<rect x="798" y="320" width="108" height="22" rx="11" fill="#E08A4A" fill-opacity="0.15" stroke="#E08A4A" stroke-opacity="0.6"/>
-<text x="852" y="335" text-anchor="middle" font-size="9.5" font-weight="700" fill="#E08A4A">Support</text>
-<rect x="923" y="294" width="108" height="22" rx="11" fill="#9B8CFF" fill-opacity="0.15" stroke="#9B8CFF" stroke-opacity="0.6"/>
-<text x="977" y="309" text-anchor="middle" font-size="9.5" font-weight="700" fill="#9B8CFF">Governance</text>
-<rect x="923" y="320" width="108" height="22" rx="11" fill="#E0B24A" fill-opacity="0.15" stroke="#E0B24A" stroke-opacity="0.6"/>
-<text x="977" y="335" text-anchor="middle" font-size="9.5" font-weight="700" fill="#E0B24A">Reporting</text>
-<rect x="40" y="352" width="16" height="14" rx="4" fill="#B7F36A"/>
-<text x="62" y="364" font-size="11.5" fill="#8AA197">human gate</text>
-<rect x="178" y="352" width="16" height="14" rx="4" fill="#E0B24A"/>
-<text x="200" y="364" font-size="11.5" fill="#8AA197">Director-only gate</text>
-<rect x="350" y="352" width="16" height="14" rx="7" fill="#19C0A6" fill-opacity="0.2" stroke="#19C0A6"/>
-<text x="372" y="364" font-size="11.5" fill="#8AA197">council acting in this phase</text>
-<text x="40" y="396" font-size="11" fill="#6f8a7e">Gates are prompt-level and token-checked, not a hard OS lock. The point is that a person decides at each one.</text>
+<rect width="1120" height="470" rx="18" fill="url(#lbg)"/>
+<rect x="1" y="1" width="1118" height="468" rx="17" fill="none" stroke="#1F4D3B"/>
+<text x="40" y="44" font-size="25" font-weight="800" fill="#F4F7F2">The Cambium research lifecycle</text>
+<text x="40" y="69" font-size="13.5" fill="#8AA197">Eight phases, eight human gates. A named person signs each one, and this is what they decide.</text>
+<rect x="47" y="92" width="116" height="70" rx="12" fill="#0E3326" stroke="#1F4D3B"/>
+<text x="105" y="125" text-anchor="middle" font-size="13" font-weight="700" fill="#F4F7F2">Intake</text>
+<text x="105" y="144" text-anchor="middle" font-size="9.5" fill="#8AA197">know the PI and RFP</text>
+<text x="170.0" y="134" text-anchor="middle" font-size="17" fill="#16C079">&#8250;</text>
+<rect x="177" y="92" width="116" height="70" rx="12" fill="#0E3326" stroke="#1F4D3B"/>
+<text x="235" y="125" text-anchor="middle" font-size="13" font-weight="700" fill="#F4F7F2">Pre-Award</text>
+<text x="235" y="144" text-anchor="middle" font-size="9.5" fill="#8AA197">ideas, team, aims</text>
+<text x="300.0" y="134" text-anchor="middle" font-size="17" fill="#16C079">&#8250;</text>
+<rect x="307" y="92" width="116" height="70" rx="12" fill="#0E3326" stroke="#1F4D3B"/>
+<text x="365" y="125" text-anchor="middle" font-size="13" font-weight="700" fill="#F4F7F2">Design</text>
+<text x="365" y="144" text-anchor="middle" font-size="9.5" fill="#8AA197">approach, budget</text>
+<text x="430.0" y="134" text-anchor="middle" font-size="17" fill="#16C079">&#8250;</text>
+<rect x="437" y="92" width="116" height="70" rx="12" fill="#0E3326" stroke="#1F4D3B"/>
+<text x="495" y="125" text-anchor="middle" font-size="13" font-weight="700" fill="#F4F7F2">Submit</text>
+<text x="495" y="144" text-anchor="middle" font-size="9.5" fill="#8AA197">proposal final</text>
+<text x="560.0" y="134" text-anchor="middle" font-size="17" fill="#16C079">&#8250;</text>
+<rect x="567" y="92" width="116" height="70" rx="12" fill="#0E3326" stroke="#1F4D3B"/>
+<text x="625" y="125" text-anchor="middle" font-size="13" font-weight="700" fill="#F4F7F2">Build / Run-Lab</text>
+<text x="625" y="144" text-anchor="middle" font-size="9.5" fill="#8AA197">run the work</text>
+<text x="690.0" y="134" text-anchor="middle" font-size="17" fill="#16C079">&#8250;</text>
+<rect x="697" y="92" width="116" height="70" rx="12" fill="#0E3326" stroke="#1F4D3B"/>
+<text x="755" y="125" text-anchor="middle" font-size="13" font-weight="700" fill="#F4F7F2">Verify</text>
+<text x="755" y="144" text-anchor="middle" font-size="9.5" fill="#8AA197">reproduce numbers</text>
+<text x="820.0" y="134" text-anchor="middle" font-size="17" fill="#16C079">&#8250;</text>
+<rect x="827" y="92" width="116" height="70" rx="12" fill="#0E3326" stroke="#1F4D3B"/>
+<text x="885" y="125" text-anchor="middle" font-size="13" font-weight="700" fill="#F4F7F2">Report</text>
+<text x="885" y="144" text-anchor="middle" font-size="9.5" fill="#8AA197">findings, deck</text>
+<text x="950.0" y="134" text-anchor="middle" font-size="17" fill="#16C079">&#8250;</text>
+<rect x="957" y="92" width="116" height="70" rx="12" fill="#0E3326" stroke="#1F4D3B"/>
+<text x="1015" y="125" text-anchor="middle" font-size="13" font-weight="700" fill="#F4F7F2">Publish</text>
+<text x="1015" y="144" text-anchor="middle" font-size="9.5" fill="#8AA197">release, closeout</text>
+<line x1="40" y1="200" x2="1080" y2="200" stroke="url(#flow)" stroke-width="5" stroke-linecap="round"/>
+<rect x="80" y="188" width="50" height="24" rx="7" fill="#B7F36A" stroke="#0B2E22"/>
+<text x="105" y="204" text-anchor="middle" font-size="11" font-weight="800" fill="#062013">G0</text>
+<text x="105" y="234" text-anchor="middle" font-size="11" font-weight="700" fill="#F4F7F2">worth our time?</text>
+<rect x="210" y="188" width="50" height="24" rx="7" fill="#B7F36A" stroke="#0B2E22"/>
+<text x="235" y="204" text-anchor="middle" font-size="11" font-weight="800" fill="#062013">G1</text>
+<text x="235" y="234" text-anchor="middle" font-size="11" font-weight="700" fill="#F4F7F2">pursue this?</text>
+<rect x="340" y="188" width="50" height="24" rx="7" fill="#B7F36A" stroke="#0B2E22"/>
+<text x="365" y="204" text-anchor="middle" font-size="11" font-weight="800" fill="#062013">G2</text>
+<text x="365" y="234" text-anchor="middle" font-size="11" font-weight="700" fill="#F4F7F2">which approach?</text>
+<rect x="470" y="188" width="50" height="24" rx="7" fill="#E0B24A" stroke="#9C7A1E"/>
+<text x="495" y="204" text-anchor="middle" font-size="11" font-weight="800" fill="#062013">G3</text>
+<text x="495" y="234" text-anchor="middle" font-size="11" font-weight="700" fill="#F4F7F2">finalize &amp; submit</text>
+<text x="495" y="249" text-anchor="middle" font-size="9" font-weight="700" fill="#E0B24A">Director only</text>
+<rect x="600" y="188" width="50" height="24" rx="7" fill="#B7F36A" stroke="#0B2E22"/>
+<text x="625" y="204" text-anchor="middle" font-size="11" font-weight="800" fill="#062013">G3a</text>
+<text x="625" y="234" text-anchor="middle" font-size="11" font-weight="700" fill="#F4F7F2">budget + compliance</text>
+<rect x="730" y="188" width="50" height="24" rx="7" fill="#16C079" stroke="#0B3325"/>
+<text x="755" y="204" text-anchor="middle" font-size="11" font-weight="800" fill="#062013">G4</text>
+<text x="755" y="234" text-anchor="middle" font-size="11" font-weight="700" fill="#F4F7F2">accept results</text>
+<rect x="703" y="242" width="104" height="17" rx="8.5" fill="none" stroke="#16C079" stroke-width="1.1"/>
+<text x="755" y="254" text-anchor="middle" font-size="8.7" font-weight="700" fill="#16C079">every number reproduced</text>
+<rect x="860" y="188" width="50" height="24" rx="7" fill="#B7F36A" stroke="#0B2E22"/>
+<text x="885" y="204" text-anchor="middle" font-size="11" font-weight="800" fill="#062013">G5</text>
+<text x="885" y="234" text-anchor="middle" font-size="11" font-weight="700" fill="#F4F7F2">release report?</text>
+<rect x="990" y="188" width="50" height="24" rx="7" fill="#B7F36A" stroke="#0B2E22"/>
+<text x="1015" y="204" text-anchor="middle" font-size="11" font-weight="800" fill="#062013">G6</text>
+<text x="1015" y="234" text-anchor="middle" font-size="11" font-weight="700" fill="#F4F7F2">go public?</text>
+<text x="40" y="298" font-size="10" letter-spacing="1.5" fill="#8AA197">WHO ACTS IN EACH PHASE</text>
+<rect x="49" y="310" width="112" height="22" rx="11" fill="#7C5CFF" fill-opacity="0.15" stroke="#7C5CFF" stroke-opacity="0.6"/>
+<text x="105" y="325" text-anchor="middle" font-size="9.5" font-weight="700" fill="#7C5CFF">Orchestration</text>
+<rect x="49" y="336" width="112" height="22" rx="11" fill="#E08A4A" fill-opacity="0.15" stroke="#E08A4A" stroke-opacity="0.6"/>
+<text x="105" y="351" text-anchor="middle" font-size="9.5" font-weight="700" fill="#E08A4A">Support</text>
+<rect x="179" y="310" width="112" height="22" rx="11" fill="#2BB8C4" fill-opacity="0.15" stroke="#2BB8C4" stroke-opacity="0.6"/>
+<text x="235" y="325" text-anchor="middle" font-size="9.5" font-weight="700" fill="#2BB8C4">Pre-Award</text>
+<rect x="179" y="336" width="112" height="22" rx="11" fill="#19C0A6" fill-opacity="0.15" stroke="#19C0A6" stroke-opacity="0.6"/>
+<text x="235" y="351" text-anchor="middle" font-size="9.5" font-weight="700" fill="#19C0A6">Scouts</text>
+<rect x="309" y="310" width="112" height="22" rx="11" fill="#2BB8C4" fill-opacity="0.15" stroke="#2BB8C4" stroke-opacity="0.6"/>
+<text x="365" y="325" text-anchor="middle" font-size="9.5" font-weight="700" fill="#2BB8C4">Pre-Award</text>
+<rect x="309" y="336" width="112" height="22" rx="11" fill="#3D8BFF" fill-opacity="0.15" stroke="#3D8BFF" stroke-opacity="0.6"/>
+<text x="365" y="351" text-anchor="middle" font-size="9.5" font-weight="700" fill="#3D8BFF">Labs</text>
+<rect x="439" y="310" width="112" height="22" rx="11" fill="#9B8CFF" fill-opacity="0.15" stroke="#9B8CFF" stroke-opacity="0.6"/>
+<text x="495" y="325" text-anchor="middle" font-size="9.5" font-weight="700" fill="#9B8CFF">Governance</text>
+<rect x="439" y="336" width="112" height="22" rx="11" fill="#7C5CFF" fill-opacity="0.15" stroke="#7C5CFF" stroke-opacity="0.6"/>
+<text x="495" y="351" text-anchor="middle" font-size="9.5" font-weight="700" fill="#7C5CFF">Orchestration</text>
+<rect x="569" y="310" width="112" height="22" rx="11" fill="#3D8BFF" fill-opacity="0.15" stroke="#3D8BFF" stroke-opacity="0.6"/>
+<text x="625" y="325" text-anchor="middle" font-size="9.5" font-weight="700" fill="#3D8BFF">Labs</text>
+<rect x="569" y="336" width="112" height="22" rx="11" fill="#16C079" fill-opacity="0.15" stroke="#16C079" stroke-opacity="0.6"/>
+<text x="625" y="351" text-anchor="middle" font-size="9.5" font-weight="700" fill="#16C079">Execution</text>
+<rect x="699" y="318" width="112" height="22" rx="11" fill="#FF6B5E" fill-opacity="0.15" stroke="#FF6B5E" stroke-opacity="0.6"/>
+<text x="755" y="333" text-anchor="middle" font-size="9.5" font-weight="700" fill="#FF6B5E">Verification</text>
+<rect x="829" y="310" width="112" height="22" rx="11" fill="#E0B24A" fill-opacity="0.15" stroke="#E0B24A" stroke-opacity="0.6"/>
+<text x="885" y="325" text-anchor="middle" font-size="9.5" font-weight="700" fill="#E0B24A">Reporting</text>
+<rect x="829" y="336" width="112" height="22" rx="11" fill="#E08A4A" fill-opacity="0.15" stroke="#E08A4A" stroke-opacity="0.6"/>
+<text x="885" y="351" text-anchor="middle" font-size="9.5" font-weight="700" fill="#E08A4A">Support</text>
+<rect x="959" y="310" width="112" height="22" rx="11" fill="#9B8CFF" fill-opacity="0.15" stroke="#9B8CFF" stroke-opacity="0.6"/>
+<text x="1015" y="325" text-anchor="middle" font-size="9.5" font-weight="700" fill="#9B8CFF">Governance</text>
+<rect x="959" y="336" width="112" height="22" rx="11" fill="#E0B24A" fill-opacity="0.15" stroke="#E0B24A" stroke-opacity="0.6"/>
+<text x="1015" y="351" text-anchor="middle" font-size="9.5" font-weight="700" fill="#E0B24A">Reporting</text>
+<rect x="40" y="380" width="16" height="14" rx="4" fill="#B7F36A"/><text x="62" y="392" font-size="11.5" fill="#8AA197">human gate</text>
+<rect x="176" y="380" width="16" height="14" rx="4" fill="#E0B24A"/><text x="198" y="392" font-size="11.5" fill="#8AA197">Director-only gate</text>
+<rect x="348" y="380" width="16" height="14" rx="4" fill="#16C079"/><text x="370" y="392" font-size="11.5" fill="#8AA197">results reproduced before accepted</text>
+<rect x="628" y="380" width="16" height="14" rx="7" fill="#19C0A6" fill-opacity="0.2" stroke="#19C0A6"/><text x="650" y="392" font-size="11.5" fill="#8AA197">council acting in this phase</text>
+<text x="40" y="450" font-size="11" fill="#6f8a7e">Gates are prompt-level and token-checked, not a hard OS lock. The point is that a person decides at each one.</text>
 </svg>

@@ -14,7 +14,7 @@
 
 <h3>Let AI handle the volume. Keep a human responsible for every result.</h3>
 
-<em>Cambium gives one researcher a whole institute of AI specialists to scout, draft, and check, then stops at human checkpoints so a person, not a model, makes the calls that matter.</em>
+<em>Cambium is a whole institute of AI specialists that scout, draft, and check the research work, then stop at human checkpoints so a person, not a model, makes the calls that matter. It is built for everyone the research enterprise runs on, from a solo PI to a sponsored-programs office to a classroom.</em>
 
 </div>
 
@@ -31,21 +31,13 @@ Cambium is a research institute you run on your own machine. You give it a goal 
 
 ---
 
-## Why Cambium exists
+## Who it is for
 
-AI can read a thousand papers, draft a proposal, and run an analysis before lunch. It can also make claims it can't back up, cite papers that were never written, move faster than your judgment can keep up with, and quietly end up authoring the science it was only supposed to help with. In most settings that just wastes time. In research it corrupts the record, and that is a lot harder to undo.
-
-Most tools answer this worry with a policy page. Cambium answers it with plumbing. Every concern people raise about AI in research is wired to something that actually runs.
+Cambium is one governed institute with five ways in. Researchers are one of them, not the whole story. The volume is the machine's; the judgment stays with a named human at every gate.
 
 <div align="center">
-<img src="assets/responsible-ai.svg" alt="Seven risks of AI in research, each mapped to a Cambium control. Overclaiming maps to the four-tier evidence contract, fabricated citations to the citation-resolution gate, speed to the pace check, lost learning to the Learning Gate, bias to the NIST checklist, data leaks to the PII scanner, and blurred authorship to a named signature at every gate." width="900">
+<img src="assets/audience.svg" alt="Cambium serves five audiences from one governed institute. Researchers and PIs run a project end to end with a human at every gate. Research administrators and sponsored programs get pre-award drafting, a budget-to-solicitation review, and an AI-use disclosure builder. Developers and contributors get a plugin with an MCP server, a 121-tool toolkit, and tests. Institutions and funders get an MIT, local-first, data-sovereign system where every gate is logged in markdown. Educators and learners get the ten-module Academy plus a per-run Learning Lab." width="900">
 </div>
-
-> Cambium keeps coming back to one rule: use AI to expand what a lab can do, but keep a human responsible for whether the work is valid, ethical, and right. Where a control is fully enforced, this README says so. Where it is real but not yet airtight, it says "partial," because overclaiming is the exact thing the project is trying to stop. The longer version lives in [`VISION.md`](docs/concepts/VISION.md) and the ten-point [`AI_POLICY.md`](docs/governance/AI_POLICY.md).
-
----
-
-## Who it is for
 
 | Audience | What Cambium offers |
 |---|---|
@@ -57,12 +49,26 @@ Most tools answer this worry with a policy page. Cambium answers it with plumbin
 
 ---
 
+## Why Cambium exists
+
+AI can read a thousand papers, draft a proposal, and run an analysis before lunch. It can also make claims it can't back up, cite papers that were never written, move faster than your judgment can keep up with, and quietly end up authoring the science it was only supposed to help with. In most settings that just wastes time. In research it corrupts the record, and that is a lot harder to undo.
+
+Most tools answer this worry with a policy page. Cambium answers it with plumbing. Every concern people raise about AI in research is wired to something that actually runs.
+
+<div align="center">
+<img src="assets/responsible-ai.svg" alt="Every risk of AI in research mapped to a Cambium control, showing how hard each control bites and its real source file. Overclaiming and unresolved citations are blocked in CI by validate.py; the pace check, the Learning Gate, and the named gate signature are gate-enforced and token-checked; the bias checklist and the PII scan are required checks before the results gates. The human stays responsible for validity, ethics, and decisions." width="900">
+</div>
+
+> Cambium keeps coming back to one rule: use AI to expand what a lab can do, but keep a human responsible for whether the work is valid, ethical, and right. Where a control is fully enforced, this README says so. Where it is real but not yet airtight, it says "partial," because overclaiming is the exact thing the project is trying to stop. The longer version lives in [`VISION.md`](docs/concepts/VISION.md) and the ten-point [`AI_POLICY.md`](docs/governance/AI_POLICY.md).
+
+---
+
 ## See it run
 
 When a run starts, the institute comes to life in the chat. Agents wake up, do their piece, and report back. Then the whole thing pauses at a gate and waits for you.
 
 <div align="center">
-<img src="assets/run_board.gif" alt="An animated Cambium run board. Across seven frames the scouts, labs, and verification councils move from queued to working to done with one-line findings, then a human gate card appears with Approve, Revise, and Reject, the run is approved, and it finishes. The numbers shown are illustrative." width="760">
+<img src="assets/run_board.gif" alt="An animated Cambium run board for an illustrative forest growth-and-yield run using LiDAR and machine learning. Across nine frames the Scouts, Labs, Execution, and Verification councils move from queued to working to done with one-line findings, a human gate card asks to accept the results, the Director approves at G4, and the Support council closes out with the teaching-assistant delivering a learning packet. The numbers shown are illustrative, not from a real study." width="760">
 </div>
 
 <div align="center"><sub>Illustrative run. The numbers shown are representative, not from a real study.</sub></div>
@@ -109,7 +115,7 @@ That is the whole setup. `/cambium` draws a live board of the institute working,
 Cambium covers the whole life of a project, and it puts a human checkpoint everywhere a real decision gets made. The gates aren't there to slow you down. They are where accountability actually lives.
 
 <div align="center">
-<img src="assets/lifecycle.svg" alt="The research lifecycle from intake to publish, with eight human gates labeled G0 through G6 plus G3a." width="900">
+<img src="assets/lifecycle.svg" alt="The Cambium research lifecycle: eight phases from intake to publish, each showing the councils that act in it, the human gate that closes it, and what the person decides at that gate. Results at G4 are accepted only after every number is reproduced. A named person signs every gate, G0 through G6 plus G3a." width="900">
 </div>
 
 | Gate | Where | What you decide |
@@ -134,7 +140,7 @@ Human gates are enforced by approval-token checks (in `tools/gate_lock.py`) and 
 One Orchestrator. Eleven councils. Forty-six specialists, each good at one thing, and none of them grading their own homework. The verification board is independent, and whoever wrote something is never the person who approves it.
 
 <div align="center">
-<img src="assets/architecture.svg" alt="Cambium's structure. An Orchestrator feeds eleven councils (Orchestration, Pre-Award, Partnerships, Faculty, Scouts, Labs, Verification, Execution, Reporting, Support, Governance) and their 46 agents." width="900">
+<img src="assets/architecture.svg" alt="Cambium's structure. An Orchestrator feeds eleven councils (Orchestration, Pre-Award, Partnerships, Faculty, Scouts, Labs, Verification, Execution, Reporting, Support, Governance), each labeled with what it does, and their 46 named agents. The Verification board is drawn as independent: whoever writes something is never who approves it." width="900">
 </div>
 
 The councils are Orchestration, Pre-Award, Partnerships, Faculty, Scouts, Labs, Verification, Execution, Reporting, Support, and Governance. The Orchestrator breaks down your goal, calls in only the councils the task needs, runs them in parallel where it can, merges what comes back into one ranked decision, keeps the findings ledger, and runs the gates. You can always see which named agent is working, and on what.
@@ -146,7 +152,7 @@ The councils are Orchestration, Pre-Award, Partnerships, Faculty, Scouts, Labs, 
 This is where the work lives. The engineering is traceable to specific files.
 
 <div align="center">
-<img src="assets/capabilities.svg" alt="A map of Cambium's engineered capabilities grouped into five areas: orchestration and routing, human-gate machinery and audit, evidence contract and integrity, memory and knowledge graph, and learning and research-administration tools. Each area points to its primary source file." width="900">
+<img src="assets/capabilities.svg" alt="A map of Cambium's engineered capabilities in six areas, each tagged by how strongly it is enforced and naming its real source file: orchestration and routing (active), human-gate machinery and audit (enforced), the four-tier evidence contract (enforced), memory and knowledge graph (active), the learning system (enforced), and research-administration tools (advisory), above a capacity band of 46 agents, 11 councils, 8 gates, 121 tools, 40 skills, and 1133 tests." width="900">
 </div>
 
 **Orchestration and task routing.** The Orchestrator calls the right councils for each task and merges what comes back. The task router (`tools/task_router.py`) maps incoming requests to council sets and handles parallel dispatch. The run-board tools (`tools/gen_inline_board.py`, `tools/gen_board_pro.py`) render a live agent board in-chat and as a standalone HTML file, so you can always see which agent is active and what it found. `tools/run_state.py` reprints the board fragment at each phase change so it stays live instead of freezing after the first act.
@@ -191,9 +197,12 @@ Cambium is honest about what is original engineering and what borrows from prior
 - **Run-outcome prior** (`tools/run_outcome_prior.py`): a heuristic prior that predicts a run's likely cost and risk from past run history, inspired by V-JEPA-style world-model framing. It is a prior, not a learned world model, and it refuses to fabricate a risk rate on a small sample.
 - **Local knowledge graph design** (`tools/concept_graph.py`): built after reviewing GraphRAG, Graphiti, MemPalace, and LightRAG and deliberately not adopting any of them. GraphRAG needs a cloud LLM per query, Graphiti and Neo4j need a running database, and all of them break the git-auditable guarantee. Cambium's graph uses networkx when available and a pure-stdlib fallback otherwise.
 - **Render-video** (`skills/render-video`): calls the separately-installed OpenMontage tool (AGPLv3) across a process boundary. OpenMontage is not bundled; it must be installed by the user. The process boundary keeps Cambium's MIT license clean.
+- **TaMPER framework** (University of Idaho): the disclosure record, FAIR data descriptor, and rules handoff (`tools/tamper_record.py`, `tools/fair_descriptor.py`, `tools/rules_handoff.py`) adapt ideas from the TaMPER framework. Full credit in [`ATTRIBUTION.md`](ATTRIBUTION.md).
+- **Microsoft Presidio** (MIT, optional): the PII and regulated-data screener (`tools/pii_screen.py`) uses Presidio when it is installed and falls back to a pure-stdlib regex screen when it is not, so the check runs with no required dependency.
+- **MindRouter** (roadmap): a sovereign, FERPA-safe inference path with the University of Idaho's MindRouter is on the roadmap, listed honestly as not yet wired.
 
 <div align="center">
-<img src="assets/adopted-ideas.svg" alt="A diagram showing the six external ideas Cambium adopted, each labeled with its source and how Cambium scoped or adapted it: skill anatomy from agent-skills, loop costs from Loop Engineering, OKF export from Google OKF, run-outcome prior from V-JEPA framing, local graph built after reviewing GraphRAG and Graphiti, and render-video via OpenMontage at a process boundary." width="900">
+<img src="assets/adopted-ideas.svg" alt="A diagram of the nine external ideas and partners Cambium draws on, each labeled with its source, its status (adopted, declined-heavy, or roadmap), and what Cambium built: skill anatomy from agent-skills, a loop-cost guard from Loop Engineering, an OKF export from Google OKF, a run-outcome prior from V-JEPA framing, a lean local graph after declining GraphRAG and Graphiti's heavy stack, disclosure and FAIR tooling adapted from the TaMPER framework, a PII screener from Microsoft Presidio, video via OpenMontage at a process boundary, and a roadmap FERPA-safe inference path with MindRouter." width="900">
 </div>
 
 ---
@@ -227,7 +236,7 @@ The live web mode (the FastAPI bridge in `web/server/app.py`) is the only web in
 
 Those numbers reflect what is in the repo today. The skills cover the full research lifecycle from intake to publish, plus domain specialties (statistics, ML, optimization, health, citations, ethics). The tools cover orchestration, gating, evidence, memory, learning, research-administration, and self-grading, and `tools/TOOL_INDEX.md` is an auto-generated inventory you can browse instead of guessing what exists. The MCP server exposes ten core operations (plan, provision, roster, doctor, grade, validate, dispatch, fidelity, recall, graph) so any MCP-capable client can drive the institute. The templates give every project a consistent paper trail from RFP brief to closeout checklist.
 
-What they enable: one researcher can run a structured, multi-agent, gate-controlled research project without writing any orchestration code. The councils handle parallelism. The gates handle accountability. The learning system means the work also teaches. The test suite confirms the machinery holds under changes.
+What they enable: anyone from a solo PI to a sponsored-programs office to a classroom can run a structured, multi-agent, gate-controlled research project without writing any orchestration code. The councils handle parallelism. The gates handle accountability. The learning system means the work also teaches. The test suite confirms the machinery holds under changes.
 
 ---
 

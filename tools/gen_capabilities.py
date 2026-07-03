@@ -197,8 +197,8 @@ def render_capabilities_svg(counts: dict) -> str:
 <g font-family="-apple-system,Segoe UI,sans-serif">
 <!-- row 1 -->
 <g transform="translate(40,178)">
-<rect width="328" height="138" rx="12" fill="#10392a" stroke="#1F4D3B" stroke-left="3"/>
-<rect width="4" height="138" rx="2" fill="#7C5CFF"/>
+<rect width="328" height="138" rx="12" fill="#10392a" stroke="#1F4D3B"/>
+<rect width="4" height="138" rx="2" fill="#7C5CFF"/><rect x="254" y="99" width="58" height="19" rx="9.5" fill="none" stroke="#16C079" stroke-width="1.2"/><text x="283" y="112" text-anchor="middle" font-size="9.3" font-weight="700" fill="#16C079">ACTIVE</text>
 <text x="20" y="32" font-size="16.5" font-weight="700" fill="#eafaf0">Orchestration + router</text>
 <text x="20" y="56" font-size="13" fill="#bcd3c8">Decomposes a goal, dispatches the</text>
 <text x="20" y="74" font-size="13" fill="#bcd3c8">named agents, routes by task type.</text>
@@ -206,7 +206,7 @@ def render_capabilities_svg(counts: dict) -> str:
 </g>
 <g transform="translate(386,178)">
 <rect width="328" height="138" rx="12" fill="#10392a" stroke="#1F4D3B"/>
-<rect width="4" height="138" rx="2" fill="#16C079"/>
+<rect width="4" height="138" rx="2" fill="#16C079"/><rect x="238" y="99" width="74" height="19" rx="9.5" fill="none" stroke="#B7F36A" stroke-width="1.2"/><text x="275" y="112" text-anchor="middle" font-size="9.3" font-weight="700" fill="#B7F36A">ENFORCED</text>
 <text x="20" y="32" font-size="16.5" font-weight="700" fill="#eafaf0">Human gates + audit</text>
 <text x="20" y="56" font-size="13" fill="#bcd3c8">Approval-token checks plus a run</text>
 <text x="20" y="74" font-size="13" fill="#bcd3c8">contract, and a hash-chained trail.</text>
@@ -214,7 +214,7 @@ def render_capabilities_svg(counts: dict) -> str:
 </g>
 <g transform="translate(732,178)">
 <rect width="328" height="138" rx="12" fill="#10392a" stroke="#1F4D3B"/>
-<rect width="4" height="138" rx="2" fill="#FF6B5E"/>
+<rect width="4" height="138" rx="2" fill="#FF6B5E"/><rect x="238" y="99" width="74" height="19" rx="9.5" fill="none" stroke="#B7F36A" stroke-width="1.2"/><text x="275" y="112" text-anchor="middle" font-size="9.3" font-weight="700" fill="#B7F36A">ENFORCED</text>
 <text x="20" y="32" font-size="16.5" font-weight="700" fill="#eafaf0">Evidence contract</text>
 <text x="20" y="56" font-size="13" fill="#bcd3c8">Four tiers: proved, code-verified,</text>
 <text x="20" y="74" font-size="13" fill="#bcd3c8">asserted, open. Overclaims flagged.</text>
@@ -223,7 +223,7 @@ def render_capabilities_svg(counts: dict) -> str:
 <!-- row 2 -->
 <g transform="translate(40,330)">
 <rect width="328" height="138" rx="12" fill="#10392a" stroke="#1F4D3B"/>
-<rect width="4" height="138" rx="2" fill="#3D8BFF"/>
+<rect width="4" height="138" rx="2" fill="#3D8BFF"/><rect x="254" y="99" width="58" height="19" rx="9.5" fill="none" stroke="#16C079" stroke-width="1.2"/><text x="283" y="112" text-anchor="middle" font-size="9.3" font-weight="700" fill="#16C079">ACTIVE</text>
 <text x="20" y="32" font-size="16.5" font-weight="700" fill="#eafaf0">Memory + knowledge graph</text>
 <text x="20" y="56" font-size="13" fill="#bcd3c8">Recall past findings, walk a local</text>
 <text x="20" y="74" font-size="13" fill="#bcd3c8">graph, contradictions flagged not solved.</text>
@@ -231,7 +231,7 @@ def render_capabilities_svg(counts: dict) -> str:
 </g>
 <g transform="translate(386,330)">
 <rect width="328" height="138" rx="12" fill="#10392a" stroke="#1F4D3B"/>
-<rect width="4" height="138" rx="2" fill="#E0B24A"/>
+<rect width="4" height="138" rx="2" fill="#E0B24A"/><rect x="238" y="99" width="74" height="19" rx="9.5" fill="none" stroke="#B7F36A" stroke-width="1.2"/><text x="275" y="112" text-anchor="middle" font-size="9.3" font-weight="700" fill="#B7F36A">ENFORCED</text>
 <text x="20" y="32" font-size="16.5" font-weight="700" fill="#eafaf0">Learning system</text>
 <text x="20" y="56" font-size="13" fill="#bcd3c8">Every build teaches you. Ten Academy</text>
 <text x="20" y="74" font-size="13" fill="#bcd3c8">modules and a per-run lab. Enforced.</text>
@@ -239,7 +239,7 @@ def render_capabilities_svg(counts: dict) -> str:
 </g>
 <g transform="translate(732,330)">
 <rect width="328" height="138" rx="12" fill="#10392a" stroke="#1F4D3B"/>
-<rect width="4" height="138" rx="2" fill="#2BB8C4"/>
+<rect width="4" height="138" rx="2" fill="#2BB8C4"/><rect x="236" y="99" width="76" height="19" rx="9.5" fill="none" stroke="#E8B84B" stroke-width="1.2"/><text x="274" y="112" text-anchor="middle" font-size="9.3" font-weight="700" fill="#E8B84B">ADVISORY</text>
 <text x="20" y="32" font-size="16.5" font-weight="700" fill="#eafaf0">Research-admin tools</text>
 <text x="20" y="56" font-size="13" fill="#bcd3c8">AI-use disclosure and an advisory</text>
 <text x="20" y="74" font-size="13" fill="#bcd3c8">budget-to-solicitation review.</text>
@@ -313,6 +313,10 @@ def _render_row(item: dict, y_offset: int) -> str:
     built = _xml_escape(item.get("built", ""))
     note = _xml_escape(item.get("note", ""))
     dash = st["built_dash"]
+    _SL = {"adopted": ("ADOPTED", "#16C079", 64), "declined-heavy": ("DECLINED", "#E58A8A", 70), "roadmap": ("ROADMAP", "#E0B24A", 66)}
+    _slab, _scol, _spw = _SL.get(status, _SL["adopted"])
+    status_pill = (f'<rect x="{420-_spw-14}" y="9" width="{_spw}" height="18" rx="9" fill="none" stroke="{_scol}" stroke-width="1.2"/>'
+                   f'<text x="{420-_spw/2-14:.0f}" y="21.5" text-anchor="middle" font-size="9" font-weight="700" fill="{_scol}">{_slab}</text>')
 
     # Auto-fit so long lines shrink rather than clip past the card edge.
     src_fs = _fit_font(src, 16, 40, 12)         # left card ~390px usable
@@ -325,6 +329,7 @@ def _render_row(item: dict, y_offset: int) -> str:
         f'<rect width="420" height="{_ROW_H}" rx="11" fill="#0E3326" stroke="{st["src_stroke"]}"/>'
         f'<text x="18" y="28" font-size="{src_fs}" font-weight="700" fill="{st["src_text"]}">{src}</text>'
         f'<text x="18" y="48" font-size="12" fill="{st["src_meta"]}">{meta}</text>'
+        f'{status_pill}'
         f'</g>\n'
         f'<path d="M468 32 H 502" stroke="#3a6e57" stroke-width="2" marker-end="url(#ar)"/>\n'
         f'<g transform="translate(510,0)">'
