@@ -89,12 +89,12 @@ F_BANNER = font(15, True)
 F_UP = font(12, True)
 
 AGENTS = [
-    ("scout-prior-art", "Scouts",       "novelty distance 0.41, prior art mapped"),
-    ("scout-landscape", "Scouts",       "12 efforts, 3 open datasets located"),
-    ("lab-methods",     "Labs",         "method drafted, controls in place"),
-    ("lab-statistics",  "Labs",         "power 0.86, intervals computed"),
-    ("verify-evidence", "Verification", "every headline number reproduced"),
-    ("referee",         "Verification", "accept with minor revisions"),
+    ("scout-prior-art",   "Scouts",       "20 studies; area-based LiDAR is standard"),
+    ("scout-landscape",   "Scouts",       "3 LiDAR-plot datasets, NEON is open"),
+    ("lab-methods",       "Labs",         "area-based metrics + gradient boosting"),
+    ("lab-statistics",    "Labs",         "nested spatial CV, leakage guarded"),
+    ("verify-methodology","Verification", "spatial blocks, or the R2 inflates"),
+    ("referee",           "Verification", "solid; report per-species error"),
 ]
 
 COUNCIL_ORDER = []
@@ -137,7 +137,7 @@ def draw_frame(spec):
 
     d.regular_polygon((42, 36, 13), 6, rotation=90, fill=GREEN)
     d.text((64, 18), "CAMBIUM INSTITUTE", font=F_TITLE, fill=INK)
-    d.text((64, 42), "run board   -   research run: add math + stats + ML skills", font=F_SUB, fill=MUT)
+    d.text((64, 42), "run board   -   run example: forest growth and yield from LiDAR + ML", font=F_SUB, fill=MUT)
 
     label, lcol = spec["phase"]
     lw = d.textlength(label, font=F_PHASE)
@@ -207,7 +207,7 @@ def draw_frame(spec):
         sx = gx + 26
         if gate == "ask":
             d.rounded_rectangle((sx, gy + 18, sx + 14, gy + 34), radius=4, fill=LIME)
-            d.text((sx + 24, gy + 16), "GATE G4   -   accept results?", font=F_GATE, fill=INK)
+            d.text((sx + 24, gy + 16), "GATE G2   -   which modelling approach advances?", font=F_GATE, fill=INK)
             by0 = gy + 44
             b1 = (sx, by0, sx + 132, by0 + 34)
             rrect(d, b1, 9, fill=GREEN)
@@ -220,12 +220,12 @@ def draw_frame(spec):
             center_text(d, (b3[0] + b3[2]) / 2, by0 + 9, "REJECT", F_BTN, RED)
             d.text((sx, gy + 92), "your decision. nothing finalizes without APPROVE.",
                    font=F_GMID, fill=MUT)
-            d.text((sx, gy + 116), "evidence: referee accept   -   every number reproduced",
+            d.text((sx, gy + 116), "evidence: nested spatial CV   -   leakage guarded   -   referee: solid",
                    font=F_FIND, fill=DIM)
         else:
             d.rounded_rectangle((sx, gy + 34, sx + 16, gy + 52), radius=4, fill=LIME)
-            d.text((sx + 26, gy + 30), "G4 APPROVED", font=F_GATEBIG, fill=GREEN)
-            d.text((sx, gy + 70), "results accepted. proceeding to report.",
+            d.text((sx + 26, gy + 30), "G2 APPROVED", font=F_GATEBIG, fill=GREEN)
+            d.text((sx, gy + 70), "the area-based model advances to full training.",
                    font=F_GMID, fill=MUT)
             d.text((sx, gy + 98), "the Director signed. the run continues.",
                    font=F_FIND, fill=DIM)
@@ -233,8 +233,8 @@ def draw_frame(spec):
     if spec.get("banner"):
         bx, byy, bw, bh = 30, 300, W - 60, 70
         rrect(d, (bx, byy, bx + bw, byy + bh), 12, fill=(16, 57, 42), outline=GREEN, width=2)
-        center_text(d, W / 2, byy + 16, "run complete", F_BANNER, LIME)
-        center_text(d, W / 2, byy + 42, "every number reproduced before release.", F_FIND, MUT)
+        center_text(d, W / 2, byy + 16, "model plan accepted", F_BANNER, LIME)
+        center_text(d, W / 2, byy + 42, "a leakage-checked pipeline, signed at every gate.", F_FIND, MUT)
 
     d.text((30, H - 26), "ILLUSTRATIVE   -   a representative run, the numbers shown are not from a real study.",
            font=F_FOOT, fill=DIM)
