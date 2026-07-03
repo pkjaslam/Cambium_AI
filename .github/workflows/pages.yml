@@ -8,10 +8,15 @@ name: Deploy to GitHub Pages
 # The raw docs/*.md files stay in place so the landing page's direct .md links
 # keep working exactly as before.
 
+# Runs on a published Release or a manual dispatch only, NOT on every push, so an
+# ordinary code push never shows a red Pages check. To make the deploy succeed, set
+# the repo's Pages source to "GitHub Actions" once (Settings -> Pages -> Source): while
+# it is "Deploy from a branch", GitHub also runs its legacy Jekyll build, which uploads a
+# second "github-pages" artifact and makes deploy-pages fail with "Multiple artifacts".
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
+  release:
+    types: [published]
 
 permissions:
   contents: read

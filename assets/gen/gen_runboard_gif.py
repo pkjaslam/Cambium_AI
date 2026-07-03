@@ -39,6 +39,8 @@ QUEUED = (58, 110, 87)
 SCOUTS = (25, 192, 166)
 LABS = (61, 139, 255)
 VERIFY = (255, 107, 94)
+EXEC = (183, 243, 106)
+SUPPORT = (159, 122, 234)
 
 # Font candidates by platform so a hand-run renders cleanly on Linux, Windows, or macOS. First hit wins;
 # only if none resolve do we fall back to Pillow's bitmap default (readable but plain). This keeps a
@@ -89,12 +91,12 @@ F_BANNER = font(15, True)
 F_UP = font(12, True)
 
 AGENTS = [
-    ("scout-prior-art",   "Scouts",       "20 studies; area-based LiDAR is standard"),
-    ("scout-landscape",   "Scouts",       "3 LiDAR-plot datasets, NEON is open"),
-    ("lab-methods",       "Labs",         "area-based metrics + gradient boosting"),
-    ("lab-statistics",    "Labs",         "nested spatial CV, leakage guarded"),
-    ("verify-methodology","Verification", "spatial blocks, or the R2 inflates"),
-    ("referee",           "Verification", "solid; report per-species error"),
+    ("scout-prior-art",    "Scouts",       "20 studies; area-based LiDAR is standard"),
+    ("lab-methods",        "Labs",         "area-based metrics + gradient boosting"),
+    ("exec-experiments",   "Execution",    "trained; spatial-CV error within target"),
+    ("verify-methodology", "Verification", "spatial blocks hold; no leakage"),
+    ("record-keeper",      "Support",      "decision and numbers logged to the ledger"),
+    ("teaching-assistant", "Support",      "learning packet: explainer, glossary, quiz"),
 ]
 
 COUNCIL_ORDER = []
@@ -105,19 +107,23 @@ COUNCIL_COUNT = {c: sum(1 for _n, cc, _f in AGENTS if cc == c) for c in COUNCIL_
 
 FRAMES = [
     dict(p=0.00, phase=("PHASE 1 - SCOUTS", SCOUTS),
-         st="qqqqqq", started={"Scouts"}, gate=None, dur=1.5),
-    dict(p=0.17, phase=("PHASE 1 - SCOUTS", SCOUTS),
-         st="wqqqqq", started={"Scouts"}, gate=None, dur=1.3),
-    dict(p=0.42, phase=("PHASE 2 - LABS", LABS),
-         st="ddwqqq", started={"Scouts", "Labs"}, gate=None, dur=1.7),
-    dict(p=0.67, phase=("PHASE 3 - VERIFICATION", VERIFY),
-         st="ddddwq", started={"Scouts", "Labs", "Verification"}, gate=None, dur=1.5),
-    dict(p=0.83, phase=("HUMAN GATE", GOLD),
-         st="dddddd", started={"Scouts", "Labs", "Verification"}, gate="ask", dur=2.1),
-    dict(p=0.92, phase=("HUMAN GATE", GREEN),
-         st="dddddd", started={"Scouts", "Labs", "Verification"}, gate="approved", dur=1.6),
+         st="qqqqqq", started={"Scouts"}, gate=None, dur=1.3),
+    dict(p=0.14, phase=("PHASE 1 - SCOUTS", SCOUTS),
+         st="wqqqqq", started={"Scouts"}, gate=None, dur=1.1),
+    dict(p=0.30, phase=("PHASE 2 - LABS", LABS),
+         st="dwqqqq", started={"Scouts", "Labs"}, gate=None, dur=1.4),
+    dict(p=0.46, phase=("PHASE 3 - EXECUTION", EXEC),
+         st="ddwqqq", started={"Scouts", "Labs", "Execution"}, gate=None, dur=1.4),
+    dict(p=0.62, phase=("PHASE 4 - VERIFICATION", VERIFY),
+         st="dddwqq", started={"Scouts", "Labs", "Execution", "Verification"}, gate=None, dur=1.4),
+    dict(p=0.76, phase=("HUMAN GATE", GOLD),
+         st="ddddqq", started={"Scouts", "Labs", "Execution", "Verification"}, gate="ask", dur=2.0),
+    dict(p=0.84, phase=("HUMAN GATE", GREEN),
+         st="ddddqq", started={"Scouts", "Labs", "Execution", "Verification"}, gate="approved", dur=1.4),
+    dict(p=0.94, phase=("PHASE 5 - SUPPORT", SUPPORT),
+         st="dddddd", started={"Scouts", "Labs", "Execution", "Verification", "Support"}, gate=None, dur=1.9),
     dict(p=1.00, phase=("COMPLETE", GREEN),
-         st="dddddd", started={"Scouts", "Labs", "Verification"}, gate=None, banner=True, dur=2.1),
+         st="dddddd", started={"Scouts", "Labs", "Execution", "Verification", "Support"}, gate=None, banner=True, dur=2.2),
 ]
 
 
@@ -207,7 +213,7 @@ def draw_frame(spec):
         sx = gx + 26
         if gate == "ask":
             d.rounded_rectangle((sx, gy + 18, sx + 14, gy + 34), radius=4, fill=LIME)
-            d.text((sx + 24, gy + 16), "GATE G2   -   which modelling approach advances?", font=F_GATE, fill=INK)
+            d.text((sx + 24, gy + 16), "GATE G4   -   accept the results?", font=F_GATE, fill=INK)
             by0 = gy + 44
             b1 = (sx, by0, sx + 132, by0 + 34)
             rrect(d, b1, 9, fill=GREEN)
@@ -224,8 +230,8 @@ def draw_frame(spec):
                    font=F_FIND, fill=DIM)
         else:
             d.rounded_rectangle((sx, gy + 34, sx + 16, gy + 52), radius=4, fill=LIME)
-            d.text((sx + 26, gy + 30), "G2 APPROVED", font=F_GATEBIG, fill=GREEN)
-            d.text((sx, gy + 70), "the area-based model advances to full training.",
+            d.text((sx + 26, gy + 30), "G4 APPROVED", font=F_GATEBIG, fill=GREEN)
+            d.text((sx, gy + 70), "results accepted; the Support council closes out.",
                    font=F_GMID, fill=MUT)
             d.text((sx, gy + 98), "the Director signed. the run continues.",
                    font=F_FIND, fill=DIM)
@@ -233,8 +239,8 @@ def draw_frame(spec):
     if spec.get("banner"):
         bx, byy, bw, bh = 30, 300, W - 60, 70
         rrect(d, (bx, byy, bx + bw, byy + bh), 12, fill=(16, 57, 42), outline=GREEN, width=2)
-        center_text(d, W / 2, byy + 16, "model plan accepted", F_BANNER, LIME)
-        center_text(d, W / 2, byy + 42, "a leakage-checked pipeline, signed at every gate.", F_FIND, MUT)
+        center_text(d, W / 2, byy + 16, "model accepted, and taught back to you", F_BANNER, LIME)
+        center_text(d, W / 2, byy + 42, "teaching-assistant delivered your learning packet.", F_FIND, MUT)
 
     d.text((30, H - 26), "ILLUSTRATIVE   -   a representative run, the numbers shown are not from a real study.",
            font=F_FOOT, fill=DIM)
