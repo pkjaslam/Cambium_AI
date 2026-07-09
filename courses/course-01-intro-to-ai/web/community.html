@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Community · Intro to AI · Cambium Academy</title>
 <link rel="icon" href="../../../assets/favicon.png">
+<link rel="stylesheet" href="polish.css">
 <style>
   :root{--forest:#2C5F2D;--dark:#1F3D24;--moss:#97BC62;--mossdeep:#6E9648;--tint:#F0F5EC;--ink:#1F2A20;--muted:#5C6B5A;--amber:#D97706;--line:#DFE9D8}
   *{box-sizing:border-box;margin:0;padding:0}
@@ -146,6 +147,8 @@ if (liveOn) {
   document.getElementById('liveRow').style.display = "flex";
   document.getElementById('extRow').style.display = "none";
   document.getElementById('taHint').textContent = "Amelia answers right here, powered by the university's MindRouter cluster. Short questions get the best answers. Prefer your own chatbot? The button above brings back Claude, ChatGPT, and Perplexity.";
+} else {
+  document.getElementById('taHint').textContent += " (Amelia's built-in chat box appears here automatically once the classroom server is connected; site owner: PUBLISHING.md, Part D.)";
 }
 function toggleExt(){
   const ext = document.getElementById('extRow');

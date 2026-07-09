@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<title>Free AI Course with Certificate · Cambium Academy</title>
+<link rel="icon" href="../assets/favicon.png">
+<meta name="description" content="Understand AI in 90 minutes. Free course by Cambium AI Research Institution: hands-on labs, quiz, LinkedIn-ready certificate. No signup, no cost, ever.">
+<meta property="og:title" content="Understand AI in 90 minutes. Free, with a certificate.">
+<meta property="og:description" content="How AI really works, which model to use for every job, hands-on labs, and a LinkedIn-ready certificate. Free forever from Cambium AI Research Institution.">
+<meta property="og:image" content="https://pkjaslam.github.io/Cambium_AI/assets/social-preview.png">
+<meta property="og:url" content="https://pkjaslam.github.io/Cambium_AI/start/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<script src="./image-slot.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&amp;family=DM+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0;padding:0;background:#040805;}
+  body{font-family:'DM Sans',sans-serif;-webkit-font-smoothing:antialiased;}
+  a{color:#97BC62;text-decoration:none;}
+  a:hover{color:#C6E89B;}
+  ::selection{background:rgba(151,188,98,.35);color:#F2F8EA;}
+  summary::-webkit-details-marker{display:none;}
+  @keyframes orbDrift{0%{transform:translate3d(0,0,0) scale(1);}50%{transform:translate3d(60px,-40px,0) scale(1.15);}100%{transform:translate3d(0,0,0) scale(1);}}
+  @keyframes orbDrift2{0%{transform:translate3d(0,0,0) scale(1.1);}50%{transform:translate3d(-70px,50px,0) scale(.95);}100%{transform:translate3d(0,0,0) scale(1.1);}}
+  @keyframes pulseGlow{0%,100%{opacity:.55;}50%{opacity:1;}}
+  @keyframes shimmer{0%{background-position:-200% 0;}100%{background-position:200% 0;}}
+  @keyframes floatY{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+  @keyframes spinSlow{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+  @keyframes spinSlowC{0%{transform:translate(-50%,-50%) rotate(0deg);}100%{transform:translate(-50%,-50%) rotate(360deg);}}
+  @keyframes lineUp{from{transform:translateY(110%);opacity:0;}to{transform:translateY(0);opacity:1;}}
+  @keyframes fadeUp{from{transform:translateY(26px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+  @keyframes marquee{0%{transform:translateX(0);}100%{transform:translateX(-50%);}}
+  @keyframes sheen{0%,55%{transform:translateX(-140%) skewX(-20deg);}90%,100%{transform:translateX(240%) skewX(-20deg);}}
+  @keyframes beamFlow{0%{background-position:0 0;}100%{background-position:60px 0;}}
+  @keyframes revealIn{from{opacity:0;transform:translateY(52px) scale(.97);}to{opacity:1;transform:none;}}
+  [data-reveal].anim{animation:revealIn 1s cubic-bezier(.16,.8,.24,1) both;}
+  [data-tilt]{will-change:transform;}
+</style>
+</helmet>
+
+<div style="background:#040805;color:#E8F2DE;line-height:1.6;overflow-x:hidden;min-height:100vh;position:relative">
+
+  <!-- scroll progress beam -->
+  <div style="position:fixed;top:0;left:0;right:0;height:2px;z-index:60;background:rgba(151,188,98,.08)">
+    <div ref="{{ progressRef }}" style="height:100%;width:0%;background:linear-gradient(90deg,#6E9648,#C6E89B);box-shadow:0 0 12px rgba(198,232,155,.8)"></div>
+  </div>
+
+  <!-- film grain -->
+  <sc-if value="{{ grainOn }}" hint-placeholder-val="{{ true }}">
+    <div style="position:fixed;inset:-50%;z-index:50;pointer-events:none;opacity:.05;background-image:url('data:image/svg+xml;utf8,&lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; width=&quot;300&quot; height=&quot;300&quot;&gt;&lt;filter id=&quot;n&quot;&gt;&lt;feTurbulence type=&quot;fractalNoise&quot; baseFrequency=&quot;0.9&quot; numOctaves=&quot;2&quot;/&gt;&lt;/filter&gt;&lt;rect width=&quot;300&quot; height=&quot;300&quot; filter=&quot;url(%23n)&quot;/&gt;&lt;/svg&gt;');animation:spinSlow 240s linear infinite"></div>
+  </sc-if>
+
+  <!-- ===================== HERO ===================== -->
+  <header data-screen-label="Hero" ref="{{ heroRef }}" style="position:relative;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:100px 20px 120px;overflow:hidden;perspective:1200px">
+
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 90% 65% at 50% 4%, #10220E 0%, #071007 48%, #040805 100%)"></div>
+    <div data-depth="18" style="position:absolute;left:-15%;top:-12%;width:58vw;height:58vw;border-radius:50%;background:radial-gradient(circle, rgba(151,188,98,.17) 0%, transparent 62%);filter:blur(46px);animation:orbDrift 15s ease-in-out infinite"></div>
+    <div data-depth="26" style="position:absolute;right:-18%;bottom:-22%;width:62vw;height:62vw;border-radius:50%;background:radial-gradient(circle, rgba(217,119,6,.11) 0%, transparent 60%);filter:blur(52px);animation:orbDrift2 19s ease-in-out infinite"></div>
+
+    <!-- 3D neural core -->
+    <sc-if value="{{ particlesOn }}" hint-placeholder-val="{{ true }}">
+      <canvas ref="{{ canvasRef }}" style="position:absolute;inset:0;width:100%;height:100%"></canvas>
+    </sc-if>
+
+    <!-- perspective grid floor -->
+    <div data-depth="10" style="position:absolute;left:-25%;right:-25%;bottom:-8%;height:44%;transform:perspective(600px) rotateX(66deg);transform-origin:bottom;background-image:linear-gradient(rgba(151,188,98,.15) 1px, transparent 1px),linear-gradient(90deg, rgba(151,188,98,.15) 1px, transparent 1px);background-size:80px 80px;animation:beamFlow 4s linear infinite;-webkit-mask-image:linear-gradient(to top, rgba(0,0,0,.95), transparent 82%);mask-image:linear-gradient(to top, rgba(0,0,0,.95), transparent 82%)"></div>
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 42% at 50% 100%, rgba(151,188,98,.12), transparent 70%)"></div>
+    <!-- readability plate behind headline -->
+    <div style="position:absolute;left:50%;top:50%;width:min(1100px,96vw);height:60%;transform:translate(-50%,-50%);background:radial-gradient(ellipse, rgba(4,8,5,.72) 30%, transparent 72%)"></div>
+
+    <!-- content -->
+    <div style="position:relative;z-index:2;max-width:1000px;display:flex;flex-direction:column;align-items:center">
+
+      <a href="https://www.linkedin.com/company/cambium-ai-institute/" style="display:inline-flex;align-items:center;gap:12px;margin-bottom:46px;text-decoration:none;animation:fadeUp .9s cubic-bezier(.16,.8,.24,1) both">
+        <span style="display:grid;place-items:center;width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#2C5F2D,#16240F);border:1px solid rgba(151,188,98,.55);box-shadow:0 0 26px rgba(151,188,98,.4), inset 0 1px 0 rgba(255,255,255,.14);font-family:'Sora',sans-serif;font-weight:800;font-size:20px;color:#C6E89B"><img src="../assets/logo-mark@2x.png" alt="Cambium AI" style="width:72%;height:72%;object-fit:contain;display:block;margin:auto"></span>
+        <span style="color:#AECB8E;font-weight:700;font-size:13px;letter-spacing:3px;font-family:'Sora',sans-serif">CAMBIUM AI · RESEARCH INSTITUTION</span>
+      </a>
+
+      <div style="display:inline-flex;align-items:center;gap:10px;background:rgba(151,188,98,.09);border:1px solid rgba(151,188,98,.45);backdrop-filter:blur(12px);color:#C6E89B;border-radius:100px;padding:9px 22px;font-size:12.5px;font-weight:700;letter-spacing:2px;margin-bottom:36px;box-shadow:0 0 34px rgba(151,188,98,.18), inset 0 1px 0 rgba(255,255,255,.08);animation:fadeUp .9s .12s cubic-bezier(.16,.8,.24,1) both">
+        <span style="width:7px;height:7px;border-radius:50%;background:#C6E89B;box-shadow:0 0 10px #C6E89B;animation:pulseGlow 2.2s ease-in-out infinite"></span>
+        FREE COURSE · CERTIFICATE INCLUDED · NO SIGNUP
+      </div>
+
+      <h1 style="font-family:'Sora',sans-serif;font-weight:800;font-size:clamp(40px,7vw,88px);line-height:1.05;letter-spacing:-.03em;margin:0;color:#F2F8EA;text-shadow:0 4px 40px rgba(4,8,5,.9), 0 0 80px rgba(151,188,98,.28)">
+        <span style="display:block;overflow:hidden;padding-bottom:.08em"><span style="display:block;animation:lineUp 1s .2s cubic-bezier(.16,.8,.24,1) both">You use AI every day.</span></span>
+        <span style="display:block;overflow:hidden;padding-bottom:.12em"><span style="display:block;animation:lineUp 1s .38s cubic-bezier(.16,.8,.24,1) both">In 90 minutes, you'll actually</span></span>
+        <span style="display:block;overflow:hidden;padding-bottom:.12em"><span style="display:block;animation:lineUp 1s .56s cubic-bezier(.16,.8,.24,1) both"><span style="background:linear-gradient(100deg,#97BC62 20%,#EDFBD2 40%,#97BC62 60%);background-size:200% auto;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;animation:shimmer 4s linear infinite">understand</span> it.</span></span>
+      </h1>
+
+      <p style="color:#B7D49A;font-size:clamp(16px,2.2vw,20px);max-width:680px;margin:28px auto 44px;font-weight:400;animation:fadeUp 1s .7s cubic-bezier(.16,.8,.24,1) both">How ChatGPT-class models really work, how they are trained, and exactly which AI to use for every job, taught hands-on, with a quiz and a LinkedIn-ready certificate at the end. Built by a university AI scientist. Free forever.</p>
+
+      <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;animation:fadeUp 1s .84s cubic-bezier(.16,.8,.24,1) both">
+        <a href="../courses/course-01-intro-to-ai/web/index.html" style="position:relative;overflow:hidden;display:inline-block;background:linear-gradient(135deg,#F59E0B,#D97706);color:#fff;font-weight:800;font-size:18px;padding:20px 48px;border-radius:16px;font-family:'Sora',sans-serif;box-shadow:0 10px 36px rgba(217,119,6,.5), 0 0 70px rgba(217,119,6,.28), inset 0 1px 0 rgba(255,255,255,.35);transition:transform .25s ease, box-shadow .25s ease" style-hover="transform:translateY(-3px) scale(1.03);box-shadow:0 18px 50px rgba(217,119,6,.65), 0 0 110px rgba(217,119,6,.4), inset 0 1px 0 rgba(255,255,255,.35);color:#fff">
+          <span style="position:absolute;top:0;bottom:0;width:44%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);animation:sheen 3.4s ease-in-out infinite;pointer-events:none"></span>
+          Start the free course
+        </a>
+        <a href="../courses/course-01-intro-to-ai/web/slides.html" style="display:inline-block;border:1px solid rgba(151,188,98,.6);background:rgba(151,188,98,.07);backdrop-filter:blur(10px);color:#DCEEC8;font-weight:700;font-size:15.5px;padding:20px 36px;border-radius:16px;font-family:'Sora',sans-serif;transition:all .25s ease" style-hover="background:rgba(151,188,98,.18);border-color:#97BC62;color:#F2F8EA;box-shadow:0 0 36px rgba(151,188,98,.3)">Peek at the slides first</a>
+      </div>
+
+      <div style="margin-top:36px;color:#7FA06F;font-size:13.5px;animation:fadeUp 1s 1s cubic-bezier(.16,.8,.24,1) both">No account. No email. No credit card. It is genuinely free, because we think AI literacy should be.</div>
+    </div>
+
+    <!-- scroll cue -->
+    <div style="position:absolute;bottom:26px;left:50%;transform:translateX(-50%);z-index:2;display:flex;flex-direction:column;align-items:center;gap:8px;color:#7FA06F;font-size:11px;letter-spacing:3px;font-family:'Sora',sans-serif;animation:fadeUp 1s 1.4s both">
+      <span>SCROLL</span>
+      <span style="display:block;width:1px;height:34px;background:linear-gradient(to bottom,#97BC62,transparent);animation:pulseGlow 2s ease-in-out infinite"></span>
+    </div>
+    <div style="position:absolute;left:0;right:0;bottom:0;height:140px;background:linear-gradient(to bottom, transparent, #040805)"></div>
+  </header>
+
+  <!-- ===================== MARQUEE STRIP ===================== -->
+  <div style="position:relative;border-top:1px solid rgba(151,188,98,.2);border-bottom:1px solid rgba(151,188,98,.2);background:rgba(151,188,98,.045);overflow:hidden;padding:15px 0;backdrop-filter:blur(8px)">
+    <div style="display:flex;width:max-content;animation:marquee 30s linear infinite">
+      <sc-for list="{{ tickerTwice }}" as="t" hint-placeholder-count="8">
+        <span style="display:inline-flex;align-items:center;gap:26px;padding-right:26px;white-space:nowrap;font-family:'Sora',sans-serif;font-size:12.5px;font-weight:700;letter-spacing:2.5px;color:#AECB8E">{{ t }}<span style="color:#6E9648">✦</span></span>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- ===================== OUTCOMES ===================== -->
+  <section data-screen-label="Outcomes" style="position:relative;padding:130px 20px;overflow:hidden">
+    <div style="position:absolute;left:50%;top:0;width:70vw;height:420px;transform:translateX(-50%);background:radial-gradient(ellipse, rgba(151,188,98,.08), transparent 70%);filter:blur(30px)"></div>
+    <div style="position:relative;max-width:1140px;margin:0 auto">
+      <div data-reveal style="text-align:center;margin-bottom:64px">
+        <div style="font-family:'Sora',sans-serif;font-size:12px;font-weight:700;letter-spacing:5px;color:#97BC62;margin-bottom:18px">◈ OUTCOMES</div>
+        <h2 style="font-family:'Sora',sans-serif;font-weight:800;font-size:clamp(30px,4.6vw,50px);letter-spacing:-.025em;color:#F2F8EA;margin:0 0 14px">What you will be able to do<br>after 90 minutes</h2>
+        <p style="color:#8FA684;max-width:560px;margin:0 auto;font-size:17px">No math. No code. Plain English and hands-on play.</p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:22px;perspective:1600px">
+        <sc-for list="{{ outcomes }}" as="o" hint-placeholder-count="6">
+          <div data-reveal data-tilt style="position:relative;background:linear-gradient(160deg, rgba(151,188,98,.10), rgba(151,188,98,.02) 60%);border:1px solid rgba(151,188,98,.24);border-radius:22px;padding:32px 28px 30px;backdrop-filter:blur(14px);box-shadow:0 24px 60px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.08);transform-style:preserve-3d;transition:border-color .3s ease, box-shadow .3s ease;overflow:hidden" style-hover="border-color:rgba(151,188,98,.6);box-shadow:0 40px 90px rgba(0,0,0,.6), 0 0 60px rgba(151,188,98,.2), inset 0 1px 0 rgba(255,255,255,.12)">
+            <div data-glare style="position:absolute;inset:-40%;background:radial-gradient(circle 300px at 50% 50%, rgba(198,232,155,.14), transparent 60%);opacity:0;transition:opacity .3s ease;pointer-events:none"></div>
+            <div style="position:absolute;right:-16px;top:-30px;font-family:'Sora',sans-serif;font-size:124px;font-weight:800;color:rgba(151,188,98,.10);line-height:1;pointer-events:none;transform:translateZ(30px)">{{ o.n }}</div>
+            <div style="font-family:'Sora',sans-serif;font-size:13px;font-weight:700;color:#97BC62;letter-spacing:2px;margin-bottom:16px">0{{ o.n }}</div>
+            <b style="display:block;font-family:'Sora',sans-serif;font-size:19.5px;color:#F2F8EA;margin-bottom:10px;letter-spacing:-.01em">{{ o.title }}</b>
+            <p style="font-size:14.5px;color:#8FA684;margin:0">{{ o.body }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PATH ===================== -->
+  <section data-screen-label="Path" style="position:relative;padding:120px 20px;overflow:hidden;background:radial-gradient(ellipse 70% 90% at 50% 50%, #0A1608 0%, #040805 78%)">
+    <div style="position:relative;max-width:1120px;margin:0 auto">
+      <div data-reveal style="text-align:center;margin-bottom:74px">
+        <div style="font-family:'Sora',sans-serif;font-size:12px;font-weight:700;letter-spacing:5px;color:#97BC62;margin-bottom:18px">◈ THE PATH</div>
+        <h2 style="font-family:'Sora',sans-serif;font-weight:800;font-size:clamp(30px,4.6vw,50px);letter-spacing:-.025em;color:#F2F8EA;margin:0 0 14px">A real course, not a video dump</h2>
+        <p style="color:#8FA684;max-width:560px;margin:0 auto;font-size:17px">The certificate is earned. The quiz stays locked until you finish the path.</p>
+      </div>
+
+      <div data-reveal style="position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:20px">
+        <div style="position:absolute;left:6%;right:6%;top:38px;height:2px;background-image:linear-gradient(90deg, rgba(151,188,98,.7) 0 34px, rgba(151,188,98,.12) 34px 60px);background-size:60px 2px;animation:beamFlow 1.6s linear infinite;filter:drop-shadow(0 0 8px rgba(151,188,98,.7));-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)"></div>
+        <sc-for list="{{ steps }}" as="s" hint-placeholder-count="4">
+          <div style="position:relative;text-align:center;padding:0 8px">
+            <div style="position:relative;z-index:1;width:76px;height:76px;margin:0 auto 20px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 28%, #2C5F2D, #0E1B0C);border:1px solid rgba(151,188,98,.6);box-shadow:0 0 40px rgba(151,188,98,.35), inset 0 2px 6px rgba(255,255,255,.14);font-family:'Sora',sans-serif;font-weight:800;font-size:24px;color:#C6E89B;animation:floatY 5s ease-in-out infinite;animation-delay:{{ s.delay }}">{{ s.n }}</div>
+            <b style="display:block;font-family:'Sora',sans-serif;font-size:18px;color:#F2F8EA;margin-bottom:6px">{{ s.title }}</b>
+            <span style="font-size:13.5px;color:#8FA684">{{ s.sub }}</span>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== TEACHERS ===================== -->
+  <section data-screen-label="Teachers" style="position:relative;padding:130px 20px;overflow:hidden">
+    <div style="position:absolute;right:-12%;top:18%;width:44vw;height:44vw;border-radius:50%;background:radial-gradient(circle, rgba(151,188,98,.09), transparent 65%);filter:blur(44px);animation:orbDrift 17s ease-in-out infinite"></div>
+    <div style="position:relative;max-width:920px;margin:0 auto">
+      <div data-reveal style="text-align:center;margin-bottom:60px">
+        <div style="font-family:'Sora',sans-serif;font-size:12px;font-weight:700;letter-spacing:5px;color:#97BC62;margin-bottom:18px">◈ FACULTY</div>
+        <h2 style="font-family:'Sora',sans-serif;font-weight:800;font-size:clamp(30px,4.6vw,50px);letter-spacing:-.025em;color:#F2F8EA;margin:0 0 14px">Meet your teachers</h2>
+        <p style="color:#8FA684;max-width:560px;margin:0 auto;font-size:17px">A human scientist sets the standard. An AI teacher stays with you 24/7. Fitting, for an AI course.</p>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:24px;perspective:1600px">
+        <div data-reveal data-tilt style="position:relative;display:flex;gap:28px;align-items:center;flex-wrap:wrap;background:linear-gradient(160deg, rgba(151,188,98,.10), rgba(151,188,98,.02));border:1px solid rgba(151,188,98,.24);border-radius:26px;padding:34px;backdrop-filter:blur(14px);box-shadow:0 26px 66px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.08);transform-style:preserve-3d;transition:border-color .3s ease, box-shadow .3s ease;overflow:hidden" style-hover="border-color:rgba(151,188,98,.55);box-shadow:0 30px 76px rgba(0,0,0,.55), 0 0 60px rgba(151,188,98,.16), inset 0 1px 0 rgba(255,255,255,.1)">
+          <div data-glare style="position:absolute;inset:-40%;background:radial-gradient(circle 340px at 50% 50%, rgba(198,232,155,.12), transparent 60%);opacity:0;transition:opacity .3s ease;pointer-events:none"></div>
+          <div style="position:relative;width:116px;height:116px;flex:0 0 auto;transform:translateZ(26px)">
+            <div style="position:absolute;inset:-7px;border-radius:50%;border:1px dashed rgba(151,188,98,.55);animation:spinSlow 24s linear infinite"></div>
+            <image-slot id="instructor" shape="circle" style="width:116px;height:116px" src="../assets/instructor.jpg" placeholder="Instructor photo"></image-slot>
+          </div>
+          <div style="flex:1;min-width:260px">
+            <b style="font-family:'Sora',sans-serif;font-size:22px;color:#F2F8EA;letter-spacing:-.01em">Dr. Jaslam Poolakkal, PhD</b>
+            <div style="color:#97BC62;font-weight:600;font-size:13px;margin:5px 0 10px;letter-spacing:1.5px">COURSE DIRECTOR · DIRECTOR OF AI INITIATIVES</div>
+            <p style="font-size:14.5px;color:#8FA684;margin:0">Leads data science at the Intermountain Forestry Cooperative, College of Natural Resources, University of Idaho. Builds AI systems that turn environmental data into real decisions. Every fact in the course is researched live and sourced.</p>
+          </div>
+        </div>
+
+        <div data-reveal data-tilt style="position:relative;display:flex;gap:28px;align-items:center;flex-wrap:wrap;background:linear-gradient(160deg, rgba(151,188,98,.10), rgba(151,188,98,.02));border:1px solid rgba(151,188,98,.24);border-radius:26px;padding:34px;backdrop-filter:blur(14px);box-shadow:0 26px 66px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.08);transform-style:preserve-3d;transition:border-color .3s ease, box-shadow .3s ease;overflow:hidden" style-hover="border-color:rgba(151,188,98,.55);box-shadow:0 30px 76px rgba(0,0,0,.55), 0 0 60px rgba(151,188,98,.16), inset 0 1px 0 rgba(255,255,255,.1)">
+          <div data-glare style="position:absolute;inset:-40%;background:radial-gradient(circle 340px at 50% 50%, rgba(198,232,155,.12), transparent 60%);opacity:0;transition:opacity .3s ease;pointer-events:none"></div>
+          <div style="position:relative;width:116px;height:116px;flex:0 0 auto;transform:translateZ(26px)">
+            <div style="position:absolute;inset:-7px;border-radius:50%;background:conic-gradient(from 0deg, rgba(151,188,98,0), rgba(198,232,155,.85), rgba(151,188,98,0) 55%);animation:spinSlow 5s linear infinite;-webkit-mask:radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2.5px));mask:radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 2.5px))"></div>
+            <image-slot id="amelia" shape="circle" style="width:116px;height:116px" src="../assets/amelia-face.jpg" placeholder="Amelia's portrait"></image-slot>
+          </div>
+          <div style="flex:1;min-width:260px">
+            <span style="display:inline-flex;align-items:center;gap:10px"><b style="font-family:'Sora',sans-serif;font-size:22px;color:#F2F8EA;letter-spacing:-.01em">Amelia</b><span style="font-size:10.5px;color:#C6E89B;border:1px solid rgba(151,188,98,.65);border-radius:8px;padding:2px 9px;letter-spacing:1.5px;font-weight:700;background:rgba(151,188,98,.12);box-shadow:0 0 14px rgba(151,188,98,.3)">AI</span></span>
+            <div style="color:#97BC62;font-weight:600;font-size:13px;margin:5px 0 10px;letter-spacing:1.5px">YOUR AI TEACHER AND STUDY ADVISOR</div>
+            <p style="font-size:14.5px;color:#8FA684;margin:0">Narrates every lecture, floats on every page, tracks your progress, tells you exactly what to do next, and answers questions day and night. She is an AI creation, and proudly labeled as one.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FAQ ===================== -->
+  <section data-screen-label="FAQ" style="position:relative;padding:120px 20px;background:radial-gradient(ellipse 70% 90% at 50% 40%, #0A1608 0%, #040805 82%)">
+    <div style="position:relative;max-width:780px;margin:0 auto">
+      <div data-reveal style="text-align:center;margin-bottom:52px">
+        <div style="font-family:'Sora',sans-serif;font-size:12px;font-weight:700;letter-spacing:5px;color:#97BC62;margin-bottom:18px">◈ FAQ</div>
+        <h2 style="font-family:'Sora',sans-serif;font-weight:800;font-size:clamp(30px,4.6vw,50px);letter-spacing:-.025em;color:#F2F8EA;margin:0">Questions people ask<br>before clicking</h2>
+      </div>
+
+      <div data-reveal style="display:flex;flex-direction:column;gap:12px">
+        <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="6">
+          <details style="background:linear-gradient(160deg, rgba(151,188,98,.08), rgba(151,188,98,.015));border:1px solid rgba(151,188,98,.22);border-radius:18px;padding:19px 26px;backdrop-filter:blur(10px);transition:border-color .3s ease" style-hover="border-color:rgba(151,188,98,.5)">
+            <summary style="font-weight:700;cursor:pointer;font-size:15.5px;color:#DCEEC8;font-family:'Sora',sans-serif;list-style:none;display:flex;align-items:center;justify-content:space-between;gap:16px">{{ f.q }}<span style="color:#97BC62;font-size:19px;flex:0 0 auto;transition:transform .3s ease">+</span></summary>
+            <p style="margin:12px 0 4px;font-size:14.5px;color:#8FA684">{{ f.a }}</p>
+          </details>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FINALE ===================== -->
+  <section data-screen-label="Finale" style="position:relative;text-align:center;padding:150px 20px;overflow:hidden">
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 70% at 50% 45%, #142B10 0%, #040805 80%)"></div>
+    <div style="position:absolute;left:50%;top:50%;width:700px;height:700px;border-radius:50%;border:1px solid rgba(151,188,98,.15);animation:spinSlowC 44s linear infinite"></div>
+    <div style="position:absolute;left:50%;top:50%;width:480px;height:480px;border-radius:50%;border:1px dashed rgba(151,188,98,.22);animation:spinSlowC 30s linear infinite reverse"></div>
+    <div style="position:absolute;left:50%;top:50%;width:280px;height:280px;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(circle, rgba(151,188,98,.16), transparent 70%);filter:blur(20px);animation:pulseGlow 4s ease-in-out infinite"></div>
+    <div data-reveal style="position:relative;max-width:720px;margin:0 auto">
+      <h2 style="font-family:'Sora',sans-serif;font-weight:800;font-size:clamp(32px,5.4vw,60px);letter-spacing:-.03em;color:#F2F8EA;margin:0 0 18px;text-shadow:0 0 70px rgba(151,188,98,.35)">90 minutes from now,<br>AI stops being a mystery.</h2>
+      <p style="color:#B7D49A;max-width:520px;margin:0 auto 42px;font-size:17.5px">Free forever. Certificate included. The founding cohort is open right now.</p>
+      <a href="../courses/course-01-intro-to-ai/web/index.html" style="position:relative;overflow:hidden;display:inline-block;background:linear-gradient(135deg,#F59E0B,#D97706);color:#fff;font-weight:800;font-size:19px;padding:21px 56px;border-radius:16px;font-family:'Sora',sans-serif;box-shadow:0 10px 36px rgba(217,119,6,.5), 0 0 90px rgba(217,119,6,.32), inset 0 1px 0 rgba(255,255,255,.35);transition:transform .25s ease, box-shadow .25s ease" style-hover="transform:translateY(-3px) scale(1.04);box-shadow:0 20px 54px rgba(217,119,6,.65), 0 0 130px rgba(217,119,6,.45), inset 0 1px 0 rgba(255,255,255,.35);color:#fff">
+        <span style="position:absolute;top:0;bottom:0;width:44%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent);animation:sheen 3.4s ease-in-out infinite;pointer-events:none"></span>
+        Start the free course
+      </a>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer style="border-top:1px solid rgba(151,188,98,.15);color:#6C8460;text-align:center;padding:36px 20px;font-size:13px;background:#030603">
+    <a href="https://www.linkedin.com/company/cambium-ai-institute/">Cambium AI Research Institution</a> · Cambium Academy · free forever, one new course every week<br>
+    Instructor: <a href="https://www.linkedin.com/in/jaslampk">Dr. Jaslam Poolakkal, PhD</a> · Facts are a July 2026 snapshot · Amelia is an AI creation
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;particles&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Cinematic VFX&quot; },
+  &quot;particleDensity&quot;: { &quot;editor&quot;: &quot;range&quot;, &quot;default&quot;: 200, &quot;min&quot;: 60, &quot;max&quot;: 320, &quot;step&quot;: 20, &quot;tsType&quot;: &quot;number&quot;, &quot;section&quot;: &quot;Cinematic VFX&quot; },
+  &quot;filmGrain&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Cinematic VFX&quot; }
+}">
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.canvasRef = React.createRef();
+    this.heroRef = React.createRef();
+    this.progressRef = React.createRef();
+    this._raf = null;
+    this._tiltEl = null;
+  }
+
+  componentDidMount() {
+    this.startCore();
+    this.setupReveal();
+    this.setupTilt();
+    this.setupParallax();
+  }
+
+  componentWillUnmount() {
+    if (this._raf) cancelAnimationFrame(this._raf);
+    if (this._ro) this._ro.disconnect();
+    if (this._revealInterval) clearInterval(this._revealInterval);
+    if (this._onScroll) {
+      window.removeEventListener('scroll', this._onScroll);
+      window.removeEventListener('resize', this._onScroll);
+    }
+    if (this._onMove) document.removeEventListener('pointermove', this._onMove);
+    if (this._onOut) document.removeEventListener('pointerout', this._onOut);
+  }
+
+  /* ---------- scroll reveal + progress (visible-by-default, animation is additive) ---------- */
+  setupReveal() {
+    const check = () => {
+      const vh = window.innerHeight;
+      document.querySelectorAll('[data-reveal]:not(.anim)').forEach((el) => {
+        const r = el.getBoundingClientRect();
+        if (r.top < vh * 0.94 && r.bottom > 0) el.classList.add('anim');
+      });
+      const bar = this.progressRef.current;
+      if (bar) {
+        const doc = document.documentElement;
+        const max = doc.scrollHeight - window.innerHeight;
+        bar.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + '%';
+      }
+    };
+    let ticking = false;
+    this._onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => { ticking = false; check(); });
+    };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    window.addEventListener('resize', this._onScroll, { passive: true });
+    check();
+    this._revealInterval = setInterval(check, 700);
+  }
+
+  /* ---------- cursor-tracking 3D tilt with glare (document delegation — survives re-renders) ---------- */
+  setupTilt() {
+    const reset = (el) => {
+      el.style.transform = '';
+      const g = el.querySelector('[data-glare]');
+      if (g) g.style.opacity = '0';
+    };
+    this._onMove = (e) => {
+      const el = e.target && e.target.closest ? e.target.closest('[data-tilt]') : null;
+      if (this._tiltEl && this._tiltEl !== el) reset(this._tiltEl);
+      this._tiltEl = el;
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width;
+      const py = (e.clientY - r.top) / r.height;
+      const rx = (0.5 - py) * 10;
+      const ry = (px - 0.5) * 12;
+      el.style.transform = 'rotateX(' + rx.toFixed(2) + 'deg) rotateY(' + ry.toFixed(2) + 'deg) translateY(-6px)';
+      const g = el.querySelector('[data-glare]');
+      if (g) {
+        g.style.opacity = '1';
+        g.style.background = 'radial-gradient(circle 320px at ' + (px * 100).toFixed(1) + '% ' + (py * 100).toFixed(1) + '%, rgba(198,232,155,.16), transparent 60%)';
+      }
+    };
+    this._onOut = (e) => {
+      if (this._tiltEl && !e.relatedTarget) { reset(this._tiltEl); this._tiltEl = null; }
+    };
+    document.addEventListener('pointermove', this._onMove, { passive: true });
+    document.addEventListener('pointerout', this._onOut, { passive: true });
+  }
+
+  /* ---------- hero mouse parallax on [data-depth] layers ---------- */
+  setupParallax() {
+    const hero = this.heroRef.current;
+    if (!hero) return;
+    hero.addEventListener('pointermove', (e) => {
+      const r = hero.getBoundingClientRect();
+      const dx = (e.clientX - r.left) / r.width - 0.5;
+      const dy = (e.clientY - r.top) / r.height - 0.5;
+      hero.querySelectorAll('[data-depth]').forEach((el) => {
+        const d = parseFloat(el.getAttribute('data-depth')) || 0;
+        el.style.marginLeft = (-dx * d) + 'px';
+        el.style.marginTop = (-dy * d) + 'px';
+      });
+      this._mouse = { dx, dy };
+    }, { passive: true });
+  }
+
+  /* ---------- 3D rotating neural core + ambient dust ---------- */
+  startCore() {
+    const canvas = this.canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const density = this.props.particleDensity ?? 200;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let W = 0, H = 0, nodes = [], dust = [];
+    this._mouse = { dx: 0, dy: 0 };
+
+    const build = () => {
+      const n = Math.round(density * Math.min(1.4, Math.max(0.6, W / 1300)));
+      nodes = Array.from({ length: n }, () => {
+        // fibonacci-ish random sphere
+        const u = Math.random() * 2 - 1;
+        const th = Math.random() * Math.PI * 2;
+        const s = Math.sqrt(1 - u * u);
+        const jitter = 0.82 + Math.random() * 0.36;
+        return { x: s * Math.cos(th) * jitter, y: u * jitter, z: s * Math.sin(th) * jitter, tw: Math.random() * Math.PI * 2 };
+      });
+      dust = Array.from({ length: Math.round(n * 0.4) }, () => ({
+        x: Math.random() * W, y: Math.random() * H,
+        vx: (Math.random() - 0.5) * 0.22, vy: (Math.random() - 0.5) * 0.22,
+        r: 0.6 + Math.random() * 1.4, a: 0.15 + Math.random() * 0.4
+      }));
+    };
+    const resize = () => {
+      const r = canvas.getBoundingClientRect();
+      W = r.width; H = r.height;
+      canvas.width = W * dpr; canvas.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      build();
+    };
+    resize();
+    this._ro = new ResizeObserver(resize);
+    this._ro.observe(canvas);
+
+    let rotY = 0, rotX = 0.22, t = 0;
+    const tick = () => {
+      t += 0.016;
+      const targetX = 0.22 + (this._mouse ? this._mouse.dy * 0.5 : 0);
+      rotX += (targetX - rotX) * 0.04;
+      rotY += 0.0022 + (this._mouse ? this._mouse.dx * 0.004 : 0);
+
+      ctx.clearRect(0, 0, W, H);
+
+      // ambient dust
+      for (const p of dust) {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < -5) p.x = W + 5; if (p.x > W + 5) p.x = -5;
+        if (p.y < -5) p.y = H + 5; if (p.y > H + 5) p.y = -5;
+        ctx.fillStyle = 'rgba(198,232,155,' + (p.a * (0.6 + 0.4 * Math.sin(t * 2 + p.x))).toFixed(3) + ')';
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+      }
+
+      // 3D core
+      const cx = W / 2, cy = H * 0.44;
+      const R = Math.min(W, H) * 0.36;
+      const f = 3.2;
+      const cosY = Math.cos(rotY), sinY = Math.sin(rotY);
+      const cosX = Math.cos(rotX), sinX = Math.sin(rotX);
+      const proj = [];
+      for (const nd of nodes) {
+        let x = nd.x * cosY - nd.z * sinY;
+        let z = nd.x * sinY + nd.z * cosY;
+        let y = nd.y * cosX - z * sinX;
+        z = nd.y * sinX + z * cosX;
+        const sc = f / (f + z);
+        proj.push({ sx: cx + x * R * sc, sy: cy + y * R * sc, sc, tw: nd.tw });
+      }
+      const LINK = R * 0.42;
+      ctx.lineWidth = 1;
+      for (let i = 0; i < proj.length; i++) {
+        for (let j = i + 1; j < proj.length; j++) {
+          const a = proj[i], b = proj[j];
+          const ddx = a.sx - b.sx, ddy = a.sy - b.sy;
+          const d2 = ddx * ddx + ddy * ddy;
+          if (d2 < LINK * LINK) {
+            const tt = (1 - Math.sqrt(d2) / LINK) * Math.min(a.sc, b.sc);
+            ctx.strokeStyle = 'rgba(151,188,98,' + (tt * 0.24).toFixed(3) + ')';
+            ctx.beginPath(); ctx.moveTo(a.sx, a.sy); ctx.lineTo(b.sx, b.sy); ctx.stroke();
+          }
+        }
+      }
+      for (const p of proj) {
+        const tw = 0.55 + 0.45 * Math.sin(t * 2.4 + p.tw);
+        const alpha = Math.max(0, (p.sc - 0.6)) * 1.6 * tw;
+        ctx.fillStyle = 'rgba(198,232,155,' + Math.min(0.85, alpha).toFixed(3) + ')';
+        ctx.beginPath(); ctx.arc(p.sx, p.sy, 1.1 + p.sc * 1.4, 0, Math.PI * 2); ctx.fill();
+      }
+      this._raf = requestAnimationFrame(tick);
+    };
+    tick();
+  }
+
+  renderVals() {
+    const ticker = ['FREE FOREVER', 'CERTIFICATE INCLUDED', 'NO SIGNUP', 'HANDS-ON AI LABS', 'BUILT BY A UNIVERSITY SCIENTIST', 'A NEW COURSE EVERY WEEK', 'FOUNDING COHORT OPEN'];
+    return {
+      canvasRef: this.canvasRef,
+      heroRef: this.heroRef,
+      progressRef: this.progressRef,
+      particlesOn: this.props.particles ?? true,
+      grainOn: this.props.filmGrain ?? true,
+      tickerTwice: ticker.concat(ticker),
+      outcomes: [
+        { n: 1, title: 'Explain AI in one sentence', body: 'And never mix up AI, machine learning, deep learning, and generative AI again.' },
+        { n: 2, title: 'See inside the machine', body: 'Tokens, weights, attention, and context windows, felt with your own hands in our live playground.' },
+        { n: 3, title: 'Know how models are trained', body: 'From a mountain of text to a helpful assistant, and why AI confidently makes things up.' },
+        { n: 4, title: 'Navigate the 2026 landscape', body: 'GPT, Claude, Gemini, Llama, DeepSeek, and the open-weights wave: who makes what, verified July 2026.' },
+        { n: 5, title: 'Pick the right AI for every job', body: 'Writing, coding, research, images, video, privacy: a cheat sheet you will use weekly.' },
+        { n: 6, title: 'Use AI like a professional', body: 'The five golden rules, the four-move prompt formula, and a certificate to show for it.' }
+      ],
+      steps: [
+        { n: '1', title: 'Learn', sub: 'video or slides', delay: '0s' },
+        { n: '2', title: 'Practice', sub: 'flashcards + AI labs', delay: '.6s' },
+        { n: '3', title: 'Prove it', sub: '20-question quiz', delay: '1.2s' },
+        { n: '4', title: 'Certificate', sub: 'add to LinkedIn in 2 clicks', delay: '1.8s' }
+      ],
+      faqs: [
+        { q: "Is it really free? What's the catch?", a: 'Really free, no catch. No account, no email capture, no upsell at the end. The Academy is a public-education project of Cambium AI Research Institution; the whole course runs on free, open infrastructure. If you want to pay us back, share your certificate and bring a friend.' },
+        { q: 'Do I need a technical background?', a: 'No. If you can use a web browser, you are qualified. No math, no code; every technical term arrives with a one-line plain-English meaning.' },
+        { q: 'How long does it take?', a: 'About 90 minutes total: a 17-minute lecture, hands-on labs, flashcards, and a 20-question quiz. Self-paced; your progress is saved in your browser.' },
+        { q: 'Is the certificate legitimate for LinkedIn?', a: 'Yes. It is an honor-based certificate of completion, like most free online courses offer, added to your LinkedIn profile in two clicks with Cambium AI Research Institution as issuer, and every certificate ID is checkable on our public verification page. It certifies you passed a locked, studied-for quiz; it does not claim to be an accredited degree, and we say so plainly.' },
+        { q: 'Why should I trust the content?', a: 'Every model name, statistic, and claim is a dated July 2026 snapshot, researched live with 48 cited sources, and every external link was verified by hand. When the landscape shifts, the course gets refreshed.' },
+        { q: 'What comes after this course?', a: 'A new course every week: prompting, research with AI, AI agents, running models locally, and more. Finish all 12 and the Cambium AI Fundamentals specialization certificate caps the track.' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

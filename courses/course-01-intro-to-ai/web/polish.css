@@ -1,0 +1,45 @@
+/* Cambium Academy polish layer: shared modern touches for every course page. */
+html { scroll-behavior: smooth; }
+::selection { background: #97BC62; color: #1F3D24; }
+
+button, .btn, .abtn, a.abtn, .opt, .cta, .cta2 {
+  transition: transform .16s ease, box-shadow .16s ease, background .16s ease, border-color .16s ease;
+}
+button:hover, .btn:hover, .abtn:hover, .cta:hover {
+  transform: translateY(-1.5px);
+  box-shadow: 0 8px 22px rgba(31, 42, 32, .18);
+}
+button:active, .btn:active, .abtn:active { transform: translateY(0) scale(.985); }
+
+.card, .scard, .lab, .step, .person, .q, .box {
+  transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+}
+.card:hover, .scard:hover, .step:hover, .person:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 30px rgba(31, 42, 32, .12);
+  border-color: #97BC62;
+}
+.lab:hover { box-shadow: 0 10px 30px rgba(31, 42, 32, .10); }
+
+input, textarea, select {
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: #6E9648 !important;
+  box-shadow: 0 0 0 3px rgba(151, 188, 98, .28);
+}
+:focus-visible { outline: 2px solid #6E9648; outline-offset: 2px; }
+
+body > header, .wrap > h1, main, section { animation: cam-fade .5s ease backwards; }
+@keyframes cam-fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+::-webkit-scrollbar { width: 11px; height: 11px; }
+::-webkit-scrollbar-track { background: #EFF3EC; }
+::-webkit-scrollbar-thumb { background: #A9BF97; border-radius: 6px; border: 2px solid #EFF3EC; }
+::-webkit-scrollbar-thumb:hover { background: #6E9648; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

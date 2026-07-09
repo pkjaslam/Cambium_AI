@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Quiz · Intro to AI · Cambium Academy</title>
 <link rel="icon" href="../../../assets/favicon.png">
+<link rel="stylesheet" href="polish.css">
 <style>
   :root{--forest:#2C5F2D;--dark:#1F3D24;--moss:#97BC62;--tint:#F0F5EC;--ink:#1F2A20;--muted:#5C6B5A;--amber:#D97706;--line:#DFE9D8;--red:#B3372E;--redbg:#FBEBE9;--greenbg:#EBF4E4}
   *{box-sizing:border-box;margin:0;padding:0}
@@ -68,7 +69,11 @@
     <div class="score" id="scoreTxt"></div>
     <p id="msg"></p>
     <div id="nameRow" style="display:none">
-      <input id="learner" type="text" placeholder="Your full name, as it should appear" maxlength="60">
+      <input id="learner" type="text" placeholder="Your full name, as it should appear *" maxlength="60">
+      <div style="margin-top:10px"><input id="ldesig" type="text" placeholder="Designation, e.g. Data Analyst (optional)" maxlength="60"></div>
+      <div style="margin-top:10px"><input id="lorg" type="text" placeholder="Institution or organization (optional)" maxlength="80"></div>
+      <div style="margin-top:10px"><input id="lemail" type="email" placeholder="Email (optional, for your records only)" maxlength="80"></div>
+      <div class="small" style="margin-top:8px">Designation and organization appear on the certificate under your name. Email never appears on the certificate and never leaves this page unless the Academy registry is enabled, in which case it is stored privately so your certificate can be recovered.</div>
       <div style="margin-top:12px"><button id="cert">Get my certificate</button></div>
     </div>
     <div id="retry" style="display:none"><button onclick="location.reload()">Try again</button></div>
@@ -123,12 +128,12 @@ const Q = [
 ["Which group contains only open-weights model families?",
  ["Llama, DeepSeek, Qwen, Mistral","GPT, Claude, Gemini, Grok","GPT, Llama, Claude, Qwen","Gemini, Mistral, Claude, Kimi"],0,
  "GPT, Claude, Gemini, and Grok are closed; Llama, DeepSeek, Qwen, and Mistral are open."],
-["As of July 2026, the free default model on claude.ai is...",
- ["Opus 4.8","Sonnet 5","Fable 5","Haiku 2"],1,
- "Claude Sonnet 5 became the free default on July 1, 2026."],
-["Which model advertises a 10-million-token context window?",
- ["GPT-5.5","Gemini 3.5 Flash","Llama 4 Scout","DeepSeek V4"],2,
- "Meta's Llama 4 Scout advertises 10M tokens; tests find about half reliably usable."],
+["A chatbot gives you a convincing statistic with no source. The most responsible next step?",
+ ["Use it, chatbots are usually right","Verify it against a reliable source before relying on it","Ask the same chatbot whether it is sure","Use it, but round the numbers"],1,
+ "Golden rule number one: verify names, numbers, dates, and citations before you rely on them."],
+["You used AI heavily to draft a report for school or work. The responsible move?",
+ ["Keep it to yourself","Claim you wrote it entirely unaided","Disclose the AI help according to your school's or employer's policy","Stop using AI for real work"],2,
+ "Disclose when it matters. School, work, publishing: honesty about AI help ages well."],
 ["You need research with sources you can check. Best first pick?",
  ["A citing research tool such as Perplexity or Deep Research","A base model with no web access","An image generator","Whichever model launched most recently"],0,
  "For checkable facts, use tools that search and cite as they answer."],
@@ -211,9 +216,14 @@ document.getElementById('grade').onclick = function(){
 document.getElementById('cert').onclick = function(){
   const name = document.getElementById('learner').value.trim();
   if (!name) { alert("Enter your name first."); return; }
+  const desig = document.getElementById('ldesig').value.trim();
+  const orgName = document.getElementById('lorg').value.trim();
+  const email = document.getElementById('lemail').value.trim();
+  const org = [desig, orgName].filter(Boolean).join(", ");
   const t = new Date();
   const d = t.getFullYear() + "-" + String(t.getMonth()+1).padStart(2,"0") + "-" + String(t.getDate()).padStart(2,"0");
-  location.href = "certificate.html?name=" + encodeURIComponent(name) + "&score=" + window.__score + "&date=" + d;
+  try { localStorage.setItem('cambium-c01-learner', JSON.stringify({ name: name, org: org, email: email })); } catch(e) {}
+  location.href = "certificate.html?name=" + encodeURIComponent(name) + (org ? "&org=" + encodeURIComponent(org) : "") + "&score=" + window.__score + "&date=" + d;
 };
 </script>
 <script src="amelia.js"></script>

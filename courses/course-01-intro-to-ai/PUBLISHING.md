@@ -51,7 +51,12 @@ Two more weekly rituals, five minutes each: every Monday pin a "Cohort · week o
 
 ## Spreading it (all free)
 
-Share the course page link and the YouTube link on LinkedIn, X, Facebook groups, and relevant subreddits (r/learnmachinelearning and r/artificial allow free course posts; read each community's rules first). Pin a "new course every week" comment under the video. The certificate is a genuine share hook: invite learners to post it and tag the Academy.
+**The link to share everywhere is the short one:** `https://pkjaslam.github.io/Cambium_AI/start/`
+That is the conversion landing page (hook, path, teachers, FAQ, big start button). It reads well in ads, bio links, and posts, and it forwards people into the course. UTM parameters on it are harmless (the site runs no trackers); if you later want ad analytics, a free privacy-friendly counter like GoatCounter can be added in minutes.
+
+Want a truly short branded URL like `cambium.academy`? Buy the domain (roughly $10-30 a year, the only non-free item in the whole stack), then Settings, Pages, Custom domain, and add the DNS CNAME your registrar shows. Every existing link keeps working.
+
+Share the landing page link and the YouTube link on LinkedIn, X, Facebook groups, and relevant subreddits (r/learnmachinelearning and r/artificial allow free course posts; read each community's rules first). Pin a "new course every week" comment under the video. The certificate is a genuine share hook: invite learners to post it and tag the Academy.
 
 ## Weekly rhythm (every new course)
 

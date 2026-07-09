@@ -3,7 +3,7 @@
 # Course 01 · Intro to AI
 
 **Cambium Academy** · [Cambium AI Research Institution](https://www.linkedin.com/company/cambium-ai-institute/) · beginner level · about 90 minutes · free forever, no signup
-Taught by **Amelia**, our AI teacher (voice of the lectures and the on-page study advisor, `web/amelia.js`), under instructor **Dr. Jaslam Poolakkal, PhD**.
+Taught by **Amelia**, our AI teacher (voice of the lectures and the on-page study advisor, `web/amelia.js`), under Course Director **Dr. Jaslam Poolakkal, PhD**.
 How AI works, how models are trained, and which model to use. July 2026 edition.
 
 ## Start here

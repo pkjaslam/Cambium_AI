@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AI Playground · Intro to AI · Cambium Academy</title>
 <link rel="icon" href="../../../assets/favicon.png">
+<link rel="stylesheet" href="polish.css">
 <style>
   :root{--forest:#2C5F2D;--dark:#1F3D24;--moss:#97BC62;--mossdeep:#6E9648;--tint:#F0F5EC;--ink:#1F2A20;--muted:#5C6B5A;--amber:#D97706;--line:#DFE9D8}
   *{box-sizing:border-box;margin:0;padding:0}
@@ -22,7 +23,15 @@
   .lab p.sub{color:var(--muted);font-size:13.5px;margin-bottom:14px}
   textarea,input[type=text]{width:100%;padding:12px;font-size:15px;border:1.5px solid var(--line);border-radius:8px;font-family:inherit}
   .chips{margin-top:14px;display:flex;flex-wrap:wrap;gap:6px;min-height:34px}
-  .chip{padding:5px 9px;border-radius:7px;font-family:"Courier New",monospace;font-size:14px;font-weight:700}
+  .chip{padding:5px 9px;border-radius:7px;font-family:"Courier New",monospace;font-size:14px;font-weight:700;animation:pop .28s cubic-bezier(.34,1.56,.64,1) backwards}
+  @keyframes pop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+  .bar .fill{transition:width .5s cubic-bezier(.22,1,.36,1)}
+  .confetti{position:fixed;top:-14px;width:9px;height:14px;z-index:200;pointer-events:none;animation:cfall linear forwards}
+  @keyframes cfall{to{transform:translateY(105vh) rotate(720deg);opacity:.9}}
+  .aword{display:inline-block;padding:6px 10px;margin:3px;border:1.5px solid var(--line);border-radius:8px;font-size:16px;cursor:pointer;transition:all .25s;background:#fff;position:relative}
+  .aword.src{background:var(--forest);color:#fff;border-color:var(--forest)}
+  .aword small{position:absolute;top:-17px;left:50%;transform:translateX(-50%);font-size:10px;color:var(--amber);font-weight:700;opacity:0;transition:opacity .25s}
+  .aword.lit small{opacity:1}
   .counts{margin-top:10px;font-size:13.5px;color:var(--muted)}
   .counts b{color:var(--forest);font-size:16px}
   .bars{margin-top:14px}
@@ -91,6 +100,13 @@
     </div>
     <div class="loss">Error (loss): <b id="loss">-</b> <span id="verdict"></span></div>
     <div class="note">Training a real model is this exact loop, guess, measure error, nudge every dial downhill, repeated trillions of times on tens of thousands of chips. Now you have felt it.</div>
+  </div>
+
+  <div class="lab">
+    <h2>Bonus · Watch attention think</h2>
+    <p class="sub">The transformer's superpower from Module 2, live. Hover or tap any word and see which other words the model pays attention to when reading it. Notice what happens on the word "it".</p>
+    <div id="attn" style="line-height:2.6;text-align:center;padding:12px 0"></div>
+    <div class="note" id="attnNote">Gold percentages show attention strength. This is a hand-crafted illustration of the real mechanism; frontier models compute millions of these connections per sentence, in every layer, all at once.</div>
   </div>
 
   <div class="note" style="text-align:center">Part of <a href="index.html" style="color:var(--forest)">Course 01 · Intro to AI</a> · Cambium Academy · free forever</div>
@@ -178,7 +194,9 @@ function sample(d, T){
   return d[d.length-1][0];
 }
 let genBase = null;
+let typing = false;
 function autoWrite(){
+  if (typing) return;
   pgMark('lm');
   const T = parseFloat(document.getElementById('temp').value);
   let ctx = (genBase === null ? document.getElementById('lmIn').value : genBase);
@@ -189,7 +207,21 @@ function autoWrite(){
     if (w === "." && k > 6) break;
   }
   genBase = ctx + " " + added.join(" ");
-  document.getElementById('genOut').innerHTML = ctx.replace(/</g,"&lt;") + " <em>" + added.join(" ").replace(/</g,"&lt;") + "</em>";
+  const out = document.getElementById('genOut');
+  out.innerHTML = ctx.replace(/</g,"&lt;") + ' <em id="genTyped"></em><em style="opacity:.5">&#9612;</em>';
+  const typed = document.getElementById('genTyped');
+  let i = 0;
+  typing = true;
+  (function tick(){
+    if (i < added.length){
+      typed.textContent += (i ? " " : "") + added[i];
+      i++;
+      setTimeout(tick, 120);
+    } else {
+      out.innerHTML = ctx.replace(/</g,"&lt;") + " <em>" + added.join(" ").replace(/</g,"&lt;") + "</em>";
+      typing = false;
+    }
+  })();
 }
 function resetGen(){ genBase = null; document.getElementById('genOut').textContent = "Cleared. Change the phrase or the temperature and let it write again."; }
 document.getElementById('lmIn').addEventListener('input', ()=>{ genBase = null; renderBars(); });
@@ -224,6 +256,20 @@ function draw(){
   const L = loss(a,b,c);
   document.getElementById('loss').textContent = L.toFixed(4);
   document.getElementById('verdict').textContent = L < 0.012 ? "· trained! this is what learning is" : (L < 0.05 ? "· close, keep nudging" : "· high error, nudge the dials");
+  if (L < 0.012 && !window.__celebrated){ window.__celebrated = true; confetti(); }
+}
+function confetti(){
+  const colors = ["#2C5F2D","#97BC62","#D97706","#B98A2D","#6E9648"];
+  for (let i = 0; i < 42; i++){
+    const s = document.createElement('span');
+    s.className = 'confetti';
+    s.style.left = (Math.random()*100) + "vw";
+    s.style.background = colors[i % colors.length];
+    s.style.animationDuration = (1.6 + Math.random()*1.6) + "s";
+    s.style.animationDelay = (Math.random()*0.5) + "s";
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(), 4200);
+  }
 }
 ["wa","wb","wc"].forEach(id=>document.getElementById(id).addEventListener('input', draw));
 function randomize(){ setParams((Math.random()*4-2).toFixed(2), (Math.random()*4-2).toFixed(2), (Math.random()*4-2).toFixed(2)); draw(); }
@@ -247,6 +293,48 @@ function autoTrain(){
 }
 draw();
 pgChip();
+
+// BONUS: attention visualizer
+(function(){
+  const WORDS = ["The","trophy","did","not","fit","in","the","suitcase","because","it","was","too","big"];
+  const ATTN = {
+    1: {7:.34, 4:.22, 9:.18},
+    4: {1:.38, 7:.30},
+    7: {1:.26, 4:.24},
+    8: {9:.30, 4:.22, 1:.16},
+    9: {1:.62, 7:.14, 12:.16},
+    12:{9:.40, 1:.34},
+    0: {1:.5}, 6:{7:.5}, 10:{9:.4}, 11:{12:.5}, 2:{4:.4}, 3:{4:.4}, 5:{7:.4}
+  };
+  const host = document.getElementById('attn');
+  host.innerHTML = WORDS.map((w,i)=>'<span class="aword" data-i="'+i+'"><small></small>'+w+'</span>').join(" ");
+  const nodes = host.querySelectorAll('.aword');
+  function lite(i){
+    const map = ATTN[i] || {};
+    nodes.forEach((n,j)=>{
+      n.classList.remove('src','lit');
+      n.style.background = "#fff"; n.style.borderColor = "var(--line)"; n.style.transform = "none";
+      n.querySelector('small').textContent = "";
+      if (j === i){ n.classList.add('src'); n.style.transform = "scale(1.08)"; return; }
+      const w = map[j];
+      if (w){
+        n.classList.add('lit');
+        n.style.background = "rgba(151,188,98," + Math.min(0.85, w*1.25) + ")";
+        n.style.borderColor = "var(--mossdeep)";
+        n.style.transform = "scale(" + (1 + w*0.28) + ")";
+        n.querySelector('small').textContent = Math.round(w*100) + "%";
+      }
+    });
+    document.getElementById('attnNote').innerHTML = i === 9
+      ? '<b style="color:var(--forest)">There it is.</b> "it" attends 62% to "trophy", not "suitcase". The model resolved the pronoun, the exact example from the lecture. This one trick, at scale, is why modern AI understands language.'
+      : 'Gold percentages show attention strength. Try the word <b>"it"</b> to see the famous pronoun trick from the lecture.';
+  }
+  nodes.forEach(n=>{
+    n.addEventListener('mouseenter', ()=>lite(+n.dataset.i));
+    n.addEventListener('click', ()=>lite(+n.dataset.i));
+  });
+  lite(9);
+})();
 </script>
 <script src="amelia.js"></script>
 </body>

@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Verify a certificate · Cambium Academy</title>
 <link rel="icon" href="../../../assets/favicon.png">
+<link rel="stylesheet" href="polish.css">
 <style>
   :root{--forest:#2C5F2D;--dark:#1F3D24;--moss:#97BC62;--tint:#F0F5EC;--ink:#1F2A20;--muted:#5C6B5A;--line:#DFE9D8;--red:#B3372E}
   *{box-sizing:border-box;margin:0;padding:0}
@@ -40,8 +41,8 @@
   <div class="box">
     <label>Full name, exactly as printed</label>
     <input id="vname" type="text" placeholder="Amal Thelakkadan">
-    <label>Completion date, exactly as printed</label>
-    <input id="vdate" type="text" placeholder="July 8, 2026">
+    <label>Completion date (pick the date shown on the certificate)</label>
+    <input id="vdate" type="date">
     <label>Certificate ID</label>
     <input id="vid" type="text" placeholder="CAMB-C01-XXXXXX">
     <button onclick="verify()">Verify</button>
@@ -59,18 +60,19 @@ function hashId(s){
 }
 function verify(){
   const name = document.getElementById('vname').value.trim().replace(/\s+/g, " ");
-  const date = document.getElementById('vdate').value.trim().replace(/\s+/g, " ");
+  const iso = document.getElementById('vdate').value;
   const id = document.getElementById('vid').value.trim().toUpperCase();
   const r = document.getElementById('result');
   r.style.display = "block";
-  if (!name || !date || !id) { r.className = "bad"; r.textContent = "Fill in all three fields exactly as they appear on the certificate."; return; }
+  if (!name || !iso || !id) { r.className = "bad"; r.textContent = "Fill in the name, pick the date, and enter the certificate ID."; return; }
+  const date = new Date(iso + "T12:00:00").toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
   const expected = "CAMB-C01-" + hashId((name + "|" + date).toLowerCase());
   if (expected === id) {
     r.className = "ok";
     r.textContent = "Valid. This ID matches a Course 01 certificate for " + name + ", completed " + date + ".";
   } else {
     r.className = "bad";
-    r.textContent = "No match. Check spelling and spacing of the name, and the date exactly as printed (for example, July 8, 2026). If it still fails, this ID was not produced by the Course 01 certificate.";
+    r.textContent = "No match. Check the spelling and spacing of the name and the exact date on the certificate. If it still fails, this ID was not produced by the Course 01 certificate.";
   }
 }
 </script>
