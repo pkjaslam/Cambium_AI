@@ -13,7 +13,7 @@ async def main(a, b):
         for attempt in range(3):
             try:
                 await one(i); break
-            except Exception as e:
+            except Exception:
                 if attempt == 2: raise
                 await asyncio.sleep(2)
         print(i+1, end=" ", flush=True)
