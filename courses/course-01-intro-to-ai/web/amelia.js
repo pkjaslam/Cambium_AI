@@ -10,9 +10,9 @@
   var PAGES = {
     "index.html": "This is the course home. Watch the lecture or read the slides, and keep an eye on your progress bar right on this page. When you are ready, I will walk you to the quiz.",
     "slides.html": "These are the full course slides. Use the arrow keys or swipe. I will pop a two-question check after each module so nothing slips past you.",
-    "quiz.html": "Twenty questions, and you need fourteen to pass. Everything here is covered in the slides. Take your time; I am not going anywhere.",
-    "flashcards.html": "Flip a card, then be honest with the buttons. Cards you miss come back around until they stick. Clear the deck and the quiz will feel easy.",
-    "playground.html": "My favorite room. Watch text become tokens, play the next-word game that I myself am built on, and train a tiny model with your own hands.",
+    "quiz.html": "The quiz unlocks after the lecture, all twenty-four flashcards, and the three playground labs. Then it is twenty questions, fourteen to pass, all covered in the course. Ask me what is left and I will tell you.",
+    "flashcards.html": "Flip a card, then be honest with the buttons. Cards you miss come back around until they stick. Clearing all twenty-four is a required step on your path to the quiz.",
+    "playground.html": "My favorite room. Watch text become tokens, play the next-word game that I myself am built on, and train a tiny model with your own hands. All three labs count toward unlocking the quiz.",
     "community.html": "This is where humans help humans. Ask questions on the Q&A board, show off in the project gallery, and you can always ask me anything from here.",
     "capstone.html": "The capstone is where the course becomes real: one genuine task from your life, done with AI, verified and written up. Do this one; future you says thanks.",
     "career.html": "Let us make this course count. Copy the resume lines, add the certificate to LinkedIn, and rehearse interviews with me until you sound like yourself on a good day.",
@@ -21,16 +21,21 @@
 
   function read(k){ try { return JSON.parse(localStorage.getItem(k) || "null"); } catch(e){ return null; } }
   function advise(){
-    var s = read("cambium-c01-slides") || {}, cards = Object.keys(read("cambium-c01-cards") || {}).length;
+    var s = read("cambium-c01-slides") || {}, seen = s.seen || 0;
+    var lecture = seen >= 36 || !!(read("cambium-c01-lecture") || {}).watched;
+    var cards = Object.keys(read("cambium-c01-cards") || {}).length;
+    var pg = read("cambium-c01-playground") || {};
+    var pgN = (pg.tok?1:0) + (pg.lm?1:0) + (pg.net?1:0);
     var quiz = read("cambium-c01-quiz") || {}, cert = read("cambium-c01-cert") || {};
-    var seen = s.seen || 0;
     if (cert.issued) return { t: "You have finished Course 1, certificate and all. Post it on the graduate wall, try the capstone if you have not, and I will see you in Course 2, Prompting Essentials.", href: "community.html", label: "Visit the community" };
     if (quiz.passed) return { t: "You passed the quiz with " + (quiz.best || "a good score") + " out of 20. Claim your certificate; you earned it.", href: "certificate.html", label: "Get my certificate" };
-    if (seen >= 36 && cards >= 18) return { t: "Slides done and " + cards + " of 24 flashcards known. You are ready. Go take the quiz; fourteen correct passes.", href: "quiz.html", label: "Start the quiz" };
-    if (seen >= 36) return { t: "You finished all 36 slides. Lock it in with the flashcards, then the quiz. You know " + cards + " of 24 cards so far.", href: "flashcards.html", label: "Open flashcards" };
-    if (seen > 0) return { t: "You are " + seen + " slides in, out of 36. Keep going; the next module is shorter than you think.", href: "slides.html#" + Math.min(seen + 1, 36), label: "Continue the slides" };
-    if (quiz.best) return { t: "Your best quiz score is " + quiz.best + " out of 20, so close. Reread the slides for the questions you missed, then try again.", href: "slides.html", label: "Reread the slides" };
-    return { t: "Fresh start, welcome. Begin with the lecture slides; give me about an hour and I will give you a working understanding of AI.", href: "slides.html", label: "Start the course" };
+    if (lecture && cards >= 24 && pgN >= 3) return { t: "Lecture, flashcards, and all three labs: done. The quiz is unlocked" + (quiz.best ? ", and your best so far is " + quiz.best + " out of 20; fourteen passes." : ". Twenty questions, fourteen to pass. You are ready.") , href: "quiz.html", label: "Start the quiz" };
+    if (!lecture) {
+      if (seen > 0) return { t: "Step 1 of your path: the lecture. You are " + seen + " slides in, out of 36. Keep going; the next module is shorter than you think.", href: "slides.html#" + Math.min(seen + 1, 36), label: "Continue the slides" };
+      return { t: "Welcome. Your path has three study steps before the quiz: the lecture, the flashcards, and the playground. Start with the slides, or watch the video and mark it watched on the course home.", href: "slides.html", label: "Start the lecture" };
+    }
+    if (cards < 24) return { t: "Lecture done. Step 2: the flashcards. You know " + cards + " of 24; clear the whole deck and the ideas will stick for the quiz.", href: "flashcards.html", label: "Open flashcards" };
+    return { t: "Almost there. Step 3: the playground. You have explored " + pgN + " of 3 labs. Type in the token box, let the predictor write, and press auto-train; each one counts.", href: "playground.html", label: "Open the playground" };
   }
 
   var css = document.createElement("style");
@@ -109,19 +114,27 @@
     }
     return vs.find(function(v){ return /^en/i.test(v.lang); }) || null;
   }
+  var chosenVoice = null;
   function speak(text){
     if (quiet || !window.speechSynthesis) return;
-    try {
-      speechSynthesis.cancel();
-      var u = new SpeechSynthesisUtterance(String(text).replace(/<[^>]+>/g, ""));
-      var v = pickVoice();
-      if (v) u.voice = v;
-      u.rate = 0.97; u.pitch = 1.05;
-      u.onstart = function(){ btn.classList.add("talking"); };
-      u.onend = function(){ btn.classList.remove("talking"); };
-      u.onerror = function(){ btn.classList.remove("talking"); };
-      speechSynthesis.speak(u);
-    } catch(e){}
+    var go = function(){
+      try {
+        speechSynthesis.cancel();
+        var u = new SpeechSynthesisUtterance(String(text).replace(/<[^>]+>/g, ""));
+        if (!chosenVoice) chosenVoice = pickVoice();
+        if (chosenVoice) u.voice = chosenVoice;
+        u.rate = 0.97; u.pitch = 1.05;
+        u.onstart = function(){ btn.classList.add("talking"); };
+        u.onend = function(){ btn.classList.remove("talking"); };
+        u.onerror = function(){ btn.classList.remove("talking"); };
+        speechSynthesis.speak(u);
+      } catch(e){}
+    };
+    var vs = speechSynthesis.getVoices();
+    if (vs && vs.length) { go(); return; }
+    var done = false;
+    speechSynthesis.onvoiceschanged = function(){ if (done) return; done = true; go(); };
+    setTimeout(function(){ if (done) return; done = true; go(); }, 700);
   }
 
   function say(html, plain){

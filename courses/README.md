@@ -8,11 +8,14 @@ Each course is built the same way: a short video lecture you can watch on YouTub
 
 ## How a course works
 
-1. Watch the lecture (YouTube) or read the slides in your browser
-2. Study the flashcards; ask the AI teaching assistant whenever you get stuck
-3. Take the quiz (20 questions, pass at 70%)
-4. Enter your name and print your certificate
-5. Say hello on the course Q&A and discussion boards, and follow the institute on [LinkedIn](https://www.linkedin.com/company/cambium-ai-institute/)
+Every course follows a required learning path; the quiz stays locked until the study steps are done, so the certificate means something.
+
+1. The lecture: watch it on YouTube (and mark it watched) or read the full slide deck
+2. Clear all flashcards; ask Amelia, the AI teacher, whenever you get stuck
+3. Explore every lab in the hands-on AI playground
+4. The quiz unlocks: 20 questions, pass at 70%
+5. Enter your name and print your certificate
+6. Say hello on the course Q&A and discussion boards, and follow the institute on [LinkedIn](https://www.linkedin.com/company/cambium-ai-institute/)
 
 Total time per course: about 60 to 90 minutes.
 

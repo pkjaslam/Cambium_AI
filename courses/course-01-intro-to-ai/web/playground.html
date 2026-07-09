@@ -52,7 +52,8 @@
   </nav>
 
   <h1>AI playground</h1>
-  <p class="lead">Three hands-on toys that make Module 2 click. Everything runs right here in your browser. Nothing is sent anywhere.</p>
+  <p class="lead">Three hands-on labs that make Module 2 click. Everything runs right here in your browser. Nothing is sent anywhere. <b style="color:var(--forest)">Exploring all three is part of the course:</b> the quiz unlocks only after the lecture, the flashcards, and these labs.</p>
+  <div id="pgCredit" style="background:var(--tint);border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-size:14px;margin-bottom:18px;font-weight:600;color:var(--forest)"></div>
 
   <div class="lab">
     <h2>1 · See text become tokens</h2>
@@ -96,6 +97,23 @@
 </div>
 
 <script>
+// Course credit tracking: all three labs must be explored to unlock the quiz.
+var PGKEY = "cambium-c01-playground";
+var pgState = {};
+try { pgState = JSON.parse(localStorage.getItem(PGKEY) || "{}"); } catch(e) {}
+function pgMark(k){
+  if (pgState[k]) return;
+  pgState[k] = 1;
+  localStorage.setItem(PGKEY, JSON.stringify(pgState));
+  pgChip();
+}
+function pgChip(){
+  var n = (pgState.tok?1:0) + (pgState.lm?1:0) + (pgState.net?1:0);
+  var el = document.getElementById('pgCredit');
+  var parts = [(pgState.tok?"&#10003;":"&#9675;") + " 1 Tokens", (pgState.lm?"&#10003;":"&#9675;") + " 2 Next-word game", (pgState.net?"&#10003;":"&#9675;") + " 3 Train a model"];
+  el.innerHTML = "Course credit: " + n + " of 3 labs explored &nbsp;·&nbsp; " + parts.join(" &nbsp; ") + (n === 3 ? " &nbsp;·&nbsp; done, this box is checked off your path" : "");
+}
+
 // 1 TOKENS
 const VOWEL = /[aeiouy]/i;
 function chunkWord(w){
@@ -126,7 +144,7 @@ function tokenize(){
   document.getElementById('wCount').textContent = words;
   document.getElementById('tCount').textContent = chips.length;
 }
-document.getElementById('tokIn').addEventListener('input', tokenize);
+document.getElementById('tokIn').addEventListener('input', function(){ pgMark('tok'); tokenize(); });
 tokenize();
 
 // 2 NEXT-WORD PREDICTOR
@@ -161,6 +179,7 @@ function sample(d, T){
 }
 let genBase = null;
 function autoWrite(){
+  pgMark('lm');
   const T = parseFloat(document.getElementById('temp').value);
   let ctx = (genBase === null ? document.getElementById('lmIn').value : genBase);
   let added = [];
@@ -211,6 +230,7 @@ function randomize(){ setParams((Math.random()*4-2).toFixed(2), (Math.random()*4
 let training = false;
 function autoTrain(){
   if (training) return;
+  pgMark('net');
   training = true; document.getElementById('trainBtn').textContent = "Training...";
   let [a,b,c] = params(); let step = 0;
   const lr = 0.15;
@@ -226,6 +246,7 @@ function autoTrain(){
   }, 40);
 }
 draw();
+pgChip();
 </script>
 <script src="amelia.js"></script>
 </body>

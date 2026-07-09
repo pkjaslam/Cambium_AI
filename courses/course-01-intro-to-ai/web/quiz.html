@@ -56,6 +56,12 @@
   </div>
 </header>
 <div class="wrap">
+  <div id="lockPanel" style="display:none;background:#fff;border:2px solid var(--amber);border-radius:14px;padding:26px;margin-bottom:20px">
+    <div style="font-family:Cambria,Georgia,serif;font-size:24px;font-weight:700;color:var(--ink);margin-bottom:6px">The quiz unlocks after you study</div>
+    <p style="color:var(--muted);font-size:14.5px;margin-bottom:16px">Certificates here are earned. Finish these three steps and this page opens automatically. Amelia tracks your progress in this browser.</p>
+    <div id="lockList"></div>
+    <p style="color:var(--muted);font-size:12.5px;margin-top:14px">Watched the lecture on YouTube instead of reading the slides? Mark it watched on the <a href="index.html" style="color:var(--forest);font-weight:600">course home</a> under the video.</p>
+  </div>
   <div id="quiz"></div>
   <div class="actions"><button id="grade">Grade my quiz</button></div>
   <div id="result">
@@ -177,6 +183,30 @@ document.getElementById('grade').onclick = function(){
   res.scrollIntoView({behavior:"smooth"});
   this.style.display = "none";
 };
+
+// Learning-path gate: lecture + all flashcards + all playground labs before the quiz.
+(function(){
+  function rd(k){ try { return JSON.parse(localStorage.getItem(k) || "null"); } catch(e){ return null; } }
+  var seen = (rd("cambium-c01-slides") || {}).seen || 0;
+  var lecture = seen >= 36 || !!(rd("cambium-c01-lecture") || {}).watched;
+  var cards = Object.keys(rd("cambium-c01-cards") || {}).length;
+  var pg = rd("cambium-c01-playground") || {};
+  var pgN = (pg.tok?1:0) + (pg.lm?1:0) + (pg.net?1:0);
+  var steps = [
+    { ok: lecture, label: "The lecture", detail: lecture ? "done" : (seen > 0 ? seen + " of 36 slides read" : "read the slides or watch the video"), href: "slides.html" },
+    { ok: cards >= 24, label: "All 24 flashcards", detail: cards >= 24 ? "done" : cards + " of 24 known so far", href: "flashcards.html" },
+    { ok: pgN >= 3, label: "All 3 playground labs", detail: pgN >= 3 ? "done" : pgN + " of 3 explored", href: "playground.html" }
+  ];
+  if (steps.every(function(s){ return s.ok; })) return;
+  document.getElementById('quiz').style.display = "none";
+  document.querySelector('.actions').style.display = "none";
+  var panel = document.getElementById('lockPanel');
+  panel.style.display = "block";
+  document.getElementById('lockList').innerHTML = steps.map(function(s){
+    return '<a href="' + s.href + '" style="display:flex;justify-content:space-between;align-items:center;gap:10px;text-decoration:none;color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:8px 0;background:' + (s.ok ? '#EBF4E4' : '#fff') + '">' +
+      '<span style="font-weight:600">' + (s.ok ? '&#10003; ' : '&#9675; ') + s.label + '</span><span style="font-size:13px;color:var(--muted)">' + s.detail + ' &#8594;</span></a>';
+  }).join("");
+})();
 
 document.getElementById('cert').onclick = function(){
   const name = document.getElementById('learner').value.trim();

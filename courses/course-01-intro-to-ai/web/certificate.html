@@ -109,7 +109,7 @@
 
       <div style="font-family:'Spectral',serif;font-size:14px;font-weight:300;letter-spacing:3px;text-transform:uppercase;color:#5C6B5A;margin-top:24px">This is to certify that</div>
 
-      <div style="font-family:'Herr Von Muellerhoff',cursive;font-size:84px;line-height:1;color:#1F3D24;margin-top:10px">{{ learnerName }}</div>
+      <div style="font-family:'Herr Von Muellerhoff',cursive;font-size:84px;line-height:1;color:#1F3D24;margin-top:10px;word-spacing:.22em;letter-spacing:.015em">{{ learnerName }}</div>
       <svg width="380" height="14" viewBox="0 0 380 14" fill="none" style="margin-top:2px">
         <path d="M4 8 Q190 2 376 8" stroke="#B98A2D" stroke-width="1.5" fill="none"></path>
         <path d="M190 8 Q184 3 190 1 Q196 3 190 8 Q184 13 190 13.5 Q196 13 190 8 Z" fill="#B98A2D" opacity=".0"></path>
@@ -222,35 +222,57 @@ class Component extends DCLogic {
 </div>
 <style>@media print{#certCtl,#extrasbar{display:none !important}@page{size:landscape;margin:6mm}}</style>
 <script>
+function tidyName(n){
+  n = n.trim().replace(/\s+/g, " ");
+  if (n === n.toUpperCase() || n === n.toLowerCase()) {
+    n = n.toLowerCase().replace(/(^|[\s.\-'])([a-z])/g, function(m, a, b){ return a + b.toUpperCase(); });
+  }
+  return n;
+}
 (function(){
   function q(k){ return new URLSearchParams(location.search).get(k); }
   function fmt(d){ var dt = d ? new Date(d + "T12:00:00") : new Date(); return dt.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }); }
   var name = q("name");
-  var sc = document.querySelector('script[type="text/x-dc"]');
-  if (sc && name) {
-    try {
-      var props = JSON.parse(sc.getAttribute("data-props"));
-      props.learnerName["default"] = name;
-      props.completionDate["default"] = fmt(q("date"));
-      sc.setAttribute("data-props", JSON.stringify(props));
-    } catch(e) {}
-  }
-  if (name) {
+  var quizPassed = false;
+  try { var qz = JSON.parse(localStorage.getItem("cambium-c01-quiz") || "{}"); quizPassed = !!qz.passed; } catch(e) {}
+  var earned = (parseInt(q("score") || "0", 10) >= 14) || quizPassed;
+
+  if (name && earned) {
+    name = tidyName(name);
+    var sc = document.querySelector('script[type="text/x-dc"]');
+    if (sc) {
+      try {
+        var props = JSON.parse(sc.getAttribute("data-props"));
+        props.learnerName["default"] = name;
+        props.completionDate["default"] = fmt(q("date"));
+        sc.setAttribute("data-props", JSON.stringify(props));
+      } catch(e) {}
+    }
     try { localStorage.setItem("cambium-c01-cert", JSON.stringify({ issued: true, date: q("date") || "", score: q("score") || "" })); } catch(e) {}
     document.title = "Certificate · " + name + " · Cambium Academy";
-  } else {
-    document.addEventListener("DOMContentLoaded", function(){
+    return;
+  }
+
+  document.addEventListener("DOMContentLoaded", function(){
+    if (earned) {
       var c = document.getElementById("certNameCtl");
       if (c) c.style.display = "inline-flex";
-    });
-  }
+      return;
+    }
+    var lock = document.createElement("div");
+    lock.style.cssText = "position:fixed;top:70px;left:50%;transform:translateX(-50%);z-index:98;background:#FFFDF6;border:2px solid #B98A2D;border-radius:12px;padding:16px 22px;max-width:min(480px,90vw);font-family:Arial,sans-serif;font-size:14px;color:#1F2A20;box-shadow:0 12px 34px rgba(0,0,0,.35);text-align:center";
+    lock.innerHTML = '<b style="color:#2C5F2D">Certificates are earned, not printed.</b><br>Pass the 20-question quiz (70% or better) and this page unlocks with your name on it.<br><a href="quiz.html" style="display:inline-block;margin-top:10px;background:#2C5F2D;color:#fff;border-radius:8px;padding:10px 20px;font-weight:700;text-decoration:none">Take the quiz</a>';
+    document.body.appendChild(lock);
+  });
 })();
 function applyCertName(){
   var v = document.getElementById("certNameInput").value.trim();
   if (!v) return;
   var t = new Date();
   var d = t.getFullYear() + "-" + String(t.getMonth()+1).padStart(2,"0") + "-" + String(t.getDate()).padStart(2,"0");
-  location.search = "?name=" + encodeURIComponent(v) + "&date=" + d;
+  var qz = {};
+  try { qz = JSON.parse(localStorage.getItem("cambium-c01-quiz") || "{}"); } catch(e) {}
+  location.search = "?name=" + encodeURIComponent(tidyName(v)) + "&date=" + d + (qz.best ? "&score=" + qz.best : "");
 }
 </script>
 <script src="cert-extras.js"></script>

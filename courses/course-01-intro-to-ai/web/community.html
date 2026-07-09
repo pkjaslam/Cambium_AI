@@ -71,14 +71,19 @@
   <h2>Ask Amelia, your AI teacher</h2>
   <p class="lead">Type your question. Amelia's teaching persona wraps it with everything she knows about this course, then opens it in the free chatbot of your choice. Nothing is sent anywhere until you choose where to open it. Amelia is an AI creation, in voice and in picture.</p>
   <div class="ta">
+    <div id="taLog" style="display:none;max-height:300px;overflow-y:auto;background:#F6F8F4;border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:10px"></div>
     <textarea id="q" placeholder="Example: I still don't get the difference between fine-tuning and human feedback. Can you explain with a cooking analogy?"></textarea>
-    <div class="btnrow">
+    <div class="btnrow" id="liveRow" style="display:none">
+      <button id="askLiveBtn" onclick="askLive()">Ask Amelia</button>
+      <button class="ghost" onclick="toggleExt()">Prefer another chatbot?</button>
+    </div>
+    <div class="btnrow" id="extRow">
       <button onclick="openTA('claude')">Ask in Claude</button>
       <button onclick="openTA('chatgpt')">Ask in ChatGPT</button>
       <button onclick="openTA('perplexity')">Ask in Perplexity</button>
       <button class="ghost" onclick="copyTA()">Copy TA prompt</button>
     </div>
-    <div class="hint">Using Gemini or a local model? Copy the TA prompt and paste it there; it works in any chatbot. The TA explains at beginner level, uses one everyday analogy, and ends with a quick check question.</div>
+    <div class="hint" id="taHint">Using Gemini or a local model? Copy the TA prompt and paste it there; it works in any chatbot. The TA explains at beginner level, uses one everyday analogy, and ends with a quick check question.</div>
   </div>
 
   <h2>Q&A board</h2>
@@ -112,6 +117,7 @@
 <div class="toast" id="toast">Copied. Paste it into any chatbot.</div>
 
 <script src="community-config.js"></script>
+<script src="amelia-chat-config.js"></script>
 <script>
 function taPrompt(){
   const q = document.getElementById('q').value.trim() || "Please give me a quick tour of what you can help me with.";
@@ -133,6 +139,62 @@ function copyTA(){
     setTimeout(()=>{ t.style.display = "none"; }, 2200);
   });
 }
+
+// Live mode: when the Amelia chat endpoint is configured, she answers right here.
+const liveOn = window.AMELIA_CHAT && window.AMELIA_CHAT.endpoint && window.AMELIA_CHAT.endpoint.length > 8;
+if (liveOn) {
+  document.getElementById('liveRow').style.display = "flex";
+  document.getElementById('extRow').style.display = "none";
+  document.getElementById('taHint').textContent = "Amelia answers right here, powered by the university's MindRouter cluster. Short questions get the best answers. Prefer your own chatbot? The button above brings back Claude, ChatGPT, and Perplexity.";
+}
+function toggleExt(){
+  const ext = document.getElementById('extRow');
+  ext.style.display = ext.style.display === "none" ? "flex" : "none";
+}
+let liveHistory = [], liveBusy = false;
+function liveBubble(who, text){
+  const log = document.getElementById('taLog');
+  log.style.display = "block";
+  const d = document.createElement('div');
+  d.style.cssText = who === "u"
+    ? "margin:6px 0;padding:8px 12px;border-radius:11px;font-size:14px;line-height:1.5;max-width:88%;background:var(--forest);color:#fff;margin-left:auto"
+    : (who === "t"
+      ? "margin:6px 0;font-size:13px;color:#8A9784;font-style:italic"
+      : "margin:6px 0;padding:8px 12px;border-radius:11px;font-size:14px;line-height:1.5;max-width:88%;background:#fff;border:1px solid var(--line);color:var(--ink)");
+  d.textContent = text;
+  log.appendChild(d);
+  log.scrollTop = log.scrollHeight;
+  return d;
+}
+function askLive(){
+  if (liveBusy) return;
+  const box = document.getElementById('q');
+  const question = box.value.trim();
+  if (!question) { box.focus(); return; }
+  box.value = "";
+  liveBubble("u", question);
+  liveHistory.push({ role: "user", content: question });
+  if (liveHistory.length > 6) liveHistory = liveHistory.slice(-6);
+  const typing = liveBubble("t", "Amelia is thinking...");
+  liveBusy = true;
+  document.getElementById('askLiveBtn').disabled = true;
+  fetch(window.AMELIA_CHAT.endpoint, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ messages: liveHistory })
+  }).then(r => r.json().then(j => ({ ok: r.ok, j })))
+    .then(res => {
+      typing.remove();
+      const text = res.ok && res.j.reply ? res.j.reply : (res.j && res.j.error ? res.j.error : "I lost my train of thought. Ask me again?");
+      liveBubble("a", text);
+      if (res.ok && res.j.reply) liveHistory.push({ role: "assistant", content: res.j.reply });
+    })
+    .catch(() => { typing.remove(); liveBubble("a", "I could not reach the classroom server. Use the chatbot buttons instead for now."); })
+    .finally(() => { liveBusy = false; document.getElementById('askLiveBtn').disabled = false; });
+}
+document.getElementById('q').addEventListener('keydown', e => {
+  if (e.key === "Enter" && !e.shiftKey && liveOn) { e.preventDefault(); askLive(); }
+});
 function mountPanel(elId, cat){
   const cfg = window.CAMBIUM_COMMUNITY, el = document.getElementById(elId);
   if (!cfg || !cfg.repoId || !cat.categoryId) {

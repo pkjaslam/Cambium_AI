@@ -55,6 +55,11 @@
   .bar i{display:block;height:4px;background:var(--forest);transition:width .25s}
   .bignum{font-family:Cambria,Georgia,serif;font-size:clamp(30px,5vw,58px);font-weight:700;color:var(--moss)}
   .foot{position:absolute;bottom:3.5%;left:5%;font-size:clamp(9px,1vw,11px);color:#7FA06F}
+  @media (max-width:640px) and (orientation:portrait){
+    .stage{align-items:flex-start;padding-top:6px}
+    .slide{aspect-ratio:auto;min-height:74vh;padding:5.5% 5%}
+    .foot{position:static;margin-top:14px}
+  }
 </style>
 </head>
 <body>

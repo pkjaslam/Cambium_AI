@@ -35,22 +35,20 @@
   </nav>
 
   <h1>Verify a Cambium Academy certificate</h1>
-  <p class="lead">Certificate IDs are computed from the certificate's own details. Enter them exactly as they appear on the certificate; if the ID matches, the details are consistent with an authentic Cambium Academy certificate.</p>
+  <p class="lead">Certificate IDs are computed from the name and completion date printed on the certificate. Enter both exactly as they appear; if the ID matches, the details are consistent with an authentic Cambium Academy certificate.</p>
 
   <div class="box">
-    <label>Full name on the certificate</label>
-    <input id="vname" type="text" placeholder="Exactly as printed">
-    <label>Completion date (YYYY-MM-DD)</label>
-    <input id="vdate" type="text" placeholder="2026-07-08">
-    <label>Quiz score (out of 20)</label>
-    <input id="vscore" type="text" placeholder="17">
+    <label>Full name, exactly as printed</label>
+    <input id="vname" type="text" placeholder="Amal Thelakkadan">
+    <label>Completion date, exactly as printed</label>
+    <input id="vdate" type="text" placeholder="July 8, 2026">
     <label>Certificate ID</label>
     <input id="vid" type="text" placeholder="CAMB-C01-XXXXXX">
     <button onclick="verify()">Verify</button>
     <div id="result"></div>
   </div>
 
-  <div class="note">Like most free online course certificates, these are honor-based: they certify quiz completion, not proctored identity. What this page confirms is that the name, date, score, and ID belong together and were produced by the Cambium Academy certificate generator. Employers wanting more can ask the holder about the course content; the <a href="quiz.html" style="color:var(--forest)">quiz</a> and <a href="capstone.html" style="color:var(--forest)">capstone</a> are public.</div>
+  <div class="note">Matching is not case-sensitive, but spelling, spacing, and the date format must match the certificate. Like most free online course certificates, these are honor-based: they certify quiz completion, not proctored identity. Employers wanting more can ask the holder about the course; the <a href="quiz.html" style="color:var(--forest)">quiz</a> and <a href="capstone.html" style="color:var(--forest)">capstone</a> are public.</div>
 </div>
 
 <script>
@@ -60,20 +58,19 @@ function hashId(s){
   return h.toString(36).toUpperCase().padStart(6, "0").slice(-6);
 }
 function verify(){
-  const name = document.getElementById('vname').value.trim();
-  const date = document.getElementById('vdate').value.trim();
-  const score = document.getElementById('vscore').value.trim();
+  const name = document.getElementById('vname').value.trim().replace(/\s+/g, " ");
+  const date = document.getElementById('vdate').value.trim().replace(/\s+/g, " ");
   const id = document.getElementById('vid').value.trim().toUpperCase();
   const r = document.getElementById('result');
   r.style.display = "block";
-  if (!name || !date || !score || !id) { r.className = "bad"; r.textContent = "Fill in all four fields exactly as they appear on the certificate."; return; }
-  const expected = "CAMB-C01-" + hashId(name.toLowerCase() + "|" + date + "|" + score);
+  if (!name || !date || !id) { r.className = "bad"; r.textContent = "Fill in all three fields exactly as they appear on the certificate."; return; }
+  const expected = "CAMB-C01-" + hashId((name + "|" + date).toLowerCase());
   if (expected === id) {
     r.className = "ok";
-    r.textContent = "Valid. This ID matches a Course 01 certificate for " + name + ", completed " + date + " with a score of " + score + "/20.";
+    r.textContent = "Valid. This ID matches a Course 01 certificate for " + name + ", completed " + date + ".";
   } else {
     r.className = "bad";
-    r.textContent = "No match. Check for typos (the name, date, and score must be exactly as printed). If it still fails, the ID was not produced by the Course 01 certificate generator.";
+    r.textContent = "No match. Check spelling and spacing of the name, and the date exactly as printed (for example, July 8, 2026). If it still fails, this ID was not produced by the Course 01 certificate.";
   }
 }
 </script>
