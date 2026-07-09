@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Playground · Intro to AI · Cambium Academy</title>
+<link rel="icon" href="../../../assets/favicon.png">
+<style>
+  :root{--forest:#2C5F2D;--dark:#1F3D24;--moss:#97BC62;--mossdeep:#6E9648;--tint:#F0F5EC;--ink:#1F2A20;--muted:#5C6B5A;--amber:#D97706;--line:#DFE9D8}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:#F6F8F4;line-height:1.55}
+  .wrap{max-width:820px;margin:0 auto;padding:0 18px 60px}
+  .nav{display:flex;align-items:center;gap:12px;padding:12px 0;flex-wrap:wrap}
+  .nav img{width:36px;height:36px}
+  .nav a.brand{font-weight:700;color:var(--dark);text-decoration:none;font-size:14px;display:flex;align-items:center;gap:9px}
+  .nav .links{margin-left:auto;display:flex;gap:14px;flex-wrap:wrap}
+  .nav .links a{color:var(--forest);text-decoration:none;font-weight:600;font-size:13.5px}
+  h1{font-family:Cambria,Georgia,serif;font-size:30px;margin:10px 0 4px}
+  p.lead{color:var(--muted);font-size:15px;margin-bottom:22px}
+  .lab{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;margin-bottom:26px}
+  .lab h2{font-family:Cambria,Georgia,serif;font-size:22px;margin-bottom:4px}
+  .lab p.sub{color:var(--muted);font-size:13.5px;margin-bottom:14px}
+  textarea,input[type=text]{width:100%;padding:12px;font-size:15px;border:1.5px solid var(--line);border-radius:8px;font-family:inherit}
+  .chips{margin-top:14px;display:flex;flex-wrap:wrap;gap:6px;min-height:34px}
+  .chip{padding:5px 9px;border-radius:7px;font-family:"Courier New",monospace;font-size:14px;font-weight:700}
+  .counts{margin-top:10px;font-size:13.5px;color:var(--muted)}
+  .counts b{color:var(--forest);font-size:16px}
+  .bars{margin-top:14px}
+  .bar{display:flex;align-items:center;gap:10px;margin:6px 0}
+  .bar .w{width:110px;font-family:"Courier New",monospace;font-weight:700;font-size:14px;text-align:right;color:var(--dark);overflow:hidden;text-overflow:ellipsis}
+  .bar .track{flex:1;background:var(--tint);border-radius:6px;height:24px;position:relative}
+  .bar .fill{background:var(--moss);height:24px;border-radius:6px;min-width:2px}
+  .bar .pct{position:absolute;right:8px;top:3px;font-size:12px;color:var(--ink)}
+  .rowc{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}
+  button{background:var(--forest);color:#fff;border:0;border-radius:8px;padding:10px 18px;font-size:14px;font-weight:700;cursor:pointer}
+  button.ghost{background:#fff;color:var(--forest);border:1.5px solid var(--moss)}
+  .gen{margin-top:12px;background:var(--tint);border-radius:8px;padding:12px 14px;font-size:15px;min-height:46px}
+  .gen em{color:var(--forest);font-style:normal;font-weight:700}
+  label.sl{font-size:13px;color:var(--muted)}
+  input[type=range]{accent-color:var(--forest);vertical-align:middle}
+  canvas{width:100%;border:1px solid var(--line);border-radius:10px;background:#fff;touch-action:none}
+  .loss{font-size:14px;color:var(--muted);margin-top:8px}
+  .loss b{font-family:"Courier New",monospace;font-size:18px;color:var(--amber)}
+  .note{font-size:12.5px;color:var(--muted);margin-top:10px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <a class="brand" href="https://www.linkedin.com/company/cambium-ai-institute/"><img src="../../../assets/logo-mark@2x.png" alt="Cambium AI logo">Cambium AI</a>
+    <div class="links"><a href="index.html">Course</a><a href="slides.html">Slides</a><a href="flashcards.html">Flashcards</a><a href="quiz.html">Quiz</a><a href="community.html">Community</a></div>
+  </nav>
+
+  <h1>AI playground</h1>
+  <p class="lead">Three hands-on toys that make Module 2 click. Everything runs right here in your browser. Nothing is sent anywhere.</p>
+
+  <div class="lab">
+    <h2>1 · See text become tokens</h2>
+    <p class="sub">Models never see words. Type anything and watch it get chopped into token-like chunks, each of which becomes just a number.</p>
+    <textarea id="tokIn" rows="2" placeholder="Type a sentence...">Understanding tokens is easier when you can see them.</textarea>
+    <div class="chips" id="tokChips"></div>
+    <div class="counts">Words: <b id="wCount">0</b> &nbsp;·&nbsp; Estimated tokens: <b id="tCount">0</b> &nbsp;·&nbsp; a handy rule: tokens &#8776; words &#215; 4/3</div>
+    <div class="note">This is a simplified splitter for intuition. Real tokenizers (like the ones inside GPT or Claude) learn their chunks from data, but the idea is exactly this.</div>
+  </div>
+
+  <div class="lab">
+    <h2>2 · Be the language model</h2>
+    <p class="sub">This tiny model read a few paragraphs and counts which word tends to follow which. Type a phrase and see its next-word bets, exactly the game ChatGPT plays with trillions of words.</p>
+    <input type="text" id="lmIn" value="the model learns from" placeholder="Start a sentence...">
+    <div class="bars" id="lmBars"></div>
+    <div class="rowc">
+      <label class="sl">Temperature <input type="range" id="temp" min="0" max="2" step="0.1" value="0.7"> <span id="tempVal">0.7</span></label>
+      <button onclick="autoWrite()">Let it write 15 words</button>
+      <button class="ghost" onclick="resetGen()">Clear</button>
+    </div>
+    <div class="gen" id="genOut">Its continuation will appear here. Low temperature picks the safest word every time; high temperature gambles.</div>
+    <div class="note">Trained on ~150 sentences in your browser. Frontier models play this same game with hundreds of billions of dials instead of a counting table, but the core trick is identical: predict, append, repeat.</div>
+  </div>
+
+  <div class="lab">
+    <h2>3 · Train a model by hand, then let training do it</h2>
+    <p class="sub">The green dots are data. Your curve is a three-dial model. Drag the sliders to reduce the error, then press auto-train to watch gradient descent nudge the dials the way real training nudges billions of weights.</p>
+    <canvas id="net" width="760" height="330"></canvas>
+    <div class="rowc">
+      <label class="sl">dial a <input type="range" id="wa" min="-2" max="2" step="0.01" value="-1.4"></label>
+      <label class="sl">dial b <input type="range" id="wb" min="-2" max="2" step="0.01" value="1.6"></label>
+      <label class="sl">dial c <input type="range" id="wc" min="-2" max="2" step="0.01" value="-1.2"></label>
+      <button onclick="autoTrain()" id="trainBtn">Auto-train</button>
+      <button class="ghost" onclick="randomize()">Scramble dials</button>
+    </div>
+    <div class="loss">Error (loss): <b id="loss">-</b> <span id="verdict"></span></div>
+    <div class="note">Training a real model is this exact loop, guess, measure error, nudge every dial downhill, repeated trillions of times on tens of thousands of chips. Now you have felt it.</div>
+  </div>
+
+  <div class="note" style="text-align:center">Part of <a href="index.html" style="color:var(--forest)">Course 01 · Intro to AI</a> · Cambium Academy · free forever</div>
+</div>
+
+<script>
+// 1 TOKENS
+const VOWEL = /[aeiouy]/i;
+function chunkWord(w){
+  if (w.length <= 4) return [w];
+  const parts = [];
+  let cur = "";
+  for (let i = 0; i < w.length; i++){
+    cur += w[i];
+    if (cur.length >= 3 && VOWEL.test(cur) && (i + 1 < w.length) && !VOWEL.test(w[i+1] ) && cur.length + (w.length - i - 1) > 5) {
+      parts.push(cur); cur = "";
+    } else if (cur.length >= 5) { parts.push(cur); cur = ""; }
+  }
+  if (cur) parts.push(cur);
+  return parts;
+}
+const PALETTE = ["#F0F5EC","#E2EDD5","#D5E4C2","#EDF4E7"];
+function tokenize(){
+  const txt = document.getElementById('tokIn').value;
+  const bits = txt.split(/(\s+|[.,!?;:'"()])/).filter(x => x && !/^\s+$/.test(x));
+  const chips = [];
+  for (const b of bits){
+    if (/^[.,!?;:'"()]$/.test(b)) chips.push(b);
+    else chips.push(...chunkWord(b));
+  }
+  const el = document.getElementById('tokChips');
+  el.innerHTML = chips.map((c,i)=>'<span class="chip" style="background:'+PALETTE[i%4]+';color:#2C5F2D">'+c.replace(/</g,"&lt;")+'<span style="color:#8AA07E;font-weight:400;font-size:10px"> '+(1000+((i*7919+c.length*131)%9000))+'</span></span>').join("");
+  const words = (txt.trim().match(/\S+/g) || []).length;
+  document.getElementById('wCount').textContent = words;
+  document.getElementById('tCount').textContent = chips.length;
+}
+document.getElementById('tokIn').addEventListener('input', tokenize);
+tokenize();
+
+// 2 NEXT-WORD PREDICTOR
+const CORPUS = "the model learns from examples and gets better with practice . the model learns from data every single day . a computer learns patterns from examples instead of rules . people write rules but machines learn patterns . the next word is chosen by probability . the next word depends on the words before it . language models predict the next word again and again . the weather today is sunny and warm . the weather today is cold and rainy . my favorite food is rice and beans . my favorite food is fresh bread with butter . she walked to the market to buy fresh fruit . he walked to the school with his friends . the farmer planted seeds in the field . the farmer watered the crops every morning . the tree grows slowly but surely every year . water flows down the river to the sea . students study hard before the final exam . students ask questions when they get stuck . the teacher explains the idea with a simple story . a good question is half the answer . practice makes progress not perfection . the sun rises in the east every morning . the moon shines bright in the night sky . birds sing early in the morning . the dog runs fast in the park . the cat sleeps all day on the sofa . coffee tastes better in the morning . tea with honey helps a sore throat . the train arrives at the station on time . the bus was late because of heavy traffic . she reads a book before going to bed . he writes notes in a small green notebook . the garden is full of flowers in spring . rain falls softly on the roof at night . the mountain looks blue from far away . the market is busy on saturday morning . fresh bread smells wonderful in the bakery . the child asked why the sky is blue . the answer surprised everyone in the room . learning something new feels good every time . small steps every day lead to big change . the model predicts and then checks its guess . training nudges the dials a tiny bit each time . good data makes a good model . more practice makes the guesses sharper . the computer counts how often words appear together . simple ideas explain complex machines . the course is free and open to everyone . the quiz has twenty questions at the end . the certificate prints right in your browser .";
+const words = CORPUS.split(/\s+/);
+const tri = {}, bi = {}, uni = {};
+for (let i = 0; i < words.length; i++){
+  uni[words[i]] = (uni[words[i]]||0)+1;
+  if (i < words.length-1){ const k = words[i]; (bi[k]=bi[k]||{})[words[i+1]] = (bi[k][words[i+1]]||0)+1; }
+  if (i < words.length-2){ const k = words[i]+" "+words[i+1]; (tri[k]=tri[k]||{})[words[i+2]] = (tri[k][words[i+2]]||0)+1; }
+}
+function dist(context){
+  const parts = context.toLowerCase().replace(/[^a-z'\s.]/g,"").trim().split(/\s+/).filter(Boolean);
+  const w2 = parts.slice(-2).join(" "), w1 = parts.slice(-1)[0];
+  let d = tri[w2] || bi[w1];
+  if (!d) d = uni;
+  const total = Object.values(d).reduce((a,b)=>a+b,0);
+  return Object.entries(d).map(([w,c])=>[w,c/total]).sort((a,b)=>b[1]-a[1]);
+}
+function renderBars(){
+  const d = dist(document.getElementById('lmIn').value).slice(0,5);
+  document.getElementById('lmBars').innerHTML = d.map(([w,p])=>
+    '<div class="bar"><div class="w">'+w+'</div><div class="track"><div class="fill" style="width:'+Math.max(2,Math.round(p*100))+'%"></div><div class="pct">'+(p*100).toFixed(0)+'%</div></div></div>').join("");
+}
+function sample(d, T){
+  if (T <= 0.05) return d[0][0];
+  const weights = d.map(([w,p])=>Math.pow(p, 1/T));
+  const total = weights.reduce((a,b)=>a+b,0);
+  let r = Math.random()*total;
+  for (let i = 0; i < d.length; i++){ r -= weights[i]; if (r <= 0) return d[i][0]; }
+  return d[d.length-1][0];
+}
+let genBase = null;
+function autoWrite(){
+  const T = parseFloat(document.getElementById('temp').value);
+  let ctx = (genBase === null ? document.getElementById('lmIn').value : genBase);
+  let added = [];
+  for (let k = 0; k < 15; k++){
+    const w = sample(dist(ctx + " " + added.join(" ")), T);
+    added.push(w);
+    if (w === "." && k > 6) break;
+  }
+  genBase = ctx + " " + added.join(" ");
+  document.getElementById('genOut').innerHTML = ctx.replace(/</g,"&lt;") + " <em>" + added.join(" ").replace(/</g,"&lt;") + "</em>";
+}
+function resetGen(){ genBase = null; document.getElementById('genOut').textContent = "Cleared. Change the phrase or the temperature and let it write again."; }
+document.getElementById('lmIn').addEventListener('input', ()=>{ genBase = null; renderBars(); });
+document.getElementById('temp').addEventListener('input', e=>document.getElementById('tempVal').textContent = e.target.value);
+renderBars();
+
+// 3 NEURAL NET CURVE FIT
+const cv = document.getElementById('net'), ctx2 = cv.getContext('2d');
+function trueF(x){ return 0.8*x*x - 0.5*x - 0.3; }
+const DATA = [];
+(function(){ let seed = 42;
+  function rnd(){ seed = (seed*1103515245+12345) % 2147483648; return seed/2147483648; }
+  for (let i = 0; i < 26; i++){ const x = -1 + 2*i/25; DATA.push([x, trueF(x) + (rnd()-0.5)*0.3]); }
+})();
+function params(){ return ["wa","wb","wc"].map(id=>parseFloat(document.getElementById(id).value)); }
+function setParams(a,b,c){ document.getElementById('wa').value = a; document.getElementById('wb').value = b; document.getElementById('wc').value = c; }
+function model(x,a,b,c){ return a*x*x + b*x + c; }
+function loss(a,b,c){ return DATA.reduce((s,[x,y])=>s + Math.pow(model(x,a,b,c)-y,2), 0) / DATA.length; }
+function px(x){ return 40 + (x+1)/2 * (cv.width-80); }
+function py(y){ return cv.height/2 - y * (cv.height/2 - 30) / 1.6; }
+function draw(){
+  const [a,b,c] = params();
+  ctx2.clearRect(0,0,cv.width,cv.height);
+  ctx2.strokeStyle = "#DFE9D8"; ctx2.lineWidth = 1;
+  ctx2.beginPath(); ctx2.moveTo(40, cv.height/2); ctx2.lineTo(cv.width-40, cv.height/2); ctx2.stroke();
+  ctx2.fillStyle = "#2C5F2D";
+  for (const [x,y] of DATA){ ctx2.beginPath(); ctx2.arc(px(x), py(y), 4.5, 0, 7); ctx2.fill(); }
+  ctx2.strokeStyle = "#D97706"; ctx2.lineWidth = 3; ctx2.beginPath();
+  for (let i = 0; i <= 100; i++){ const x = -1 + 2*i/100, y = model(x,a,b,c);
+    if (i === 0) ctx2.moveTo(px(x), py(y)); else ctx2.lineTo(px(x), py(y)); }
+  ctx2.stroke();
+  const L = loss(a,b,c);
+  document.getElementById('loss').textContent = L.toFixed(4);
+  document.getElementById('verdict').textContent = L < 0.012 ? "· trained! this is what learning is" : (L < 0.05 ? "· close, keep nudging" : "· high error, nudge the dials");
+}
+["wa","wb","wc"].forEach(id=>document.getElementById(id).addEventListener('input', draw));
+function randomize(){ setParams((Math.random()*4-2).toFixed(2), (Math.random()*4-2).toFixed(2), (Math.random()*4-2).toFixed(2)); draw(); }
+let training = false;
+function autoTrain(){
+  if (training) return;
+  training = true; document.getElementById('trainBtn').textContent = "Training...";
+  let [a,b,c] = params(); let step = 0;
+  const lr = 0.15;
+  const timer = setInterval(()=>{
+    for (let k = 0; k < 8; k++){
+      let ga = 0, gb = 0, gc = 0;
+      for (const [x,y] of DATA){ const e = model(x,a,b,c) - y; ga += 2*e*x*x; gb += 2*e*x; gc += 2*e; }
+      const n = DATA.length;
+      a -= lr*ga/n; b -= lr*gb/n; c -= lr*gc/n;
+    }
+    setParams(a.toFixed(3), b.toFixed(3), c.toFixed(3)); draw();
+    if (++step >= 60 || loss(a,b,c) < 0.011){ clearInterval(timer); training = false; document.getElementById('trainBtn').textContent = "Auto-train"; }
+  }, 40);
+}
+draw();
+</script>
+<script src="amelia.js"></script>
+</body>
+</html>

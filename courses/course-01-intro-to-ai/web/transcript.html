@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transcript · Intro to AI · Cambium Academy</title>
+<link rel="icon" href="../../../assets/favicon.png">
+<style>
+:root{--forest:#2C5F2D;--dark:#1F3D24;--moss:#97BC62;--mossdeep:#6E9648;--tint:#F0F5EC;--ink:#1F2A20;--muted:#5C6B5A;--line:#DFE9D8}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:#F6F8F4;line-height:1.7}
+.wrap{max-width:760px;margin:0 auto;padding:0 18px 60px}
+.nav{display:flex;align-items:center;gap:12px;padding:12px 0;flex-wrap:wrap}
+.nav img{width:36px;height:36px}
+.nav a.brand{font-weight:700;color:var(--dark);text-decoration:none;font-size:14px;display:flex;align-items:center;gap:9px}
+.nav .links{margin-left:auto;display:flex;gap:14px;flex-wrap:wrap}
+.nav .links a{color:var(--forest);text-decoration:none;font-weight:600;font-size:13.5px}
+h1{font-family:Cambria,Georgia,serif;font-size:30px;margin:10px 0 4px}
+p.lead{color:var(--muted);font-size:14.5px;margin-bottom:24px}
+h2{font-family:Cambria,Georgia,serif;font-size:21px;margin:30px 0 10px;color:var(--dark)}
+.ts{display:inline-block;background:var(--tint);color:var(--forest);border-radius:6px;padding:2px 9px;font-size:13px;font-family:"Courier New",monospace;font-weight:700;margin-right:10px;vertical-align:2px}
+p{margin:0 0 14px}
+.sl{display:block;font-size:11.5px;color:var(--mossdeep);font-weight:700;letter-spacing:1px;text-transform:uppercase}
+footer{margin-top:40px;font-size:13px;color:var(--muted);text-align:center}
+footer a{color:var(--forest)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <a class="brand" href="https://www.linkedin.com/company/cambium-ai-institute/"><img src="../../../assets/logo-mark@2x.png" alt="Cambium AI logo">Cambium AI</a>
+    <div class="links"><a href="index.html">Course</a><a href="slides.html">Slides</a><a href="playground.html">Playground</a><a href="quiz.html">Quiz</a><a href="community.html">Community</a></div>
+  </nav>
+  <h1>Lecture transcript</h1>
+  <p class="lead">The full narration of the Course 01 video, timestamped to the recording (16:31 total). Narrated by Amelia, our AI teacher. Facts are a July 2026 snapshot.</p>
+<h2><span class="ts">0:00</span>Welcome</h2>
+<p><span class="sl">Slide 1 · 0:00</span>Welcome to Cambium Academy. This is Course 1, Intro to AI. In about an hour you will understand what AI actually is, how models like ChatGPT and Claude work under the hood, how they are trained, and which model to pick for any job. Everything is free, there is a quiz at the end, and you earn a certificate when you pass.</p>
+<p><span class="sl">Slide 2 · 0:26</span>Quick promise before we start. You need no math, no programming, and no prior AI knowledge. A browser, about ninety minutes, and zero dollars. That is the whole entry fee.</p>
+<p><span class="sl">Slide 3 · 0:44</span>Here is the deal we are making. By the end you can explain AI simply, picture what happens inside a model, describe how models get trained, name the major models of 2026, and choose the right one for any task you actually have.</p>
+<p><span class="sl">Slide 4 · 1:04</span>The route we will take. Six short modules, about an hour of content. Then a twenty question quiz. Pass at seventy percent and you print your certificate immediately. No account, no email, no payment.</p>
+<h2><span class="ts">1:23</span>Module 1 · What is AI?</h2>
+<p><span class="sl">Slide 5 · 1:23</span>Module one. Let us pin down what artificial intelligence actually means, because the term gets thrown around loosely.</p>
+<p><span class="sl">Slide 6 · 1:35</span>Here is the whole idea in one sentence. AI is software that learns patterns from examples and uses them to make useful guesses about new things. Compare that with traditional software, where a person writes every rule by hand. With machine learning you show the computer a million examples and it works out the rules itself.</p>
+<p><span class="sl">Slide 7 · 2:01</span>These four terms get mixed up constantly, so here is the family tree. AI is the broadest term. Machine learning is the approach that dominates today. Deep learning is machine learning built on many-layered neural networks. And generative AI, the newest child, is deep learning that creates things: text, images, audio, video. ChatGPT, Claude, and Gemini all live in that innermost circle.</p>
+<p><span class="sl">Slide 8 · 2:34</span>AI research started in the nineteen fifties, so the field is older than the internet. Deep Blue beat Kasparov in ninety-seven. Deep learning took off in twenty twelve. Then in twenty seventeen Google published the transformer architecture, and that single invention set up the ChatGPT moment of twenty twenty-two. Today AI assistants sit in about a billion pockets. The technology is old. The scale is new.</p>
+<p><span class="sl">Slide 9 · 3:08</span>One more reframe before we go deeper. You already use AI every day. Spam filters, phone cameras, map routing, autocomplete, recommendations, voice assistants. All machine learning. Chatbots are just the newest and chattiest face of a technology you have trusted for years.</p>
+<h2><span class="ts">3:34</span>Module 2 · How AI models work</h2>
+<p><span class="sl">Slide 10 · 3:34</span>Module two. Time to open the hood. No math, I promise. Just three ideas: prediction, tokens, and attention.</p>
+<p><span class="sl">Slide 11 · 3:47</span>Everything a chatbot does comes from one trick: predict the next word. The capital of France is, blank. Paris, ninety-seven percent. Predict a word, append it, predict again, thousands of times. To get really good at this game on trillions of words, the model is forced to absorb grammar, facts, and reasoning patterns. Essays and code emerge from that single skill.</p>
+<p><span class="sl">Slide 12 · 4:19</span>Models do not see words or letters. Text gets chopped into tokens, chunks of roughly three quarters of a word, and each token becomes a number. Two things follow. Models have a token budget called the context window. And tokens are the currency of AI: pricing and speed are measured in them.</p>
+<p><span class="sl">Slide 13 · 4:44</span>Inside the model is a neural network. Picture columns of tiny dials, billions of them, each holding one number called a weight. Training works like this: the model guesses, the guess is scored, and every dial gets a microscopic nudge so the right answer comes out stronger next time. Repeat trillions of times and fluency emerges. Nobody hand-writes any rules.</p>
+<p><span class="sl">Slide 14 · 5:14</span>In twenty seventeen Google researchers published a design called the transformer, built on a mechanism called attention. Every word learns which other words to pay attention to. The trophy did not fit in the suitcase because it was too big. Attention correctly links it to trophy. And because transformers read everything in parallel, training on internet-scale data became practical. That is the T in GPT.</p>
+<p><span class="sl">Slide 15 · 5:46</span>A model&#x27;s working memory is its context window, measured in tokens. Typical models hold a couple hundred thousand tokens, about a novel. Claude and Gemini offer million-token tiers. Meta advertises ten million on Llama 4 Scout, though independent testing finds about half of that reliably usable. Practical tip: when the window fills, the oldest content silently falls out. If a long chat gets forgetful, start fresh.</p>
+<h2><span class="ts">6:21</span>Module 3 · How models are trained</h2>
+<p><span class="sl">Slide 16 · 6:21</span>Module three. Where does a model actually come from? The recipe has four steps, and you can summarize it as: read everything, learn the job, learn manners.</p>
+<p><span class="sl">Slide 17 · 6:36</span>Four steps. Gather trillions of words. Pretrain by playing predict-the-next-token on all of it, which builds a brilliant autocomplete that knows language and facts but has no manners. Then fine-tune it on example conversations so it follows instructions. Finally, human feedback: real people rank candidate answers and the model learns what helpful, honest, and safe look like.</p>
+<p><span class="sl">Slide 18 · 7:08</span>Pretraining is the expensive part. Months of continuous compute, tens of thousands of specialized chips, and estimated costs above a hundred million dollars for a single frontier run. That is why only a handful of labs play at this level. But the efficiency race is real: in twenty twenty-six, open models like DeepSeek V4 deliver near-frontier results at roughly a tenth of the serving cost.</p>
+<p><span class="sl">Slide 19 · 7:38</span>Here is why the polishing steps matter. Ask a raw base model how to bake bread and it may reply, asked Jim, who had baked for years. It is not being rude. It is autocompleting, because that is all it knows. After fine-tuning and human feedback, the same network answers the question, declines harmful requests, and admits uncertainty. That finishing school is why chatbots feel like assistants.</p>
+<p><span class="sl">Slide 20 · 8:11</span>Now the most important limitation. A language model always produces the most plausible next words. Plausible is not the same as true. When it hits a gap in its knowledge, it fills the gap smoothly, sometimes inventing names, dates, and citations. This is called hallucination. Search and reasoning features reduce it, but nothing eliminates it. So carry one rule out of this course: trust, but verify.</p>
+<h2><span class="ts">8:46</span>Module 4 · The 2026 model landscape</h2>
+<p><span class="sl">Slide 21 · 8:46</span>Module four, the tour of who makes what in July twenty twenty-six. One warning: this is the fastest-moving slide in the deck. Names change monthly. The two philosophies do not.</p>
+<p><span class="sl">Slide 22 · 9:03</span>Every model you meet falls on one side of a line. Closed weights: you use it as a service and the recipe stays secret. GPT, Claude, Gemini. Open weights: you can download the actual model and run it on your own machine. Llama, DeepSeek, Qwen, Mistral. Closed usually buys polish and peak performance. Open buys freedom, privacy, and zero cost. Both philosophies are thriving in twenty twenty-six.</p>
+<p><span class="sl">Slide 23 · 9:40</span>The frontier three in the United States. OpenAI ships GPT 5.5, with 5.6 rolling out this month, the most used AI on the planet. Anthropic&#x27;s Claude is prized for careful long-form work and coding, and its new Sonnet 5 just became the free default. Google&#x27;s Gemini is woven through Search, Docs, and Gmail and gives away the broadest free tier. All three are excellent for everyday use.</p>
+<p><span class="sl">Slide 24 · 10:14</span>Four more heavyweights. Meta surprised everyone by making its new flagship, Muse Spark, closed weight, while keeping the open Llama 4 line alive, free inside WhatsApp and Instagram. Grok from x AI taps live X data. DeepSeek proved open models can match the frontier at a tenth of the cost. And Mistral carries the flag for Europe with the largest fully open Western model.</p>
+<p><span class="sl">Slide 25 · 10:45</span>The open-weights wave is led from Asia right now. Alibaba&#x27;s Qwen family comes in every size. Moonshot&#x27;s Kimi is a trillion-parameter coding favorite. And GLM 5.2 is MIT licensed with a million-token window. One honest caveat: their hosted apps fall under Chinese data rules, so for sensitive work, download the weights and run them locally instead.</p>
+<p><span class="sl">Slide 26 · 11:16</span>Four numbers to feel the scale. The ChatGPT app passed a billion monthly users in June, the fastest app in history to get there. Gemini passed nine hundred million. One Google image tool generated five billion images in about two months. And Anthropic was valued at nearly a trillion dollars in May. This is why every industry is paying attention.</p>
+<p><span class="sl">Slide 27 · 11:45</span>Because open weights exist, you can run a real model on your own computer. Install a free app called Ollama, pick a small model like Qwen 3, and you have a private assistant that works offline and costs nothing. Honest trade-off: local models are clearly weaker than the frontier ones. Ideal for private material and learning, not for your hardest problems.</p>
+<h2><span class="ts">12:13</span>Module 5 · Which model for which job</h2>
+<p><span class="sl">Slide 28 · 12:13</span>Module five, the practical payoff. People ask which AI is best. Wrong question. The right question is: best for what? Here is the cheat sheet.</p>
+<p><span class="sl">Slide 29 · 12:30</span>Part one, the word-and-work jobs. Everyday writing: ChatGPT&#x27;s free tier is excellent, and many prefer Claude&#x27;s more natural writing voice. Coding: Claude leads, with DeepSeek and Kimi as strong free options. Research with sources: Perplexity cites as it answers, and Gemini&#x27;s Deep Research writes full reports. Long documents: reach for the million-token models, Claude or Gemini.</p>
+<p><span class="sl">Slide 30 · 13:02</span>Part two, media and privacy. Images: Google&#x27;s Nano Banana tool is free and shockingly good, with Midjourney the paid pick for art direction. Video: Veo 3.1 leads on quality, Kling on price. Voice: Eleven Labs. Privacy: run Qwen or Gemma locally through Ollama. And if you just want one free pick, Gemini&#x27;s free tier is the broadest today, with ChatGPT right behind.</p>
+<p><span class="sl">Slide 31 · 13:37</span>When in doubt, four questions beat any leaderboard. Is the data sensitive? Go local, or use a plan with training turned off. Need sources you can check? Use a citing research tool. Is the input huge? Big context model. Otherwise, honestly, any of the big three free tiers is excellent. And the best advice in this whole course: pick one model and learn it deeply. Skill compounds. Tool-hopping does not.</p>
+<h2><span class="ts">14:16</span>Module 6 · Using AI well</h2>
+<p><span class="sl">Slide 32 · 14:16</span>Last module. You now know how these systems work. Let us close with how to use them well, because the difference between an AI power user and everyone else is habits, not access.</p>
+<p><span class="sl">Slide 33 · 14:32</span>Five habits separate power users from everyone else. Verify before you rely. Guard private data. Keep the judgment yourself; AI accelerates, but you decide. Disclose AI help where it matters. And reassess monthly, because models leapfrog each other all the time. None of these require technical skill. All of them require discipline.</p>
+<p><span class="sl">Slide 34 · 15:04</span>A parting gift and a teaser for next week. Most prompt advice fits in four moves. Give the AI a role. Give it context. State the task precisely. And say what format you want back. That one habit doubles the quality of answers from any model. Course 2, Prompting Essentials, goes deep on this next week.</p>
+<p><span class="sl">Slide 35 · 15:33</span>If this course lit a spark, here is where to go next, all free and all verified by hand this month. CGP Grey for a five-minute mental model. Karpathy&#x27;s one-hour intro. Three Blue One Brown for gorgeous visuals. Elements of AI and AI for Everyone for structured courses. The links live on the course resources page.</p>
+<h2><span class="ts">16:01</span>Quiz and certificate</h2>
+<p><span class="sl">Slide 36 · 16:01</span>That is the course. You now understand AI better than most people using it daily. The quiz link is on the course page: twenty questions, pass at seventy percent, and your certificate prints on the spot. Next week, Course 2, Prompting Essentials. This lecture was narrated with an AI voice, which felt only fitting. I will see you there.</p>
+
+  <footer><a href="index.html">Back to the course</a> · Cambium Academy · free forever</footer>
+</div>
+<script src="amelia.js"></script>
+</body>
+</html>

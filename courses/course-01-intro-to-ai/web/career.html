@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Career guide · Intro to AI · Cambium Academy</title>
+<link rel="icon" href="../../../assets/favicon.png">
+<style>
+  :root{--forest:#2C5F2D;--dark:#1F3D24;--moss:#97BC62;--mossdeep:#6E9648;--tint:#F0F5EC;--ink:#1F2A20;--muted:#5C6B5A;--line:#DFE9D8}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:#F6F8F4;line-height:1.65}
+  .wrap{max-width:720px;margin:0 auto;padding:0 18px 60px}
+  .nav{display:flex;align-items:center;gap:12px;padding:12px 0;flex-wrap:wrap}
+  .nav img{width:36px;height:36px}
+  .nav a.brand{font-weight:700;color:var(--dark);text-decoration:none;font-size:14px;display:flex;align-items:center;gap:9px}
+  .nav .links{margin-left:auto;display:flex;gap:14px;flex-wrap:wrap}
+  .nav .links a{color:var(--forest);text-decoration:none;font-weight:600;font-size:13.5px}
+  h1{font-family:Cambria,Georgia,serif;font-size:30px;margin:10px 0 4px}
+  h2{font-family:Cambria,Georgia,serif;font-size:22px;margin:28px 0 8px}
+  p.lead{color:var(--muted);font-size:14.5px;margin-bottom:8px}
+  .box{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin:12px 0}
+  .snippet{background:var(--tint);border:1px solid var(--line);border-radius:8px;padding:12px 14px;font-size:14px;position:relative;margin:10px 0}
+  .snippet button{position:absolute;top:8px;right:8px;background:#fff;color:var(--forest);border:1.5px solid var(--moss);border-radius:6px;padding:4px 12px;font-size:12px;font-weight:700;cursor:pointer}
+  ul{margin:6px 0 6px 22px}
+  li{margin:6px 0;font-size:14.5px}
+  .note{font-size:12.5px;color:var(--muted);margin-top:8px}
+  .toast{position:sticky;bottom:14px;background:var(--dark);color:#fff;padding:10px 16px;border-radius:8px;display:none;width:fit-content;margin:0 auto;font-size:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <a class="brand" href="https://www.linkedin.com/company/cambium-ai-institute/"><img src="../../../assets/logo-mark@2x.png" alt="Cambium AI logo">Cambium AI</a>
+    <div class="links"><a href="index.html">Course</a><a href="certificate.html">Certificate</a><a href="capstone.html">Capstone</a><a href="community.html">Community</a></div>
+  </nav>
+
+  <h1>Put this course to work</h1>
+  <p class="lead">A certificate only matters if it shows up where decisions get made. Fifteen minutes here puts it on your resume, your LinkedIn, and your tongue.</p>
+
+  <h2>1 · On your resume</h2>
+  <div class="box">
+    Under a "Certifications" or "Professional development" heading, honesty first, no inflation:
+    <div class="snippet" id="s1">Intro to AI, Cambium Academy (Cambium AI Research Institution), 2026. Coursework: how large language models work, model training pipeline, 2026 model landscape, model selection by use case, responsible AI use. Certificate ID: CAMB-C01-XXXXXX.<button onclick="cp('s1')">Copy</button></div>
+    If you did the capstone, add one line that shows application, the thing recruiters actually scan for:
+    <div class="snippet" id="s2">Applied coursework in a capstone project: [one line on your real task], including model selection, prompt design, and fact verification.<button onclick="cp('s2')">Copy</button></div>
+    <div class="note">Replace the bracketed text and the certificate ID with yours. Keep it to these two lines; restraint reads as confidence.</div>
+  </div>
+
+  <h2>2 · On LinkedIn</h2>
+  <div class="box">
+    <ul>
+      <li>Use the "Add to LinkedIn profile" button on your <a href="certificate.html" style="color:var(--forest)">certificate page</a>. It files the credential under Licenses and certifications with Cambium AI Research Institution as issuer.</li>
+      <li>Post the share image once, with two sentences about the most surprising thing you learned. Posts with a specific insight outperform generic "I got a certificate" posts.</li>
+      <li>Follow <a href="https://www.linkedin.com/company/cambium-ai-institute/" style="color:var(--forest)">the institute</a> so the weekly courses land in your feed.</li>
+    </ul>
+  </div>
+
+  <h2>3 · In interviews and reviews</h2>
+  <div class="box">
+    Paste these into the <a href="community.html" style="color:var(--forest)">AI teaching assistant</a> to rehearse out loud. It plays the interviewer.
+    <div class="snippet" id="s3">Act as a friendly but sharp hiring manager. I completed an intro AI course covering how LLMs work, training, the 2026 model landscape, and model selection. Interview me for 5 questions on how I would apply AI in a [your job title] role, one question at a time, and grade each answer bluntly.<button onclick="cp('s3')">Copy</button></div>
+    <div class="snippet" id="s4">Help me write a 60-second answer to "How do you use AI in your work?" that is specific and honest, based on this real example from my capstone: [paste your capstone summary].<button onclick="cp('s4')">Copy</button></div>
+    Honest talking points that land well:
+    <ul>
+      <li>"I know how these models actually work, so I know when to trust them and when to verify." Then give your capstone example of catching an error.</li>
+      <li>"I can pick the right tool per task instead of defaulting to one chatbot." Name two picks from the cheat sheet and why.</li>
+      <li>Never claim the certificate makes you an AI engineer. Claim what is true: you are a competent, critical AI user, which is what most teams are actually missing.</li>
+    </ul>
+  </div>
+
+  <div class="note" style="text-align:center;margin-top:24px"><a href="index.html" style="color:var(--forest)">Back to the course</a> · Cambium Academy · free forever</div>
+</div>
+<div class="toast" id="toast">Copied.</div>
+<script>
+function cp(id){
+  const el = document.getElementById(id).cloneNode(true);
+  el.querySelector("button").remove();
+  navigator.clipboard.writeText(el.textContent.trim()).then(()=>{
+    const t = document.getElementById('toast');
+    t.style.display = "block";
+    setTimeout(()=>{ t.style.display = "none"; }, 1800);
+  });
+}
+</script>
+<script src="amelia.js"></script>
+</body>
+</html>

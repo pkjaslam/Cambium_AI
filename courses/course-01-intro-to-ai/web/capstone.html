@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Capstone project · Intro to AI · Cambium Academy</title>
+<link rel="icon" href="../../../assets/favicon.png">
+<style>
+  :root{--forest:#2C5F2D;--dark:#1F3D24;--moss:#97BC62;--mossdeep:#6E9648;--tint:#F0F5EC;--ink:#1F2A20;--muted:#5C6B5A;--amber:#D97706;--line:#DFE9D8}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:#F6F8F4;line-height:1.65}
+  .wrap{max-width:760px;margin:0 auto;padding:0 18px 60px}
+  .nav{display:flex;align-items:center;gap:12px;padding:12px 0;flex-wrap:wrap}
+  .nav img{width:36px;height:36px}
+  .nav a.brand{font-weight:700;color:var(--dark);text-decoration:none;font-size:14px;display:flex;align-items:center;gap:9px}
+  .nav .links{margin-left:auto;display:flex;gap:14px;flex-wrap:wrap}
+  .nav .links a{color:var(--forest);text-decoration:none;font-weight:600;font-size:13.5px}
+  h1{font-family:Cambria,Georgia,serif;font-size:30px;margin:10px 0 4px}
+  h2{font-family:Cambria,Georgia,serif;font-size:22px;margin:28px 0 8px}
+  p.lead{color:var(--muted);font-size:15px;margin-bottom:6px}
+  .box{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px;margin:14px 0}
+  .box.tint{background:var(--tint)}
+  ol,ul{margin:8px 0 8px 22px}
+  li{margin:6px 0}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:10px}
+  th{background:var(--forest);color:#fff;text-align:left;padding:8px 10px}
+  td{border:1px solid var(--line);padding:8px 10px;vertical-align:top}
+  tr:nth-child(even) td{background:#F7FAF4}
+  .check label{display:block;padding:8px 0;border-bottom:1px solid var(--line);font-size:14.5px;cursor:pointer}
+  .check input{margin-right:10px;accent-color:var(--forest)}
+  a.abtn{display:inline-block;background:var(--forest);color:#fff;border-radius:9px;padding:12px 22px;font-size:14.5px;font-weight:700;text-decoration:none;margin:6px 8px 0 0}
+  a.abtn.ghost{background:#fff;color:var(--forest);border:1.5px solid var(--moss)}
+  .note{font-size:12.5px;color:var(--muted);margin-top:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <a class="brand" href="https://www.linkedin.com/company/cambium-ai-institute/"><img src="../../../assets/logo-mark@2x.png" alt="Cambium AI logo">Cambium AI</a>
+    <div class="links"><a href="index.html">Course</a><a href="slides.html">Slides</a><a href="quiz.html">Quiz</a><a href="community.html">Community</a></div>
+  </nav>
+
+  <h1>Capstone: your first real AI project</h1>
+  <p class="lead">The quiz proves you understood the course. The capstone proves you can use it. Expect 45 to 90 minutes. Optional, but graduates who do it get the most out of the course, and the best write-ups get featured in the monthly AMA.</p>
+
+  <h2>The brief</h2>
+  <div class="box">
+    Pick <b>one real task from your own life or work</b> and complete it with AI, start to finish. Good picks: plan a real trip you are taking, draft a difficult email you owe someone, summarize a long document you actually need to read, build a four-week study or fitness plan, make sense of a messy spreadsheet, or research a purchase you are about to make.
+    <ol>
+      <li>Choose the right model for the job using the Module 5 cheat sheet, and note why.</li>
+      <li>Write your prompt with the four moves: role, context, task, format.</li>
+      <li>Iterate at least once: improve the prompt based on the first answer.</li>
+      <li>Verify: check at least three facts, names, or numbers in the output before trusting them.</li>
+      <li>Write it up (300 to 500 words): the task, the model and why, your best prompt, what worked, what the AI got wrong and how you caught it, and what you would do differently.</li>
+    </ol>
+  </div>
+
+  <h2>How it is graded</h2>
+  <p class="lead">Grade yourself honestly against the rubric. Aim for Great or better in every row before you post.</p>
+  <table>
+    <tr><th>Criterion</th><th>Good</th><th>Great</th><th>Outstanding</th></tr>
+    <tr><td><b>Real task</b></td><td>A plausible exercise</td><td>A task you genuinely needed done</td><td>A task with real stakes, and you used the result</td></tr>
+    <tr><td><b>Model choice</b></td><td>Used whatever was at hand</td><td>Picked per the cheat sheet with a stated reason</td><td>Compared two models and reported the difference</td></tr>
+    <tr><td><b>Prompt craft</b></td><td>One-line prompt</td><td>All four moves present</td><td>Four moves plus a meaningful iteration that improved the result</td></tr>
+    <tr><td><b>Verification</b></td><td>Read the output carefully</td><td>Checked three or more facts against sources</td><td>Caught a real error and documented it</td></tr>
+    <tr><td><b>Reflection</b></td><td>Says whether it worked</td><td>Names what worked and what did not</td><td>Draws a lesson someone else can reuse</td></tr>
+  </table>
+
+  <h2>Before you post</h2>
+  <div class="box check" id="checks">
+    <label><input type="checkbox">My task was real, not invented for the assignment</label>
+    <label><input type="checkbox">I stated which model I used and why</label>
+    <label><input type="checkbox">My write-up includes my best prompt, with all four moves</label>
+    <label><input type="checkbox">I verified at least three facts and said how</label>
+    <label><input type="checkbox">I included what the AI got wrong, not just what it got right</label>
+    <label><input type="checkbox">No private or sensitive data appears anywhere in my write-up</label>
+  </div>
+
+  <h2>Submit to the project gallery</h2>
+  <div class="box tint">
+    Post your write-up as a new discussion titled <b>Project · your topic</b> in the Academy forum. The community reads them, the best ones get featured in the monthly AMA thread, and your project becomes part of your public learning record next to your certificate.
+    <div style="margin-top:10px">
+      <a class="abtn" href="https://github.com/pkjaslam/Cambium_AI/discussions" target="_blank" rel="noopener">Open the project gallery</a>
+      <a class="abtn ghost" href="community.html">Get feedback help first</a>
+    </div>
+    <div class="note">Want a critique before posting? Ask the AI teaching assistant on the community page to review your write-up against the rubric. It is surprisingly tough.</div>
+  </div>
+</div>
+<script>
+(function(){
+  var KEY = "cambium-c01-capstone";
+  var boxes = document.querySelectorAll("#checks input");
+  var saved = [];
+  try { saved = JSON.parse(localStorage.getItem(KEY) || "[]"); } catch(e){}
+  boxes.forEach(function(b, i){
+    b.checked = !!saved[i];
+    b.addEventListener("change", function(){
+      var s = [];
+      boxes.forEach(function(x){ s.push(x.checked); });
+      localStorage.setItem(KEY, JSON.stringify(s));
+    });
+  });
+})();
+</script>
+<script src="amelia.js"></script>
+</body>
+</html>

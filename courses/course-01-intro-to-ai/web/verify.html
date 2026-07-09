@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verify a certificate · Cambium Academy</title>
+<link rel="icon" href="../../../assets/favicon.png">
+<style>
+  :root{--forest:#2C5F2D;--dark:#1F3D24;--moss:#97BC62;--tint:#F0F5EC;--ink:#1F2A20;--muted:#5C6B5A;--line:#DFE9D8;--red:#B3372E}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:#F6F8F4;line-height:1.6}
+  .wrap{max-width:620px;margin:0 auto;padding:0 18px 60px}
+  .nav{display:flex;align-items:center;gap:12px;padding:12px 0}
+  .nav img{width:36px;height:36px}
+  .nav a.brand{font-weight:700;color:var(--dark);text-decoration:none;font-size:14px;display:flex;align-items:center;gap:9px}
+  .nav .links{margin-left:auto}
+  .nav .links a{color:var(--forest);text-decoration:none;font-weight:600;font-size:13.5px}
+  h1{font-family:Cambria,Georgia,serif;font-size:28px;margin:10px 0 6px}
+  p.lead{color:var(--muted);font-size:14.5px;margin-bottom:20px}
+  .box{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px}
+  label{display:block;font-size:13px;font-weight:600;color:var(--muted);margin:12px 0 4px}
+  input{width:100%;padding:11px 12px;font-size:15px;border:1.5px solid var(--line);border-radius:8px}
+  button{margin-top:16px;background:var(--forest);color:#fff;border:0;border-radius:8px;padding:12px 24px;font-size:15px;font-weight:700;cursor:pointer}
+  #result{display:none;margin-top:16px;padding:14px 16px;border-radius:10px;font-size:14.5px}
+  #result.ok{background:#EBF4E4;border:1.5px solid var(--forest);color:var(--forest)}
+  #result.bad{background:#FBEBE9;border:1.5px solid var(--red);color:var(--red)}
+  .note{font-size:12.5px;color:var(--muted);margin-top:16px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <a class="brand" href="https://www.linkedin.com/company/cambium-ai-institute/"><img src="../../../assets/logo-mark@2x.png" alt="Cambium AI logo">Cambium AI</a>
+    <div class="links"><a href="index.html">Course home</a></div>
+  </nav>
+
+  <h1>Verify a Cambium Academy certificate</h1>
+  <p class="lead">Certificate IDs are computed from the certificate's own details. Enter them exactly as they appear on the certificate; if the ID matches, the details are consistent with an authentic Cambium Academy certificate.</p>
+
+  <div class="box">
+    <label>Full name on the certificate</label>
+    <input id="vname" type="text" placeholder="Exactly as printed">
+    <label>Completion date (YYYY-MM-DD)</label>
+    <input id="vdate" type="text" placeholder="2026-07-08">
+    <label>Quiz score (out of 20)</label>
+    <input id="vscore" type="text" placeholder="17">
+    <label>Certificate ID</label>
+    <input id="vid" type="text" placeholder="CAMB-C01-XXXXXX">
+    <button onclick="verify()">Verify</button>
+    <div id="result"></div>
+  </div>
+
+  <div class="note">Like most free online course certificates, these are honor-based: they certify quiz completion, not proctored identity. What this page confirms is that the name, date, score, and ID belong together and were produced by the Cambium Academy certificate generator. Employers wanting more can ask the holder about the course content; the <a href="quiz.html" style="color:var(--forest)">quiz</a> and <a href="capstone.html" style="color:var(--forest)">capstone</a> are public.</div>
+</div>
+
+<script>
+function hashId(s){
+  let h = 5381;
+  for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) >>> 0;
+  return h.toString(36).toUpperCase().padStart(6, "0").slice(-6);
+}
+function verify(){
+  const name = document.getElementById('vname').value.trim();
+  const date = document.getElementById('vdate').value.trim();
+  const score = document.getElementById('vscore').value.trim();
+  const id = document.getElementById('vid').value.trim().toUpperCase();
+  const r = document.getElementById('result');
+  r.style.display = "block";
+  if (!name || !date || !score || !id) { r.className = "bad"; r.textContent = "Fill in all four fields exactly as they appear on the certificate."; return; }
+  const expected = "CAMB-C01-" + hashId(name.toLowerCase() + "|" + date + "|" + score);
+  if (expected === id) {
+    r.className = "ok";
+    r.textContent = "Valid. This ID matches a Course 01 certificate for " + name + ", completed " + date + " with a score of " + score + "/20.";
+  } else {
+    r.className = "bad";
+    r.textContent = "No match. Check for typos (the name, date, and score must be exactly as printed). If it still fails, the ID was not produced by the Course 01 certificate generator.";
+  }
+}
+</script>
+</body>
+</html>

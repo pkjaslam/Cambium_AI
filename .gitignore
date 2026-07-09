@@ -63,3 +63,10 @@ agent_outputs/
 
 # ruff lint cache (never commit)
 .ruff_cache/
+
+# Academy: personal originals and session archives never enter the repo
+courses/**/_old/
+assets/JASLAM*
+assets/AMELIA*
+assets/amelia.jpg
+**/voice-samples/
