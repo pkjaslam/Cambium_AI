@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Certificate · Intro to AI · Cambium Academy</title>
 <link rel="icon" href="../../../assets/favicon.png">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <script src="./support.js"></script>
 <template id="__bundler_thumbnail" data-bg-color="#1B2818">
@@ -94,28 +95,32 @@
     <img src="assets/logo.png" alt="" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-52%);width:520px;opacity:.045;pointer-events:none;filter:grayscale(30%)">
 
     <!-- content -->
-    <div style="position:absolute;inset:38px;display:flex;flex-direction:column;align-items:center;text-align:center;padding:38px 100px 60px">
+    <div id="qrBox" style="display:none;position:absolute;left:52px;bottom:52px;text-align:center;z-index:3">
+      <div id="qrCode" style="background:#fff;padding:5px;border:1px solid #B98A2D;display:inline-block"></div>
+      <div style="font-family:'Spectral',serif;font-size:8px;letter-spacing:1.5px;color:#5C6B5A;margin-top:3px">SCAN TO VERIFY</div>
+    </div>
+    <div style="position:absolute;inset:38px;display:flex;flex-direction:column;align-items:center;text-align:center;padding:28px 100px 46px">
 
-      <img src="assets/logo.png" alt="Cambium AI Research Institution" style="width:118px;height:auto;margin-bottom:14px;filter:drop-shadow(0 2px 6px rgba(31,42,32,.18))">
+      <img src="assets/logo.png" alt="Cambium AI Research Institution" style="width:94px;height:auto;margin-bottom:8px;filter:drop-shadow(0 2px 6px rgba(31,42,32,.18))">
 
       <div style="font-family:'Spectral',serif;font-size:14px;font-weight:500;letter-spacing:7px;text-transform:uppercase;color:#2C5F2D">Cambium AI Research Institution</div>
 
-      <div style="display:flex;align-items:center;gap:16px;margin-top:26px;width:520px">
+      <div style="display:flex;align-items:center;gap:16px;margin-top:16px;width:520px">
         <div style="flex:1;height:1px;background:linear-gradient(90deg,transparent,#B98A2D)"></div>
         <div style="font-family:'Cormorant Garamond',serif;font-size:46px;font-weight:700;letter-spacing:7px;text-transform:uppercase;white-space:nowrap;background:linear-gradient(180deg,#8C6320 0%,#D9B25C 45%,#B98A2D 60%,#7A561C 100%);-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent">Certificate</div>
         <div style="flex:1;height:1px;background:linear-gradient(90deg,#B98A2D,transparent)"></div>
       </div>
       <div style="font-family:'Spectral',serif;font-size:13px;letter-spacing:6px;text-transform:uppercase;color:#B98A2D;margin-top:4px">of Completion</div>
 
-      <div style="font-family:'Spectral',serif;font-size:14px;font-weight:300;letter-spacing:3px;text-transform:uppercase;color:#5C6B5A;margin-top:24px">This is to certify that</div>
+      <div style="font-family:'Spectral',serif;font-size:14px;font-weight:300;letter-spacing:3px;text-transform:uppercase;color:#5C6B5A;margin-top:15px">This is to certify that</div>
 
-      <div id="learnerLine" style="font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:700;font-size:52px;line-height:1.15;color:#1F3D24;margin-top:12px;letter-spacing:.03em;word-spacing:.12em">{{ learnerName }}</div>
+      <div id="learnerLine" style="font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:700;font-size:50px;line-height:1.1;color:#1F3D24;margin-top:8px;letter-spacing:.03em;word-spacing:.12em">{{ learnerName }}</div>
       <svg width="380" height="14" viewBox="0 0 380 14" fill="none" style="margin-top:2px">
         <path d="M4 8 Q190 2 376 8" stroke="#B98A2D" stroke-width="1.5" fill="none"></path>
         <path d="M190 8 Q184 3 190 1 Q196 3 190 8 Q184 13 190 13.5 Q196 13 190 8 Z" fill="#B98A2D" opacity=".0"></path>
         <circle cx="190" cy="5" r="2.4" fill="#B98A2D"></circle>
       </svg>
-      <div id="orgLine" style="display:none;font-family:'Spectral',serif;font-size:14px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:#5C6B5A;margin-top:9px"></div>
+      <div id="orgLine" style="display:none;font-family:'Spectral',serif;font-size:13px;font-weight:500;letter-spacing:2.5px;text-transform:uppercase;color:#5C6B5A;margin-top:6px"></div>
 
       <div style="font-family:'Spectral',serif;font-size:15px;font-weight:300;color:#5C6B5A;margin-top:20px;max-width:640px;line-height:1.65">has fulfilled all requirements of the programme</div>
       <div style="font-family:'Cormorant Garamond',serif;font-size:32px;font-weight:700;color:#1F3D24;margin-top:6px;letter-spacing:.5px">Intro to Artificial Intelligence</div>
@@ -177,7 +182,7 @@
 
       </div>
 
-      <div style="margin-top:14px;font-family:'Spectral',serif;font-size:11px;letter-spacing:2px;color:#8A9784">CERTIFICATE ID &#183; <span style="color:#B98A2D;font-weight:500">{{ certId }}</span></div>
+      <div style="margin-top:8px;font-family:'Spectral',serif;font-size:11px;letter-spacing:2px;color:#8A9784">CERTIFICATE ID &#183; <span style="color:#B98A2D;font-weight:500">{{ certId }}</span></div>
 
     </div>
   </div>
@@ -241,22 +246,27 @@ function tidyName(n){
   function q(k){ return new URLSearchParams(location.search).get(k); }
   function fmt(d){ var dt = d ? new Date(d + "T12:00:00") : new Date(); return dt.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }); }
   function rd(k){ try { return JSON.parse(localStorage.getItem(k) || "null"); } catch(e){ return null; } }
-  var name = q("name"), org = q("org") || "", dateIso = q("date"), score = q("score") || "";
-  var quizPassed = !!((rd("cambium-c01-quiz") || {}).passed);
-  var earned = (parseInt(score || "0", 10) >= 14) || quizPassed;
-  var restored = false;
+  var urlName = q("name"), urlOrg = q("org") || "", urlDate = q("date"), urlScore = q("score") || "";
+  var qz = rd("cambium-c01-quiz") || {};
+  var saved = rd("cambium-c01-cert") || {};
+  var name = null, org = "", dateIso = "", score = "", mode = null;
 
-  // Reprint: no link params, but this browser already earned a certificate.
-  if (!name) {
-    var saved = rd("cambium-c01-cert") || {};
-    if (saved.issued && saved.name) {
-      name = saved.name; org = saved.org || ""; dateIso = saved.date || ""; score = saved.score || "";
-      earned = true; restored = true;
-    }
+  // One certificate per quiz pass. A stored certificate wins over any name in the link,
+  // UNLESS this browser holds a fresh, unconsumed quiz pass, in which case a new
+  // certificate may be issued (each pass mints exactly one).
+  var freshPass = qz.passed === true;
+  if (saved.issued && saved.name && !(freshPass && urlName && parseInt(urlScore || "0", 10) >= 14 && tidyName(urlName) !== saved.name)) {
+    name = saved.name; org = saved.org || ""; dateIso = saved.date || ""; score = saved.score || "";
+    mode = (urlName && tidyName(urlName) !== saved.name) ? "mismatch" : "reprint";
+  } else if (urlName && (parseInt(urlScore || "0", 10) >= 14) && (freshPass || !saved.issued)) {
+    name = tidyName(urlName); org = urlOrg; dateIso = urlDate || ""; score = urlScore;
+    mode = "issue";
+  } else if (urlName && parseInt(urlScore || "0", 10) >= 14 && saved.issued) {
+    name = saved.name; org = saved.org || ""; dateIso = saved.date || ""; score = saved.score || "";
+    mode = "mismatch";
   }
 
-  if (name && earned) {
-    name = tidyName(name);
+  if (name) {
     window.__CERT = { name: name, org: org, date: dateIso, score: score };
     var sc = document.querySelector('script[type="text/x-dc"]');
     if (sc) {
@@ -267,22 +277,41 @@ function tidyName(n){
         sc.setAttribute("data-props", JSON.stringify(props));
       } catch(e) {}
     }
-    try { localStorage.setItem("cambium-c01-cert", JSON.stringify({ issued: true, name: name, org: org, date: dateIso, score: score })); } catch(e) {}
+    if (mode === "issue") {
+      try {
+        localStorage.setItem("cambium-c01-cert", JSON.stringify({ issued: true, name: name, org: org, date: dateIso, score: score }));
+        // Consume the pass: a new name now requires passing the quiz again.
+        localStorage.setItem("cambium-c01-quiz", JSON.stringify({ best: qz.best || parseInt(score, 10), passed: false, consumedBy: name, date: qz.date || dateIso }));
+      } catch(e) {}
+    }
     document.title = "Certificate · " + name + " · Cambium Academy";
     document.addEventListener("DOMContentLoaded", function(){
       setTimeout(function(){
         var cert = document.querySelector('x-dc div[style*="1240px"]');
         if (cert) cert.id = "certSheet";
         var line = document.getElementById("learnerLine");
-        if (line && name.length > 26) line.style.fontSize = Math.max(32, Math.round(52 * 26 / name.length)) + "px";
+        if (line && name.length > 26) line.style.fontSize = Math.max(30, Math.round(50 * 26 / name.length)) + "px";
         var ol = document.getElementById("orgLine");
         if (ol && org) { ol.textContent = org; ol.style.display = "block"; }
-        if (restored) {
+        var m = (document.body.innerText || "").match(/CAMB-C01-[A-Z0-9]{6}/);
+        if (m && window.QRCode) {
+          try {
+            var vurl = "https://pkjaslam.github.io/Cambium_AI/courses/course-01-intro-to-ai/web/verify.html?name=" + encodeURIComponent(name) + "&date=" + encodeURIComponent(dateIso) + "&id=" + encodeURIComponent(m[0]);
+            new QRCode(document.getElementById("qrCode"), { text: vurl, width: 72, height: 72, correctLevel: QRCode.CorrectLevel.M });
+            document.getElementById("qrBox").style.display = "block";
+          } catch(e) {}
+        }
+        var noteTxt = mode === "reprint"
+          ? "Welcome back. This is your earned certificate, print or save it again anytime."
+          : (mode === "mismatch"
+            ? "This browser's certificate belongs to " + name + ". Each quiz pass issues exactly one certificate; a different name needs a fresh quiz pass."
+            : "");
+        if (noteTxt) {
           var note = document.createElement("div");
-          note.style.cssText = "position:fixed;bottom:14px;left:14px;z-index:98;background:rgba(255,253,246,.95);border:1px solid #B98A2D;border-radius:10px;padding:9px 14px;font-family:Arial,sans-serif;font-size:12.5px;color:#1F2A20";
-          note.textContent = "Restored your earned certificate from this browser. Print it again anytime.";
+          note.style.cssText = "position:fixed;bottom:14px;left:14px;z-index:98;background:rgba(255,253,246,.97);border:1px solid #B98A2D;border-radius:10px;padding:9px 14px;font-family:Arial,sans-serif;font-size:12.5px;color:#1F2A20;max-width:min(430px,86vw)";
+          note.textContent = noteTxt;
           document.body.appendChild(note);
-          setTimeout(function(){ note.remove(); }, 7000);
+          setTimeout(function(){ note.remove(); }, 9000);
         }
       }, 350);
     });
@@ -290,25 +319,26 @@ function tidyName(n){
   }
 
   document.addEventListener("DOMContentLoaded", function(){
-    if (earned) {
+    if (qz.passed) {
       var c = document.getElementById("certNameCtl");
       if (c) c.style.display = "inline-flex";
       return;
     }
     var lock = document.createElement("div");
     lock.style.cssText = "position:fixed;top:70px;left:50%;transform:translateX(-50%);z-index:98;background:#FFFDF6;border:2px solid #B98A2D;border-radius:12px;padding:16px 22px;max-width:min(480px,90vw);font-family:Arial,sans-serif;font-size:14px;color:#1F2A20;box-shadow:0 12px 34px rgba(0,0,0,.35);text-align:center";
-    lock.innerHTML = '<b style="color:#2C5F2D">Certificates are earned, not printed.</b><br>Pass the 20-question quiz (70% or better) and this page unlocks with your name on it.<br><a href="quiz.html" style="display:inline-block;margin-top:10px;background:#2C5F2D;color:#fff;border-radius:8px;padding:10px 20px;font-weight:700;text-decoration:none">Take the quiz</a>';
+    lock.innerHTML = '<b style="color:#2C5F2D">Certificates are earned, not printed.</b><br>Pass the 20-question quiz (70% or better) and this page unlocks with your name on it. Each pass issues exactly one certificate.<br><a href="quiz.html" style="display:inline-block;margin-top:10px;background:#2C5F2D;color:#fff;border-radius:8px;padding:10px 20px;font-weight:700;text-decoration:none">Take the quiz</a>';
     document.body.appendChild(lock);
   });
 })();
 function applyCertName(){
   var v = document.getElementById("certNameInput").value.trim();
   if (!v) return;
-  var t = new Date();
-  var d = t.getFullYear() + "-" + String(t.getMonth()+1).padStart(2,"0") + "-" + String(t.getDate()).padStart(2,"0");
   var qz = {};
   try { qz = JSON.parse(localStorage.getItem("cambium-c01-quiz") || "{}"); } catch(e) {}
-  location.search = "?name=" + encodeURIComponent(tidyName(v)) + "&date=" + d + (qz.best ? "&score=" + qz.best : "");
+  if (!qz.passed) { alert("Pass the quiz first; each pass issues one certificate."); return; }
+  var t = new Date();
+  var d = t.getFullYear() + "-" + String(t.getMonth()+1).padStart(2,"0") + "-" + String(t.getDate()).padStart(2,"0");
+  location.search = "?name=" + encodeURIComponent(v) + "&date=" + d + "&score=" + (qz.best || 14);
 }
 </script>
 <script src="cert-extras.js"></script>

@@ -60,7 +60,7 @@
     <button class="subtle" onclick="resetAll()">Reset progress</button>
   </div>
 
-  <div class="card" id="card" onclick="this.classList.toggle('flipped')">
+  <div class="card" id="card" onclick="flipCard()">
     <div class="inner">
       <div class="face front"><div class="mod" id="modF"></div><div class="term" id="term"></div><div class="tap">tap to flip</div></div>
       <div class="face back"><div class="mod" id="modB"></div><div class="def" id="def"></div></div>
@@ -68,9 +68,10 @@
   </div>
 
   <div class="actions" id="actions">
-    <button class="again" onclick="mark(false)">Show me again</button>
-    <button class="know" onclick="mark(true)">Got it</button>
+    <button class="again" id="btnAgain" onclick="mark(false)" disabled style="opacity:.4">Show me again</button>
+    <button class="know" id="btnKnow" onclick="mark(true)" disabled style="opacity:.4">Got it</button>
   </div>
+  <p id="flipHint" style="text-align:center;font-size:13px;color:var(--muted);margin-top:10px">Flip the card and read the answer first; then be honest with the buttons.</p>
 
   <div class="done" id="done">
     <h2>Deck cleared.</h2>
@@ -118,6 +119,20 @@ function buildQueue(){
   queue = CARDS.map((c,i)=>i).filter(i=>!known[i]);
   for (let i = queue.length-1; i > 0; i--) { const j = Math.floor(Math.random()*(i+1)); [queue[i],queue[j]] = [queue[j],queue[i]]; }
 }
+let seenBack = false;
+function setActions(on){
+  ["btnAgain", "btnKnow"].forEach(id => {
+    const b = document.getElementById(id);
+    b.disabled = !on;
+    b.style.opacity = on ? "1" : ".4";
+  });
+  const h = document.getElementById('flipHint');
+  if (h) h.style.visibility = on ? "hidden" : "visible";
+}
+function flipCard(){
+  document.getElementById('card').classList.toggle('flipped');
+  if (!seenBack) { seenBack = true; setActions(true); }
+}
 function refresh(){
   document.getElementById('known').textContent = Object.keys(known).length;
   document.getElementById('left').textContent = queue.length;
@@ -126,12 +141,15 @@ function refresh(){
   doneEl.style.display = "none"; cardEl.style.display = "block"; act.style.display = "flex";
   const c = CARDS[queue[0]];
   cardEl.classList.remove('flipped');
+  seenBack = false;
+  setActions(false);
   document.getElementById('modF').textContent = "Module " + c[0].slice(1);
   document.getElementById('modB').textContent = c[1];
   document.getElementById('term').textContent = c[1];
   document.getElementById('def').textContent = c[2];
 }
 function mark(gotIt){
+  if (!seenBack) return;
   const i = queue.shift();
   if (gotIt) { known[i] = 1; localStorage.setItem(KEY, JSON.stringify(known)); }
   else { queue.push(i); }

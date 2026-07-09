@@ -36,7 +36,7 @@
   </nav>
 
   <h1>Verify a Cambium Academy certificate</h1>
-  <p class="lead">Certificate IDs are computed from the name and completion date printed on the certificate. Enter both exactly as they appear; if the ID matches, the details are consistent with an authentic Cambium Academy certificate.</p>
+  <p class="lead">Made for employers and reviewers holding a certificate: copy the name, date, and ID exactly as printed on it (nothing to memorize), or simply scan the QR code on the certificate, which fills this page automatically.</p>
 
   <div class="box">
     <label>Full name, exactly as printed</label>
@@ -58,6 +58,15 @@ function hashId(s){
   for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) >>> 0;
   return h.toString(36).toUpperCase().padStart(6, "0").slice(-6);
 }
+// QR prefill: certificate QR codes link here with the details filled in.
+(function(){
+  const p = new URLSearchParams(location.search);
+  if (!p.get("id")) return;
+  document.getElementById('vname').value = p.get("name") || "";
+  if (p.get("date")) document.getElementById('vdate').value = p.get("date");
+  document.getElementById('vid').value = p.get("id") || "";
+  setTimeout(verify, 300);
+})();
 function verify(){
   const name = document.getElementById('vname').value.trim().replace(/\s+/g, " ");
   const iso = document.getElementById('vdate').value;

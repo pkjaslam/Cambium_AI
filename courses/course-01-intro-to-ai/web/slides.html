@@ -5,72 +5,101 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Slides · Intro to AI · Cambium Academy</title>
 <link rel="icon" href="../../../assets/favicon.png">
-<link rel="stylesheet" href="polish.css">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Spectral:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{--forest:#2C5F2D;--dark:#1F3D24;--moss:#97BC62;--mossdeep:#6E9648;--tint:#F0F5EC;--ink:#1F2A20;--muted:#5C6B5A;--amber:#D97706;--line:#DFE9D8}
+  :root{--forest:#2C5F2D;--dark:#1F3D24;--moss:#97BC62;--mossdeep:#6E9648;--tint:#F0F5EC;--ink:#1F2A20;--muted:#5C6B5A;--gold:#B98A2D;--goldL:#D9B25C;--parchLine:#E3D9BF;--line:#DFE9D8}
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:#E7EDE3;color:var(--ink);min-height:100vh;display:flex;flex-direction:column}
-  .topbar{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;font-size:13px;color:var(--muted)}
-  .topbar a{color:var(--forest);text-decoration:none;font-weight:600}
-  .stage{flex:1;display:flex;align-items:center;justify-content:center;padding:0 16px 8px}
-  .slide{background:#fff;width:min(1000px,96vw);aspect-ratio:16/9;border-radius:14px;box-shadow:0 10px 34px rgba(31,42,32,.16);padding:4.2% 5%;overflow:auto;position:relative}
-  .slide.dark{background:var(--dark);color:#fff}
-  .kicker{color:var(--mossdeep);font-size:clamp(10px,1.2vw,13px);font-weight:700;letter-spacing:2.5px;text-transform:uppercase}
+  body{font-family:-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:radial-gradient(ellipse 80% 60% at 50% 0%, #EDF2E7 0%, #E2EADB 60%, #D8E2D0 100%);color:var(--ink);min-height:100vh;display:flex;flex-direction:column}
+  .topbar{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:12px 22px;font-size:13px;color:var(--muted);flex-wrap:wrap}
+  .topbar a{color:var(--forest);text-decoration:none;font-weight:600;display:inline-flex;align-items:center;gap:8px}
+  .topbar a:hover{color:var(--mossdeep)}
+  .topbar img{width:30px;height:30px}
+  .chapters{display:flex;align-items:center;justify-content:center;gap:7px;padding:2px 0 10px}
+  .chapters button{width:11px;height:11px;border-radius:50%;border:1.5px solid var(--mossdeep);background:transparent;cursor:pointer;padding:0;transition:all .25s;position:relative}
+  .chapters button.on{background:var(--forest);border-color:var(--forest);transform:scale(1.25)}
+  .chapters button.past{background:var(--moss);border-color:var(--moss)}
+  .chapters button:hover::after{content:attr(data-t);position:absolute;bottom:18px;left:50%;transform:translateX(-50%);background:var(--dark);color:#E8F2DE;font-size:11px;padding:4px 10px;border-radius:6px;white-space:nowrap;z-index:20}
+  .bar{height:3px;background:rgba(110,150,72,.22)}
+  .bar i{display:block;height:3px;background:linear-gradient(90deg,var(--forest),var(--moss));transition:width .3s}
+  .stage{flex:1;display:flex;align-items:center;justify-content:center;padding:14px 16px 6px}
+  .slide{width:min(1020px,96vw);aspect-ratio:16/9;border-radius:18px;padding:4.4% 5.2%;overflow:auto;position:relative;
+    background:linear-gradient(160deg,#FFFDF6 0%,#FBF7EA 55%,#F6F0DE 100%);
+    border:1px solid var(--parchLine);
+    box-shadow:0 24px 60px rgba(31,42,32,.22), 0 3px 12px rgba(31,42,32,.10), inset 0 0 0 1px rgba(217,178,92,.25);
+    animation:slideIn .38s cubic-bezier(.22,1,.36,1)}
+  @keyframes slideIn{from{opacity:0;transform:translateY(14px) scale(.99)}to{opacity:1;transform:none}}
+  .slide.dark{background:radial-gradient(ellipse 90% 80% at 50% 20%, #2C4A28 0%, #1F3D24 55%, #16240F 100%);color:#fff;border-color:#183018;box-shadow:0 24px 60px rgba(10,18,9,.45), inset 0 0 0 1px rgba(217,178,92,.35)}
+  .slide.dark::after{content:'';position:absolute;inset:12px;border:1px solid rgba(217,178,92,.28);border-radius:10px;pointer-events:none}
+  .wm{position:absolute;right:2%;bottom:-6%;font-family:'Cormorant Garamond',Georgia,serif;font-weight:700;font-size:clamp(160px,30vw,300px);line-height:1;color:rgba(217,178,92,.10);pointer-events:none;user-select:none}
+  .kicker{display:flex;align-items:center;gap:10px;color:var(--mossdeep);font-size:clamp(10px,1.15vw,12.5px);font-weight:700;letter-spacing:2.6px;text-transform:uppercase}
+  .kicker::before{content:'';width:26px;height:1.5px;background:var(--gold)}
   .dark .kicker{color:var(--moss)}
-  h1{font-family:Cambria,Georgia,serif;font-size:clamp(22px,3.2vw,40px);margin:6px 0 4px}
-  h2.stitle{font-family:Cambria,Georgia,serif;font-size:clamp(18px,2.6vw,30px);margin:6px 0 14px}
-  .sub{font-family:Cambria,Georgia,serif;font-style:italic;color:var(--moss);font-size:clamp(14px,1.8vw,20px)}
-  .rows{display:flex;flex-direction:column;gap:2.2%}
-  .row{display:flex;gap:12px;align-items:flex-start}
-  .dot{flex:0 0 10px;width:10px;height:10px;border-radius:50%;background:var(--moss);margin-top:8px}
-  .row b{display:block;font-size:clamp(13px,1.6vw,17px)}
-  .row span{color:var(--muted);font-size:clamp(12px,1.4vw,14.5px)}
+  .dark .kicker::before{background:var(--goldL)}
+  h1{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(26px,3.6vw,44px);font-weight:700;margin:8px 0 4px;line-height:1.08}
+  h2.stitle{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(21px,2.9vw,33px);font-weight:700;margin:8px 0 16px;line-height:1.12}
+  .sub{font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;color:var(--moss);font-size:clamp(15px,2vw,21px);font-weight:500}
+  .rows{display:flex;flex-direction:column;gap:2.4%}
+  .row{display:flex;gap:13px;align-items:flex-start}
+  .dot{flex:0 0 9px;width:9px;height:9px;background:var(--gold);margin-top:9px;transform:rotate(45deg);box-shadow:0 0 0 3px rgba(185,138,45,.18)}
+  .row b{display:block;font-size:clamp(13px,1.55vw,16.5px);color:var(--ink)}
+  .row span{color:var(--muted);font-size:clamp(12px,1.35vw,14px)}
+  .dark .row b{color:#F2F8EA}
   .dark .row span{color:#CFE3BF}
-  .grid{display:grid;gap:12px}
+  .dark .dot{box-shadow:0 0 0 3px rgba(217,178,92,.25)}
+  .grid{display:grid;gap:13px}
   .g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr 1fr}
-  .card{border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:#fff;box-shadow:0 2px 8px rgba(31,42,32,.05)}
-  .card.tint{background:var(--tint)}
-  .card b{font-size:clamp(12px,1.5vw,15.5px);color:var(--ink)}
-  .card .cnum{font-family:Cambria,Georgia,serif;font-size:clamp(16px,2vw,22px);font-weight:700;color:var(--moss)}
-  .card p{color:var(--muted);font-size:clamp(11px,1.3vw,13.5px);margin-top:4px}
-  .quote{background:var(--tint);border:1px solid var(--line);border-radius:10px;padding:14px 18px;font-family:Cambria,Georgia,serif;font-style:italic;font-size:clamp(13px,1.8vw,19px);margin-bottom:14px}
+  .card{border:1px solid var(--parchLine);border-radius:12px;padding:13px 15px;background:#FFFEFA;box-shadow:0 2px 10px rgba(31,42,32,.06);transition:transform .2s, box-shadow .2s}
+  .card:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(31,42,32,.12)}
+  .card.tint{background:var(--tint);border-color:var(--line)}
+  .card b{font-size:clamp(12px,1.45vw,15.5px);color:var(--ink)}
+  .card .cnum{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(17px,2vw,24px);font-weight:700;color:var(--gold)}
+  .card p{color:var(--muted);font-size:clamp(11px,1.25vw,13.5px);margin-top:4px}
+  .quote{background:linear-gradient(135deg,#F5F0E1,#EFE8D3);border:1px solid var(--parchLine);border-left:3px solid var(--gold);border-radius:12px;padding:15px 20px;font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-size:clamp(14px,1.9vw,20px);margin-bottom:15px;color:#33402F}
   .quote em{color:var(--forest);font-weight:700}
-  .note{background:var(--tint);border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-size:clamp(11px,1.4vw,14px);margin-top:14px}
-  .note.warn{background:#FBF3E4}
+  .note{background:var(--tint);border:1px solid var(--line);border-radius:10px;padding:11px 15px;font-size:clamp(11px,1.35vw,14px);margin-top:15px;color:var(--ink)}
+  .note.warn{background:#FBF3E4;border-color:#EAD9B8}
   .note b{color:var(--forest)}
-  .note.warn b{color:var(--amber)}
-  table{width:100%;border-collapse:collapse;font-size:clamp(11px,1.4vw,14.5px)}
-  th{background:var(--forest);color:#fff;text-align:left;padding:9px 12px}
-  td{border:1px solid var(--line);padding:9px 12px}
-  tr:nth-child(even) td{background:#F7FAF4}
-  .stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .stat{border:1px solid var(--line);border-radius:10px;padding:14px 16px;box-shadow:0 2px 8px rgba(31,42,32,.05)}
-  .stat .v{font-family:Cambria,Georgia,serif;font-size:clamp(24px,3.4vw,40px);font-weight:700;color:var(--amber)}
-  .stat:nth-child(even) .v{color:var(--forest)}
-  .stat p{color:var(--muted);font-size:clamp(11px,1.3vw,13px)}
-  .nav{display:flex;align-items:center;justify-content:center;gap:18px;padding:10px 0 18px}
-  .nav button{background:var(--forest);color:#fff;border:0;border-radius:8px;padding:10px 20px;font-size:15px;font-weight:600;cursor:pointer}
-  .nav button:disabled{opacity:.35;cursor:default}
-  .count{font-size:14px;color:var(--muted);min-width:70px;text-align:center}
-  .bar{height:4px;background:#D3DECC}
-  .bar i{display:block;height:4px;background:var(--forest);transition:width .25s}
-  .bignum{font-family:Cambria,Georgia,serif;font-size:clamp(30px,5vw,58px);font-weight:700;color:var(--moss)}
-  .foot{position:absolute;bottom:3.5%;left:5%;font-size:clamp(9px,1vw,11px);color:#7FA06F}
+  .note.warn b{color:var(--gold)}
+  .note a{color:var(--forest);font-weight:700}
+  table{width:100%;border-collapse:separate;border-spacing:0;font-size:clamp(11px,1.35vw,14.5px);border-radius:12px;overflow:hidden;border:1px solid var(--parchLine)}
+  th{background:linear-gradient(180deg,#2F5A2A,#254D24);color:#F2F8EA;text-align:left;padding:10px 13px;font-weight:600;letter-spacing:.4px;border-bottom:2px solid var(--gold)}
+  td{padding:9px 13px;border-bottom:1px solid #F0E9D6;background:#FFFEFA}
+  tr:nth-child(even) td{background:#FAF6EA}
+  tr:last-child td{border-bottom:none}
+  .stats{display:grid;grid-template-columns:1fr 1fr;gap:13px}
+  .stat{border:1px solid var(--parchLine);border-radius:12px;padding:15px 18px;background:#FFFEFA;box-shadow:0 2px 10px rgba(31,42,32,.06)}
+  .stat .v{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(26px,3.6vw,44px);font-weight:700;background:linear-gradient(180deg,#8C6320,#D9B25C 50%,#7A561C);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .stat:nth-child(even) .v{background:linear-gradient(180deg,#234D24,#6E9648 60%,#2C5F2D);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .stat p{color:var(--muted);font-size:clamp(11px,1.25vw,13px);margin-top:2px}
+  .nav{display:flex;align-items:center;justify-content:center;gap:16px;padding:12px 0 18px}
+  .nav button{background:linear-gradient(180deg,#2F5A2A,#234D24);color:#F2F8EA;border:1px solid #1B3A1A;border-radius:10px;padding:11px 24px;font-size:15px;font-weight:600;cursor:pointer;box-shadow:0 4px 14px rgba(31,61,36,.25);transition:all .2s}
+  .nav button:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(31,61,36,.35)}
+  .nav button:disabled{opacity:.35;cursor:default;transform:none;box-shadow:none}
+  .count{font-family:'Cormorant Garamond',Georgia,serif;font-size:17px;color:var(--muted);min-width:76px;text-align:center}
+  .count b{color:var(--forest);font-size:20px}
+  .bignum{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(30px,5vw,58px);font-weight:700;color:var(--moss)}
+  .foot{position:absolute;bottom:4%;left:5.2%;font-size:clamp(9px,1vw,11px);color:#7FA06F;letter-spacing:1px}
+  .chip{position:absolute;right:4.4%;bottom:6%;width:clamp(40px,5vw,58px);height:clamp(40px,5vw,58px);border-radius:50%;background:#FFFDF6;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 3px rgba(217,178,92,.4)}
+  .chip img{width:74%;height:74%;object-fit:contain}
+  .hintk{color:#9DB292;font-size:12px}
   @media (max-width:640px) and (orientation:portrait){
     .stage{align-items:flex-start;padding-top:6px}
-    .slide{aspect-ratio:auto;min-height:74vh;padding:5.5% 5%}
+    .slide{aspect-ratio:auto;min-height:74vh;padding:6% 5.5%}
     .foot{position:static;margin-top:14px}
+    .chip{display:none}
+    .chapters button:hover::after{display:none}
   }
 </style>
 </head>
 <body>
 <div class="topbar">
-  <a href="https://www.linkedin.com/company/cambium-ai-institute/" title="Cambium AI Research Institution on LinkedIn" style="display:inline-flex;align-items:center;gap:8px"><img src="../../../assets/logo-mark@2x.png" alt="Cambium AI logo" style="width:28px;height:28px">Cambium AI</a>
+  <a href="https://www.linkedin.com/company/cambium-ai-institute/" title="Cambium AI Research Institution"><img src="../../../assets/logo-mark@2x.png" alt="Cambium AI">Cambium AI</a>
   <a href="index.html">&#8592; Course home</a>
-  <div>use &#8592; &#8594; keys, swipe, or the buttons</div>
+  <span class="hintk">&#8592; &#8594; keys, swipe, or the dots</span>
   <a href="community.html">Help</a>
   <a href="quiz.html">Quiz &#8594;</a>
 </div>
+<div class="chapters" id="chapters"></div>
 <div class="bar"><i id="bar"></i></div>
 <div class="stage"><div class="slide" id="slide"></div></div>
 <div class="nav">
@@ -84,7 +113,7 @@ const S = [
 {t:"cover",k:"Cambium Academy · Course 01",h:"Intro to AI",sub:"How AI works, how it is trained, and which model to use",foot:"July 2026 edition. The AI world moves fast, so facts carry dates. Free forever, no signup."},
 {t:"rows",k:"Welcome",h:"This course was built for beginners",rows:[["No background needed","If you can use a web browser, you are qualified."],["No math, no code","We build intuition with pictures and plain English."],["Jargon gets translated","Every technical term arrives with a one-line meaning."],["What you need","A web browser, about 90 minutes, and zero dollars."]]},
 {t:"rows",k:"Outcomes",h:"Five things you will walk away with",rows:[["Explain AI in one sentence","And know how AI, machine learning, and generative AI relate."],["See how models really work","Tokens, neural networks, and the transformer, minus the math."],["Understand training","From a mountain of text to a helpful assistant, in four steps."],["Know the 2026 landscape","Who makes the top models and what makes each one special."],["Pick the right model","A practical cheat sheet for writing, coding, research, and more."]]},
-{t:"grid",k:"Course map",h:"Six short modules, one quiz, one certificate",cls:"g3",cards:[["1","What is AI?","10 min"],["2","How models work","12 min"],["3","How models are trained","12 min"],["4","The 2026 model landscape","12 min"],["5","Which model for which job","8 min"],["6","Using AI well","8 min"]],note:"<b>Then:</b> a 20-question quiz. Score 70% or better and print your certificate on the spot."},
+{t:"grid",k:"Course map",h:"Six short modules, one quiz, one certificate",cls:"g3",cards:[["1","What is AI?","10 min"],["2","How models work","12 min"],["3","How models are trained","12 min"],["4","The 2026 model landscape","12 min"],["5","Which model for which job","8 min"],["6","Using AI well","8 min"]],note:"<b>Then:</b> flashcards and the hands-on AI Lab unlock the 20-question quiz. Score 70% or better and print your certificate on the spot."},
 {t:"divider",n:1,h:"What is AI?",sub:"Software that learns from examples instead of following hand-written rules."},
 {t:"quote",k:"Module 1 · Definition",h:"AI in one sentence",q:"Artificial intelligence is software that <em>learns patterns from examples</em> and uses them to make useful guesses about things it has never seen.",rows:[["Traditional software","A person writes every rule by hand. Breaks the moment reality gets messy."],["AI / machine learning","Show it a million examples and it finds the telltale patterns itself, including ones no human ever wrote down."]]},
 {t:"grid",k:"Module 1 · The family tree",h:"AI is the family. Generative AI is the newest child.",cls:"g2",cards:[["","Artificial intelligence","Any technique that makes machines act smart, from chess engines to chatbots."],["","Machine learning","The dominant technique: learn patterns from data instead of hand-written rules."],["","Deep learning","Machine learning with many-layered neural networks. Took off in 2012."],["","Generative AI","Deep learning that creates new text, images, audio, and video. ChatGPT, Claude, and Gemini live here."]],note:"Each one sits inside the previous: generative AI is deep learning, which is machine learning, which is AI."},
@@ -116,54 +145,66 @@ const S = [
 {t:"rows",k:"Module 6 · Habits",h:"Five golden rules",rows:[["Verify before you rely","Check names, numbers, dates, and citations. AI is confident even when wrong."],["Guard private data","Do not paste passwords, client records, or secrets into tools you have not vetted."],["You own the judgment","AI drafts, suggests, and accelerates. Decisions and responsibility stay with you."],["Disclose when it matters","School, work, publishing: say when AI helped. Honesty ages well."],["Reassess monthly","Models leapfrog each other constantly. Today's winner is next month's runner-up."]]},
 {t:"quote",k:"Module 6 · A taste of Course 02",h:"Better answers in four moves",q:"<em>You are a seasoned travel planner.</em> Two adults are visiting Boise for three days in October on a modest budget. <em>Plan a day-by-day itinerary with one outdoor highlight per day.</em> Present it as a simple table.",rows:[["Role","Who should the AI be?"],["Context","What does it need to know?"],["Task","Exactly what do you want?"],["Format","How should the answer look?"]],note:"Course 02, Prompting Essentials, goes deep on this next week."},
 {t:"rows",k:"Module 6 · Keep going, free",h:"Hand-verified free resources",rows:[["How Machines Learn · CGP Grey","The best 5-minute mental model on YouTube."],["Intro to Large Language Models · Andrej Karpathy","A legendary 1-hour talk by a top AI researcher."],["Neural Networks · 3Blue1Brown","Beautiful visual series on what is inside the box."],["Elements of AI · University of Helsinki","The classic free intro course, 2M+ learners."],["AI for Everyone · Andrew Ng","Free-to-audit course made for non-engineers."]],note:"Every link, with time estimates and levels, lives on the <a href='../resources.md'>resources page</a>. Each one was verified live in July 2026."},
-{t:"close",k:"Your turn",h:"Take the quiz. Earn your certificate.",rows:[["20 questions","All covered in these slides."],["Score 70% or better","That is 14 of 20."],["Print on the spot","Your Cambium Academy certificate, free."]],foot:"Next week · Course 02: Prompting Essentials · Cambium Academy, free forever"}
+{t:"close",k:"Your turn",h:"Finish the path. Earn your certificate.",rows:[["Step 1, the lecture: done","You just finished it by reading these slides."],["Step 2: all 24 flashcards","Flip and clear the deck until every card sticks."],["Step 3: the AI Lab","Explore the three hands-on stations."],["Then the quiz unlocks","20 questions, 70% to pass, certificate prints on the spot."]],foot:"Next week · Course 02: Prompting Essentials · Cambium Academy, free forever"}
 ];
 
+const CHAPTERS = [[1,"Welcome"],[5,"Module 1 · What is AI?"],[10,"Module 2 · How models work"],[16,"Module 3 · Training"],[21,"Module 4 · The landscape"],[28,"Module 5 · Which model"],[32,"Module 6 · Using AI well"],[36,"Quiz & certificate"]];
 const slideEl = document.getElementById('slide'), bar = document.getElementById('bar'), count = document.getElementById('count');
 let i = Math.min(Math.max(parseInt(location.hash.slice(1)) || 1, 1), S.length) - 1;
 
-function esc(s){return s}
+const chapEl = document.getElementById('chapters');
+chapEl.innerHTML = CHAPTERS.map(ch => `<button data-s="${ch[0]}" data-t="${ch[1]}"></button>`).join("");
+chapEl.querySelectorAll('button').forEach(b => b.addEventListener('click', () => { i = +b.dataset.s - 1; render(); }));
+
+function chipHtml(){ return '<div class="chip"><img src="../../../assets/logo-mark@2x.png" alt=""></div>'; }
 function render(){
   const s = S[i];
   let h = "";
   const dark = (s.t === "cover" || s.t === "divider" || s.t === "close");
   slideEl.className = "slide" + (dark ? " dark" : "");
   if (s.t === "cover") {
-    h = `<div class="kicker">${s.k}</div><h1 style="font-size:clamp(34px,6vw,64px)">${s.h}</h1><div class="sub">${s.sub}</div><div class="foot">${s.foot}</div>`;
+    h = `<div class="kicker" style="margin-top:6%">${s.k}</div><h1 style="font-size:clamp(38px,7vw,72px);background:linear-gradient(180deg,#FFFDF6,#CFE3BF);-webkit-background-clip:text;background-clip:text;color:transparent">${s.h}</h1><div class="sub" style="max-width:78%">${s.sub}</div><div class="foot">${s.foot}</div>${chipHtml()}`;
   } else if (s.t === "divider") {
-    h = `<div class="kicker" style="margin-top:8%">Module ${s.n}</div><h1>${s.h}</h1><div class="sub">${s.sub}</div><div class="foot">Cambium Academy · Course 01</div>`;
+    h = `<div class="wm">${s.n}</div><div class="kicker" style="margin-top:9%">Module ${s.n} of 6</div><h1 style="font-size:clamp(30px,5.4vw,54px);color:#FFFDF6">${s.h}</h1><div class="sub" style="max-width:74%">${s.sub}</div><div class="foot">Cambium Academy · Course 01</div>${chipHtml()}`;
   } else if (s.t === "close") {
-    h = `<div class="kicker" style="margin-top:2%">${s.k}</div><h1>${s.h}</h1><div class="rows" style="margin-top:14px">` +
-      s.rows.map(r=>`<div class="row"><div class="dot"></div><div><b>${r[0]}</b><span>${r[1]}</span></div></div>`).join("") +
-      `</div><div style="margin-top:16px"><a href="quiz.html" style="display:inline-block;background:var(--moss);color:var(--dark);font-weight:700;padding:10px 22px;border-radius:8px;text-decoration:none">Start the quiz</a></div><div class="foot">${s.foot}</div>`;
+    h = `<div class="kicker" style="margin-top:3%">${s.k}</div><h1 style="color:#FFFDF6">${s.h}</h1><div class="rows" style="margin-top:16px">` +
+      s.rows.map(r => `<div class="row"><div class="dot"></div><div><b>${r[0]}</b><span>${r[1]}</span></div></div>`).join("") +
+      `</div><div style="margin-top:18px"><a href="flashcards.html" style="display:inline-block;background:linear-gradient(135deg,#D9B25C,#B98A2D);color:#1F3D24;font-weight:800;padding:12px 26px;border-radius:10px;text-decoration:none;box-shadow:0 6px 20px rgba(217,178,92,.35)">Continue the path &#8594; flashcards</a></div><div class="foot">${s.foot}</div>${chipHtml()}`;
   } else {
     h = `<div class="kicker">${s.k}</div><h2 class="stitle">${s.h}</h2>`;
     if (s.q) h += `<div class="quote">${s.q}</div>`;
-    if (s.rows) h += `<div class="rows">` + s.rows.map(r=>`<div class="row"><div class="dot"></div><div><b>${r[0]}</b><span>${r[1]}</span></div></div>`).join("") + `</div>`;
-    if (s.cards) h += `<div class="grid ${s.cls||'g3'}">` + s.cards.map(c=>`<div class="card">${c[0]?`<div class="cnum">${c[0]}</div>`:""}<b>${c[1]}</b><p>${c[2]||""}</p></div>`).join("") + `</div>`;
-    if (s.stats) h += `<div class="stats">` + s.stats.map(x=>`<div class="stat"><div class="v">${x[0]}</div><p>${x[1]}</p></div>`).join("") + `</div>`;
-    if (s.rowsT) h += `<table><tr>${s.head.map(x=>`<th>${x}</th>`).join("")}</tr>` + s.rowsT.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("") + `</table>`;
+    if (s.rows) h += `<div class="rows">` + s.rows.map(r => `<div class="row"><div class="dot"></div><div><b>${r[0]}</b><span>${r[1]}</span></div></div>`).join("") + `</div>`;
+    if (s.cards) h += `<div class="grid ${s.cls || 'g3'}">` + s.cards.map(c => `<div class="card">${c[0] ? `<div class="cnum">${c[0]}</div>` : ""}<b>${c[1]}</b><p>${c[2] || ""}</p></div>`).join("") + `</div>`;
+    if (s.stats) h += `<div class="stats">` + s.stats.map(x => `<div class="stat"><div class="v">${x[0]}</div><p>${x[1]}</p></div>`).join("") + `</div>`;
+    if (s.rowsT) h += `<table><tr>${s.head.map(x => `<th>${x}</th>`).join("")}</tr>` + s.rowsT.map(r => `<tr>${r.map(c => `<td>${c}</td>`).join("")}</tr>`).join("") + `</table>`;
     if (s.note) h += `<div class="note">${s.note}</div>`;
     if (s.warn) h += `<div class="note warn">${s.warn}</div>`;
   }
   slideEl.innerHTML = h;
-  count.textContent = (i+1) + " / " + S.length;
-  bar.style.width = (100*(i+1)/S.length) + "%";
+  slideEl.style.animation = "none";
+  void slideEl.offsetWidth;
+  slideEl.style.animation = "";
+  count.innerHTML = "<b>" + (i + 1) + "</b> · " + S.length;
+  bar.style.width = (100 * (i + 1) / S.length) + "%";
   document.getElementById('prev').disabled = i === 0;
-  document.getElementById('next').disabled = i === S.length-1;
-  history.replaceState(null, "", "#" + (i+1));
+  document.getElementById('next').disabled = i === S.length - 1;
+  chapEl.querySelectorAll('button').forEach(b => {
+    const st = +b.dataset.s;
+    b.className = (i + 1) >= st && (CHAPTERS.find(c => c[0] > st) ? (i + 1) < CHAPTERS.find(c => c[0] > st)[0] : true) ? "on" : ((i + 1) > st ? "past" : "");
+  });
+  history.replaceState(null, "", "#" + (i + 1));
   slideEl.scrollTop = 0;
 }
-function go(d){ i = Math.min(Math.max(i+d, 0), S.length-1); render(); }
-document.getElementById('prev').onclick = ()=>go(-1);
-document.getElementById('next').onclick = ()=>go(1);
-document.addEventListener('keydown', e=>{
+function go(d){ i = Math.min(Math.max(i + d, 0), S.length - 1); render(); }
+document.getElementById('prev').onclick = () => go(-1);
+document.getElementById('next').onclick = () => go(1);
+document.addEventListener('keydown', e => {
   if (e.key === "ArrowRight" || e.key === " " || e.key === "PageDown") { e.preventDefault(); go(1); }
   if (e.key === "ArrowLeft" || e.key === "PageUp") { e.preventDefault(); go(-1); }
 });
 let tx = null;
-document.addEventListener('touchstart', e=>{ tx = e.touches[0].clientX; });
-document.addEventListener('touchend', e=>{
+document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; });
+document.addEventListener('touchend', e => {
   if (tx === null) return;
   const dx = e.changedTouches[0].clientX - tx;
   if (Math.abs(dx) > 60) go(dx < 0 ? 1 : -1);

@@ -1,7 +1,7 @@
 # Course 01 · YouTube upload pack (ready to paste)
 
 The finished lecture video is at `D:\IFC_SSD2\idaho_sae\Cambium\academy_media\Cambium-Academy-Course01-Intro-to-AI-lecture.mp4`
-(16:31, 1080p, AI-narrated by an Indian English neural voice, 31 MB). It sits outside the repo on purpose: YouTube hosts the video, git should not.
+(16:44, 1080p, narrated by Amelia, our AI teacher). It sits outside the repo on purpose: YouTube hosts the video, git should not.
 
 ## Upload steps (10 minutes)
 
@@ -9,7 +9,7 @@ The finished lecture video is at `D:\IFC_SSD2\idaho_sae\Cambium\academy_media\Ca
 2. Paste the title, description, and tags below. Chapters are already exact for this render.
 3. Visibility Public. Add to a playlist named "Cambium Academy".
 4. Under "Altered content", answer Yes: the narration is AI-generated. YouTube asks this at upload; the description already discloses it too.
-5. Subtitles: in the upload flow (or Studio, Subtitles), add the English caption file `Cambium-Academy-Course01-Intro-to-AI-lecture.srt` from the same academy_media folder. It is timed exactly to this render (242 cues). YouTube can then auto-translate captions into dozens of languages.
+5. Subtitles: in the upload flow (or Studio, Subtitles), add the English caption file `Cambium-Academy-Course01-Intro-to-AI-lecture.srt` from the same academy_media folder. It is timed exactly to this render (244 cues). YouTube can then auto-translate captions into dozens of languages.
 6. After publishing, copy the video ID (the part after `watch?v=`) and replace `REPLACE_WITH_VIDEO_ID` in `web/index.html`. Push and redeploy Pages.
 
 ## Title
@@ -20,18 +20,18 @@ Intro to AI: How AI Works, How It's Trained, and Which Model to Use (Free Course
 
 Free beginner course from Cambium Academy. No math, no code, no signup. Learn what AI really is, how models like ChatGPT, Claude, and Gemini work, how they are trained, the July 2026 model landscape, and exactly which model to use for each job.
 
-Take the quiz and print your free certificate: PASTE COURSE PAGE LINK HERE
+Finish the path, the flashcards and hands-on AI Lab unlock the quiz, then print your free certificate: PASTE COURSE PAGE LINK HERE
 Slides, resources, and all courses: PASTE ACADEMY LINK HERE
 
 Chapters:
 0:00 Welcome
-1:23 Module 1 · What is AI?
-3:34 Module 2 · How AI models work
-6:21 Module 3 · How models are trained
-8:46 Module 4 · The 2026 model landscape
-12:13 Module 5 · Which model for which job
-14:16 Module 6 · Using AI well
-16:01 Quiz and certificate
+1:29 Module 1 · What is AI?
+3:39 Module 2 · How AI models work
+6:27 Module 3 · How models are trained
+8:52 Module 4 · The 2026 model landscape
+12:19 Module 5 · Which model for which job
+14:21 Module 6 · Using AI well
+16:07 Quiz and certificate
 
 New course every week. Cambium Academy is free forever.
 Follow Cambium AI Research Institution: https://www.linkedin.com/company/cambium-ai-institute/

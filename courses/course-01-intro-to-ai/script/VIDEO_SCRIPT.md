@@ -28,7 +28,7 @@ Quick promise before we start. You need no math, no programming, and no prior AI
 Here is the deal we are making. By the end you can explain AI simply, picture what happens inside a model, describe how models get trained, name the major models of 2026, and choose the right one for any task you actually have.
 
 **Slide 4 · Course map**
-The route we will take. Six short modules, about an hour of content. Then a twenty question quiz. Pass at seventy percent and you print your certificate immediately. No account, no email, no payment.
+The route we will take. Six short modules, about an hour. Watching this lecture is step one of your path. After it, the flashcards and the hands-on AI Lab unlock the quiz. Pass at seventy percent and your certificate prints immediately. No account, no email, no payment.
 
 **Slide 5 · Module 1 divider**
 Module one. Let us pin down what artificial intelligence actually means, because the term gets thrown around loosely.
@@ -124,7 +124,7 @@ A parting gift and a teaser for next week. Most prompt advice fits in four moves
 If this course lit a spark, here is where to go next, all free and all verified by hand this month. CGP Grey for a five-minute mental model. Karpathy's one-hour intro. 3Blue1Brown for gorgeous visuals. Elements of AI and AI for Everyone for structured courses. The links live on the course resources page.
 
 **Slide 36 · Closing**
-That is the course. You now understand AI better than most people using it daily. The quiz link is on the course page: twenty questions, pass at seventy percent, and your certificate prints on the spot. Next week, Course 2, Prompting Essentials. I will see you there.
+That is the lecture, step one of your path, done. Two short steps remain before the quiz unlocks: clear all twenty-four flashcards, and explore the three stations in the AI Lab. Then the quiz opens: twenty questions, fourteen to pass, and your certificate prints on the spot, ready for LinkedIn. Next week, Course 2, Prompting Essentials. I will see you there.
 
 ---
 
@@ -136,18 +136,18 @@ That is the course. You now understand AI better than most people using it daily
 
 Free beginner course from Cambium Academy. No math, no code, no signup. Learn what AI really is, how models like ChatGPT, Claude, and Gemini work, how they are trained, the July 2026 model landscape, and exactly which model to use for each job.
 
-Take the quiz and print your free certificate: PASTE COURSE PAGE LINK HERE
+Finish the path (flashcards + hands-on AI Lab unlock the quiz) and print your free certificate: PASTE COURSE PAGE LINK HERE
 Slides, resources, and all courses: PASTE ACADEMY LINK HERE
 
 Chapters:
 0:00 Welcome
-2:00 Module 1 · What is AI?
-4:30 Module 2 · How AI models work
-7:45 Module 3 · How models are trained
-10:30 Module 4 · The 2026 model landscape
-14:00 Module 5 · Which model for which job
-16:00 Module 6 · Using AI well
-17:45 Quiz and certificate
+1:29 Module 1 · What is AI?
+3:39 Module 2 · How AI models work
+6:27 Module 3 · How models are trained
+8:52 Module 4 · The 2026 model landscape
+12:19 Module 5 · Which model for which job
+14:21 Module 6 · Using AI well
+16:07 Quiz and certificate
 
 New course every week. Cambium Academy is free forever.
 
