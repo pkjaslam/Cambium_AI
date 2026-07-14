@@ -13,6 +13,8 @@ Static / live views:
 The legendary layer (use these for the Cambium way):
   --board                    rich TEXT board: branded header + council-grouped roster + gate rail
   --board --phase N [note]   LIVE text board: phase N is running, earlier done, later waiting
+  --board --compact          COMPACT text board: same plan/state, <=64-display-col lines (chat-safe)
+  --board --compact --phase N [note]  LIVE compact board: done phases roll up, waiting phases collapse
   --html  [--phase N]        self-contained LIVE HTML dashboard (Cowork artifact / browser)
                              writes to agent_outputs/run_board.html under data_home() unless --out PATH
   --state state.json         overlay live detail onto any board/html: per-agent findings + leaderboard
@@ -20,9 +22,10 @@ The legendary layer (use these for the Cambium way):
 Usage:
   python3 tools/run_trace.py --board "add useful skills to Cambium"
   python3 tools/run_trace.py --board --phase 2 "add useful skills to Cambium"
+  python3 tools/run_trace.py --board --compact --phase 2 "add useful skills to Cambium"
   python3 tools/run_trace.py --html  --phase 2 --state run.json "add useful skills to Cambium"
 """
-import sys, os, json, html
+import sys, os, json, html, unicodedata
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import task_router
@@ -268,6 +271,133 @@ def board_text(task, cur_phase=None, note=None, state=None):
         for name, score in lb[:5]:
             c, role = pretty(name)
             out.append(f"      {str(score).rjust(3)}  {c} · {role}")
+
+    return "\n".join(out)
+
+
+# =========================================================================
+#  COMPACT TEXT BOARD  (--board --compact [--phase N])
+# =========================================================================
+def _disp_w(s):
+    """Sum of per-character DISPLAY width, not code-point count. Many of the board's own
+    glyphs (▶ ○ ⛩ → and the em dash) classify as East-Asian "Ambiguous", which we treat as
+    WIDE (2 cols) alongside "W"/"F" -- the conservative choice so lines never overflow a
+    narrow chat pane even on clients that render those glyphs wide. Plain ASCII is 1."""
+    return sum(2 if unicodedata.east_asian_width(ch) in ("W", "F", "A") else 1 for ch in str(s))
+
+
+def _trunc(s, w):
+    """Truncate *s* to at most *w* DISPLAY columns (per _disp_w), cutting with a trailing
+    single-character ellipsis "…" when it does not already fit. Never returns a string
+    wider than *w* columns, even accounting for the ellipsis glyph's own display width."""
+    s = str(s)
+    if _disp_w(s) <= w:
+        return s
+    ell = "…"
+    budget = max(w - _disp_w(ell), 0)
+    kept, width = [], 0
+    for ch in s:
+        cw = _disp_w(ch)
+        if width + cw > budget:
+            break
+        kept.append(ch)
+        width += cw
+    return "".join(kept) + ell
+
+
+def _collapse_waiting(bits, w=64):
+    """Collapse [(council, agent_count), ...] WAITING phases into ONE line:
+    '○ Next: C1(n1) → C2(n2) → ...' -- if the full chain would not fit in *w* display
+    columns, keep as many whole items as fit and append an explicit '...(+N more)' tail
+    instead of cutting mid-item."""
+    prefix = "○ Next: "
+    parts = ["%s(%d)" % (c, n) for c, n in bits]
+    full = prefix + " → ".join(parts)
+    if _disp_w(full) <= w:
+        return full
+    best = None
+    for i in range(len(parts)):
+        kept = parts[: i + 1]
+        remaining = len(parts) - len(kept)
+        tail = " → …(+%d more)" % remaining if remaining else ""
+        candidate = prefix + " → ".join(kept) + tail
+        if _disp_w(candidate) <= w:
+            best = candidate
+        else:
+            break
+    return best if best is not None else _trunc(full, w)
+
+
+def board_compact(task, cur_phase=None, note=None, state=None):
+    """COMPACT text board: the SAME plan/state as board_text (_resolve_plan; findings from
+    state["findings"]; armed gate from state["gate"], falling back to the active phase's own
+    gate) -- laid out for narrow chat panes instead of the full legendary board.
+
+    Layout (one line each): a decision-tier header, the request, one ROLLUP line per DONE
+    phase (no per-agent lines), the ACTIVE phase's header + one line per its agents, ONE
+    collapsed line for all WAITING phases, and -- if a gate is armed or the active phase has
+    one -- the gate line + the native-ask nudge. Every line is <=64 display columns; the
+    header and the gate line are <=40 (the "decision tier": short enough to always be read).
+    No ljust column padding anywhere -- fields are joined with " -- " separators only, so the
+    output never depends on a monospace renderer. Deterministic: no randomness, no clock reads.
+    """
+    state = state or {}
+    findings = state.get("findings", {})
+    r, P = _resolve_plan(task, state)
+    total = len(P)
+    live = cur_phase is not None
+    complete = live and cur_phase > total
+
+    out = []
+    if not live:
+        out.append(_trunc("⬢ CAMBIUM — convening", 40))
+    elif complete:
+        out.append(_trunc("⬢ CAMBIUM — run complete", 40))
+    else:
+        out.append(_trunc(f"⬢ CAMBIUM — Phase {cur_phase}/{total}", 40))
+    out.append(_trunc(f"  {task}", 64))
+
+    waiting = []        # [(council, agent_count), ...], in phase order
+    active_gate = None  # the currently-active phase's OWN gate, if any
+
+    for ph in P:
+        if complete:
+            bucket = "done"
+        elif not live:
+            bucket = "waiting"
+        elif ph["n"] < cur_phase:
+            bucket = "done"
+        elif ph["n"] == cur_phase:
+            bucket = "active"
+        else:
+            bucket = "waiting"
+
+        if bucket == "done":
+            first = next((findings[aid] for (_, _, aid) in ph["agents"] if findings.get(aid)), None)
+            tail = f" — {first}" if first else ""
+            out.append(_trunc(f"✓ P{ph['n']} {ph['council']}({len(ph['agents'])}){tail}", 64))
+        elif bucket == "active":
+            out.append(_trunc(f"▶ P{ph['n']} {ph['council']} — {len(ph['agents'])} working", 40))
+            for (_, role, aid) in ph["agents"]:
+                out.append(_trunc(f"  ▶ {role} — {findings.get(aid) or 'working'}", 64))
+            active_gate = ph["gate"]
+        else:
+            waiting.append((ph["council"], len(ph["agents"])))
+
+    if waiting:
+        out.append(_collapse_waiting(waiting, 64))
+
+    # Guard against a malformed run_state.json: a truthy but non-dict "gate" (e.g. a stray
+    # string/int written by hand) must fall back to the active phase's own gate rather than
+    # blow up on gate.get(...) below.
+    state_gate = state.get("gate")
+    gate = state_gate if isinstance(state_gate, dict) else active_gate
+    if gate and not complete:
+        out.append(_trunc(f"⛩ GATE {gate.get('id', '')} — {gate.get('decision', 'your decision')}", 40))
+        out.append("→ choose below (Approve / Revise / Reject)")
+
+    if complete:
+        out.append(_trunc(f"✓ Run complete — all {total} phases cleared their gates", 64))
 
     return "\n".join(out)
 
@@ -594,6 +724,8 @@ def main():
         print(status(task, cur, note)); return
 
     if "--board" in a:
+        if "--compact" in a:
+            print(board_compact(task, phase, note, state)); return
         print(board_text(task, phase, note, state)); return
 
     if "--html" in a:

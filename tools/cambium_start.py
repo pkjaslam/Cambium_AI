@@ -64,6 +64,7 @@ def main(argv=None):
     print("  * Then dispatch Phase 1's real named agents (Task tool, cambium-institute:<agent>).")
     print("  * Stop at each gate with templates/GATE_SUMMARY.md and wait for APPROVE / REVISE / REJECT.")
     print("  * Full contract: docs/concepts/PRESENTATION.md (the four acts).")
+    print("  * BOARD-IN-MESSAGE: tool output is collapsed for the Director — paste the compact board (run_trace.py --board --compact) into your reply.")
     print("=" * 64)
     return 0
 

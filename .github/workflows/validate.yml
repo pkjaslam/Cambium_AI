@@ -41,7 +41,7 @@ jobs:
 
       - name: Framework tests (pytest)
         run: |
-          pip install -c constraints.txt pytest pyyaml
+          pip install -c constraints.txt pytest pyyaml fastapi httpx
           python3 -m pytest tests/ -q
 
       - name: Cambium doctor (full health - counts, HTML integrity, parses, derived sync)
@@ -52,6 +52,13 @@ jobs:
       # or "<word> gates" that contradicts the canonical 46 / 11 / 8.
       - name: Consistency check (counts)
         run: python3 tools/consistency_check.py
+
+      # Step 1b2: Derived docs freshness - the README stats block and the capabilities SVG
+      # must match what the repo contains (regenerate via gen_readme.py / gen_capabilities.py).
+      - name: Derived docs fresh (README stats, capabilities SVG)
+        run: |
+          python3 tools/gen_readme.py --check
+          python3 tools/gen_capabilities.py --check
 
       # Step 1c: Version consistency - every version-bearing file must match CHANGELOG.
       # Fails (RED) on drift in plugin.json, marketplace.json, mcp_server/pyproject.toml,

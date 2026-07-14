@@ -22,6 +22,14 @@ Request: $ARGUMENTS
 > board, STOP and run the command above first. A plain-text answer to `/cambium` is the one failure this
 > command exists to prevent.
 
+> **BOARD-IN-MESSAGE — the Director does NOT see tool stdout.** A board that only exists in a collapsed
+> bash result was never shown. After `cambium_start.py`, run `python3 tools/run_trace.py --board --compact "$ARGUMENTS"`
+> and paste its output into your reply in a code fence. Then, in Cowork, ALSO paint the visual surfaces
+> (inline widget + sidebar artifact) as enhancements. **RENDER-LADDER:** text-in-message is the guaranteed
+> layer and always comes first; if `show_widget` / `create_artifact` / the visualize server is absent or
+> errors, retry once, then continue without it. A run never stalls on a rendering surface, and a failed
+> enhancement never cancels the text.
+
 Hand off to the **Orchestrator** and present the run as the four acts in **docs/concepts/PRESENTATION.md** (read it; it
 is the contract). The Cambium way must never look generic — the Director always sees which **named agents**
 are working, on what, and where the gates are.
@@ -47,10 +55,32 @@ finding, then re-emit `python3 tools/run_trace.py --board "$ARGUMENTS"` (it auto
 `update_artifact` (same id) — so the Director watches ✓ done · ▶ now · ○ waiting advance live, with each
 agent's one-line finding. Keep `agent_outputs/findings_ledger.csv` current.
 
-**Act III — The gate (stop and wait).** At every gate, render `templates/GATE_SUMMARY.md` VERBATIM (the 7
-sections, ≤ 1 page) and show the dashboard gate banner. End with the explicit **APPROVE / REVISE / REJECT**
-prompt and WAIT. Record the answer in `governance/GATES.md`. Never submit, publish, or finalize without an
-APPROVE.
+**Cadence (anti-spam, anti-stuck).** Do not repaint the full board in chat between phases. At each phase
+boundary emit ONE delta line in your message — like `✓ P2 Scouts done · ▶ P3 Labs (4 agents, ~2–4 min,
+silent until they report)` — and keep live motion on the widget/artifact, which update in place. Before
+any dispatch expected to run longer than ~30 seconds, say how long it should take and that it is silent
+until it returns. Prefer two or three smaller dispatch rounds over one long silent phase. The FULL compact
+board appears in-message at exactly three moments: the opening, every gate, and the close-out.
+
+**Act III — The gate (SAME-TURN-GATE, non-negotiable).** A gate exists only when the Director can act on
+it in the message you are ending. Announcing a gate and stopping — "waiting at the gate" with nothing to
+click or answer — is the exact failure this rule kills. At every gate, in ONE message and in this order:
+1. Paste the full compact board, then the **gate essence** as message text (about 15 lines): Decision
+   needed · Where we are (one line) · Options (a short list, not a table) · Recommendation · the Section-8
+   contribution prompt, all drawn from `templates/GATE_SUMMARY.md`. The FULL 8-section one-pager goes to
+   the widget gate card and the sidebar artifact — never a thin gate, but never a wall of text in chat.
+2. Make the **native ask**: call `AskUserQuestion` — header `Gate <ID>`, question = the gate decision,
+   options `Approve — I'll add my note` / `Revise — I'll say what to change` / `Reject — stop here`. The
+   click captures the Director's LEANING. For decision gates, collect the required Section-8 contribution
+   right after the click (the essence already says so), then run the `gate.py` interlock before recording;
+   low-stakes Checkpoints (provision, release) may finalize on the click alone. If `AskUserQuestion` is
+   not available, the LAST line of your message is the typed fallback:
+   `Gate <ID> — reply APPROVE, REVISE <what to change>, or REJECT.`
+3. **One primary control.** The AskUserQuestion card is THE control; the board's gate line says
+   `→ choose below`; widget buttons are secondary. On any render failure the gate still exists via text +
+   AskUserQuestion (RENDER-LADDER): never skip the ask, and never end the turn without it.
+Record the answer in `governance/GATES.md` only after the interlock opens the gate. Never submit, publish,
+or finalize without an APPROVE.
 
 **End-to-end (non-negotiable).** Once the Director chose the Cambium way, the WHOLE task stays Cambium —
 including the BUILD/implementation after an approval gate. Dispatch the real Execution/Labs agents
@@ -70,7 +100,8 @@ the optional next step. Then run `python3 tools/learning_delivery.py check`: if 
 delivered and the run is NOT done. The whole point of Cambium is that the human stays the one who
 understands, so a build that taught the Director nothing has not actually closed out.
 
-Finally, show the final all-✓ board and a 3–5 line "what shipped" summary.
+Finally, paste the final all-✓ compact board in-message (`--board --compact`) with a 3–5 line "what
+shipped" summary.
 
 If the request is missing detail you need (which file, what the deliverable is, where to save it), ask one
 short clarifying question first, then proceed.

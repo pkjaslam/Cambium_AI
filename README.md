@@ -5,7 +5,7 @@
 <br>
 
 <a href="https://github.com/pkjaslam/Cambium_AI/actions"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/pkjaslam/Cambium_AI/validate.yml?style=flat-square&label=CI&color=16C079"></a>
-<a href="CHANGELOG.md"><img alt="Version" src="https://img.shields.io/badge/version-1.43.0-16C079?style=flat-square"></a>
+<a href="CHANGELOG.md"><img alt="Version" src="https://img.shields.io/badge/version-1.44.0-16C079?style=flat-square"></a>
 <img alt="Agents" src="https://img.shields.io/badge/agents-46-16C079?style=flat-square">
 <img alt="Human gates" src="https://img.shields.io/badge/human_gates-8-0E8E5B?style=flat-square">
 <img alt="Doctor grade" src="https://img.shields.io/badge/doctor%20--grade-A-16C079?style=flat-square">
@@ -152,7 +152,7 @@ The councils are Orchestration, Pre-Award, Partnerships, Faculty, Scouts, Labs, 
 This is where the work lives. The engineering is traceable to specific files.
 
 <div align="center">
-<img src="assets/capabilities.svg" alt="A map of Cambium's engineered capabilities in six areas, each tagged by how strongly it is enforced and naming its real source file: orchestration and routing (active), human-gate machinery and audit (enforced, prompt-level), the four-tier evidence contract (enforced), memory and knowledge graph (active), the learning system (enforced, prompt-level), and research-administration tools (advisory), above a capacity band of 46 agents, 11 councils, 8 gates, 121 tools, 40 skills, and 1133 test functions." width="900">
+<img src="assets/capabilities.svg" alt="A map of Cambium's engineered capabilities in six areas, each tagged by how strongly it is enforced and naming its real source file: orchestration and routing (active), human-gate machinery and audit (enforced, prompt-level), the four-tier evidence contract (enforced), memory and knowledge graph (active), the learning system (enforced, prompt-level), and research-administration tools (advisory), above a capacity band of 46 agents, 11 councils, 8 gates, 121 tools, 40 skills, and 1139 test functions." width="900">
 </div>
 
 **Orchestration and task routing.** The Orchestrator calls the right councils for each task and merges what comes back. The task router (`tools/task_router.py`) maps incoming requests to council sets and handles parallel dispatch. The run-board tools (`tools/gen_inline_board.py`, `tools/gen_board_pro.py`) render a live agent board in-chat and as a standalone HTML file, so you can always see which agent is active and what it found. `tools/run_state.py` reprints the board fragment at each phase change so it stays live instead of freezing after the first act.
@@ -285,9 +285,9 @@ Soon: actually run the v1 enforcement study, the powered, human-judged version. 
 ### Recent updates
 
 <!-- CAMBIUM:WHATSNEW -->
+- **1.44.0**: The run you can always see: same-turn gates and a board that fits the chat
 - **1.43.0**: Honesty resync: the README matches the code again, and the Academy move-out is committed
 - **1.42.0**: Priority-2 polish, and the external items prepared to one human action
-- **1.41.0**: Priority 1: code-quality CI with a Windows matrix, and a full accessibility pass
 <!-- /CAMBIUM:WHATSNEW -->
 
 ---

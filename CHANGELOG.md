@@ -1,5 +1,36 @@
 # Changelog
 
+## 1.44.0 - 2026-07-14 - The run you can always see: same-turn gates and a board that fits the chat
+
+Users reported two real failures of the run experience in chat clients: the live board sometimes never
+appeared (it was printed into a collapsed tool result, which the Director does not see), and a gate could
+be announced with nothing to act on until the Director typed a follow-up. This release makes the in-chat
+presentation guaranteed, compact, and actionable, under three named rules pinned by tests.
+
+- **SAME-TURN-GATE.** A gate exists only when the Director can act on it in the message being ended. At
+  every gate, in one message: the compact board, a short gate essence, and a native AskUserQuestion
+  (Approve / Revise / Reject), with a typed fallback line when AskUserQuestion is unavailable. The click
+  captures the leaning; decision gates still collect the Section-8 contribution and run the gate.py
+  interlock before recording, so governance is unchanged.
+- **BOARD-IN-MESSAGE.** Tool stdout is collapsed in chat clients, so the board is pasted into the reply.
+  New compact text board (run_trace.py --board --compact): display-width aware (wide glyphs count 2),
+  every line at most 64 columns and decision lines at most 40, done phases rolled up to one line each,
+  waiting phases collapsed to one "Next:" line, an armed gate rendered as a two-line block. The full board
+  appears at exactly three moments (opening, gates, close-out); phase boundaries get one delta line, and
+  dispatches longer than ~30 seconds announce their expected duration first, ending both the full-board
+  spam and the silent-phase "is it stuck?" feeling.
+- **RENDER-LADDER.** The widget board and sidebar artifact are enhancements: on failure, retry once and
+  continue. The gate ask never depends on a rendering surface, and a run never stalls because a visual
+  tool errored.
+- Nudges at the exact failure moments: arming a gate via run_state.py prints the SAME-TURN-GATE reminder,
+  and cambium_start.py's banner tells the model to paste the compact board into the reply.
+- The Orchestrator's own persona carries the contract, not just the docs describing it: both mirrored
+  copies (agents/00-orchestrator.md and .claude/agents/00-orchestrator.md, the system prompt the
+  orchestrator sub-agent actually loads) restate SAME-TURN-GATE, BOARD-IN-MESSAGE, and RENDER-LADDER in
+  their OPENING and GATES sections, with a test asserting the two mirrored copies never drift apart.
+- Six new contract tests (tests/test_ux_contract.py) pin the three rule IDs in both contract docs and the
+  compact board's width and collapse invariants. Suite: 1268.
+
 ## 1.43.0 - 2026-07-14 - Honesty resync: the README matches the code again, and the Academy move-out is committed
 
 A full claims audit (clean clone, councils verify-evidence + integrity-officer, entire release gauntlet

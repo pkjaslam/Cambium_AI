@@ -58,7 +58,7 @@ jobs:
       - name: Install test dependencies (pinned via constraints)
         run: |
           python -m pip install --upgrade pip
-          pip install -c constraints.txt pytest pyyaml
+          pip install -c constraints.txt pytest pyyaml fastapi httpx
 
       - name: Run test suite
         run: python -m pytest tests/ -q
@@ -123,7 +123,7 @@ jobs:
       - name: Install test deps + coverage
         run: |
           python -m pip install --upgrade pip
-          pip install -c constraints.txt pytest pyyaml
+          pip install -c constraints.txt pytest pyyaml fastapi httpx
           pip install "pytest-cov>=5.0" "coverage[toml]>=7.0"
 
       - name: Run tests with coverage (low floor; does not block)

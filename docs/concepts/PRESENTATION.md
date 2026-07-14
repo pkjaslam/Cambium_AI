@@ -51,6 +51,11 @@ After running it:
      Director can reopen any time; update the SAME artifact each phase.
 2. One plain sentence under it: *"Here's the institute I'll run for this — N specialists across M
    councils, with K gates where you decide. Starting now."*
+3. **BOARD-IN-MESSAGE (guaranteed layer).** The Director does not see tool stdout. Paste the COMPACT text
+   board (`python3 tools/run_trace.py --board --compact "<request>"`) into your reply in a code fence at
+   the three milestones: opening, every gate, close-out. The widget and artifact are enhancements on top —
+   **RENDER-LADDER:** if a visual surface is absent or errors, retry once, continue without it, and never
+   stall the run or drop the gate ask because a rendering tool failed.
 
 Never start dispatching before the opening board is shown. If you are about to reply without the board,
 STOP and run `cambium_start.py` first.
@@ -99,6 +104,11 @@ sees ✓/▶/○ advance:
   `mcp__visualize__show_widget` (the agent boxes update in place).
 - Cowork sidebar board: regenerate `run_board.html` and `update_artifact` (same id).
 
+In CHAT, phase boundaries get ONE delta line, not a full repaint (the transcript is append-only; the
+widget/artifact are the live canvas and update in place). Before any dispatch longer than ~30 seconds,
+set the expectation in one line: how many agents, roughly how long, and that it is silent until they
+report. Prefer smaller dispatch rounds over one long silent phase.
+
 The board's live detail comes from **`agent_outputs/run_state.json`**, which `run_trace.py`
 **auto-discovers** — so you do NOT pass `--state` and you do NOT hand-edit JSON. Maintain it with
 `tools/run_state.py`, which lifts each agent's headline finding from its own output file automatically:
@@ -127,14 +137,19 @@ the *record*.
 **Learning by doing (build/analysis runs).** Before the results or report gate on any build or analysis, the **teaching-assistant** runs the `learn` step and produces `templates/LEARNING_BRIEF.md` filled in for the actual work: a plain-language what-and-why, a real architecture diagram (mermaid), the decisions and tradeoffs, the concepts to understand, and an open invitation for the Director to ask follow-ups. This is the Learning Gate doing its real job, the human leaves understanding the work, not just approving it.
 
 
-At every gate, render the gate card and STOP. Three synchronized surfaces:
-- **The one-pager:** fill `templates/GATE_SUMMARY.md` VERBATIM — the 7 sections **plus the required Section 8 (Director contribution)**, in order,
-  ≤ 1 page. Never improvise the structure.
-- **The inline gate card (default):** render `templates/INLINE_GATE_CARD.html` with `mcp__visualize__show_widget`
-  (fill `{GATE_ID}` / `{DECISION}`). Its APPROVE / REVISE / REJECT buttons actually post the decision to chat
-  (`sendPrompt`) — a sidebar artifact canNOT, so the inline card is the canonical clickable gate.
-- **The sidebar run board (Cowork):** the dashboard shows the active-gate banner; its buttons only copy the
-  decision text (a sidebar artifact has no send-to-chat hook).
+At every gate, STOP and make the gate actionable in the SAME message (**SAME-TURN-GATE** — a gate the
+Director cannot act on in the current message does not exist; announcing and waiting is the bug):
+- **In chat (guaranteed):** the full compact board, then the **gate essence** (~15 lines): Decision needed ·
+  Where we are (one line) · Options as a short list · Recommendation · the Section-8 contribution prompt —
+  then call `AskUserQuestion` (header `Gate <ID>`; options `Approve — I'll add my note` / `Revise — I'll
+  say what to change` / `Reject — stop here`). The click captures the LEANING; decision gates then collect
+  the Section-8 contribution and run the interlock below before recording. If `AskUserQuestion` is
+  unavailable, end the message with the typed line: `Gate <ID> — reply APPROVE, REVISE <what>, or REJECT.`
+- **The one-pager (full detail):** fill `templates/GATE_SUMMARY.md` VERBATIM — all sections including
+  Section 8 — and render it on the widget gate card (`templates/INLINE_GATE_CARD.html` or
+  `tools/gen_gate_card.py` via `mcp__visualize__show_widget`) and the sidebar artifact. Never a thin gate.
+- **One primary control:** AskUserQuestion is THE control; the board gate line defers (`→ choose below`);
+  widget buttons are secondary; the sidebar banner only copies text.
 
 **ENFORCE BEFORE RECORDING (mandatory).** Before recording any DECISION-gate APPROVE in `governance/GATES.md`,
 the Orchestrator MUST run the gate interlock — and it does not record an APPROVE if the interlock blocks:
@@ -178,5 +193,6 @@ guides, the Orchestrator reasons, and the human owns the outcome.
 
 **The learn step is a default, delivered every time.** Every build or analysis run delivers a learning packet to the Director — a plain-language explainer, glossary, flashcards, and a short quiz written to `agent_outputs/learning_packet.md` and presented in chat, not just filed. The full interactive Learning Lab (tools/gen_learning_lab.py) is always offered as the next step. `tools/learning_delivery.py` is the deterministic check that a filled learning packet or lab was actually delivered to the Director during the run; the Orchestrator reads its signal at close-out and, if the packet was missed, delivers it before shipping.
 
-Then show the **final board** with every phase done and a 3 to 5 line "what shipped" summary
-(`--board --phase <last>`), and in Cowork a final dashboard update pushed to the same artifact so the Director can reopen the finished run.
+Then paste the **final compact board** in-message (`--board --compact`, every phase ✓) with a 3 to 5 line
+"what shipped" summary, and in Cowork push a final dashboard update to the same artifact so the Director
+can reopen the finished run.

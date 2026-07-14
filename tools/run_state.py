@@ -234,6 +234,12 @@ def main():
     print(f"[run_state] {path} · phase={st['phase']} · {len(st['findings'])} finding(s)"
           + (" · gate armed" if st.get('gate') else ""))
 
+    if cmd == "gate":
+        # SAME-TURN-GATE: arming the gate in run_state.json is NOT the same as putting it in
+        # front of the Director. This nudge fires every time so "announced, never asked" (a
+        # gate with no click/reply available in the message that names it) cannot ship quietly.
+        print("[run_state] SAME-TURN-GATE: paint the gate in THIS message — gate essence + AskUserQuestion (or the typed APPROVE/REVISE/REJECT line). Announcing without asking is the bug.")
+
     if cmd == "phase":
         print_repaint_reminder(path, emit=("--emit" in a))
 
