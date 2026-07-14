@@ -131,4 +131,4 @@ assets. Resume by building the front-end in a previewing tool (Lovable/bolt/v0) 
   prompt, and a plain-words glossary. Per-run gate scope. An end-to-end phase-cursor defect the unit tests
   hid was caught by rendering the real board and fixed with new e2e tests.
 
-*Last updated: 2026-07-02. Roadmap reflects the maintainer's current intentions; priorities may shift based on user feedback and available capacity.*
+*Last updated: 2026-07-14. Roadmap reflects the maintainer's current intentions; priorities may shift based on user feedback and available capacity.*

@@ -41,6 +41,53 @@ Cambium is MIT-licensed. It incorporates ideas adapted from the following work.
 - **nextlevelbuilder/ui-ux-pro-max-skill** by nextlevelbuilder - https://github.com/nextlevelbuilder/ui-ux-pro-max-skill -
   MIT - the brief-first design step and versioned design-knowledge-base concept (also credited above under UI/UX).
 
+## OpenMontage
+- **Project:** OpenMontage
+- **Author / Copyright:** the OpenMontage maintainers (GitHub: calesthio)
+- **Repository:** https://github.com/calesthio/OpenMontage
+- **License:** GNU Affero General Public License v3.0 (AGPLv3)
+- **What Cambium adopted:** no code, text, or prompts. `skills/render-video` calls a separately-installed
+  OpenMontage across a process boundary, as an external subprocess; nothing from OpenMontage is bundled or
+  copied into this repository, and the user installs it themselves. That process boundary is what keeps
+  Cambium's own MIT license clean despite OpenMontage's AGPLv3.
+
+## Microsoft Presidio
+- **Project:** Presidio
+- **Author / Copyright:** Copyright (c) Microsoft Corporation
+- **Repository:** https://github.com/microsoft/presidio
+- **License:** MIT License
+- **What Cambium adopted:** no Presidio code is copied. `tools/pii_screen.py` uses Presidio as an optional
+  dependency for richer, multi-entity detection when it is installed, and falls back to a pure-stdlib regex
+  screen when it is not, so the check always runs with no required dependency.
+
+## Loop Engineering research
+- **Work:** research framing on the silent costs of autonomous and agentic loops
+- **Author / Copyright:** not specified; no canonical author or publisher on file for this framing
+- **Reference:** no canonical URL on file
+- **License:** not adopted, ideas only
+- **What Cambium adopted:** the framing of four silent costs behind `tools/loop_costs.py`: verification
+  debt, comprehension rot, cognitive surrender, and token blowout. The detection logic, the reporting, and
+  the budget cap are Cambium's own; no text or code was copied.
+
+## Google Open Knowledge Format
+- **Work:** Google's Open Knowledge Format, the idea of a portable, cross-linked knowledge bundle
+- **Author / Copyright:** Google; no canonical spec document on file
+- **Reference:** no canonical URL on file
+- **License:** not adopted, ideas only
+- **What Cambium adopted:** the portability idea only. `tools/okf_export.py` exports a run as a bundle of
+  markdown files with YAML frontmatter, cross-linked, with a self-contained graph viewer. The implementation
+  is Cambium's own and does not claim compliance with any formal OKF spec.
+
+## V-JEPA world-model framing
+- **Work:** V-JEPA, Meta AI's self-supervised video world-model research
+- **Author / Copyright:** Meta AI (FAIR)
+- **Reference:** no canonical URL on file
+- **License:** not adopted, ideas only
+- **What Cambium adopted:** the world-model framing only, de-branded to a heuristic.
+  `tools/run_outcome_prior.py` is a statistical prior over Cambium's own historical run logs, not a learned
+  model of any kind, and it refuses to fabricate a risk rate on a small sample. No V-JEPA code, weights, or
+  text were used.
+
 *Per the MIT license, copyright protects expression, not ideas, so adopting a structural pattern in our own
 words does not trigger a notice requirement. We credit the source anyway as good practice. Copying or
 closely adapting an actual file would require carrying the upstream MIT notice with that file.*

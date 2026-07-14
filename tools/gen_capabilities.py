@@ -163,7 +163,7 @@ def render_capabilities_svg(counts: dict) -> str:
 
     aria = (
         f"What is inside Cambium: capacity band ({agents} agents, {councils} councils, "
-        f"{gates} gates, {tools} tools, {skills} skills, {tests} tests) and six engineering "
+        f"{gates} gates, {tools} tools, {skills} skills, {tests} test functions) and six engineering "
         "clusters: orchestration and router, human gates and audit, the evidence contract, "
         "memory and knowledge graph, the learning system, and research-administration tools, "
         "each naming its real file."
@@ -189,7 +189,7 @@ def render_capabilities_svg(counts: dict) -> str:
 <text x="410" y="33" text-anchor="middle" font-size="24" font-weight="800" fill="#16C079">{gates}</text><text x="410" y="49" text-anchor="middle" font-size="11.5" fill="#8AA197">human gates</text>
 <text x="580" y="33" text-anchor="middle" font-size="24" font-weight="800" fill="#16C079">{tools}</text><text x="580" y="49" text-anchor="middle" font-size="11.5" fill="#8AA197">tools</text>
 <text x="750" y="33" text-anchor="middle" font-size="24" font-weight="800" fill="#16C079">{skills}</text><text x="750" y="49" text-anchor="middle" font-size="11.5" fill="#8AA197">skills</text>
-<text x="930" y="33" text-anchor="middle" font-size="24" font-weight="800" fill="#16C079">{tests}</text><text x="930" y="49" text-anchor="middle" font-size="11.5" fill="#8AA197">tests</text>
+<text x="930" y="33" text-anchor="middle" font-size="24" font-weight="800" fill="#16C079">{tests}</text><text x="930" y="49" text-anchor="middle" font-size="11.5" fill="#8AA197">test functions</text>
 </g>
 </g>
 
@@ -206,7 +206,7 @@ def render_capabilities_svg(counts: dict) -> str:
 </g>
 <g transform="translate(386,178)">
 <rect width="328" height="138" rx="12" fill="#10392a" stroke="#1F4D3B"/>
-<rect width="4" height="138" rx="2" fill="#16C079"/><rect x="238" y="99" width="74" height="19" rx="9.5" fill="none" stroke="#B7F36A" stroke-width="1.2"/><text x="275" y="112" text-anchor="middle" font-size="9.3" font-weight="700" fill="#B7F36A">ENFORCED</text>
+<rect width="4" height="138" rx="2" fill="#16C079"/><rect x="180" y="99" width="132" height="19" rx="9.5" fill="none" stroke="#B7F36A" stroke-width="1.2"/><text x="246" y="112" text-anchor="middle" font-size="8.2" font-weight="700" fill="#B7F36A">ENFORCED, PROMPT-LEVEL</text>
 <text x="20" y="32" font-size="16.5" font-weight="700" fill="#eafaf0">Human gates + audit</text>
 <text x="20" y="56" font-size="13" fill="#bcd3c8">Approval-token checks plus a run</text>
 <text x="20" y="74" font-size="13" fill="#bcd3c8">contract, and a hash-chained trail.</text>
@@ -231,7 +231,7 @@ def render_capabilities_svg(counts: dict) -> str:
 </g>
 <g transform="translate(386,330)">
 <rect width="328" height="138" rx="12" fill="#10392a" stroke="#1F4D3B"/>
-<rect width="4" height="138" rx="2" fill="#E0B24A"/><rect x="238" y="99" width="74" height="19" rx="9.5" fill="none" stroke="#B7F36A" stroke-width="1.2"/><text x="275" y="112" text-anchor="middle" font-size="9.3" font-weight="700" fill="#B7F36A">ENFORCED</text>
+<rect width="4" height="138" rx="2" fill="#E0B24A"/><rect x="180" y="99" width="132" height="19" rx="9.5" fill="none" stroke="#B7F36A" stroke-width="1.2"/><text x="246" y="112" text-anchor="middle" font-size="8.2" font-weight="700" fill="#B7F36A">ENFORCED, PROMPT-LEVEL</text>
 <text x="20" y="32" font-size="16.5" font-weight="700" fill="#eafaf0">Learning system</text>
 <text x="20" y="56" font-size="13" fill="#bcd3c8">Every build teaches you. Ten Academy</text>
 <text x="20" y="74" font-size="13" fill="#bcd3c8">modules and a per-run lab. Enforced.</text>
@@ -251,7 +251,7 @@ def render_capabilities_svg(counts: dict) -> str:
 <rect x="40" y="500" width="1020" height="50" rx="12" fill="#15402F" stroke="#1F4D3B"/>
 <text x="60" y="531" font-size="13.5" fill="#cfe4d9">MIT licensed  &#183;  local-first, data-sovereign  &#183;  a Claude Code / Cowork plugin with an MCP server  &#183;  pure-stdlib tools, no heavy dependencies</text>
 
-<text x="40" y="588" font-size="12.5" fill="#6f8a7e">Honest by design: a capability is labeled enforced (with its mechanism) or partial / roadmap. The live web mode is a simulation; the cross-institution layer is roadmap.</text>
+<text x="40" y="588" font-size="12.5" fill="#6f8a7e">Honest by design: a capability is labeled enforced in CI, enforced at prompt level, active, or advisory, always naming its mechanism. The live web mode is a simulation; the cross-institution layer is roadmap.</text>
 </svg>
 """
 

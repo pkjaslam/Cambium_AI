@@ -131,11 +131,11 @@ def test_fill_stats_and_whatsnew():
         assert "**1.8.0**" in updated
         assert "Big new release" in updated
 
-        # STATS line shape: "N skills, N tools, N MCP tools, N templates, ..."
+        # STATS line shape: "N skills, N tools, N MCP tools, N templates (counting rule), ..."
         assert "skills," in updated
         assert "tools," in updated
         assert "MCP tools," in updated
-        assert "templates," in updated
+        assert "templates (reusable files in templates/" in updated
         assert "All field-agnostic, all runnable." in updated
 
 

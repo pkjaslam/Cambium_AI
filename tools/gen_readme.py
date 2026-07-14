@@ -167,7 +167,8 @@ def generate_stats_content(readme_text: str) -> str:
     templates = count_templates()
     mcp = read_mcp_from_readme(readme_text)
     return (
-        f"{skills} skills, {tools} tools, {mcp} MCP tools, {templates} templates, "
+        f"{skills} skills, {tools} tools, {mcp} MCP tools, {templates} templates "
+        "(reusable files in templates/, excluding runtime artifacts and the project/ scaffold), "
         "and a set of worked examples. All field-agnostic, all runnable."
     )
 

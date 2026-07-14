@@ -1,0 +1,115 @@
+# CI: Cambium — Honesty Contract Enforcement
+#
+# Design choice (GREEN/RED logic):
+#   - tools/check_agents.py  → strict: exits 1 on any frontmatter problem; CI goes RED.
+#   - governance/validate.py → run against tools/ci_ledger.csv (a hand-maintained
+#     PASSING ledger that travels with the repo).  CI goes GREEN on a healthy repo and
+#     RED the moment a bad row (open P0, missing evidence, invalid tier) is committed to
+#     ci_ledger.csv.
+#   - The demo ledger (examples/demo-mid-project/agent_outputs/findings_ledger.csv) has
+#     an intentional open P0 and is run informational-only (|| true) so it never breaks
+#     CI; it exists purely to show what a RED run looks like locally.
+#
+# To make CI go RED in a real project: commit a row with severity=P0 and status=open
+# (or empty evidence) to tools/ci_ledger.csv.  The validate step will catch it.
+
+name: Validate Institute
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    name: Frontmatter + Governance
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Set up Python 3
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      # Step 1: Agent frontmatter contract.
+      # Exits 1 (RED) if any agent is missing name / description / model / tools,
+      # uses an invalid model value, or shares a name with another agent.
+      - name: Check agent frontmatter
+        run: python3 tools/check_agents.py
+
+      - name: Framework tests (pytest)
+        run: |
+          pip install -c constraints.txt pytest pyyaml fastapi httpx
+          python3 -m pytest tests/ -q
+
+      - name: Cambium doctor (full health - counts, HTML integrity, parses, derived sync)
+        run: python3 tools/doctor.py
+
+      # Step 1b: Consistency - stated counts must match the live roster.
+      # Fails (RED) if any doc/site/asset says a stale "<n> agents", "<n> councils",
+      # or "<word> gates" that contradicts the canonical 46 / 11 / 8.
+      - name: Consistency check (counts)
+        run: python3 tools/consistency_check.py
+
+      # Step 1b2: Derived docs freshness - the README stats block and the capabilities SVG
+      # must match what the repo contains (regenerate via gen_readme.py / gen_capabilities.py).
+      - name: Derived docs fresh (README stats, capabilities SVG)
+        run: |
+          python3 tools/gen_readme.py --check
+          python3 tools/gen_capabilities.py --check
+
+      # Step 1c: Version consistency - every version-bearing file must match CHANGELOG.
+      # Fails (RED) on drift in plugin.json, marketplace.json, mcp_server/pyproject.toml,
+      # the ROOT pyproject.toml, or the README badge. (The root pyproject drifted unseen
+      # for 15 releases before this covered it; see FABLE_REVIEW finding 3.)
+      - name: Version consistency (all manifests == CHANGELOG)
+        run: python3 tools/sync_version.py --check
+
+      # Step 1d: Packaging guard - exactly one plugin.json in the artifact.
+      - name: Packaging guard (one plugin.json)
+        run: |
+          N=$(find . -name plugin.json -not -path './.git/*' | wc -l | tr -d ' ')
+          echo "plugin.json count: $N"
+          find . -name plugin.json -not -path './.git/*'
+          test "$N" -eq 1 || { echo "::error::expected exactly 1 plugin.json, found $N"; exit 1; }
+
+      # Step 2: Evidence / P0 gate against the CI ledger.
+      - name: Validate CI ledger (governance gate)
+        env:
+          AI_MODEL: cambium-ci
+        run: python3 governance/validate.py tools/ci_ledger.csv
+
+      # Step 2b: Enforcement gauntlet - pace + roles + evidence in one control.
+      - name: Enforcement gauntlet (enforce-all)
+        env:
+          AI_MODEL: cambium-ci
+        run: python3 tools/enforce.py --ledger tools/ci_ledger.csv
+
+      # Benchmark dashboard: byte-matching it in CI is impossible (its test count depends on
+      # which optional deps are installed), so the anti-drift guarantee is SEMANTIC instead:
+      # the doctor step above fails RED if the dashboard's stamped data-cambium-version does
+      # not match plugin.json, which forces a regenerate every release; counts inside it are
+      # guarded by the consistency-check step. Recorded in GATES.md as G-dashboard-amend
+      # (retracts the unshipped "CI git-diffs it" claim from G-dashboard-auto).
+      # Refresh locally with:  python3 tools/gen_dashboard.py
+
+      # Step 3: Demo ledger - informational only (intentional open P0).
+      - name: Show demo ledger (informational - open P0 expected)
+        run: |
+          echo "--- demo ledger (informational; open P0 is intentional) ---"
+          python3 governance/validate.py \
+            examples/demo-mid-project/agent_outputs/findings_ledger.csv || true
+
+      # Step 4: Gate interlock against the committed worked-example ledger.
+      - name: Gate interlock (worked-example ledger)
+        run: python3 tools/gate.py G5 --ledger examples/e2e-worked-example/findings_ledger.csv
+
+      # Step 5: Provenance - the worked example must reproduce bit-for-bit.
+      - name: Provenance check (worked example reproduces)
+        run: python3 tools/provenance.py check examples/e2e-worked-example/provenance_manifest.json
+
+      # Step 6: Finding audit (advisory - flags unsupported self-reports).
+      - name: Finding audit (advisory)
+        run: python3 tools/finding_audit.py || true

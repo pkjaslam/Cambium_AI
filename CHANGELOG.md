@@ -1,5 +1,32 @@
 # Changelog
 
+## 1.43.0 - 2026-07-14 - Honesty resync: the README matches the code again, and the Academy move-out is committed
+
+A full claims audit (clean clone, councils verify-evidence + integrity-officer, entire release gauntlet
+green, pytest 1262/1262, doctor grade A) found no functional bugs but 13 places where the public story
+had drifted from the code. This release closes all 13 and completes the Academy migration in-repo.
+
+- **The web-mode claim is proportionate now.** The README no longer calls the FastAPI bridge "verified
+  end-to-end" without qualification: simulation mode is tested (15 tests, and CI now runs them), and the
+  live-agent seam (run_agent_live) is stated honestly as NotImplementedError and roadmap.
+- **Check counts resynced.** The README sentence saying "10 of 16" checks are grounded was corrected to the actual 12 of 18 recorded
+  in governance/CHECKS.md (10 deterministic + 2 external-source, 6 model-judged).
+- **The Learning Gate paragraph carries the same hedge as its neighbors:** the check is deterministic,
+  the enforcement is prompt-level, and the README now says so.
+- **Derived docs cannot drift silently again.** The README describes the frozen run-board GIF truthfully
+  (the v1.40 decision), and validate.yml now runs gen_readme.py --check and gen_capabilities.py --check
+  on every push. CI also installs fastapi + httpx so the 15 web-bridge tests actually run instead of
+  silently skipping.
+- **ATTRIBUTION.md now covers every adopted idea:** OpenMontage (AGPLv3, process boundary), Microsoft
+  Presidio, Loop Engineering, Google OKF, and the V-JEPA framing join the existing entries.
+- **Smaller honesty fixes:** frontier-plus-open routing is stated as roadmap; "simulation" no longer
+  names two different things; MindRouter is marked not yet adopted; the capabilities SVG counts "test
+  functions" and tags prompt-level enforcement as such; the templates count states its counting rule;
+  POSITIONING row 8 reads Partial, with the trend kept in prose.
+- **Academy migration completed in-repo.** The course-01 files and legacy start/ pages that moved to the
+  cambium-academy repository on 2026-07-09 are deleted here, replaced by redirect stubs at
+  courses/index.html and courses/course-01-intro-to-ai/index.html; start/index.html is trimmed to match.
+
 ## 1.42.0 - 2026-07-02 - Priority-2 polish, and the external items prepared to one human action
 
 The Priority-2 backlog items shipped for real, and the account/people/funding-gated items prepared so

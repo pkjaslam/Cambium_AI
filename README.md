@@ -5,7 +5,7 @@
 <br>
 
 <a href="https://github.com/pkjaslam/Cambium_AI/actions"><img alt="CI" src="https://img.shields.io/github/actions/workflow/status/pkjaslam/Cambium_AI/validate.yml?style=flat-square&label=CI&color=16C079"></a>
-<a href="CHANGELOG.md"><img alt="Version" src="https://img.shields.io/badge/version-1.42.0-16C079?style=flat-square"></a>
+<a href="CHANGELOG.md"><img alt="Version" src="https://img.shields.io/badge/version-1.43.0-16C079?style=flat-square"></a>
 <img alt="Agents" src="https://img.shields.io/badge/agents-46-16C079?style=flat-square">
 <img alt="Human gates" src="https://img.shields.io/badge/human_gates-8-0E8E5B?style=flat-square">
 <img alt="Doctor grade" src="https://img.shields.io/badge/doctor%20--grade-A-16C079?style=flat-square">
@@ -152,7 +152,7 @@ The councils are Orchestration, Pre-Award, Partnerships, Faculty, Scouts, Labs, 
 This is where the work lives. The engineering is traceable to specific files.
 
 <div align="center">
-<img src="assets/capabilities.svg" alt="A map of Cambium's engineered capabilities in six areas, each tagged by how strongly it is enforced and naming its real source file: orchestration and routing (active), human-gate machinery and audit (enforced), the four-tier evidence contract (enforced), memory and knowledge graph (active), the learning system (enforced), and research-administration tools (advisory), above a capacity band of 46 agents, 11 councils, 8 gates, 121 tools, 40 skills, and 1133 tests." width="900">
+<img src="assets/capabilities.svg" alt="A map of Cambium's engineered capabilities in six areas, each tagged by how strongly it is enforced and naming its real source file: orchestration and routing (active), human-gate machinery and audit (enforced, prompt-level), the four-tier evidence contract (enforced), memory and knowledge graph (active), the learning system (enforced, prompt-level), and research-administration tools (advisory), above a capacity band of 46 agents, 11 councils, 8 gates, 121 tools, 40 skills, and 1133 test functions." width="900">
 </div>
 
 **Orchestration and task routing.** The Orchestrator calls the right councils for each task and merges what comes back. The task router (`tools/task_router.py`) maps incoming requests to council sets and handles parallel dispatch. The run-board tools (`tools/gen_inline_board.py`, `tools/gen_board_pro.py`) render a live agent board in-chat and as a standalone HTML file, so you can always see which agent is active and what it found. `tools/run_state.py` reprints the board fragment at each phase change so it stays live instead of freezing after the first act.
@@ -163,11 +163,11 @@ This is where the work lives. The engineering is traceable to specific files.
 
 **Memory and a local knowledge graph.** `tools/memory_recall.py` stores and retrieves session context from a gitignored cache. `tools/concept_graph.py` builds a fully-local knowledge graph over Cambium's own curated records (findings, gates, agents, concepts) using typed edges. Multi-hop queries (neighbors, shortest path, what-supports, what-contradicts) work on top of it. The graph uses networkx when present and a pure-stdlib adjacency fallback otherwise. No external database is required; the graph lives with the project. Writable caches are routed through `data_home()` in `tools/cambium_io.py` so an installed (read-only) plugin writes to the user's project directory, not into the plugin itself.
 
-**Learning system.** `tools/learning_delivery.py` generates a per-run learning brief and enforces the Learning Gate: a build or analysis run cannot close without producing one; a `deliver` subcommand prints the packet straight into the chat instead of only filing it. `tools/gen_learning_lab.py` produces an interactive per-run Learning Lab as a self-contained HTML file. The Cambium Academy (`academy/index.html`) is ten interactive modules across three tiers, built on evidence-based instructional design: predict-first, spaced repetition, explain-it-back.
+**Learning system.** `tools/learning_delivery.py` generates a per-run learning brief and enforces the Learning Gate: a build or analysis run cannot close without producing one. The check is deterministic, but enforcement is prompt-level: `closeout.py` treats it as a repo-tidy CI signal, not a hard run veto. A `deliver` subcommand prints the packet straight into the chat instead of only filing it. `tools/gen_learning_lab.py` produces an interactive per-run Learning Lab as a self-contained HTML file. The Cambium Academy (`academy/index.html`) is ten interactive modules across three tiers, built on evidence-based instructional design: predict-first, spaced repetition, explain-it-back.
 
 **Research-administration tools.** `tools/ai_disclosure.py` assembles an AI-use disclosure and audit summary from records Cambium already keeps (gate decisions, approvers, which agents ran). It documents what AI did and that a human signed off; it does not certify compliance. `tools/budget_review.py` is a deterministic budget-to-solicitation review that flags issues (F&A cap, cost ceiling, period, required sections, disallowed categories, cost-share) against a solicitation-rules file. Four more generic, advisory helpers round this out: `tools/budget_narrative_match.py` flags where a budget and its justification narrative disagree, `tools/checklist_builder.py` turns a solicitation's rules into a submission checklist, `tools/proposal_timeline.py` backwards-plans a proposal's deadlines and tasks, and `tools/solicitation_explainer.py` renders a solicitation into a plain-language summary. All are advisory by design: the final call stays with a human in sponsored programs.
 
-**Run fidelity and self-inventory.** `tools/gen_tool_index.py` builds `tools/TOOL_INDEX.md`, an auto-generated inventory of every tool in the repo, so the Orchestrator (and you) can check what already exists before improvising something new. `tools/sync_version.py` stamps one version number into every manifest and the README badge, and the push script regenerates the run-board GIF and other visual assets on release, so neither drifts stale between updates.
+**Run fidelity and self-inventory.** `tools/gen_tool_index.py` builds `tools/TOOL_INDEX.md`, an auto-generated inventory of every tool in the repo, so the Orchestrator (and you) can check what already exists before improvising something new. `tools/sync_version.py` stamps one version number into every manifest and the README badge, with a `--check` that CI enforces. The run-board GIF is a frozen committed artifact, regenerated only by hand via `assets/gen/gen_runboard_gif.py`, and the README stats block and capabilities SVG each carry a `--check` freshness command that CI runs, so the derived numbers stay honest between releases.
 
 **Full-stack engineering.** Nine skills added in v1.29.0 cover the software engineering lifecycle: ai-application-engineering, backend-api-design, databases-and-data-modeling, software-architecture, software-testing-qa, debugging-observability, devops-cicd, cloud-deployment, and security-engineering. These skills advise and generate code that a human reviews and runs; Cambium does not deploy to production, hold secrets, or perform security audits. Shared conventions and the reasoning behind each skill live in [`docs/engineering_conventions.md`](docs/engineering_conventions.md).
 
@@ -199,7 +199,7 @@ Cambium is honest about what is original engineering and what borrows from prior
 - **Render-video** (`skills/render-video`): calls the separately-installed OpenMontage tool (AGPLv3) across a process boundary. OpenMontage is not bundled; it must be installed by the user. The process boundary keeps Cambium's MIT license clean.
 - **TaMPER framework** (University of Idaho): the disclosure record, FAIR data descriptor, and rules handoff (`tools/tamper_record.py`, `tools/fair_descriptor.py`, `tools/rules_handoff.py`) adapt ideas from the TaMPER framework. Full credit in [`ATTRIBUTION.md`](ATTRIBUTION.md).
 - **Microsoft Presidio** (MIT, optional): the PII and regulated-data screener (`tools/pii_screen.py`) uses Presidio when it is installed and falls back to a pure-stdlib regex screen when it is not, so the check runs with no required dependency.
-- **MindRouter** (roadmap): a sovereign, FERPA-safe inference path with the University of Idaho's MindRouter is on the roadmap, listed honestly as not yet wired.
+- **MindRouter** (roadmap, not yet adopted): a sovereign, FERPA-safe inference path with the University of Idaho's MindRouter is on the roadmap, listed honestly as not yet wired.
 
 <div align="center">
 <img src="assets/adopted-ideas.svg" alt="A diagram of the nine external ideas and partners Cambium draws on, each labeled with its source, its status (adopted, declined-heavy, or roadmap), and what Cambium built: skill anatomy from agent-skills, a loop-cost guard from Loop Engineering, an OKF export from Google OKF, a run-outcome prior from V-JEPA framing, a lean local graph after declining GraphRAG and Graphiti's heavy stack, disclosure and FAIR tooling adapted from the TaMPER framework, a PII screener from Microsoft Presidio, video via OpenMontage at a process boundary, and a roadmap FERPA-safe inference path with MindRouter." width="900">
@@ -220,18 +220,18 @@ The honesty here isn't a tone of voice. It's closer to a type system for claims.
 
 Around that contract sit the controls from the diagram above. A citation that doesn't resolve is a release blocker, not a warning. A scanner watches for PII and regulated data. A bias checklist (NIST AI RMF) has to be done before the results gates. A pace check keeps decisions from stacking up. An audit trail records every turn, and a named human signs every gate in [`governance/GATES.md`](governance/GATES.md).
 
-Not every check needs to trust a model, and we say which ones do. Right now 10 of 16 verification checks are grounded in something a skeptic can verify without any LLM: arithmetic that either sums or it doesn't, a citation or DOI that either resolves or it doesn't, against OpenAlex, Crossref, and doi.org. The other 6 are the genuinely hard judgments where a model or a human still forms the call. The full split is in [`CHECKS.md`](governance/CHECKS.md).
+Not every check needs to trust a model, and we say which ones do. Right now 12 of 18 verification checks are grounded in something a skeptic can verify without any LLM: arithmetic that either sums or it doesn't, a citation or DOI that either resolves or it doesn't, against OpenAlex, Crossref, and doi.org. The other 6 are the genuinely hard judgments where a model or a human still forms the call. The full split is in [`CHECKS.md`](governance/CHECKS.md).
 
 We hold ourselves to the same standard. We graded Cambium against the field's ten most common worries, and it comes out 3 Leads, 6 Partial, 1 Gap. We left the Partials and the Gap in plain sight instead of rounding them up. The enforcement study we pre-registered and ran came back Open: we have not measured a real effect yet on a near-ceiling model, and we shipped the harness and the null rather than dressing it up. The details are in [`POSITIONING.md`](docs/governance/POSITIONING.md), [`evals/enforcement_study/`](evals/enforcement_study), and the live [evaluation dashboard](assets/benchmark_dashboard.html).
 
-The live web mode (the FastAPI bridge in `web/server/app.py`) is the only web integration that has been verified end-to-end. The cinematic frontend and a broader simulation mode are roadmap, not built. Cross-institution shared infrastructure (SSO and RBAC) is also roadmap, listed honestly in [`ROADMAP.md`](docs/reference/ROADMAP.md).
+The bridge in `web/server/app.py` is real and verified end-to-end in simulation mode (the shipped default): streaming, gate pause/resume, and the REST endpoints pass 15 tests via an in-process `TestClient`, and CI runs them. The live-agent seam (`run_agent_live` in `web/server/engine.py`) is deliberately `NotImplementedError`: no real agent has crossed the bridge yet. Wiring it, the cinematic frontend, and a full offline institute simulation are all roadmap, not built. Cross-institution shared infrastructure (SSO and RBAC) is also roadmap, listed honestly in [`ROADMAP.md`](docs/reference/ROADMAP.md).
 
 ---
 
 ## Capacity and strength
 
 <!-- CAMBIUM:STATS -->
-40 skills, 121 tools, 10 MCP tools, 21 templates, and a set of worked examples. All field-agnostic, all runnable.
+40 skills, 121 tools, 10 MCP tools, 21 templates (reusable files in templates/, excluding runtime artifacts and the project/ scaffold), and a set of worked examples. All field-agnostic, all runnable.
 <!-- /CAMBIUM:STATS -->
 
 Those numbers reflect what is in the repo today. The skills cover the full research lifecycle from intake to publish, plus domain specialties (statistics, ML, optimization, health, citations, ethics). The tools cover orchestration, gating, evidence, memory, learning, research-administration, and self-grading, and `tools/TOOL_INDEX.md` is an auto-generated inventory you can browse instead of guessing what exists. The MCP server exposes ten core operations (plan, provision, roster, doctor, grade, validate, dispatch, fidelity, recall, graph) so any MCP-capable client can drive the institute. The templates give every project a consistent paper trail from RFP brief to closeout checklist.
@@ -274,7 +274,7 @@ Multi-PI projects get named, institution-scoped approvers, so a gate won't pass 
 
 ## Models and tokens
 
-A common worry is that an institute of agents must be token-heavy. The direction is routing, not more spend. Frontier models handle the hard, gate-critical steps. Capable open models handle the routine bulk: summaries, formatting, drafts, retrieval. Most of the volume is the routine kind, and open models can run on your own machine, so most of the work never leaves your environment and never meters a token. The per-task router exists today; the frontier-plus-open mix is on the roadmap.
+A common worry is that an institute of agents must be token-heavy. The direction is routing, not more spend. On the roadmap, frontier models would handle the hard, gate-critical steps, and capable open models the routine bulk: summaries, formatting, drafts, retrieval. Most of the volume is the routine kind, and open models can run on your own machine, so most of the work never leaves your environment and never meters a token. The per-task router exists today; the frontier-plus-open mix is on the roadmap.
 
 ---
 
@@ -285,9 +285,9 @@ Soon: actually run the v1 enforcement study, the powered, human-judged version. 
 ### Recent updates
 
 <!-- CAMBIUM:WHATSNEW -->
+- **1.43.0**: Honesty resync: the README matches the code again, and the Academy move-out is committed
 - **1.42.0**: Priority-2 polish, and the external items prepared to one human action
 - **1.41.0**: Priority 1: code-quality CI with a Windows matrix, and a full accessibility pass
-- **1.40.0**: Priority-0 security hardening + the run board is a frozen artifact
 <!-- /CAMBIUM:WHATSNEW -->
 
 ---
