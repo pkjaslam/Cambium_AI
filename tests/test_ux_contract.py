@@ -118,8 +118,13 @@ def test_gate_nudge():
     try:
         os.makedirs(os.path.join(d, "agent_outputs"))
         env = dict(os.environ, CAMBIUM_HOME=d)  # same temp-isolation spirit as test_run_state.py
+        # encoding= is REQUIRED: the tools emit UTF-8 (cambium_io reconfigures their stdout),
+        # but text=True alone decodes with the locale codec -- cp1252 on a stock Windows
+        # runner -- which mojibakes the glyphs this file asserts on. v1.44.0 shipped without
+        # it and failed ONLY on the GitHub windows-latest legs; never rely on locale decode.
         r = subprocess.run([sys.executable, RUN_STATE, "gate", "G2", "which direction?"],
-                           cwd=d, env=env, capture_output=True, text=True)
+                           cwd=d, env=env, capture_output=True,
+                           encoding="utf-8", errors="replace")
         assert r.returncode == 0
         assert "SAME-TURN-GATE" in r.stdout
     finally:
@@ -143,7 +148,8 @@ def test_compact_flag_wired():
     d = tempfile.mkdtemp()
     try:
         r = subprocess.run([sys.executable, RUN_TRACE, "--board", "--compact", "demo"],
-                           cwd=d, capture_output=True, text=True)
+                           cwd=d, capture_output=True,
+                           encoding="utf-8", errors="replace")  # see decode note in test_gate_nudge
         assert r.returncode == 0, r.stderr
         assert "⬢ CAMBIUM" in r.stdout
     finally:

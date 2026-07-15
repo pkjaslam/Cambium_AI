@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.44.1 - 2026-07-14 - Hotfix: the new UX tests decode child output as UTF-8, fixing the Windows CI legs
+
+v1.44.0's two new subprocess-based tests used text=True, which decodes with the locale codec. On a
+stock GitHub windows-latest runner that codec is cp1252, so the compact board's glyphs arrived as
+mojibake and test_compact_flag_wired failed on both Windows matrix legs (it passed locally only
+because that machine's Python runs in UTF-8 mode, and passed on Linux where the locale is UTF-8).
+The tools deterministically emit UTF-8 (cambium_io reconfigures their stdout), so the tests now
+decode explicitly with encoding="utf-8". One-file fix; no behavior change anywhere else.
+
 ## 1.44.0 - 2026-07-14 - The run you can always see: same-turn gates and a board that fits the chat
 
 Users reported two real failures of the run experience in chat clients: the live board sometimes never
