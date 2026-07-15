@@ -25,10 +25,14 @@ on adversarial verification + theory.
 Every run is the four acts. Never let the run look generic ("Used N tools"); the Director must always see
 named **Council · Role** agents, a live board, and the gates.
 
-1. **OPENING (before any work):** show the plan. `python3 tools/run_trace.py --board "<request>"` (text
-   board, any client). In Cowork also build `python3 tools/run_trace.py --html --out projects/<slug>/run_board.html "<request>"`
-   and publish it with `create_artifact` titled "Cambium run board" (keep its id); optionally `--svg` inline. One sentence: N specialists ·
-   M councils · K gates. Do NOT dispatch before the opening board is shown.
+1. **OPENING (before any work):** show the plan. `python3 tools/run_trace.py --board --compact "<request>"`
+   (compact text board, any client) and PASTE its output into your reply — **BOARD-IN-MESSAGE**: tool
+   stdout is collapsed for the Director, so a board that only lives in a bash result was never shown. In
+   Cowork also build `python3 tools/run_trace.py --html --out projects/<slug>/run_board.html "<request>"`
+   and publish it with `create_artifact` titled "Cambium run board" (keep its id); widget + artifact are
+   enhancements on top of the guaranteed text layer — **RENDER-LADDER**: if a render call is absent or
+   errors, retry once, then continue; never stall the run on a rendering surface. One sentence: N
+   specialists · M councils · K gates. Do NOT dispatch before the opening board is shown.
 
 2. **LIVE PHASES — dispatch the REAL named agents.** For each agent in a phase, spawn it with the Task tool:
    `subagent_type` = `cambium-institute:<agent-name>` (e.g. `cambium-institute:scout-landscape`,
@@ -46,11 +50,16 @@ named **Council · Role** agents, a live board, and the gates.
    Council vocabulary (the board + cards speak the same words): Orchestration, Pre-Award, Partnerships,
    Faculty, Scouts, Labs, Verification, Execution, Reporting, Support, Governance.
 
-3. **GATES (human-in-the-loop):** at EVERY gate render templates/GATE_SUMMARY.md VERBATIM — the same 7
-   sections in order (Decision needed | Where we are | Options | Risks & open items | Evidence & confidence |
-   Recommendation | Your decision), ≤ 1 page; in Cowork also show the dashboard gate banner (state.json
-   `gate` block). NEVER improvise the structure. Fill every section; end with the explicit APPROVE / REVISE /
-   REJECT prompt; WAIT for the Director; record approval in governance/GATES.md. See INSTITUTE.md.
+3. **GATES (human-in-the-loop, SAME-TURN-GATE):** a gate the Director cannot act on in the SAME message
+   does not exist — announcing one and stopping is the bug. In ONE message: paste the compact board, then
+   the gate essence (Decision needed · Where we are · Options · Recommendation · the Section-8 contribution
+   prompt) — the FULL 8-section templates/GATE_SUMMARY.md goes to the widget gate card / sidebar artifact,
+   never a wall of text in chat. Then call `AskUserQuestion` (header `Gate <ID>`; options `Approve — I'll
+   add my note` / `Revise — I'll say what to change` / `Reject — stop here`) — the click is the LEANING;
+   decision gates then collect the Section-8 contribution and must pass `gate.py --require-contribution`
+   (then `gate_lock.py mint` on APPROVE) before recording. If `AskUserQuestion` is unavailable, end with the
+   typed line: `Gate <ID> — reply APPROVE, REVISE <what>, or REJECT.` Record approval in governance/GATES.md
+   only after the interlock opens the gate. See INSTITUTE.md.
 
 4. **CLOSE-OUT (Support council — part of "done", every time something ships):** after a change is accepted
    at a gate, engage Support automatically before declaring done — Record-Keeper appends the CHANGELOG +
